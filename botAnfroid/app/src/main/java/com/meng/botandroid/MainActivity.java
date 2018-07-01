@@ -1,4 +1,4 @@
-package com.meng.qqbot;
+package com.meng.botandroid;
 
 import android.app.*;
 import android.os.*;
@@ -29,10 +29,7 @@ public class MainActivity extends Activity{
 				public void onQRCode(File qrCode){
 					Toast.makeText(MainActivity.this,String.format("获取到登录二维码"),Toast.LENGTH_SHORT).show();
 					//println();
-					File f=new File(Environment.getExternalStorageDirectory().getPath()+File.separator+"11111");
-					try{
-						f.createNewFile();
-					}catch(IOException e){}
+					
 				}
 
 				@Override

@@ -1,13 +1,10 @@
 package me.xuxiaoxiao.chatapi.qq;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import me.xuxiaoxiao.chatapi.qq.protocol.ResultPoll;
-
-import java.util.logging.Logger;
-import java.util.logging.*;
-import com.meng.qqbot.*;
 import android.widget.*;
+import com.google.gson.*;
+import com.meng.botandroid.*;
+import java.util.logging.*;
+import me.xuxiaoxiao.chatapi.qq.protocol.*;
 
 /**
  * QQ工具类
