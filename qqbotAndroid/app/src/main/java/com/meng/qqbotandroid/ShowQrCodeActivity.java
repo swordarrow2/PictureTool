@@ -13,8 +13,8 @@ public class ShowQrCodeActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        QRCodeImageView =new ImageView(this);
-        setContentView(QRCodeImageView);
+        setContentView(R.layout.qr_code_view);
+        QRCodeImageView =(ImageView)findViewById(R.id.qr_code_viewImageView);
         QRCodeImageView.setImageBitmap(BitmapFactory.decodeFile(getIntent().getStringExtra("url")));
 	}
 

@@ -1,0 +1,12 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+	<ImageView
+		android:padding="15dp"
+		android:id="@+id/qr_code_viewImageView"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" />
+
+</LinearLayout>

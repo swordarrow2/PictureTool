@@ -19,7 +19,7 @@ public class MainActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-		ExceptionCatcher.getInstance().init(this);
+		//ExceptionCatcher.getInstance().init(this);
 
 		tv=new TextView(this);
 		instence=this;
