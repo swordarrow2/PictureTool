@@ -261,7 +261,9 @@ public class AwesomeQRCode {
         if (contents.isEmpty()) {
             throw new IllegalArgumentException("Found empty contents");
         }
-        Map<EncodeHintType, ErrorCorrectionLevel> hintMap = new HashMap<>();
+        Map<EncodeHintType, Object> hintMap = new HashMap<>();
+		
+		hintMap.put(EncodeHintType.CHARACTER_SET, "utf-8");
         hintMap.put(EncodeHintType.ERROR_CORRECTION, errorCorrectionLevel);
         return Encoder.encode(contents, errorCorrectionLevel, hintMap);
     }

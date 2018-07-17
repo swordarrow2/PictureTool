@@ -13,7 +13,7 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
 		ExceptionCatcher.getInstance().init(this);
         setContentView(R.layout.main);
-		Intent i=new Intent(this,com.github.sumimakito.awesomeqrsample.MainActivity.class);
+		Intent i=new Intent(this,com.meng.qrtools.creator.awesomeCreator.class);
 		startActivity(i);
 		finish();
     }
