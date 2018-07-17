@@ -1,2 +1,2 @@
-# botAndroid
-qq robot on Android
+# QRCodeReaderAndCreator
+QRCode reader and creator
