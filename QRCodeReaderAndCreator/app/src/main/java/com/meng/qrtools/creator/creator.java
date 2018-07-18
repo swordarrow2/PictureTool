@@ -8,11 +8,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.meng.qrtools.R;
+import android.app.*;
+import android.view.*;
 
-public class creator extends AppCompatActivity {
+public class creator extends Fragment {
 	ImageView qrcode1;
 	ImageView qrcode5;
 
+	@Override
+	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
+		// TODO: Implement this method
+		return inflater.inflate(R.layout.qr_main, container, false);
+		//return super.onCreateView(inflater,container,savedInstanceState);
+	}
+
+	@Override
+	public void onViewCreated(View view,Bundle savedInstanceState){
+		// TODO: Implement this method
+		super.onViewCreated(view,savedInstanceState);
+		
+		qrcode1 = (ImageView)view. findViewById(R.id.qrcode1);
+		qrcode5 = (ImageView)view. findViewById(R.id.qrcode5);
+
+		qrcode1.setImageBitmap(QRCode.createQRCode("http://www.tmtpost.com/2536837.html"));
+		qrcode5.setImageBitmap(QRCode.createQRCodeWithLogo5("http://www.jianshu.com/users/4a4eb4feee62/latest_articles", 500, drawableToBitmap(getResources().getDrawable(R.drawable.head))));
+		
+	}
+
+	
+	/*
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -24,6 +49,7 @@ public class creator extends AppCompatActivity {
 		qrcode1.setImageBitmap(QRCode.createQRCode("http://www.tmtpost.com/2536837.html"));
 		qrcode5.setImageBitmap(QRCode.createQRCodeWithLogo5("http://www.jianshu.com/users/4a4eb4feee62/latest_articles", 500, drawableToBitmap(getResources().getDrawable(R.drawable.head))));
 	}
+	*/
 
 	public static Bitmap drawableToBitmap(Drawable drawable) {
 		if (drawable instanceof BitmapDrawable) {

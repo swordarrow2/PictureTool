@@ -23,8 +23,12 @@ public class MainActivity2 extends Activity {
     private DrawerArrowDrawable drawerArrow;
     private boolean drawerArrowColor;
 	private TextView description;
+	private Intent i;
+
 	
-	private Intent i=new Intent();
+	
+	private creator fragment1;
+	private awesomeCreator fragment2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,10 @@ public class MainActivity2 extends Activity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setHomeButtonEnabled(true);
 
+		final FragmentManager manager=getFragmentManager();	
+		
+		
+		
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.navdrawer);
 		description=(TextView)findViewById(R.id.main_activityTextView);
@@ -62,7 +70,6 @@ public class MainActivity2 extends Activity {
 
 
         String[] values = new String[]{
-            "Stop Animation (Back icon)",
             "读取相册二维码",
             "相机扫描二维码",
             "创建普通二维码",
@@ -126,13 +133,14 @@ public class MainActivity2 extends Activity {
 					
 					switch(position){
 						case 0:
+							description.setText("读取相册文件");
 							//MainActivity.this.setTheme(R.style.ActionBar_1);
-							//i.setClass(MainActivity.this,loginAndRegister.class);
-							//mDrawerToggle.syncState();
-							description.setText("无意义");
+							i=new Intent();
+							i.setClass(MainActivity2.this,galleryReader.class);
+							mDrawerToggle.syncState();
+							
 							break;
-						case 1:
-
+						case 1:		
 							//View v = inflater.inflate(R.layout.main_list_header,null);
 							//	ImageView iv=(ImageView) v.findViewById(R.id.main_list_headerImageView);
 							//	TextView tv2=(TextView) v.findViewById(R.id.main_list_headerTextView);
@@ -142,51 +150,47 @@ public class MainActivity2 extends Activity {
 							//	rl.addView(v);
 							//	overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
 							//	drawerLayoutList.addFooterView(v);
-							description.setText("读取相册文件");
-							i.setClass(MainActivity2.this,galleryReader .class);
+							description.setText("扫描二维码");
+							i=new Intent();
+							i.setClass(MainActivity2.this,cameraReader .class);
 							mDrawerToggle.syncState();
 							break;
 						case 2:
-							description.setText("使用相机扫描");
-							i.setClass(MainActivity2.this,cameraReader.class);
+							description.setText("创建普通二维码");
+							FragmentTransaction transaction=manager.beginTransaction();
+							if(fragment1== null){
+								fragment1 = new creator();
+								transaction.add(R.id.main_activityLinearLayout, fragment1);
+							}
+							hideFragment(transaction);
+							transaction.show(fragment1);
+							transaction.commit();			
 							mDrawerToggle.syncState();
+							i=null;
 							break;
 						case 3:
-							description.setText("创建普通二维码");
-							i.setClass(MainActivity2.this,creator.class);
+							description.setText("创建AwesomeQR码");
+							FragmentTransaction transaction2=manager.beginTransaction();	
+							if(fragment2== null){
+								fragment2 = new awesomeCreator();
+								transaction2.add(R.id.main_activityLinearLayout, fragment2);
+							}
+							hideFragment(transaction2);
+							transaction2.show(fragment2);
+							transaction2.commit();
 							mDrawerToggle.syncState();
+							i=null;
 							break;
 						case 4:
-							description.setText("创建AwesomeQR码");
-							i.setClass(MainActivity2.this,awesomeCreator.class);
+							
+						//	i.setClass(MainActivity2.this,awesomeCreator.class);
 							mDrawerToggle.syncState();
+							i=null;
 							break;
-						case 5:
-							i.setAction(Intent.ACTION_VIEW);
-							i.setData(Uri.parse("https://github.com/IkiMuhendis/LDrawer"));
-
-							break;
-						case 6:
-							i.setAction(Intent.ACTION_SEND);
-							i.setType("text/plain");
-							i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-							i.putExtra(Intent.EXTRA_SUBJECT,
-									   getString(R.string.app_name));
-							i.putExtra(Intent.EXTRA_TEXT,"getString(R.string.app_description)"+"\n"+
-									   "GitHub Page :  https://github.com/IkiMuhendis/LDrawer\n"+
-									   "Sample App : https://play.google.com/store/apps/details?id="+
-									   getPackageName());
-							//startActivity(Intent.createChooser(share,getString(R.string.app_name)));
-							break;
-						case 7:
-							String appUrl = "https://play.google.com/store/apps/details?id="+getPackageName();
-							i.setAction(Intent.ACTION_VIEW);
-							i.setData(Uri.parse(appUrl));
-
-							break;
-					}
-					
-					startActivity(i);
+						}
+					if(i!=null){
+				startActivity(i);
+				}
 					mDrawerLayout.closeDrawer(mDrawerList);
 
 
@@ -218,5 +222,15 @@ public class MainActivity2 extends Activity {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+	private void hideFragment(FragmentTransaction transaction){
+        if(fragment1 != null){
+            transaction.hide(fragment1);
+        }
+        if(fragment2 != null){
+            transaction.hide(fragment2);
+        }
+    }
+	
+	
 }
 

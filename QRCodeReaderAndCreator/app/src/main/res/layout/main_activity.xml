@@ -16,7 +16,7 @@
 			android:layout_gravity="top"
 			android:gravity="bottom">
 			<ImageView
-				
+				android:src="@drawable/ic_launcher"
 				android:paddingLeft="10dip"
 				android:id="@+id/main_activityImageView"
 				android:layout_height="36dip"
@@ -24,8 +24,11 @@
 			
 		</RelativeLayout>
 		
-		
-		
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:id="@+id/main_activityLinearLayout"/>
+			
         <TextView
 			android:id="@+id/main_activityTextView"
             android:layout_width="wrap_content"

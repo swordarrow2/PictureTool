@@ -47,6 +47,7 @@ import com.meng.qrtools.reader.qrcodelib.zxing.decoding.CaptureActivityHandler;
 import com.meng.qrtools.reader.qrcodelib.zxing.decoding.InactivityTimer;
 import com.meng.qrtools.reader.qrcodelib.zxing.view.ViewfinderView;
 import com.meng.qrtools.*;
+import android.support.v4.app.*;
 
 /**
  * Initial the camera
@@ -76,6 +77,8 @@ public class CaptureActivity extends Activity implements Callback {
     private ImageView backIbtn;
     private ImageButton flashIbtn;
     
+	
+	
 
     /**
      * Called when the activity is first created.
