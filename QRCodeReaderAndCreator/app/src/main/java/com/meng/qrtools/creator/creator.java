@@ -19,8 +19,7 @@ public class creator extends Fragment {
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
 		// TODO: Implement this method
 		return inflater.inflate(R.layout.qr_main, container, false);
-		//return super.onCreateView(inflater,container,savedInstanceState);
-	}
+			}
 
 	@Override
 	public void onViewCreated(View view,Bundle savedInstanceState){

@@ -29,13 +29,6 @@
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:id="@+id/main_activityLinearLayout"/>
-			
-        <TextView
-			android:id="@+id/main_activityTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="app_description"/>
 		
 	</LinearLayout>
     

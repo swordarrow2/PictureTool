@@ -49,6 +49,7 @@ import com.meng.qrtools.reader.qrcodelib.zxing.view.ViewfinderView;
 import com.meng.qrtools.*;
 import android.view.*;
 import android.app.*;
+import android.content.*;
 
 /**
  * Initial the camera
@@ -59,9 +60,8 @@ public class CaptureActivity extends Fragment implements Callback {
 
     private static final String TAG = CaptureActivity.class.getSimpleName();
 
-    private static final int REQUEST_PERMISSION_CAMERA = 1000;
-    private static final int REQUEST_PERMISSION_PHOTO = 1001;
-
+    private final int REQUEST_PERMISSION_CAMERA = 1000;
+    
  //   private CaptureActivity mActivity;
 
     private CaptureActivityHandler handler;
@@ -164,43 +164,6 @@ public class CaptureActivity extends Fragment implements Callback {
         super.onDestroy();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == getActivity().RESULT_OK
-                && data != null
-                && requestCode == ActionUtils.PHOTO_REQUEST_GALLERY) {
-            Uri inputUri = data.getData();
-            String path = null;
-
-            if (URLUtil.isFileUrl(inputUri.toString())) {
-                // 小米手机直接返回的文件路径
-                path = inputUri.getPath();
-            } else {
-                String[] proj = {MediaStore.Images.Media.DATA};
-                Cursor cursor =getActivity().getContentResolver().query(inputUri, proj, null, null, null);
-                if (cursor != null && cursor.moveToFirst()) {
-                    path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
-                }
-            }
-            if (!TextUtils.isEmpty(path)) {
-                Result result = QrUtils.decodeImage(path);
-                if (result != null) {
-                    if (BuildConfig.DEBUG) Log.d(TAG, result.getText());
-                    handleDecode(result, null);
-                } else {
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("提示")
-                            .setMessage("此图片无法识别")
-                            .setPositiveButton("确定", null)
-                            .show();
-                }
-            } else {
-                if (BuildConfig.DEBUG) Log.e(TAG, "image path not found");
-                Toast.makeText(getActivity().getApplicationContext(), "图片路径未找到", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -219,16 +182,6 @@ public class CaptureActivity extends Fragment implements Callback {
                         })
                         .show();
             }
-        } else if (grantResults.length > 0 && requestCode == REQUEST_PERMISSION_PHOTO) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                new AlertDialog.Builder(getActivity())
-                        .setTitle("提示")
-                        .setMessage("请在系统设置中为App中开启文件权限后重试")
-                        .setPositiveButton("确定", null)
-                        .show();
-            } else {
-                ActionUtils.startActivityForGallery(getActivity(), ActionUtils.PHOTO_REQUEST_GALLERY);
-            }
         }
     }
 
@@ -245,7 +198,7 @@ public class CaptureActivity extends Fragment implements Callback {
         handleResult(resultString);
     }
 
-    public void handleResult(String resultString) {
+    public void handleResult(final String resultString) {
         if (TextUtils.isEmpty(resultString)) {
             Toast.makeText(getActivity(), "string.scan_failed", Toast.LENGTH_SHORT).show();
             restartPreview();
@@ -254,7 +207,17 @@ public class CaptureActivity extends Fragment implements Callback {
                 mDialog = new AlertDialog.Builder(getActivity())
 					.setMessage(resultString)
 					.setPositiveButton("确定", null)
-					.create();
+					.setNeutralButton("复制文本",new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface p1,int p2){
+							// TODO: Implement this method
+							android.content.ClipboardManager clipboardManager = (android.content.ClipboardManager)getActivity(). getSystemService(Context.CLIPBOARD_SERVICE);
+							ClipData clipData = ClipData.newPlainText("text",resultString);
+							clipboardManager.setPrimaryClip(clipData);
+							//		finish();
+						}
+					}).create();
                 mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 						@Override
 						public void onDismiss(DialogInterface dialog) {
@@ -308,16 +271,7 @@ public class CaptureActivity extends Fragment implements Callback {
     /**
      * 打开相册
      */
-    public void openGallery() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_PERMISSION_PHOTO);
-        } else {
-            ActionUtils.startActivityForGallery(getActivity(), ActionUtils.PHOTO_REQUEST_GALLERY);
-        }
-    }
+    
 
     private void initCamera(SurfaceHolder surfaceHolder) {
         try {

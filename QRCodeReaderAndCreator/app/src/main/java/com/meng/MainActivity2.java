@@ -23,12 +23,12 @@ public class MainActivity2 extends Activity {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
     private boolean drawerArrowColor;
-	private TextView description;
 	private Intent i;
 	
 	private creator fragment1;
 	private awesomeCreator fragment2;
 	private CaptureActivity fragment3;
+	private galleryReader fragment4;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class MainActivity2 extends Activity {
 		
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.navdrawer);
-		description=(TextView)findViewById(R.id.main_activityTextView);
+		
 
         drawerArrow = new DrawerArrowDrawable(this) {
             @Override
@@ -136,25 +136,19 @@ public class MainActivity2 extends Activity {
 					
 					switch(position){
 						case 0:
-							description.setText("读取相册文件");
-							//MainActivity.this.setTheme(R.style.ActionBar_1);
-							i=new Intent();
-							i.setClass(MainActivity2.this,galleryReader.class);
+							FragmentTransaction transaction4=manager.beginTransaction();
+							if(fragment4== null){
+								fragment4 = new galleryReader();
+								transaction4.add(R.id.main_activityLinearLayout, fragment4);
+							}
+							hideFragment(transaction4);
+							transaction4.show(fragment4);
+							transaction4.commit();	
+							i=null;
 							mDrawerToggle.syncState();
 							
 							break;
 						case 1:		
-							//View v = inflater.inflate(R.layout.main_list_header,null);
-							//	ImageView iv=(ImageView) v.findViewById(R.id.main_list_headerImageView);
-							//	TextView tv2=(TextView) v.findViewById(R.id.main_list_headerTextView);
-							//	iv.setOnClickListener(onc);
-							//	tv2.setOnClickListener(onc);
-							//	rl.removeAllViews();
-							//	rl.addView(v);
-							//	overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
-							//	drawerLayoutList.addFooterView(v);
-							description.setText("扫描二维码");
-							
 							FragmentTransaction transaction3=manager.beginTransaction();
 							if(fragment3== null){
 								fragment3 = new CaptureActivity();
@@ -164,12 +158,9 @@ public class MainActivity2 extends Activity {
 							transaction3.show(fragment3);
 							transaction3.commit();			
 							i=null;
-						//	i=new Intent();
-						//	i.setClass(MainActivity2.this,cameraReader .class);
 							mDrawerToggle.syncState();
 							break;
 						case 2:
-							description.setText("创建普通二维码");
 							FragmentTransaction transaction=manager.beginTransaction();
 							if(fragment1== null){
 								fragment1 = new creator();
@@ -182,7 +173,6 @@ public class MainActivity2 extends Activity {
 							i=null;
 							break;
 						case 3:
-							description.setText("创建AwesomeQR码");
 							FragmentTransaction transaction2=manager.beginTransaction();	
 							if(fragment2== null){
 								fragment2 = new awesomeCreator();
@@ -195,8 +185,6 @@ public class MainActivity2 extends Activity {
 							i=null;
 							break;
 						case 4:
-							
-						//	i.setClass(MainActivity2.this,awesomeCreator.class);
 							mDrawerToggle.syncState();
 							i=null;
 							break;
@@ -244,6 +232,9 @@ public class MainActivity2 extends Activity {
         }
 		if(fragment3 != null){
             transaction.hide(fragment3);
+        }
+		if(fragment4 != null){
+            transaction.hide(fragment4);
         }
     }
 	
