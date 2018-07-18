@@ -65,15 +65,6 @@
             android:padding="12dp"
             android:src="@drawable/ic_flash_off_white_24dp"/>
 
-        <TextView
-            android:id="@+id/gallery_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingRight="12dp"
-            android:text="相册"
-            android:textColor="@android:color/white"/>
     </RelativeLayout>
 
 </FrameLayout>

@@ -46,7 +46,7 @@ public class awesomeCreator extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.awesomeqr_main);
 
 		scrollView = (ScrollView) findViewById(R.id.scrollView);
 		tvAuthorHint = (TextView) findViewById(R.id.authorHint);

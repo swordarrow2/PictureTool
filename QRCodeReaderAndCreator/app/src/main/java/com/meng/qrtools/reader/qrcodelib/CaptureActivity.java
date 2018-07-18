@@ -75,7 +75,7 @@ public class CaptureActivity extends Activity implements Callback {
     private boolean flashLightOpen = false;
     private ImageView backIbtn;
     private ImageButton flashIbtn;
-    private TextView galleryTv;
+    
 
     /**
      * Called when the activity is first created.
@@ -245,7 +245,7 @@ public class CaptureActivity extends Activity implements Callback {
         backIbtn = (ImageView) findViewById(R.id.back_ibtn);
         viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
         flashIbtn = (ImageButton) findViewById(R.id.flash_ibtn);
-        galleryTv = (TextView) findViewById(R.id.gallery_tv);
+        
 
         backIbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -264,12 +264,7 @@ public class CaptureActivity extends Activity implements Callback {
                 toggleFlashLight();
             }
         });
-        galleryTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openGallery();
-            }
-        });
+        
     }
 
     protected void setViewfinderView(ViewfinderView view) {

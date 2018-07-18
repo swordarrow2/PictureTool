@@ -3,17 +3,17 @@ package com.meng.qrtools.reader;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.meng.qrtools.reader.qrcodelib.CaptureActivity;
+import android.app.*;
 
 /**
  * Created by xdj on 16/9/17.
  */
 
-public class SimpleCaptureActivity extends CaptureActivity {
+public class cameraReader extends CaptureActivity {
     protected Activity mActivity = this;
 
     private AlertDialog mDialog;

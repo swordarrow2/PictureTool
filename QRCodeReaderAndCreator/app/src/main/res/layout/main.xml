@@ -1,6 +1,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+	android:orientation="vertical"
+	android:gravity="center">
+	
+	<Button 
+		android:id="@+id/mainButton_scan"
+		android:text="扫描二维码"
+		android:layout_gravity="center"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content" />
+	
+	<Button 
+		android:id="@+id/mainButton_readGallery"
+		android:text="从相册读取"
+		android:layout_gravity="center"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content" />
+
+	<Button 
+		android:id="@+id/mainButton_createQR"
+		android:text="生成普通二维码"
+		android:layout_gravity="center"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content" />
+	
+	<Button
+		android:id="@+id/mainButton_createAwesomeQR"
+		android:text="生成AwesomeQR二维码"
+		android:layout_gravity="center"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content" />
 
 </LinearLayout>
