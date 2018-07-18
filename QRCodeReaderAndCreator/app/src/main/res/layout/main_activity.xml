@@ -1,0 +1,56 @@
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+		android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+		<RelativeLayout
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent"
+			android:layout_gravity="top"
+			android:gravity="bottom">
+			<ImageView
+				
+				android:paddingLeft="10dip"
+				android:id="@+id/main_activityImageView"
+				android:layout_height="36dip"
+				android:layout_width="36dip" />
+			
+		</RelativeLayout>
+		
+		
+		
+        <TextView
+			android:id="@+id/main_activityTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="app_description"/>
+		
+	</LinearLayout>
+    
+
+    <!-- The navigation drawer -->
+
+	<ListView
+        android:id="@+id/navdrawer"
+        android:layout_width="@dimen/navdrawer_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/white"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:drawSelectorOnTop="false">
+    </ListView>
+	
+	
+	
+</android.support.v4.widget.DrawerLayout>
+

@@ -23,7 +23,6 @@ public class galleryReader extends Activity{
 	protected void onCreate(Bundle savedInstanceState){
 		// TODO: Implement this method
 		super.onCreate(savedInstanceState);
-		setContentView(new LinearLayout(this));
 		openGallery();
 	}
 
@@ -38,7 +37,14 @@ public class galleryReader extends Activity{
         }else{
 			if(mDialog==null){
                 mDialog=new AlertDialog.Builder(this)
-				.setMessage(resultString).setNegativeButton("确定",null)
+					.setMessage(resultString).setNegativeButton("确定",new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface p1,int p2){
+							// TODO: Implement this method
+							finish();
+						}
+					})
 					.setNeutralButton("复制文本",new DialogInterface.OnClickListener() {
 
 						@Override
@@ -63,12 +69,12 @@ public class galleryReader extends Activity{
 	@Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data){
         super.onActivityResult(requestCode,resultCode,data);
-        if(resultCode==RESULT_OK
-		   &&data!=null
-		   &&requestCode==ActionUtils.PHOTO_REQUEST_GALLERY){
+		if(resultCode!=RESULT_OK){
+			finish();
+		}
+        if(resultCode==RESULT_OK&&data!=null&&requestCode==ActionUtils.PHOTO_REQUEST_GALLERY){
             Uri inputUri = data.getData();
             String path = null;
-
             if(URLUtil.isFileUrl(inputUri.toString())){
                 // 小米手机直接返回的文件路径
                 path=inputUri.getPath();

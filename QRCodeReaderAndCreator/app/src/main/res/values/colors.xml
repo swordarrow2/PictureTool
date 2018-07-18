@@ -4,8 +4,22 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+	<color name="actionbar_color">#bf360c</color>
+	
+	<color name="drawer_arrow_second_color">#303f9f</color>
+	<color name="ldrawer_color">#FFFFFF</color>
+	
+	
     <color name="colorblack">#000000</color>
+    <color name="color_blue">#006BB6</color>
+	<color name="color_white">#ffffff</color>
+	<color name="color_black">#000000</color>
+	<color name="color_green">#00B732</color>
+	<color name="color_yellow">#F3EF36</color>
+	<color name="color_gray">#675E5E</color>
+	<color name="color_light">#D6D6CB</color>
 
+	
     <color name="player_black">#000000</color>
     <color name="player_white">#FFFFFF</color>
     <color name="player_panel">#696969</color>

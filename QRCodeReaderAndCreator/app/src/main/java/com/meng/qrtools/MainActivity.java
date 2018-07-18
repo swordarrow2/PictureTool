@@ -9,10 +9,11 @@ import android.view.View.*;
 import android.view.*;
 import com.meng.qrtools.reader.*;
 import com.meng.qrtools.creator.*;
+import com.meng.*;
 
 public class MainActivity extends Activity 
 {
-	Button btnReadGallery,btnScan,btnCreate,btnCreateAwesome;
+	Button btnReadGallery,btnScan,btnCreate,btnCreateAwesome,btnMD;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -23,7 +24,7 @@ public class MainActivity extends Activity
 		btnScan=(Button)findViewById(R.id.mainButton_scan);
 		btnCreate=(Button)findViewById(R.id.mainButton_createQR);
 		btnCreateAwesome=(Button)findViewById(R.id.mainButton_createAwesomeQR);
-		
+		btnMD=(Button)findViewById(R.id.mainButton_md);
 		btnReadGallery.setOnClickListener(new OnClickListener(){
 
 				@Override
@@ -31,7 +32,7 @@ public class MainActivity extends Activity
 					// TODO: Implement this method
 					Intent i=new Intent(MainActivity.this,galleryReader.class);
 					startActivity(i);
-					finish();
+			//		finish();
 				}
 			});
 		btnScan.setOnClickListener(new OnClickListener(){
@@ -41,7 +42,7 @@ public class MainActivity extends Activity
 					// TODO: Implement this method
 					Intent i=new Intent(MainActivity.this,cameraReader.class);
 					startActivity(i);
-					finish();
+			//		finish();
 				}
 			});
 			
@@ -52,7 +53,7 @@ public class MainActivity extends Activity
 					// TODO: Implement this method
 					Intent i=new Intent(MainActivity.this,creator.class);
 					startActivity(i);
-					finish();
+		//			finish();
 				}
 			});
 		btnCreateAwesome.setOnClickListener(new OnClickListener(){
@@ -62,10 +63,19 @@ public class MainActivity extends Activity
 					// TODO: Implement this method
 					Intent i=new Intent(MainActivity.this,awesomeCreator.class);
 					startActivity(i);
-					finish();
+			//		finish();
 				}
 			});
-			
+		btnMD.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View p1){
+					// TODO: Implement this method
+					Intent i=new Intent(MainActivity.this,MainActivity2.class);
+					startActivity(i);
+			//		finish();
+				}
+			});
 		
     }
 }
