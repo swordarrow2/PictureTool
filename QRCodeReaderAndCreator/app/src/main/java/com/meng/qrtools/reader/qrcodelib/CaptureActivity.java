@@ -47,21 +47,22 @@ import com.meng.qrtools.reader.qrcodelib.zxing.decoding.CaptureActivityHandler;
 import com.meng.qrtools.reader.qrcodelib.zxing.decoding.InactivityTimer;
 import com.meng.qrtools.reader.qrcodelib.zxing.view.ViewfinderView;
 import com.meng.qrtools.*;
-import android.support.v4.app.*;
+import android.view.*;
+import android.app.*;
 
 /**
  * Initial the camera
  *
  * @author Ryan.Tang
  */
-public class CaptureActivity extends Activity implements Callback {
+public class CaptureActivity extends Fragment implements Callback {
 
     private static final String TAG = CaptureActivity.class.getSimpleName();
 
     private static final int REQUEST_PERMISSION_CAMERA = 1000;
     private static final int REQUEST_PERMISSION_PHOTO = 1001;
 
-    private CaptureActivity mActivity;
+ //   private CaptureActivity mActivity;
 
     private CaptureActivityHandler handler;
     private ViewfinderView viewfinderView;
@@ -74,39 +75,56 @@ public class CaptureActivity extends Activity implements Callback {
     private static final float BEEP_VOLUME = 0.10f;
     private boolean vibrate;
     private boolean flashLightOpen = false;
-    private ImageView backIbtn;
-    private ImageButton flashIbtn;
     
+    private ImageButton flashIbtn;
 	
+    private AlertDialog mDialog;
 	
 
-    /**
-     * Called when the activity is first created.
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        mActivity = this;
-        hasSurface = false;
-        inactivityTimer = new InactivityTimer(this);
-        CameraManager.init(getApplication());
+	@Override
+	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
+		// TODO: Implement this method
+		return inflater.inflate(R.layout.qr_camera, container, false);
+		//return super.onCreateView(inflater,container,savedInstanceState);
+	}
+
+	@Override
+	public void onViewCreated(View view,Bundle savedInstanceState){
+		// TODO: Implement this method
+		super.onViewCreated(view,savedInstanceState);
+		hasSurface = false;
+        inactivityTimer = new InactivityTimer(getActivity());
+        CameraManager.init(getActivity());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED) {
+            if (getActivity().checkSelfPermission(Manifest.permission.CAMERA)
+				!= PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.CAMERA},
-                        REQUEST_PERMISSION_CAMERA);
+								   REQUEST_PERMISSION_CAMERA);
             }
         }
-
-        initView();
-    }
+					
+			viewfinderView = (ViewfinderView)view. findViewById(R.id.viewfinder_view);
+			flashIbtn = (ImageButton)view. findViewById(R.id.flash_ibtn);		
+			flashIbtn.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (flashLightOpen) {
+							flashIbtn.setImageResource(R.drawable.ic_flash_off_white_24dp);
+						} else {
+							flashIbtn.setImageResource(R.drawable.ic_flash_on_white_24dp);
+						}
+						toggleFlashLight();
+					}
+				});
+	}
+	
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
+		//getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         Log.d(TAG, "xxxxxxxxxxxxxxxxxxxonResume");
-        SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
+        SurfaceView surfaceView = (SurfaceView)this.getView().findViewById(R.id.preview_view);
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
         if (hasSurface) {
             initCamera(surfaceHolder);
@@ -118,7 +136,7 @@ public class CaptureActivity extends Activity implements Callback {
         characterSet = null;
 
         playBeep = true;
-        final AudioManager audioService = (AudioManager) getSystemService(AUDIO_SERVICE);
+        final AudioManager audioService = (AudioManager)getActivity(). getSystemService(getActivity().AUDIO_SERVICE);
         if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
             playBeep = false;
         }
@@ -127,7 +145,7 @@ public class CaptureActivity extends Activity implements Callback {
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         Log.d(TAG, "xxxxxxxxxxxxxxxxxxxonPause");
         if (handler != null) {
@@ -141,15 +159,15 @@ public class CaptureActivity extends Activity implements Callback {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         inactivityTimer.shutdown();
         super.onDestroy();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK
+        if (resultCode == getActivity().RESULT_OK
                 && data != null
                 && requestCode == ActionUtils.PHOTO_REQUEST_GALLERY) {
             Uri inputUri = data.getData();
@@ -160,7 +178,7 @@ public class CaptureActivity extends Activity implements Callback {
                 path = inputUri.getPath();
             } else {
                 String[] proj = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getContentResolver().query(inputUri, proj, null, null, null);
+                Cursor cursor =getActivity().getContentResolver().query(inputUri, proj, null, null, null);
                 if (cursor != null && cursor.moveToFirst()) {
                     path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
                 }
@@ -171,7 +189,7 @@ public class CaptureActivity extends Activity implements Callback {
                     if (BuildConfig.DEBUG) Log.d(TAG, result.getText());
                     handleDecode(result, null);
                 } else {
-                    new AlertDialog.Builder(CaptureActivity.this)
+                    new AlertDialog.Builder(getActivity())
                             .setTitle("提示")
                             .setMessage("此图片无法识别")
                             .setPositiveButton("确定", null)
@@ -179,7 +197,7 @@ public class CaptureActivity extends Activity implements Callback {
                 }
             } else {
                 if (BuildConfig.DEBUG) Log.e(TAG, "image path not found");
-                Toast.makeText(mActivity, "图片路径未找到", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "图片路径未找到", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -190,26 +208,26 @@ public class CaptureActivity extends Activity implements Callback {
         if (grantResults.length > 0 && requestCode == REQUEST_PERMISSION_CAMERA) {
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 // 未获得Camera权限
-                new AlertDialog.Builder(mActivity)
+                new AlertDialog.Builder(getActivity())
                         .setTitle("提示")
                         .setMessage("请在系统设置中为App开启摄像头权限后重试")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mActivity.finish();
+                         //       mActivity.finish();
                             }
                         })
                         .show();
             }
         } else if (grantResults.length > 0 && requestCode == REQUEST_PERMISSION_PHOTO) {
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                new AlertDialog.Builder(mActivity)
+                new AlertDialog.Builder(getActivity())
                         .setTitle("提示")
                         .setMessage("请在系统设置中为App中开启文件权限后重试")
                         .setPositiveButton("确定", null)
                         .show();
             } else {
-                ActionUtils.startActivityForGallery(mActivity, ActionUtils.PHOTO_REQUEST_GALLERY);
+                ActionUtils.startActivityForGallery(getActivity(), ActionUtils.PHOTO_REQUEST_GALLERY);
             }
         }
     }
@@ -227,48 +245,31 @@ public class CaptureActivity extends Activity implements Callback {
         handleResult(resultString);
     }
 
-    protected void handleResult(String resultString) {
-        if (resultString.equals("")) {
-            Toast.makeText(CaptureActivity.this, R.string.scan_failed, Toast.LENGTH_SHORT).show();
+    public void handleResult(String resultString) {
+        if (TextUtils.isEmpty(resultString)) {
+            Toast.makeText(getActivity(), "string.scan_failed", Toast.LENGTH_SHORT).show();
+            restartPreview();
         } else {
-            Intent resultIntent = new Intent();
-            Bundle bundle = new Bundle();
-            bundle.putString("result", resultString);
-            resultIntent.putExtras(bundle);
-            this.setResult(RESULT_OK, resultIntent);
+            if (mDialog == null) {
+                mDialog = new AlertDialog.Builder(getActivity())
+					.setMessage(resultString)
+					.setPositiveButton("确定", null)
+					.create();
+                mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+						@Override
+						public void onDismiss(DialogInterface dialog) {
+							restartPreview();
+						}
+					});
+            }
+            if (!mDialog.isShowing()) {
+                mDialog.setMessage(resultString);
+                mDialog.show();
+            }
         }
-        mActivity.finish();
     }
 
-    protected void initView() {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.qr_camera);
-
-        backIbtn = (ImageView) findViewById(R.id.back_ibtn);
-        viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
-        flashIbtn = (ImageButton) findViewById(R.id.flash_ibtn);
-        
-
-        backIbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActivity.finish();
-            }
-        });
-        flashIbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flashLightOpen) {
-                    flashIbtn.setImageResource(R.drawable.ic_flash_off_white_24dp);
-                } else {
-                    flashIbtn.setImageResource(R.drawable.ic_flash_on_white_24dp);
-                }
-                toggleFlashLight();
-            }
-        });
-        
-    }
+    
 
     protected void setViewfinderView(ViewfinderView view) {
         viewfinderView = view;
@@ -309,12 +310,12 @@ public class CaptureActivity extends Activity implements Callback {
      */
     public void openGallery() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                && getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     REQUEST_PERMISSION_PHOTO);
         } else {
-            ActionUtils.startActivityForGallery(mActivity, ActionUtils.PHOTO_REQUEST_GALLERY);
+            ActionUtils.startActivityForGallery(getActivity(), ActionUtils.PHOTO_REQUEST_GALLERY);
         }
     }
 
@@ -377,7 +378,7 @@ public class CaptureActivity extends Activity implements Callback {
             // The volume on STREAM_SYSTEM is not adjustable, and users found it
             // too loud,
             // so we now play on the music stream.
-            setVolumeControlStream(AudioManager.STREAM_MUSIC);
+            getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setOnCompletionListener(beepListener);
@@ -403,7 +404,7 @@ public class CaptureActivity extends Activity implements Callback {
             mediaPlayer.start();
         }
         if (vibrate) {
-            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            Vibrator vibrator = (Vibrator)getActivity(). getSystemService(getActivity().VIBRATOR_SERVICE);
             vibrator.vibrate(VIBRATE_DURATION);
         }
     }

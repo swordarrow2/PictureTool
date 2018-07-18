@@ -22,12 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<activity
-            android:name=".reader.cameraReader"
-            android:label="@string/app_name" />
-		<activity
-            android:name=".reader.galleryReader"
-            android:label="@string/app_name" />
+		
 		<activity
             android:name="com.meng.MainActivity2"
             android:label="@string/app_name"

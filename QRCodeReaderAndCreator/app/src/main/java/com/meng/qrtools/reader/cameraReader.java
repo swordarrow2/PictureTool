@@ -14,24 +14,17 @@ import android.app.*;
  */
 
 public class cameraReader extends CaptureActivity {
-    protected Activity mActivity = this;
-
+    
     private AlertDialog mDialog;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        mActivity = this;
-        super.onCreate(savedInstanceState);
-    }
-
+/*
     @Override
     protected void handleResult(String resultString) {
         if (TextUtils.isEmpty(resultString)) {
-            Toast.makeText(mActivity, "string.scan_failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "string.scan_failed", Toast.LENGTH_SHORT).show();
             restartPreview();
         } else {
             if (mDialog == null) {
-                mDialog = new AlertDialog.Builder(mActivity)
+                mDialog = new AlertDialog.Builder(getActivity())
                         .setMessage(resultString)
                         .setPositiveButton("确定", null)
                         .create();
@@ -48,4 +41,5 @@ public class cameraReader extends CaptureActivity {
             }
         }
     }
+	*/
 }

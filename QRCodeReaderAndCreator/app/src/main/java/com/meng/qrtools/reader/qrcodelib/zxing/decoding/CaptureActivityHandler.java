@@ -82,8 +82,8 @@ public final class CaptureActivityHandler extends Handler {
             CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
         } else if (message.what == R.id.return_scan_result) {
             Log.d(TAG, "Got return scan result message");
-            activity.setResult(Activity.RESULT_OK, (Intent) message.obj);
-            activity.finish();
+            activity.getActivity().setResult(Activity.RESULT_OK, (Intent) message.obj);
+            activity.getActivity().finish();
         } else if (message.what == R.id.launch_product_query) {
             Log.d(TAG, "Got product query message");
             String url = (String) message.obj;

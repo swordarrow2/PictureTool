@@ -12,6 +12,7 @@ import com.ikimuhendis.ldrawer.*;
 import com.meng.qrtools.*;
 import com.meng.qrtools.creator.*;
 import com.meng.qrtools.reader.*;
+import com.meng.qrtools.reader.qrcodelib.*;
 
 
 
@@ -24,11 +25,11 @@ public class MainActivity2 extends Activity {
     private boolean drawerArrowColor;
 	private TextView description;
 	private Intent i;
-
-	
 	
 	private creator fragment1;
 	private awesomeCreator fragment2;
+	private CaptureActivity fragment3;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,11 +58,13 @@ public class MainActivity2 extends Activity {
 
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
+			//	getWindow().getDecorView().setSystemUiVisibility(View.VISIBLE);
                 invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+				
                 invalidateOptionsMenu();
             }
         };
@@ -151,8 +154,18 @@ public class MainActivity2 extends Activity {
 							//	overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
 							//	drawerLayoutList.addFooterView(v);
 							description.setText("扫描二维码");
-							i=new Intent();
-							i.setClass(MainActivity2.this,cameraReader .class);
+							
+							FragmentTransaction transaction3=manager.beginTransaction();
+							if(fragment3== null){
+								fragment3 = new CaptureActivity();
+								transaction3.add(R.id.main_activityLinearLayout, fragment3);
+							}
+							hideFragment(transaction3);
+							transaction3.show(fragment3);
+							transaction3.commit();			
+							i=null;
+						//	i=new Intent();
+						//	i.setClass(MainActivity2.this,cameraReader .class);
 							mDrawerToggle.syncState();
 							break;
 						case 2:
@@ -229,8 +242,10 @@ public class MainActivity2 extends Activity {
         if(fragment2 != null){
             transaction.hide(fragment2);
         }
+		if(fragment3 != null){
+            transaction.hide(fragment3);
+        }
     }
-	
 	
 }
 

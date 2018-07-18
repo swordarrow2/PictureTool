@@ -16,6 +16,7 @@
 			android:layout_gravity="top"
 			android:gravity="bottom">
 			<ImageView
+				android:visibility="gone"
 				android:src="@drawable/ic_launcher"
 				android:paddingLeft="10dip"
 				android:id="@+id/main_activityImageView"
