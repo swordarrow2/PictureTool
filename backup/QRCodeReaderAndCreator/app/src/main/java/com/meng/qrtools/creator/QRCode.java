@@ -76,7 +76,7 @@ public class QRCode {
      * @param mBitmap
      * @return
      */
-    public static Bitmap createLogoQR(String text, int size, Bitmap mBitmap) {
+    public static Bitmap createQRCodeWithLogo5(String text, int size, Bitmap mBitmap) {
         try {
             IMAGE_HALFWIDTH = size / 10;
             Hashtable<EncodeHintType, Object> hints = new Hashtable<>();

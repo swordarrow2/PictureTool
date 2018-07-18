@@ -15,10 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.meng.qrtools.R;
-import com.meng.qrtools.about;
 import com.meng.qrtools.creator.awesomeCreator;
 import com.meng.qrtools.creator.creator;
-import com.meng.qrtools.creator.logoCreator;
 import com.meng.qrtools.lib.materialDesign.ActionBarDrawerToggle;
 import com.meng.qrtools.lib.materialDesign.DrawerArrowDrawable;
 import com.meng.qrtools.reader.galleryReader;
@@ -30,13 +28,12 @@ public class MainActivity2 extends Activity {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
     private boolean drawerArrowColor;
+    private Intent i;
 
-    private creator creatorFragment;
-    private logoCreator logoCreatorFragment;
-    private awesomeCreator awesomeCreatorFragment;
-    private cameraReader cameraReaderFragment;
-    private galleryReader galleryReaderFragment;
-    private about aboutFragment;
+    private creator fragment1;
+    private awesomeCreator fragment2;
+    private cameraReader fragment3;
+    private galleryReader fragment4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +73,9 @@ public class MainActivity2 extends Activity {
                 "读取相册二维码",
                 "相机扫描二维码",
                 "创建普通二维码",
-                "创建Logo二维码",
                 "创建Awesome二维码",
-                "关于"
+                "Share",
+                "Rate"
         };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, values);
         mDrawerList.setAdapter(adapter);
@@ -135,67 +132,62 @@ public class MainActivity2 extends Activity {
 
                 switch (position) {
                     case 0:
-                        FragmentTransaction transactionGalleryReaderFragment = manager.beginTransaction();
-                        if (galleryReaderFragment == null) {
-                            galleryReaderFragment = new galleryReader();
-                            transactionGalleryReaderFragment.add(R.id.main_activityLinearLayout, galleryReaderFragment);
+                        FragmentTransaction transaction4 = manager.beginTransaction();
+                        if (fragment4 == null) {
+                            fragment4 = new galleryReader();
+                            transaction4.add(R.id.main_activityLinearLayout, fragment4);
                         }
-                        hideFragment(transactionGalleryReaderFragment);
-                        transactionGalleryReaderFragment.show(galleryReaderFragment);
-                        transactionGalleryReaderFragment.commit();
+                        hideFragment(transaction4);
+                        transaction4.show(fragment4);
+                        transaction4.commit();
+                        i = null;
+                        mDrawerToggle.syncState();
+
                         break;
                     case 1:
-                        FragmentTransaction transactionCameraReaderFragment = manager.beginTransaction();
-                        if (cameraReaderFragment == null) {
-                            cameraReaderFragment = new cameraReader();
-                            transactionCameraReaderFragment.add(R.id.main_activityLinearLayout, cameraReaderFragment);
+                        FragmentTransaction transaction3 = manager.beginTransaction();
+                        if (fragment3 == null) {
+                            fragment3 = new cameraReader();
+                            transaction3.add(R.id.main_activityLinearLayout, fragment3);
                         }
-                        hideFragment(transactionCameraReaderFragment);
-                        transactionCameraReaderFragment.show(cameraReaderFragment);
-                        transactionCameraReaderFragment.commit();
+                        hideFragment(transaction3);
+                        transaction3.show(fragment3);
+                        transaction3.commit();
+                        i = null;
+                        mDrawerToggle.syncState();
                         break;
                     case 2:
-                        FragmentTransaction transactionCreatorFragment = manager.beginTransaction();
-                        if (creatorFragment == null) {
-                            creatorFragment = new creator();
-                            transactionCreatorFragment.add(R.id.main_activityLinearLayout, creatorFragment);
+                        FragmentTransaction transaction = manager.beginTransaction();
+                        if (fragment1 == null) {
+                            fragment1 = new creator();
+                            transaction.add(R.id.main_activityLinearLayout, fragment1);
                         }
-                        hideFragment(transactionCreatorFragment);
-                        transactionCreatorFragment.show(creatorFragment);
-                        transactionCreatorFragment.commit();
+                        hideFragment(transaction);
+                        transaction.show(fragment1);
+                        transaction.commit();
+                        mDrawerToggle.syncState();
+                        i = null;
                         break;
                     case 3:
-                        FragmentTransaction transactionLogoCreatorFragment = manager.beginTransaction();
-                        if (logoCreatorFragment == null) {
-                            logoCreatorFragment = new logoCreator();
-                            transactionLogoCreatorFragment.add(R.id.main_activityLinearLayout, logoCreatorFragment);
+                        FragmentTransaction transaction2 = manager.beginTransaction();
+                        if (fragment2 == null) {
+                            fragment2 = new awesomeCreator();
+                            transaction2.add(R.id.main_activityLinearLayout, fragment2);
                         }
-                        hideFragment(transactionLogoCreatorFragment);
-                        transactionLogoCreatorFragment.show(logoCreatorFragment);
-                        transactionLogoCreatorFragment.commit();
+                        hideFragment(transaction2);
+                        transaction2.show(fragment2);
+                        transaction2.commit();
+                        mDrawerToggle.syncState();
+                        i = null;
                         break;
                     case 4:
-                        FragmentTransaction transactionAwesomeCreatorFragment = manager.beginTransaction();
-                        if (awesomeCreatorFragment == null) {
-                            awesomeCreatorFragment = new awesomeCreator();
-                            transactionAwesomeCreatorFragment.add(R.id.main_activityLinearLayout, awesomeCreatorFragment);
-                        }
-                        hideFragment(transactionAwesomeCreatorFragment);
-                        transactionAwesomeCreatorFragment.show(awesomeCreatorFragment);
-                        transactionAwesomeCreatorFragment.commit();
-                        break;
-                    case 5:
-                        FragmentTransaction transactionAboutFragment = manager.beginTransaction();
-                        if (aboutFragment == null) {
-                            aboutFragment = new about();
-                            transactionAboutFragment.add(R.id.main_activityLinearLayout, aboutFragment);
-                        }
-                        hideFragment(transactionAboutFragment);
-                        transactionAboutFragment.show(aboutFragment);
-                        transactionAboutFragment.commit();
+                        mDrawerToggle.syncState();
+                        i = null;
                         break;
                 }
-                mDrawerToggle.syncState();
+                if (i != null) {
+                    startActivity(i);
+                }
                 mDrawerLayout.closeDrawer(mDrawerList);
             }
         });
@@ -226,23 +218,17 @@ public class MainActivity2 extends Activity {
     }
 
     private void hideFragment(FragmentTransaction transaction) {
-        if (creatorFragment != null) {
-            transaction.hide(creatorFragment);
+        if (fragment1 != null) {
+            transaction.hide(fragment1);
         }
-        if (logoCreatorFragment != null) {
-            transaction.hide(logoCreatorFragment);
+        if (fragment2 != null) {
+            transaction.hide(fragment2);
         }
-        if (awesomeCreatorFragment != null) {
-            transaction.hide(awesomeCreatorFragment);
+        if (fragment3 != null) {
+            transaction.hide(fragment3);
         }
-        if (cameraReaderFragment != null) {
-            transaction.hide(cameraReaderFragment);
-        }
-        if (galleryReaderFragment != null) {
-            transaction.hide(galleryReaderFragment);
-        }
-        if (aboutFragment != null) {
-            transaction.hide(aboutFragment);
+        if (fragment4 != null) {
+            transaction.hide(fragment4);
         }
     }
 
