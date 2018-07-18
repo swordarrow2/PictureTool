@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="top|center_horizontal"
-    android:orientation="vertical"
-    tools:context="com.github.sumimakito.awesomeqrsample.MainActivity">
+    android:orientation="vertical">
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:fillViewport="true">
 
         <LinearLayout
@@ -21,78 +21,19 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="0px"
-                android:layout_height="0px"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:orientation="horizontal" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:background="#75f"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="About the launcher icon, special thanks to\nFont Awesome by Dave Gandy - http://fontawesome.io"
-                android:textColor="#fff"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/permissionHint"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:background="#f55"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="To select the background image used in AwesomeQRCode,\nPlease grant storage permission to the application."
-                android:textColor="#fff"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/authorHint"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:background="#8963a0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="AwesomeQRCode, 2017 Copyright © Makito\nGet source code at GitHub: SumiMakito\nClick here to view on GitHub"
-                android:textColor="#fff"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/jsHint"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:background="#448800"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="Awesome-qr.js is also available!\nClick here to view on GitHub"
-                android:textColor="#fff"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:text="Contents" />
+                android:text="@string/contents" />
 
             <EditText
                 android:id="@+id/contents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Makito loves Kafuu Chino."
+                android:hint="@string/makito_loves_kafuu_chino"
                 android:maxLines="3" />
 
             <TextView
@@ -101,13 +42,13 @@
                 android:layout_marginTop="4dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:text="Size (px, includes the margin, width equals to height)" />
+                android:text="@string/size_px_includes_the_margin_width_equals_to_height" />
 
             <EditText
                 android:id="@+id/size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="800"
+                android:hint="@string/_800"
                 android:inputType="number"
                 android:lines="1"
                 android:maxLines="1"
@@ -119,13 +60,13 @@
                 android:layout_marginTop="4dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:text="Margin (px)" />
+                android:text="@string/margin_px" />
 
             <EditText
                 android:id="@+id/margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="20"
+                android:hint="@string/_20"
                 android:inputType="number"
                 android:lines="1"
                 android:maxLines="1"
@@ -137,13 +78,13 @@
                 android:layout_marginTop="4dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:text="Data dot scale (0 &lt; scale &lt; 1.0f)" />
+                android:text="@string/data_dot_scale_0_lt_scale_lt_1_0f" />
 
             <EditText
                 android:id="@+id/dotScale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="0.3"
+                android:hint="@string/_0_3"
                 android:inputType="numberDecimal"
                 android:lines="1"
                 android:maxLines="1"
@@ -155,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Automatically pick color from background image" />
+                android:text="@string/automatically_pick_color_from_background_image" />
 
 
             <TextView
@@ -164,14 +105,14 @@
                 android:layout_marginTop="4dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:text="colorDark (true-dots, #dddddd)" />
+                android:text="@string/colordark_true_dots_dddddd" />
 
             <EditText
                 android:id="@+id/colorDark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:hint="colorDark"
+                android:hint="@string/colordark"
                 android:lines="1"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -183,14 +124,14 @@
                 android:layout_marginTop="4dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:text="colorLight (false-dots, #dddddd)" />
+                android:text="@string/colorlight_false_dots_dddddd" />
 
             <EditText
                 android:id="@+id/colorLight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:hint="colorLight"
+                android:hint="@string/colorlight"
                 android:lines="1"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -199,25 +140,25 @@
                 android:id="@+id/backgroundImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select background image" />
+                android:text="@string/select_background_image" />
 
             <Button
                 android:id="@+id/removeBackgroundImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Remove background image" />
+                android:text="@string/remove_background_image" />
 
             <CheckBox
                 android:id="@+id/whiteMargin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="White margin on background image" />
+                android:text="@string/white_margin_on_background_image" />
 
             <CheckBox
                 android:id="@+id/binarize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Binarize background image" />
+                android:text="@string/binarize_background_image" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -225,33 +166,29 @@
                 android:layout_marginTop="4dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:text="binarizeThreshold (0 &lt; threshold &lt; 255)" />
+                android:text="@string/binarizethreshold_0_lt_threshold_lt_255" />
 
             <EditText
                 android:id="@+id/binarizeThreshold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:hint="128"
+                android:hint="@string/_128"
+                android:inputType="number"
                 android:lines="1"
                 android:maxLines="1"
-                android:inputType="number"
                 android:singleLine="true" />
 
             <Button
                 android:id="@+id/generate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:text="Generate" />
+                android:text="@string/generate" />
 
             <ImageView
                 android:id="@+id/qrcode"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
                 android:scaleType="centerInside" />

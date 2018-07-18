@@ -1,21 +1,24 @@
-package com.ikimuhendis.ldrawer;
+package com.meng.qrtools.lib.materialDesign;
 
-import android.app.*;
-import android.content.res.*;
-import android.graphics.drawable.*;
-import android.os.*;
-import android.support.v4.view.*;
-import android.support.v4.widget.*;
-import android.util.*;
-import android.view.*;
-import android.widget.*;
-import com.meng.qrtools.*;
-import java.lang.reflect.*;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.meng.qrtools.R;
+
+import java.lang.reflect.Method;
 
 
 public class ActionBarDrawerToggle extends android.support.v4.app.ActionBarDrawerToggle {
-
-    private static final String TAG = ActionBarDrawerToggle.class.getName();
 
     protected Activity mActivity;
     protected DrawerLayout mDrawerLayout;
@@ -123,11 +126,10 @@ public class ActionBarDrawerToggle extends android.support.v4.app.ActionBarDrawe
         if (mActivity != null) {
             try {
                 Method setHomeAsUpIndicator = ActionBar.class.getDeclaredMethod("setHomeAsUpIndicator",
-                    Drawable.class);
+                        Drawable.class);
                 setHomeAsUpIndicator.invoke(mActivity.getActionBar(), mDrawerImage);
                 return;
             } catch (Exception e) {
-                Log.e(TAG, "setActionBarUpIndicator error", e);
             }
 
             final View home = mActivity.findViewById(android.R.id.home);
@@ -156,14 +158,13 @@ public class ActionBarDrawerToggle extends android.support.v4.app.ActionBarDrawe
         if (mActivity != null && mActivity.getActionBar() != null) {
             try {
                 Method setHomeActionContentDescription = ActionBar.class.getDeclaredMethod(
-                    "setHomeActionContentDescription", Integer.TYPE);
+                        "setHomeActionContentDescription", Integer.TYPE);
                 setHomeActionContentDescription.invoke(mActivity.getActionBar(),
-                    mDrawerLayout.isDrawerOpen(GravityCompat.START) ? mOpenDrawerContentDescRes : mCloseDrawerContentDescRes);
+                        mDrawerLayout.isDrawerOpen(GravityCompat.START) ? mOpenDrawerContentDescRes : mCloseDrawerContentDescRes);
                 if (Build.VERSION.SDK_INT <= 19) {
                     mActivity.getActionBar().setSubtitle(mActivity.getActionBar().getSubtitle());
                 }
             } catch (Exception e) {
-                Log.e(TAG, "setActionBarUpIndicator", e);
             }
         }
     }

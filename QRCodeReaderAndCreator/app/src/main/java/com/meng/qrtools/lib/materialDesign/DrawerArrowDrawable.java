@@ -1,4 +1,4 @@
-package com.ikimuhendis.ldrawer;
+package com.meng.qrtools.lib.materialDesign;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,7 +8,8 @@ import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import com.meng.qrtools.*;
+
+import com.meng.qrtools.R;
 
 public abstract class DrawerArrowDrawable extends Drawable {
     private static final float ARROW_HEAD_ANGLE = (float) Math.toRadians(45.0D);

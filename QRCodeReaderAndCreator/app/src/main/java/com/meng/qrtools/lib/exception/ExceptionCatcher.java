@@ -1,15 +1,24 @@
-package com.meng.mbrowser.tools;
+package com.meng.qrtools.lib.exception;
 
-import android.content.*;
-import android.content.pm.*;
-import android.os.*;
-import android.util.*;
-import android.widget.*;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Environment;
+import android.os.Looper;
+import android.util.Log;
+import android.widget.Toast;
 
-import java.io.*;
-import java.lang.reflect.*;
-import java.text.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ExceptionCatcher implements Thread.UncaughtExceptionHandler {
 
@@ -21,7 +30,6 @@ public class ExceptionCatcher implements Thread.UncaughtExceptionHandler {
     private static ExceptionCatcher mInstance;
 
     private ExceptionCatcher() {
-
     }
 
     public static synchronized ExceptionCatcher getInstance() {

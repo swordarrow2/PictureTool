@@ -1,4 +1,4 @@
-package com.github.sumimakito.awesomeqr;
+package com.meng.qrtools.creator;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

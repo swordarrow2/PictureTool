@@ -2,12 +2,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
+
     <ImageButton
-		android:id="@+id/ibtn"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:background="@null"
-		android:padding="12dp"
-		android:src="@drawable/ic_flash_off_white_24dp"/>
-	
+        android:id="@+id/ibtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:padding="12dp"
+        android:src="@drawable/ic_flash_off_white_24dp" />
+
 </LinearLayout>

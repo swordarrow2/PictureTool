@@ -24,7 +24,7 @@ import android.os.*;
 import android.util.*;
 import com.google.zxing.*;
 import com.meng.qrtools.*;
-import com.meng.qrtools.reader.qrcodelib.*;
+import com.meng.qrtools.reader.cameraReader;
 import com.meng.qrtools.reader.qrcodelib.zxing.camera.*;
 import com.meng.qrtools.reader.qrcodelib.zxing.view.*;
 import java.util.*;
@@ -37,11 +37,11 @@ public final class CaptureActivityHandler extends Handler {
 
     private static final String TAG = CaptureActivityHandler.class.getSimpleName();
 
-    private final CaptureActivity activity;
+    private final cameraReader activity;
     private final DecodeThread decodeThread;
     private State state;
 
-    public CaptureActivityHandler(CaptureActivity activity, Vector<BarcodeFormat> decodeFormats,
+    public CaptureActivityHandler(cameraReader activity, Vector<BarcodeFormat> decodeFormats,
                                   String characterSet) {
         this.activity = activity;
         decodeThread = new DecodeThread(activity, decodeFormats, characterSet,

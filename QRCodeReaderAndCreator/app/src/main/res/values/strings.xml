@@ -1,6 +1,32 @@
 <resources>
-    <string name="app_name">qrcodelib</string>
+    <string name="app_name">QRtools</string>
     <string name="scan_failed">Scan failed!</string>
-	<string name="open">open</string>
-	<string name="close">close</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="automatically_pick_color_from_background_image">Automatically pick color from background image</string>
+    <string name="contents">Contents</string>
+    <string name="makito_loves_kafuu_chino">Makito loves Kafuu Chino.</string>
+    <string name="size_px_includes_the_margin_width_equals_to_height">Size (px, includes the margin, width equals to height)</string>
+    <string name="margin_px">Margin (px)</string>
+    <string name="data_dot_scale_0_lt_scale_lt_1_0f"><![CDATA[Data dot scale (0 < scale < 1.0f)]]></string>
+    <string name="_800">800</string>
+    <string name="_20">20</string>
+    <string name="_0_3">0.3</string>
+    <string name="colordark_true_dots_dddddd">colorDark (true-dots, #dddddd)</string>
+    <string name="colordark">colorDark</string>
+    <string name="colorlight_false_dots_dddddd">colorLight (false-dots, #dddddd)</string>
+    <string name="colorlight">colorLight</string>
+    <string name="select_background_image">Select background image</string>
+    <string name="remove_background_image">Remove background image</string>
+    <string name="white_margin_on_background_image">White margin on background image</string>
+    <string name="binarize_background_image">Binarize background image</string>
+    <string name="binarizethreshold_0_lt_threshold_lt_255"><![CDATA[binarizeThreshold (0 < threshold < 255)]]></string>
+    <string name="generate">Generate</string>
+    <string name="_128">128</string>
+    <string name="Error_occurred_please_check_your_configs">Error occurred, please check your configs.</string>
+    <string name="Makito_loves_Kafuu_Chino">Makito loves Kafuu Chino.</string>
+    <string name="Background_image_removed">Background image removed.</string>
+    <string name="Background_image_added">Background image added.</string>
+    <string name="Failed_to_add_the_background_image">Failed to add the background image.</string>
+    <string name="generating">Generating...</string>
 </resources>

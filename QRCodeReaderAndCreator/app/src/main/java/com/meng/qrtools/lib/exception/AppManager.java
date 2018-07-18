@@ -1,4 +1,4 @@
-package com.meng.mbrowser.tools;
+package com.meng.qrtools.lib.exception;
 
 import android.app.*;
 import android.content.*;
