@@ -40,6 +40,7 @@ public class about extends Fragment {
 			"    https://github.com/SumiMakito/AwesomeQRCode/\n",
 			"    https://github.com/XuDaojie/QRCode-Android/\n",
 			"    https://github.com/vivian8725118/ZXingGenerator/\n",
+			"    https://github.com/zxing/zxing/"
 		};
 		String temp="";
 		for(String ss:s){
