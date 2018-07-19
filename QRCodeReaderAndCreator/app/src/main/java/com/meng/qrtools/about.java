@@ -35,7 +35,11 @@ public class about extends Fragment {
 			"    可以从相机扫描条形码与二维码也可以从相册中选择已有的图片进行识别。\n",
 			"    可以扫描的二维码类型:QRcode，DataMatrix，Aztec，PDF417。\n",
 			"    可以生成普通的QR二维码,带有logo的QR二维码以及AwesomeQR码。\n",
-			"",
+			"    使用的开源项目:\n",
+			"    https://github.com/keklikhasan/LDrawer/\n",
+			"    https://github.com/SumiMakito/AwesomeQRCode/\n",
+			"    https://github.com/XuDaojie/QRCode-Android/\n",
+			"    https://github.com/vivian8725118/ZXingGenerator/\n",
 		};
 		String temp="";
 		for(String ss:s){

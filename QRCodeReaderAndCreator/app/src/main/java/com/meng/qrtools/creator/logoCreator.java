@@ -18,12 +18,15 @@ import android.widget.Toast;
 import com.meng.qrtools.R;
 import android.widget.*;
 import android.view.View.*;
+import java.io.*;
+import android.os.*;
 
 public class logoCreator extends Fragment{
 	ImageView qrcode5;
 	EditText et;
 	Button btnImg;
 	Button btnCreate;
+	Button btnSave;
 	private Bitmap backgroundImage = null;
 	private final int SELECT_FILE_REQUEST_CODE = 822;
 	@Override
@@ -40,6 +43,7 @@ public class logoCreator extends Fragment{
 		et=(EditText)view.findViewById(R.id.qr_logo_mainEditText);
 		btnImg=(Button)view.findViewById(R.id.qr_logo_mainButtonImage);
 		btnCreate=(Button)view.findViewById(R.id.qr_logo_mainButtonCreate);
+		btnSave=(Button)view.findViewById(R.id.qr_logo_mainButtonSave);
 		backgroundImage=BitmapFactory.decodeResource(getActivity().getResources(),R.drawable.ic_launcher);
 		btnImg.setOnClickListener(new OnClickListener(){
 
@@ -63,6 +67,19 @@ public class logoCreator extends Fragment{
 											   backgroundImage));
 				}
 			});		
+		btnSave.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View p1){
+					// TODO: Implement this method
+					try{
+						String s=QRCode.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/LogoQR"+SystemClock.elapsedRealtime()+".png",backgroundImage);
+						Toast.makeText(getActivity().getApplicationContext(),"已保存至"+s,Toast.LENGTH_LONG).show();
+					}catch(IOException e){
+						Toast.makeText(getActivity().getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+					}
+				}
+			});
 	}
 
 	public static Bitmap drawableToBitmap(Drawable drawable){

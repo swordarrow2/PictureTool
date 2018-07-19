@@ -16,12 +16,14 @@ import android.view.*;
 import android.widget.Toast;
 import android.widget.*;
 import android.view.View.*;
+import java.io.*;
 
 public class creator extends Fragment{
 	ImageView qrcode1;
 	EditText et;
 	Button btn;
-
+	Button btnSave;
+	private Bitmap b;
 	@Override
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
 		// TODO: Implement this method
@@ -35,14 +37,30 @@ public class creator extends Fragment{
 		qrcode1=(ImageView)view. findViewById(R.id.qrcode5);
 		et=(EditText)view.findViewById(R.id.qr_mainEditText);
 		btn=(Button)view.findViewById(R.id.qr_mainButton);
-		btn.setOnClickListener(new OnClickListener(){
+		btnSave=(Button)view.findViewById(R.id.qr_mainButtonSave);
+		btn.setOnClickListener(new OnClickListener(){	
 
 				@Override
 				public void onClick(View p1){
 					// TODO: Implement this method
-					qrcode1.setImageBitmap(QRCode.createQRCode(et.getText().toString()==null||et.getText().toString().equals("")?et.getHint().toString():et.getText().toString()));
+					 b=QRCode.createQRCode(et.getText().toString()==null||et.getText().toString().equals("")?et.getHint().toString():et.getText().toString());
+					qrcode1.setImageBitmap(b);
+					
 				}
 			});		
+		btnSave.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View p1){
+					// TODO: Implement this method
+					try{
+						String s= QRCode.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/QR"+SystemClock.elapsedRealtime()+".png",b);
+						Toast.makeText(getActivity().getApplicationContext(),"已保存至"+s,Toast.LENGTH_LONG).show();
+					}catch(IOException e){
+						Toast.makeText(getActivity().getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+					}
+				}
+			});
 	}
 
 

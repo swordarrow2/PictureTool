@@ -22,7 +22,8 @@ import android.view.View.*;
 public class galleryReader extends Fragment{
 	private final int REQUEST_PERMISSION_PHOTO = 1001;
 	private AlertDialog mDialog;
-	ImageButton btn;
+	Button btn;
+	TextView tv;
 	@Override
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
 		// TODO: Implement this method
@@ -33,29 +34,14 @@ public class galleryReader extends Fragment{
 	public void onViewCreated(View view,Bundle savedInstanceState){
 		// TODO: Implement this method
 		super.onViewCreated(view,savedInstanceState);
-		btn=(ImageButton)view.findViewById(com.meng.qrtools.R.id.ibtn);
+		btn=(Button)view.findViewById(com.meng.qrtools.R.id.read_galleryButton);
+		tv=(TextView)view.findViewById(com.meng.qrtools.R.id.read_galleryTextView);
 		btn.setOnClickListener(new OnClickListener(){
 
 				@Override
 				public void onClick(View p1){
 					// TODO: Implement this method
 					openGallery();
-					/*		if(mDialog==null){
-					 mDialog=new AlertDialog.Builder(getActivity())
-					 .setMessage("resultString").setNegativeButton("确定",new DialogInterface.OnClickListener() {
-
-					 @Override
-					 public void onClick(DialogInterface p1,int p2){
-					 // TODO: Implement this method
-					 //		finish();
-					 }
-					 })
-					 .setNeutralButton("复制文本",null).create();
-
-					 }
-
-					 mDialog.show();
-					 */
 				}
 			});
 
@@ -72,7 +58,8 @@ public class galleryReader extends Fragment{
         if(resultString.equals("")){
             Toast.makeText(getActivity(),com.meng.qrtools.R.string.scan_failed,Toast.LENGTH_SHORT).show();
         }else{
-			if(mDialog==null){
+			tv.setText(resultString);
+		/*	if(mDialog==null){
                 mDialog=new AlertDialog.Builder(getActivity())
 					.setMessage(resultString).setNegativeButton("确定",new DialogInterface.OnClickListener() {
 
@@ -95,12 +82,7 @@ public class galleryReader extends Fragment{
 					}).create();
             }
 			mDialog.show();
-
-			/*       Intent resultIntent = new Intent();
-			 Bundle bundle = new Bundle();
-			 bundle.putString("result", resultString);
-			 resultIntent.putExtras(bundle);
-			 this.setResult(RESULT_OK, resultIntent); */
+*/
         }
     }
 	@Override

@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.meng.qrtools.R;
 import android.view.*;
+import java.io.*;
 
 public class awesomeCreator extends Fragment {
 
@@ -39,6 +40,7 @@ public class awesomeCreator extends Fragment {
 	private EditText etDotScale;
 	private CheckBox ckbBinarize;
 	private EditText etBinarizeThreshold;
+	private Button btnSave;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -65,7 +67,7 @@ public class awesomeCreator extends Fragment {
 		ckbAutoColor = (CheckBox)view. findViewById(R.id.autoColor);
 		ckbBinarize= (CheckBox)view. findViewById(R.id.binarize);
 		etBinarizeThreshold = (EditText)view. findViewById(R.id.binarizeThreshold);
-
+		btnSave=(Button)view.findViewById(R.id.awesomeqr_mainButton);
 		ckbAutoColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -118,6 +120,19 @@ public class awesomeCreator extends Fragment {
 								 );
 					} catch (Exception e) {
 						Toast.makeText(getActivity().getApplicationContext(),  R.string.Error_occurred_please_check_your_configs, Toast.LENGTH_LONG).show();
+					}
+				}
+			});
+		btnSave.setOnClickListener(new View.OnClickListener(){
+
+				@Override
+				public void onClick(View p1){
+					// TODO: Implement this method
+					try{
+						String s=QRCode.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/AwesomeQR"+SystemClock.elapsedRealtime()+".png",backgroundImage);
+						Toast.makeText(getActivity().getApplicationContext(),"已保存至"+s,Toast.LENGTH_LONG).show();
+					}catch(IOException e){
+						Toast.makeText(getActivity().getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
 					}
 				}
 			});

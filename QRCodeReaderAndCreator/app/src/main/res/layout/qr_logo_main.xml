@@ -11,27 +11,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 	<EditText 
-		android:hint="input text"
+		android:hint="@string/input_text"
 		android:layout_below="@+id/qr_logo_mainTextView"
 		android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
 		android:id="@+id/qr_logo_mainEditText" />
 	<Button
-		android:text="click to select image"
+		android:text="@string/click_to_select_image"
 		android:layout_below="@+id/qr_logo_mainEditText"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
 		android:id="@+id/qr_logo_mainButtonImage" />
 	<Button
-		android:text="click to create"
+		android:text="@string/click_to_create"
 		android:layout_below="@+id/qr_logo_mainButtonImage"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
 		android:id="@+id/qr_logo_mainButtonCreate" />
+	<Button
+		android:text="@string/click_to_save"
+		android:layout_below="@+id/qr_logo_mainButtonCreate"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:id="@+id/qr_logo_mainButtonSave" />
     <ImageView
         android:id="@+id/qrcode5"
         android:layout_width="500px"
         android:layout_height="500px"
-        android:layout_below="@+id/qr_logo_mainButtonCreate" />
+        android:layout_below="@+id/qr_logo_mainButtonSave" />
 
 </RelativeLayout>
