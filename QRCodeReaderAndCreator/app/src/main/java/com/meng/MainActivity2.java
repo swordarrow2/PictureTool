@@ -84,7 +84,7 @@ public class MainActivity2 extends Activity{
         mDrawerToggle.syncState();
 
         String[] values = new String[]{
-			"欢迎使用",
+			"首页(?)",
 			"读取相册二维码",
 			"相机扫描二维码",
 			"创建普通二维码",
