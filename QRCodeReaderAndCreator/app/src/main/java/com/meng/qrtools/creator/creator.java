@@ -7,7 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.*;
-import android.support.v7.app.AppCompatActivity;
+
 import android.widget.ImageView;
 
 import com.meng.qrtools.R;
