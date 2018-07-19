@@ -307,7 +307,9 @@ public final class CameraManager {
      */
     public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data, int width, int height) {
         Rect rect = getFramingRectInPreview();
-        int previewFormat = configManager.getPreviewFormat();
+        return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top,
+                rect.width(), rect.height());
+     /*  int previewFormat = configManager.getPreviewFormat();
         String previewFormatString = configManager.getPreviewFormatString();
         switch (previewFormat) {
             // This is the standard Android format which all devices are REQUIRED to support.
@@ -328,6 +330,7 @@ public final class CameraManager {
         }
         throw new IllegalArgumentException("Unsupported picture format: " +
                 previewFormat + '/' + previewFormatString);
+        */
     }
 
     public Context getContext() {

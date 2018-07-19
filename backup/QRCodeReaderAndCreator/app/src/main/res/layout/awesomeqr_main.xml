@@ -184,7 +184,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/generate" />
-
+			
+			<Button
+				android:text="@string/click_to_save"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" 
+				android:id="@+id/awesomeqr_mainButton" />
+			
             <ImageView
                 android:id="@+id/qrcode"
                 android:layout_width="300dp"

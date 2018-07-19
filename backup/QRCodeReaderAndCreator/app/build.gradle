@@ -7,9 +7,9 @@ android {
     defaultConfig {
         applicationId "com.meng.qrtools"
         minSdkVersion 14
-        targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 23
+        versionCode 8
+        versionName "2.0"
     }
     buildTypes {
         release {
@@ -20,7 +20,6 @@ android {
 }
 
 dependencies {
-	compile 'com.android.support:appcompat-v7:+'
 	compile 'com.android.support:support-v4:+'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,31 +7,37 @@
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <TextView
-        android:id="@+id/qr_mainTextView"
+        android:id="@+id/qr_logo_mainTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 	<EditText 
 		android:hint="@string/input_text"
-		android:layout_below="@+id/qr_mainTextView"
+		android:layout_below="@+id/qr_logo_mainTextView"
 		android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
-		android:id="@+id/qr_mainEditText" />
+		android:id="@+id/qr_logo_mainEditText" />
+	<Button
+		android:text="@string/click_to_select_image"
+		android:layout_below="@+id/qr_logo_mainEditText"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:id="@+id/qr_logo_mainButtonImage" />
 	<Button
 		android:text="@string/click_to_create"
-		android:layout_below="@+id/qr_mainEditText"
+		android:layout_below="@+id/qr_logo_mainButtonImage"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
-		android:id="@+id/qr_mainButton" />
+		android:id="@+id/qr_logo_mainButtonCreate" />
 	<Button
 		android:text="@string/click_to_save"
-		android:layout_below="@+id/qr_mainButton"
+		android:layout_below="@+id/qr_logo_mainButtonCreate"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
-		android:id="@+id/qr_mainButtonSave" />
+		android:id="@+id/qr_logo_mainButtonSave" />
     <ImageView
         android:id="@+id/qrcode5"
         android:layout_width="500px"
         android:layout_height="500px"
-        android:layout_below="@+id/qr_mainButtonSave" />
+        android:layout_below="@+id/qr_logo_mainButtonSave" />
 
 </RelativeLayout>

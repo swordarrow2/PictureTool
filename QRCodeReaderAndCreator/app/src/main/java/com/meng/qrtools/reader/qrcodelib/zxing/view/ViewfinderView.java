@@ -30,12 +30,11 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
+import com.meng.qrtools.R;
+import com.meng.qrtools.reader.qrcodelib.zxing.camera.CameraManager;
 
 import java.util.Collection;
 import java.util.HashSet;
-import com.meng.qrtools.*;
-import com.meng.qrtools.reader.qrcodelib.zxing.camera.*;
-
 
 
 /**

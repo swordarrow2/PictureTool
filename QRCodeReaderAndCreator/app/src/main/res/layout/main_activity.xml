@@ -30,8 +30,6 @@
             android:orientation="vertical" />
 
     </LinearLayout>
-
-
     <!-- The navigation drawer -->
 
     <ListView
@@ -45,6 +43,20 @@
         android:dividerHeight="0dp"
         android:drawSelectorOnTop="false"></ListView>
 
+    <RelativeLayout
+        android:id="@+id/right_drawer"
+        android:layout_width="220dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="#111"
+        android:gravity="center_horizontal" >
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="这是右边栏"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+    </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>
 

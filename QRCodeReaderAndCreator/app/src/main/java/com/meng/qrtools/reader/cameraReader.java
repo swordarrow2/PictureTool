@@ -2,6 +2,9 @@ package com.meng.qrtools.reader;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.content.ClipData;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
@@ -15,28 +18,25 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-
-import java.io.IOException;
-import java.util.Vector;
-
+import com.meng.qrtools.R;
 import com.meng.qrtools.reader.qrcodelib.zxing.camera.CameraManager;
 import com.meng.qrtools.reader.qrcodelib.zxing.decoding.CaptureActivityHandler;
 import com.meng.qrtools.reader.qrcodelib.zxing.decoding.InactivityTimer;
 import com.meng.qrtools.reader.qrcodelib.zxing.view.ViewfinderView;
-import com.meng.qrtools.*;
-import android.view.*;
-import android.app.*;
-import android.content.*;
+
+import java.io.IOException;
+import java.util.Vector;
 
 /**
  * Initial the camera
@@ -57,54 +57,54 @@ public class cameraReader extends Fragment implements Callback {
     private static final float BEEP_VOLUME = 0.10f;
     private boolean vibrate;
     private boolean flashLightOpen = false;
-    
+
     private ImageButton flashIbtn;
-	
+
     private AlertDialog mDialog;
-	
 
-	@Override
-	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-		// TODO: Implement this method
-		return inflater.inflate(R.layout.qr_camera, container, false);
-		//return super.onCreateView(inflater,container,savedInstanceState);
-	}
 
-	@Override
-	public void onViewCreated(View view,Bundle savedInstanceState){
-		// TODO: Implement this method
-		super.onViewCreated(view,savedInstanceState);
-		hasSurface = false;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: Implement this method
+        return inflater.inflate(R.layout.qr_camera, container, false);
+        //return super.onCreateView(inflater,container,savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        // TODO: Implement this method
+        super.onViewCreated(view, savedInstanceState);
+        hasSurface = false;
         inactivityTimer = new InactivityTimer(getActivity());
         CameraManager.init(getActivity());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (getActivity().checkSelfPermission(Manifest.permission.CAMERA)
-				!= PackageManager.PERMISSION_GRANTED) {
+                    != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.CAMERA},
-								   REQUEST_PERMISSION_CAMERA);
+                        REQUEST_PERMISSION_CAMERA);
             }
         }
-					
-			viewfinderView = (ViewfinderView)view. findViewById(R.id.viewfinder_view);
-			flashIbtn = (ImageButton)view. findViewById(R.id.flash_ibtn);		
-			flashIbtn.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if (flashLightOpen) {
-							flashIbtn.setImageResource(R.drawable.ic_flash_off_white_24dp);
-						} else {
-							flashIbtn.setImageResource(R.drawable.ic_flash_on_white_24dp);
-						}
-						toggleFlashLight();
-					}
-				});
-	}
-	
+
+        viewfinderView = (ViewfinderView) view.findViewById(R.id.viewfinder_view);
+        flashIbtn = (ImageButton) view.findViewById(R.id.flash_ibtn);
+        flashIbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flashLightOpen) {
+                    flashIbtn.setImageResource(R.drawable.ic_flash_off_white_24dp);
+                } else {
+                    flashIbtn.setImageResource(R.drawable.ic_flash_on_white_24dp);
+                }
+                toggleFlashLight();
+            }
+        });
+    }
+
 
     @Override
     public void onResume() {
         super.onResume();
-        SurfaceView surfaceView = (SurfaceView)this.getView().findViewById(R.id.preview_view);
+        SurfaceView surfaceView = (SurfaceView) this.getView().findViewById(R.id.preview_view);
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
         if (hasSurface) {
             initCamera(surfaceHolder);
@@ -116,7 +116,7 @@ public class cameraReader extends Fragment implements Callback {
         characterSet = null;
 
         playBeep = true;
-        final AudioManager audioService = (AudioManager)getActivity(). getSystemService(getActivity().AUDIO_SERVICE);
+        final AudioManager audioService = (AudioManager) getActivity().getSystemService(getActivity().AUDIO_SERVICE);
         if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
             playBeep = false;
         }
@@ -156,7 +156,7 @@ public class cameraReader extends Fragment implements Callback {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                         //       mActivity.finish();
+                                //       mActivity.finish();
                             }
                         })
                         .show();
@@ -184,24 +184,24 @@ public class cameraReader extends Fragment implements Callback {
         } else {
             if (mDialog == null) {
                 mDialog = new AlertDialog.Builder(getActivity())
-					.setMessage(resultString)
-					.setPositiveButton("确定", null)
-					.setNeutralButton("复制文本",new DialogInterface.OnClickListener() {
+                        .setMessage(resultString)
+                        .setPositiveButton("确定", null)
+                        .setNeutralButton("复制文本", new DialogInterface.OnClickListener() {
 
-						@Override
-						public void onClick(DialogInterface p1,int p2){
-							// TODO: Implement this method
-							android.content.ClipboardManager clipboardManager = (android.content.ClipboardManager)getActivity(). getSystemService(Context.CLIPBOARD_SERVICE);
-							ClipData clipData = ClipData.newPlainText("text",resultString);
-							clipboardManager.setPrimaryClip(clipData);
-						}
-					}).create();
+                            @Override
+                            public void onClick(DialogInterface p1, int p2) {
+                                // TODO: Implement this method
+                                android.content.ClipboardManager clipboardManager = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clipData = ClipData.newPlainText("text", resultString);
+                                clipboardManager.setPrimaryClip(clipData);
+                            }
+                        }).create();
                 mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-						@Override
-						public void onDismiss(DialogInterface dialog) {
-							restartPreview();
-						}
-					});
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        restartPreview();
+                    }
+                });
             }
             if (!mDialog.isShowing()) {
                 mDialog.setMessage(resultString);
@@ -210,7 +210,6 @@ public class cameraReader extends Fragment implements Callback {
         }
     }
 
-    
 
     protected void setViewfinderView(ViewfinderView view) {
         viewfinderView = view;
@@ -229,6 +228,7 @@ public class cameraReader extends Fragment implements Callback {
 
     /**
      * 设置闪光灯是否打开
+     *
      * @param open
      */
     public void setFlashLightOpen(boolean open) {
@@ -240,6 +240,7 @@ public class cameraReader extends Fragment implements Callback {
 
     /**
      * 当前散光灯是否打开
+     *
      * @return
      */
     public boolean isFlashLightOpen() {
@@ -249,7 +250,7 @@ public class cameraReader extends Fragment implements Callback {
     /**
      * 打开相册
      */
-    
+
 
     private void initCamera(SurfaceHolder surfaceHolder) {
         try {
@@ -336,7 +337,7 @@ public class cameraReader extends Fragment implements Callback {
             mediaPlayer.start();
         }
         if (vibrate) {
-            Vibrator vibrator = (Vibrator)getActivity(). getSystemService(getActivity().VIBRATOR_SERVICE);
+            Vibrator vibrator = (Vibrator) getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
             vibrator.vibrate(VIBRATE_DURATION);
         }
     }
