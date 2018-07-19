@@ -41,6 +41,7 @@ public class awesomeCreator extends Fragment {
 	private CheckBox ckbBinarize;
 	private EditText etBinarizeThreshold;
 	private Button btnSave;
+	Bitmap bmp=null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -129,9 +130,9 @@ public class awesomeCreator extends Fragment {
 				public void onClick(View p1){
 					// TODO: Implement this method
 					try{
-						String s=QRCode.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/AwesomeQR"+SystemClock.elapsedRealtime()+".png",backgroundImage);
+						String s=QRCode.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/AwesomeQR"+SystemClock.elapsedRealtime()+".png",bmp);
 						Toast.makeText(getActivity().getApplicationContext(),"已保存至"+s,Toast.LENGTH_LONG).show();
-						getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.parse(s)));//更新图库
+						getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
 					}catch(IOException e){
 						Toast.makeText(getActivity().getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
 					}
@@ -192,6 +193,7 @@ public class awesomeCreator extends Fragment {
 						@Override
 						public void run() {
 							qrCodeImageView.setImageBitmap(b);
+							bmp=b;
 							scrollView.post(new Runnable() {
 								@Override
 								public void run() {

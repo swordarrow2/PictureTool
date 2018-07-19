@@ -27,6 +27,7 @@ public class logoCreator extends Fragment{
 	Button btnImg;
 	Button btnCreate;
 	Button btnSave;
+	Bitmap bmp=null;
 	private Bitmap backgroundImage = null;
 	private final int SELECT_FILE_REQUEST_CODE = 822;
 	@Override
@@ -59,12 +60,13 @@ public class logoCreator extends Fragment{
 				@Override
 				public void onClick(View p1){
 					// TODO: Implement this method
-					qrcode5.setImageBitmap(QRCode.createLogoQR(
-											   0xff37b19e,
-											   0xffffffff,
-											   et.getText().toString()==null||et.getText().toString().equals("")?getActivity().getResources().getString(R.string.Makito_loves_Kafuu_Chino):et.getText().toString(),
-											   500, 
-											   backgroundImage));
+					bmp=QRCode.createLogoQR(
+						0xff37b19e,
+						0xffffffff,
+						et.getText().toString()==null||et.getText().toString().equals("")?getActivity().getResources().getString(R.string.Makito_loves_Kafuu_Chino):et.getText().toString(),
+						500, 
+						backgroundImage);
+					qrcode5.setImageBitmap(bmp);
 				}
 			});		
 		btnSave.setOnClickListener(new OnClickListener(){
@@ -73,9 +75,9 @@ public class logoCreator extends Fragment{
 				public void onClick(View p1){
 					// TODO: Implement this method
 					try{
-						String s=QRCode.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/LogoQR"+SystemClock.elapsedRealtime()+".png",backgroundImage);
+						String s=QRCode.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/LogoQR"+SystemClock.elapsedRealtime()+".png",bmp);
 						Toast.makeText(getActivity().getApplicationContext(),"已保存至"+s,Toast.LENGTH_LONG).show();
-						getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.parse(s)));//更新图库
+						getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
 					}catch(IOException e){
 						Toast.makeText(getActivity().getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
 					}
