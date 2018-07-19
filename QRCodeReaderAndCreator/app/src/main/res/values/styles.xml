@@ -11,12 +11,12 @@
     </style>
 
 
-    <style name="AppTheme3" parent="android:Theme.Holo.Light.DarkActionBar">
+    <style name="AppTheme3" parent="android:style/Theme.Material.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/ActionBar</item>
     </style>
 
     <style name="ActionBar" parent="android:Widget.ActionBar">
-        <item name="android:background">@color/actionbar_color</item>
+        <item name="android:background">@color/colorPrimary</item>
         <item name="android:icon">@android:color/transparent</item>
         <item name="android:titleTextStyle">@style/ActionBar.TitleText</item>
     </style>

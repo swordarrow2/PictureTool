@@ -76,7 +76,7 @@ public class QRCode {
      * @param mBitmap
      * @return
      */
-    public static Bitmap createLogoQR(String text, int size, Bitmap mBitmap) {
+    public static Bitmap createLogoQR(int true_dot_argb,int false_dot_argb,String text, int size, Bitmap mBitmap) {
         try {
             IMAGE_HALFWIDTH = size / 10;
             Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
@@ -116,9 +116,9 @@ public class QRCode {
                                 + IMAGE_HALFWIDTH, y - halfH + IMAGE_HALFWIDTH);
                     } else {
                         if (bitMatrix.get(x, y)) {
-                            pixels[y * size + x] = 0xff37b19e;
+                            pixels[y * size + x] = true_dot_argb;
                         } else {
-                            pixels[y * size + x] = 0xffffffff;
+                            pixels[y * size + x] = false_dot_argb;
                         }
                     }
                 }
