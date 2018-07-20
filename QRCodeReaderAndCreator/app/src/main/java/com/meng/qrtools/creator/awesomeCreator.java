@@ -139,6 +139,10 @@ public class awesomeCreator extends Fragment {
 				}
 			});
 	}
+	
+	public void setDataStr(String s){
+		etContents.setText(s);
+	}
 	@Override
 	public void onResume() {
 		super.onResume();

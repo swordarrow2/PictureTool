@@ -17,9 +17,9 @@
     <string name="_800">800</string>
     <string name="_20">20</string>
     <string name="_0_3">0.3</string>
-    <string name="colordark_true_dots_dddddd">暗点颜色 (真值点, #rrggbb/#rgb)</string>
+    <string name="colordark_true_dots_dddddd">暗点颜色 (真值点, #rrggbb)</string>
     <string name="colordark">暗颜色</string>
-    <string name="colorlight_false_dots_dddddd">亮点颜色 (假值点, #rrggbb/#rgb)</string>
+    <string name="colorlight_false_dots_dddddd">亮点颜色 (假值点, #rrggbb)</string>
     <string name="colorlight">亮颜色</string>
     <string name="select_background_image">选择背景图</string>
     <string name="remove_background_image">移除背景图</string>

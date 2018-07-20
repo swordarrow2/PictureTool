@@ -24,10 +24,13 @@ import com.meng.qrtools.lib.materialDesign.DrawerArrowDrawable;
 import com.meng.qrtools.reader.cameraReader;
 import com.meng.qrtools.reader.galleryReader;
 import com.meng.qrtools.welcome;
+import android.widget.*;
 
 public class MainActivity2 extends Activity {
+	public static MainActivity2 instence;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+	private RelativeLayout rt;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
     private boolean drawerArrowColor;
@@ -35,28 +38,40 @@ public class MainActivity2 extends Activity {
     private welcome welcomeFragment;
     private creator creatorFragment;
     private logoCreator logoCreatorFragment;
-    private awesomeCreator awesomeCreatorFragment;
-    private cameraReader cameraReaderFragment;
-    private galleryReader galleryReaderFragment;
+    public awesomeCreator awesomeCreatorFragment;
+    public cameraReader cameraReaderFragment;
+    public galleryReader galleryReaderFragment;
     private about aboutFragment;
+
+	public FragmentManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+		instence=this;
         ActionBar ab = getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setHomeButtonEnabled(true);
-        final FragmentManager manager = getFragmentManager();
+          manager = getFragmentManager();
 
         FragmentTransaction transactionWelcome = manager.beginTransaction();
         if (welcomeFragment == null) {
             welcomeFragment = new welcome();
             transactionWelcome.add(R.id.main_activityLinearLayout, welcomeFragment);
         }
-        hideFragment(transactionWelcome);
+		FragmentTransaction transactionAwesomeCreatorFragment = manager.beginTransaction();
+		if (awesomeCreatorFragment == null) {
+			awesomeCreatorFragment = new awesomeCreator();
+			transactionAwesomeCreatorFragment.add(R.id.main_activityLinearLayout, awesomeCreatorFragment);
+		}
+     //   hideFragment(transactionWelcome);
+	//	transactionAwesomeCreatorFragment.show(awesomeCreatorFragment);
+		hideFragment(transactionAwesomeCreatorFragment);
+		transactionAwesomeCreatorFragment.commit();
         transactionWelcome.show(welcomeFragment);
         transactionWelcome.commit();
+		rt=(RelativeLayout)findViewById(R.id.right_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.navdrawer);
         drawerArrow = new DrawerArrowDrawable(this) {
@@ -170,7 +185,7 @@ public class MainActivity2 extends Activity {
                         FragmentTransaction transactionCameraReaderFragment = manager.beginTransaction();
                         if (cameraReaderFragment == null) {
                             cameraReaderFragment = new cameraReader();
-                            transactionCameraReaderFragment.add(R.id.main_activityLinearLayout, cameraReaderFragment);
+                            transactionCameraReaderFragment.add(R.id.main_activityLinearLayout, cameraReaderFragment,"cameraReader");
                         }
                         hideFragment(transactionCameraReaderFragment);
                         transactionCameraReaderFragment.show(cameraReaderFragment);
@@ -267,7 +282,7 @@ public class MainActivity2 extends Activity {
     }
 
 
-    private void hideFragment(FragmentTransaction transaction) {
+    public void hideFragment(FragmentTransaction transaction) {
         if (welcomeFragment != null) {
             transaction.hide(welcomeFragment);
         }

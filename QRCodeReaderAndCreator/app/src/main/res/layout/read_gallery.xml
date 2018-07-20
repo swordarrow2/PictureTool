@@ -20,5 +20,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/click_to_select_image" />
+	<Button
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:id="@+id/read_galleryButtonQR"
+		android:text="生成AwesomeQR" />
 
 </LinearLayout>

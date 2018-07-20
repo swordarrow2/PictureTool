@@ -37,13 +37,16 @@ import com.meng.qrtools.reader.qrcodelib.zxing.view.ViewfinderView;
 
 import java.io.IOException;
 import java.util.Vector;
+import com.meng.qrtools.creator.*;
+import android.app.*;
+import com.meng.*;
 
 /**
  * Initial the camera
  *
  * @author Ryan.Tang
  */
-public class cameraReader extends Fragment implements Callback {
+public class cameraReader extends Fragment implements Callback{
 
     private final int REQUEST_PERMISSION_CAMERA = 1000;
     private CaptureActivityHandler handler;
@@ -64,102 +67,102 @@ public class cameraReader extends Fragment implements Callback {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
         // TODO: Implement this method
-        return inflater.inflate(R.layout.qr_camera, container, false);
+        return inflater.inflate(R.layout.qr_camera,container,false);
         //return super.onCreateView(inflater,container,savedInstanceState);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view,Bundle savedInstanceState){
         // TODO: Implement this method
-        super.onViewCreated(view, savedInstanceState);
-        hasSurface = false;
-        inactivityTimer = new InactivityTimer(getActivity());
+        super.onViewCreated(view,savedInstanceState);
+        hasSurface=false;
+        inactivityTimer=new InactivityTimer(getActivity());
         CameraManager.init(getActivity());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (getActivity().checkSelfPermission(Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED) {
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            if(getActivity().checkSelfPermission(Manifest.permission.CAMERA)
+			   !=PackageManager.PERMISSION_GRANTED){
                 requestPermissions(new String[]{Manifest.permission.CAMERA},
-                        REQUEST_PERMISSION_CAMERA);
+								   REQUEST_PERMISSION_CAMERA);
             }
         }
 
-        viewfinderView = (ViewfinderView) view.findViewById(R.id.viewfinder_view);
-        flashIbtn = (ImageButton) view.findViewById(R.id.flash_ibtn);
+        viewfinderView=(ViewfinderView) view.findViewById(R.id.viewfinder_view);
+        flashIbtn=(ImageButton) view.findViewById(R.id.flash_ibtn);
         flashIbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flashLightOpen) {
-                    flashIbtn.setImageResource(R.drawable.ic_flash_off_white_24dp);
-                } else {
-                    flashIbtn.setImageResource(R.drawable.ic_flash_on_white_24dp);
-                }
-                toggleFlashLight();
-            }
-        });
+				@Override
+				public void onClick(View v){
+					if(flashLightOpen){
+						flashIbtn.setImageResource(R.drawable.ic_flash_off_white_24dp);
+					}else{
+						flashIbtn.setImageResource(R.drawable.ic_flash_on_white_24dp);
+					}
+					toggleFlashLight();
+				}
+			});
     }
 
 
     @Override
-    public void onResume() {
+    public void onResume(){
         super.onResume();
         SurfaceView surfaceView = (SurfaceView) this.getView().findViewById(R.id.preview_view);
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
-        if (hasSurface) {
+        if(hasSurface){
             initCamera(surfaceHolder);
-        } else {
+        }else{
             surfaceHolder.addCallback(this);
             surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         }
-        decodeFormats = null;
-        characterSet = null;
+        decodeFormats=null;
+        characterSet=null;
 
-        playBeep = true;
+        playBeep=true;
         final AudioManager audioService = (AudioManager) getActivity().getSystemService(getActivity().AUDIO_SERVICE);
-        if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
-            playBeep = false;
+        if(audioService.getRingerMode()!=AudioManager.RINGER_MODE_NORMAL){
+            playBeep=false;
         }
         initBeepSound();
-        vibrate = true;
+        vibrate=true;
     }
 
     @Override
-    public void onPause() {
+    public void onPause(){
         super.onPause();
-        if (handler != null) {
+        if(handler!=null){
             handler.quitSynchronously();
-            handler = null;
+            handler=null;
         }
-        if (flashIbtn != null) {
+        if(flashIbtn!=null){
             flashIbtn.setImageResource(R.drawable.ic_flash_off_white_24dp);
         }
         CameraManager.get().closeDriver();
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(){
         inactivityTimer.shutdown();
         super.onDestroy();
     }
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults.length > 0 && requestCode == REQUEST_PERMISSION_CAMERA) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+    public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults){
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        if(grantResults.length>0&&requestCode==REQUEST_PERMISSION_CAMERA){
+            if(grantResults[0]!=PackageManager.PERMISSION_GRANTED){
                 // 未获得Camera权限
                 new AlertDialog.Builder(getActivity())
-                        .setTitle("提示")
-                        .setMessage("请在系统设置中为App开启摄像头权限后重试")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //       mActivity.finish();
-                            }
-                        })
-                        .show();
+					.setTitle("提示")
+					.setMessage("请在系统设置中为App开启摄像头权限后重试")
+					.setPositiveButton("确定",new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,int which){
+							//       mActivity.finish();
+						}
+					})
+					.show();
             }
         }
     }
@@ -170,40 +173,52 @@ public class cameraReader extends Fragment implements Callback {
      * @param result
      * @param barcode
      */
-    public void handleDecode(Result result, Bitmap barcode) {
+    public void handleDecode(Result result,Bitmap barcode){
         inactivityTimer.onActivity();
         playBeepSoundAndVibrate();
         String resultString = result.getText();
         handleResult(resultString);
     }
 
-    public void handleResult(final String resultString) {
-        if (TextUtils.isEmpty(resultString)) {
-            Toast.makeText(getActivity(), "string.scan_failed", Toast.LENGTH_SHORT).show();
+    public void handleResult(final String resultString){
+        if(TextUtils.isEmpty(resultString)){
+            Toast.makeText(getActivity(),"string.scan_failed",Toast.LENGTH_SHORT).show();
             restartPreview();
-        } else {
-            if (mDialog == null) {
-                mDialog = new AlertDialog.Builder(getActivity())
-                        .setMessage(resultString)
-                        .setPositiveButton("确定", null)
-                        .setNeutralButton("复制文本", new DialogInterface.OnClickListener() {
+        }else{
+            if(mDialog==null){
+                mDialog=new AlertDialog.Builder(getActivity())
+					.setMessage(resultString)
+					.setPositiveButton("确定",null)
+					.setNeutralButton("复制文本",new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface p1, int p2) {
-                                // TODO: Implement this method
-                                android.content.ClipboardManager clipboardManager = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                                ClipData clipData = ClipData.newPlainText("text", resultString);
-                                clipboardManager.setPrimaryClip(clipData);
-                            }
-                        }).create();
+						@Override
+						public void onClick(DialogInterface p1,int p2){
+							// TODO: Implement this method
+							android.content.ClipboardManager clipboardManager = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+							ClipData clipData = ClipData.newPlainText("text",resultString);
+							clipboardManager.setPrimaryClip(clipData);
+						}
+					})
+					.setNegativeButton("生成AwesomeQR",new DialogInterface.OnClickListener(){
+
+						@Override
+						public void onClick(DialogInterface p1,int p2){
+							// TODO: Implement this method	
+							FragmentTransaction transaction =getActivity(). getFragmentManager().beginTransaction();
+							MainActivity2.instence.awesomeCreatorFragment.setDataStr(resultString);				
+							transaction.hide(MainActivity2.instence.cameraReaderFragment);
+							transaction.show(MainActivity2.instence.awesomeCreatorFragment);
+							transaction.commit();
+						}
+					}).create();
                 mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        restartPreview();
-                    }
-                });
+						@Override
+						public void onDismiss(DialogInterface dialog){
+							restartPreview();
+						}
+					});
             }
-            if (!mDialog.isShowing()) {
+            if(!mDialog.isShowing()){
                 mDialog.setMessage(resultString);
                 mDialog.show();
             }
@@ -211,17 +226,17 @@ public class cameraReader extends Fragment implements Callback {
     }
 
 
-    protected void setViewfinderView(ViewfinderView view) {
-        viewfinderView = view;
+    protected void setViewfinderView(ViewfinderView view){
+        viewfinderView=view;
     }
 
     /**
      * 切换散光灯状态
      */
-    public void toggleFlashLight() {
-        if (flashLightOpen) {
+    public void toggleFlashLight(){
+        if(flashLightOpen){
             setFlashLightOpen(false);
-        } else {
+        }else{
             setFlashLightOpen(true);
         }
     }
@@ -231,10 +246,10 @@ public class cameraReader extends Fragment implements Callback {
      *
      * @param open
      */
-    public void setFlashLightOpen(boolean open) {
-        if (flashLightOpen == open) return;
+    public void setFlashLightOpen(boolean open){
+        if(flashLightOpen==open) return;
 
-        flashLightOpen = !flashLightOpen;
+        flashLightOpen=!flashLightOpen;
         CameraManager.get().setFlashLight(open);
     }
 
@@ -243,7 +258,7 @@ public class cameraReader extends Fragment implements Callback {
      *
      * @return
      */
-    public boolean isFlashLightOpen() {
+    public boolean isFlashLightOpen(){
         return flashLightOpen;
     }
 
@@ -252,91 +267,91 @@ public class cameraReader extends Fragment implements Callback {
      */
 
 
-    private void initCamera(SurfaceHolder surfaceHolder) {
-        try {
+    private void initCamera(SurfaceHolder surfaceHolder){
+        try{
             CameraManager.get().openDriver(surfaceHolder);
-        } catch (IOException ioe) {
+        }catch(IOException ioe){
             return;
-        } catch (RuntimeException e) {
+        }catch(RuntimeException e){
             return;
         }
-        if (handler == null) {
-            handler = new CaptureActivityHandler(this, decodeFormats,
-                    characterSet);
+        if(handler==null){
+            handler=new CaptureActivityHandler(this,decodeFormats,
+											   characterSet);
         }
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format,
-                               int width, int height) {
+    public void surfaceChanged(SurfaceHolder holder,int format,
+                               int width,int height){
     }
 
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        if (!hasSurface) {
-            hasSurface = true;
+    public void surfaceCreated(SurfaceHolder holder){
+        if(!hasSurface){
+            hasSurface=true;
             initCamera(holder);
         }
 
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        hasSurface = false;
+    public void surfaceDestroyed(SurfaceHolder holder){
+        hasSurface=false;
     }
 
-    public ViewfinderView getViewfinderView() {
+    public ViewfinderView getViewfinderView(){
         return viewfinderView;
     }
 
-    public Handler getHandler() {
+    public Handler getHandler(){
         return handler;
     }
 
-    public void drawViewfinder() {
+    public void drawViewfinder(){
         viewfinderView.drawViewfinder();
     }
 
-    protected void restartPreview() {
+    protected void restartPreview(){
         // 当界面跳转时 handler 可能为null
-        if (handler != null) {
+        if(handler!=null){
             Message restartMessage = Message.obtain();
-            restartMessage.what = R.id.restart_preview;
+            restartMessage.what=R.id.restart_preview;
             handler.handleMessage(restartMessage);
         }
     }
 
-    private void initBeepSound() {
-        if (playBeep && mediaPlayer == null) {
+    private void initBeepSound(){
+        if(playBeep&&mediaPlayer==null){
             // The volume on STREAM_SYSTEM is not adjustable, and users found it
             // too loud,
             // so we now play on the music stream.
             getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
-            mediaPlayer = new MediaPlayer();
+            mediaPlayer=new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setOnCompletionListener(beepListener);
 
             AssetFileDescriptor file = getResources().openRawResourceFd(
-                    R.raw.beep);
-            try {
+				R.raw.beep);
+            try{
                 mediaPlayer.setDataSource(file.getFileDescriptor(),
-                        file.getStartOffset(), file.getLength());
+										  file.getStartOffset(),file.getLength());
                 file.close();
-                mediaPlayer.setVolume(BEEP_VOLUME, BEEP_VOLUME);
+                mediaPlayer.setVolume(BEEP_VOLUME,BEEP_VOLUME);
                 mediaPlayer.prepare();
-            } catch (IOException e) {
-                mediaPlayer = null;
+            }catch(IOException e){
+                mediaPlayer=null;
             }
         }
     }
 
     private static final long VIBRATE_DURATION = 200L;
 
-    private void playBeepSoundAndVibrate() {
-        if (playBeep && mediaPlayer != null) {
+    private void playBeepSoundAndVibrate(){
+        if(playBeep&&mediaPlayer!=null){
             mediaPlayer.start();
         }
-        if (vibrate) {
+        if(vibrate){
             Vibrator vibrator = (Vibrator) getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
             vibrator.vibrate(VIBRATE_DURATION);
         }
@@ -346,7 +361,7 @@ public class cameraReader extends Fragment implements Callback {
      * When the beep has finished playing, rewind to queue up another one.
      */
     private final OnCompletionListener beepListener = new OnCompletionListener() {
-        public void onCompletion(MediaPlayer mediaPlayer) {
+        public void onCompletion(MediaPlayer mediaPlayer){
             mediaPlayer.seekTo(0);
         }
     };
