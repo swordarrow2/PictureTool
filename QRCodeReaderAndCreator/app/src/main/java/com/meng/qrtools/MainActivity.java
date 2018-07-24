@@ -1,11 +1,10 @@
 package com.meng.qrtools;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-
-import com.meng.MainActivity2;
-import com.meng.qrtools.lib.exception.ExceptionCatcher;
+import android.app.*;
+import android.content.*;
+import android.os.*;
+import com.meng.*;
+import com.meng.qrtools.lib.exception.*;
 
 public class MainActivity extends Activity {
     @Override

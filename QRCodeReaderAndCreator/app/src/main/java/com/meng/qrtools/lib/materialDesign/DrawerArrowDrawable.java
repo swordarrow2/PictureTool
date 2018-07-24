@@ -1,15 +1,9 @@
 package com.meng.qrtools.lib.materialDesign;
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.PixelFormat;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-
-import com.meng.qrtools.R;
+import android.content.*;
+import android.graphics.*;
+import android.graphics.drawable.*;
+import com.meng.qrtools.*;
 
 public abstract class DrawerArrowDrawable extends Drawable {
     private static final float ARROW_HEAD_ANGLE = (float) Math.toRadians(45.0D);

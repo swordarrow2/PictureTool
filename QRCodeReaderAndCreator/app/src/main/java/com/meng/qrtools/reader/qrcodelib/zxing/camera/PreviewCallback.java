@@ -16,11 +16,12 @@
 
 package com.meng.qrtools.reader.qrcodelib.zxing.camera;
 
-import android.graphics.Point;
+import android.graphics.*;
+import android.hardware.*;
+import android.os.*;
+import android.util.*;
+
 import android.hardware.Camera;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 
 final class PreviewCallback implements Camera.PreviewCallback {
 

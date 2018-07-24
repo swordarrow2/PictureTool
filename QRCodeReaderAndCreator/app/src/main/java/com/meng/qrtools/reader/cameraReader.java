@@ -1,45 +1,28 @@
 package com.meng.qrtools.reader;
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.content.ClipData;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.content.res.AssetFileDescriptor;
-import android.graphics.Bitmap;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Vibrator;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
-import android.view.SurfaceHolder.Callback;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.Toast;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.Result;
-import com.meng.qrtools.R;
-import com.meng.qrtools.reader.qrcodelib.zxing.camera.CameraManager;
-import com.meng.qrtools.reader.qrcodelib.zxing.decoding.CaptureActivityHandler;
-import com.meng.qrtools.reader.qrcodelib.zxing.decoding.InactivityTimer;
-import com.meng.qrtools.reader.qrcodelib.zxing.view.ViewfinderView;
-
-import java.io.IOException;
-import java.util.Vector;
-import com.meng.qrtools.creator.*;
+import android.*;
 import android.app.*;
+import android.content.*;
+import android.content.pm.*;
+import android.content.res.*;
+import android.graphics.*;
+import android.media.*;
+import android.media.MediaPlayer.*;
+import android.os.*;
+import android.text.*;
+import android.view.*;
+import android.view.SurfaceHolder.*;
+import android.widget.*;
+import com.google.zxing.*;
 import com.meng.*;
+import com.meng.qrtools.*;
+import com.meng.qrtools.reader.qrcodelib.zxing.camera.*;
+import com.meng.qrtools.reader.qrcodelib.zxing.decoding.*;
+import com.meng.qrtools.reader.qrcodelib.zxing.view.*;
+import java.io.*;
+import java.util.*;
+
+import com.meng.qrtools.R;
 
 /**
  * Initial the camera

@@ -1,10 +1,10 @@
 package com.meng.qrtools.reader.qrcodelib.common;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
+import android.app.*;
+import android.content.*;
+import android.graphics.*;
+import android.net.*;
+import android.provider.*;
 
 /**
  * Created by xdj on 16/8/28.

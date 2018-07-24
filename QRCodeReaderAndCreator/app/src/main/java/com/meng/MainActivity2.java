@@ -1,30 +1,15 @@
 package com.meng;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.view.KeyEvent;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import com.meng.qrtools.R;
-import com.meng.qrtools.about;
-import com.meng.qrtools.creator.awesomeCreator;
-import com.meng.qrtools.creator.creator;
-import com.meng.qrtools.creator.logoCreator;
-import com.meng.qrtools.lib.materialDesign.ActionBarDrawerToggle;
-import com.meng.qrtools.lib.materialDesign.DrawerArrowDrawable;
-import com.meng.qrtools.reader.cameraReader;
-import com.meng.qrtools.reader.galleryReader;
-import com.meng.qrtools.welcome;
+import android.app.*;
+import android.content.res.*;
+import android.os.*;
+import android.support.v4.widget.*;
+import android.view.*;
 import android.widget.*;
+import com.meng.qrtools.*;
+import com.meng.qrtools.creator.*;
+import com.meng.qrtools.lib.materialDesign.*;
+import com.meng.qrtools.reader.*;
 
 public class MainActivity2 extends Activity {
 	public static MainActivity2 instence;

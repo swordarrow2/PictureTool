@@ -16,25 +16,17 @@
 
 package com.meng.qrtools.reader.qrcodelib.zxing.view;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.text.TextUtils;
-import android.util.AttributeSet;
-import android.view.View;
-
-import com.google.zxing.ResultPoint;
-import com.meng.qrtools.R;
-import com.meng.qrtools.reader.qrcodelib.zxing.camera.CameraManager;
-
-import java.util.Collection;
-import java.util.HashSet;
+import android.content.*;
+import android.content.pm.*;
+import android.content.res.*;
+import android.graphics.*;
+import android.text.*;
+import android.util.*;
+import android.view.*;
+import com.google.zxing.*;
+import com.meng.qrtools.*;
+import com.meng.qrtools.reader.qrcodelib.zxing.camera.*;
+import java.util.*;
 
 
 /**

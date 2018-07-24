@@ -1,21 +1,13 @@
 package com.meng.qrtools.creator;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.*;
-
-import android.widget.ImageView;
-
-import com.meng.qrtools.R;
 import android.app.*;
+import android.content.*;
+import android.graphics.*;
+import android.net.*;
+import android.os.*;
 import android.view.*;
-import android.widget.Toast;
-import android.widget.*;
 import android.view.View.*;
+import android.widget.*;
+import com.meng.qrtools.*;
 import java.io.*;
 
 public class creator extends Fragment{

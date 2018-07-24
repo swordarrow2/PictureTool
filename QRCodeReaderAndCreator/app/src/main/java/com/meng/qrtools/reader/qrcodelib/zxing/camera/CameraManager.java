@@ -16,22 +16,19 @@
 
 package com.meng.qrtools.reader.qrcodelib.zxing.camera;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.PixelFormat;
-import android.graphics.Point;
-import android.graphics.Rect;
+import android.*;
+import android.content.*;
+import android.content.pm.*;
+import android.graphics.*;
+import android.hardware.*;
+import android.os.*;
+import android.util.*;
+import android.view.*;
+import com.meng.qrtools.reader.qrcodelib.zxing.view.*;
+import java.io.*;
+import java.util.*;
+
 import android.hardware.Camera;
-import android.os.Build;
-import android.os.Handler;
-import android.util.Log;
-import android.view.SurfaceHolder;
-
-import java.io.IOException;
-import java.util.List;
-
-import com.meng.qrtools.reader.qrcodelib.zxing.view.ViewfinderView;
 
 /**
  * This object wraps the Camera service object and expects to be the only one talking to it. The

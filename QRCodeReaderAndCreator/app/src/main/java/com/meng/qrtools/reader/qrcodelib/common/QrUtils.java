@@ -1,23 +1,10 @@
 package com.meng.qrtools.reader.qrcodelib.common;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.DecodeHintType;
-import com.google.zxing.MultiFormatReader;
-import com.google.zxing.NotFoundException;
-import com.google.zxing.PlanarYUVLuminanceSource;
-import com.google.zxing.ReaderException;
-import com.google.zxing.Result;
-import com.google.zxing.common.GlobalHistogramBinarizer;
-import com.google.zxing.common.HybridBinarizer;
-import com.google.zxing.qrcode.QRCodeReader;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Hashtable;
+import android.graphics.*;
+import com.google.zxing.*;
+import com.google.zxing.common.*;
+import com.google.zxing.qrcode.*;
+import java.util.*;
 
 /**
  * Created by xingli on 12/25/15.

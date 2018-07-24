@@ -10,19 +10,13 @@ package com.meng.qrtools.creator;
  * Created by vivian on 2016/11/28.
  */
 
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-
-import java.util.Hashtable;
+import android.graphics.*;
+import com.google.zxing.*;
+import com.google.zxing.common.*;
+import com.google.zxing.qrcode.*;
+import com.google.zxing.qrcode.decoder.*;
 import java.io.*;
-import android.os.*;
+import java.util.*;
 
 public class QRCode{
     private static int IMAGE_HALFWIDTH = 50;

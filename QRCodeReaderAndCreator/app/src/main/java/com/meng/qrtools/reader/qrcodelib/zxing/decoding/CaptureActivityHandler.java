@@ -24,7 +24,7 @@ import android.os.*;
 import android.util.*;
 import com.google.zxing.*;
 import com.meng.qrtools.*;
-import com.meng.qrtools.reader.cameraReader;
+import com.meng.qrtools.reader.*;
 import com.meng.qrtools.reader.qrcodelib.zxing.camera.*;
 import com.meng.qrtools.reader.qrcodelib.zxing.view.*;
 import java.util.*;

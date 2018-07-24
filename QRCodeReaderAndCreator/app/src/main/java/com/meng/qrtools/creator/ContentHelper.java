@@ -1,14 +1,11 @@
 package com.meng.qrtools.creator;
 
-import android.annotation.TargetApi;
-import android.content.ContentUris;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
+import android.annotation.*;
+import android.content.*;
+import android.database.*;
+import android.net.*;
+import android.os.*;
+import android.provider.*;
 
 public class ContentHelper {
     /**

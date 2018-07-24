@@ -1,33 +1,22 @@
 package com.meng.qrtools.reader;
 
-
-import android.Manifest;
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.webkit.URLUtil;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.zxing.Result;
-import com.meng.qrtools.reader.qrcodelib.common.ActionUtils;
-import com.meng.qrtools.reader.qrcodelib.common.QrUtils;
-import com.meng.*;
+import android.*;
 import android.app.*;
-import com.meng.qrtools.creator.*;
+import android.content.*;
+import android.content.pm.*;
+import android.database.*;
+import android.graphics.*;
+import android.net.*;
+import android.os.*;
+import android.provider.*;
+import android.text.*;
+import android.view.*;
+import android.view.View.*;
+import android.webkit.*;
+import android.widget.*;
+import com.google.zxing.*;
+import com.meng.*;
+import com.meng.qrtools.reader.qrcodelib.common.*;
 
 public class galleryReader extends Fragment{
     private final int REQUEST_PERMISSION_PHOTO = 1001;

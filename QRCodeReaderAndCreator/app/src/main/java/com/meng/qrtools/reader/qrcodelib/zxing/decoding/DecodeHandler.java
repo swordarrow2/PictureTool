@@ -16,25 +16,16 @@
 
 package com.meng.qrtools.reader.qrcodelib.zxing.decoding;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.util.Log;
-
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.DecodeHintType;
-import com.google.zxing.MultiFormatReader;
-import com.google.zxing.ReaderException;
-import com.google.zxing.Result;
-import com.google.zxing.common.HybridBinarizer;
-
-import java.util.Hashtable;
-
-import com.meng.qrtools.reader.cameraReader;
-import com.meng.qrtools.reader.qrcodelib.zxing.camera.CameraManager;
-import com.meng.qrtools.reader.qrcodelib.zxing.camera.PlanarYUVLuminanceSource;
+import android.os.*;
+import android.util.*;
+import com.google.zxing.*;
+import com.google.zxing.common.*;
 import com.meng.qrtools.*;
+import com.meng.qrtools.reader.*;
+import com.meng.qrtools.reader.qrcodelib.zxing.camera.*;
+import java.util.*;
+
+import com.meng.qrtools.reader.qrcodelib.zxing.camera.PlanarYUVLuminanceSource;
 
 
 final class DecodeHandler extends Handler {
