@@ -23,7 +23,7 @@
 
         </RelativeLayout>
 
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/main_activityLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="这是右边栏"
+            android:text="这都被你发现了"
             android:textColor="@android:color/white"
             android:textSize="24sp" />
     </RelativeLayout>
