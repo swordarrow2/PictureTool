@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="下载">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="bigpicture"
+            android:summaryOff="否"
+            android:summaryOn="是"
+            android:title="下载原图" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="autoInput"
+            android:summaryOff="否"
+            android:summaryOn="是"
+            android:title="自动读取剪贴板中的链接" />
+        <EditTextPreference
+            android:key="zipFolder"
+            android:hint="如果清空，则会在重启时恢复默认路径"
+            android:summary="重启软件时该项设置生效"
+            android:title="文件保存路径" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="deleteZipAfterMakeGif"
+            android:summaryOff="否"
+            android:summaryOn="是"
+            android:title="生成GIF后删除zip压缩包" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="GIF">
+        <EditTextPreference
+            android:dialogTitle="1为原图，数字越大，图片越小"
+            android:key="option"
+            android:title="预览及生成GIF缩放比例" />
+        <EditTextPreference
+            android:key="gifPath"
+            android:hint="如果清空，则会在重启时恢复默认路径"
+            android:summary="重启软件时该项设置生效"
+            android:title="GIF存放路径" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="useJava"
+            android:summary="如果生成GIF时程序崩溃可开启此选项"
+            android:title="兼容模式" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="临时文件">
+        <EditTextPreference
+            android:key="tmpPath"
+            android:hint="如果清空，则会在重启时恢复默认路径"
+            android:summary="重启软件时该项设置生效"
+            android:title="临时文件存放位置" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="cleantemp"
+            android:summaryOff="否"
+            android:summaryOn="是"
+            android:title="停止预览时立刻时清除临时文件" />
+        <Preference
+            android:key="cleannow"
+            android:title="立即清除所有临时文件" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="其他">
+        <Preference
+            android:title="更新内容" >
+            <intent
+                android:targetPackage="com.meng.pixivdownloader"
+                android:targetClass="com.meng.pixivdownloader.newVersion" />
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,25 @@
+<resources>
+    <string name="link">输入Pixiv动态图的链接或ID</string>
+    <string name="download">下载</string>
+    <string name="download_success">下载完成</string>
+    <string name="downloading">正在下载</string>
+    <string name="app_name">PixivDownloader</string>
+    <string name="look_as_web">在网页中查看该链接</string>
+    <string name="look_downloaded">查看已下载的文件</string>
+    <string name="settings">设置</string>
+    <string name="maybe_need_login">读取失败，可能需要登录</string>
+    <string name="file_exist">文件已存在:</string>
+    <string name="gif_width">GIF宽度：</string>
+    <string name="gif_height">GIF高度</string>
+    <string name="gif_delay">间隔</string>
+    <string name="gif_quality">质量</string>
+    <string name="update_content">更新内容</string>
+    <string name="update_content_text_1_4_1">V1.4.1：\n部分UI修改\n\n</string>
+    <string name="update_content_text_1_4">V1.4：\n提高制作GIF时的兼容性\n\n</string>
+    <string name="update_content_text_1_3_2">V1.3.2：\n部分UI修改\n\n</string>
+    <string name="update_content_text_1_3_1">V1.3.1：\n提高兼容性\n\n</string>
+    <string name="update_content_text_1_3">V1.3：\n自定义使用的文件夹\n临时文件控制\n可设置是否自动读取剪贴板中的链接\n部分UI修改\n\n</string>
+    <string name="update_content_text_1_2_1">V1.2.1：\n修正生成的GIF不会出现在图库中的问题\n修正自动填写URL有时导致崩溃的问题\n\n</string>
+    <string name="update_content_text_1_2">V1.2：\n自动读取剪贴板中的链接\n增加了使用PixivID查找图片\n部分UI修改\n\n</string>
+    <string name="update_content_text_1_1">V1.1：\n可以多线程下载并显示进度\n</string>
+</resources>
