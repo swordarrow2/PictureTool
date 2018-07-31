@@ -17,6 +17,7 @@ import com.google.zxing.qrcode.*;
 import com.google.zxing.qrcode.decoder.*;
 import java.io.*;
 import java.util.*;
+import com.google.zxing.pdf417.*;
 
 public class QRCode{
     private static int IMAGE_HALFWIDTH = 50;
@@ -28,7 +29,7 @@ public class QRCode{
      * @return bitmap
      */
     public static Bitmap createQRCode(String text){
-        return createQRCode(text,500);
+        return createQRCode(text,BarcodeFormat.QR_CODE,500);
     }
 
     /**
@@ -38,13 +39,13 @@ public class QRCode{
      * @param size 生成二维码的大小
      * @return bitmap
      */
-    public static Bitmap createQRCode(String text,int size){
+    public static Bitmap createQRCode(String text,BarcodeFormat format,int size){
         try{
             Hashtable<EncodeHintType, String> hints = new Hashtable<>();
-            hints.put(EncodeHintType.CHARACTER_SET,"utf-8");
-            BitMatrix bitMatrix = new QRCodeWriter().encode(text,
-															BarcodeFormat.QR_CODE,size,size,hints);
-            int[] pixels = new int[size*size];
+            hints.put(EncodeHintType.CHARACTER_SET,"UTF-8");
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(text,
+															format,size,size,hints);
+            int[] pixels = new int[bitMatrix.getWidth()*bitMatrix.getHeight()];
             for(int y = 0; y<size; y++){
                 for(int x = 0; x<size; x++){
                     if(bitMatrix.get(x,y)){
