@@ -37,7 +37,7 @@ public class creator extends Fragment{
 					// TODO: Implement this method
 					 b=QRCode.createQRCode(et.getText().toString()==null||et.getText().toString().equals("")?et.getHint().toString():et.getText().toString());
 					qrcode1.setImageBitmap(b);
-					
+					btnSave.setVisibility(View.VISIBLE);
 				}
 			});		
 		btnSave.setOnClickListener(new OnClickListener(){

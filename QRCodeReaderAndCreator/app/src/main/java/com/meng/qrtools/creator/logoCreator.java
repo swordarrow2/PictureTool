@@ -58,6 +58,7 @@ public class logoCreator extends Fragment{
 						500, 
 						backgroundImage);
 					qrcode5.setImageBitmap(bmp);
+					btnSave.setVisibility(View.VISIBLE);
 				}
 			});		
 		btnSave.setOnClickListener(new OnClickListener(){
