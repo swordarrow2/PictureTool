@@ -16,11 +16,9 @@
 
 package com.meng.qrtools.reader.qrcodelib.zxing.camera;
 
-import android.os.IBinder;
-import android.util.Log;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import android.os.*;
+import android.util.*;
+import java.lang.reflect.*;
 
 /**
  * This class is used to activate the weak light on some camera phones (not flash)

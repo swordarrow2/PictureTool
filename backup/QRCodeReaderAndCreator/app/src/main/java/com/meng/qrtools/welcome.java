@@ -1,14 +1,8 @@
 package com.meng.qrtools;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.meng.qrtools.creator.QRCode;
+import android.app.*;
+import android.os.*;
+import android.view.*;
 import android.widget.*;
 
 /**
@@ -16,19 +10,20 @@ import android.widget.*;
  */
 
 public class welcome extends Fragment {
-	TextView tv;
+    TextView tv;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: Implement this method
         return inflater.inflate(R.layout.app_main, container, false);
     }
 
     @Override
-    public void onViewCreated(View view,Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         // TODO: Implement this method
-        super.onViewCreated(view,savedInstanceState);
-		tv=(TextView)view.findViewById(R.id.app_mainTextView);
-		tv.setText("选择想要使用的功能吧");
+        super.onViewCreated(view, savedInstanceState);
+        tv = (TextView) view.findViewById(R.id.app_mainTextView);
+        tv.setText("选择想要使用的功能吧");
     }
-	
+
 }

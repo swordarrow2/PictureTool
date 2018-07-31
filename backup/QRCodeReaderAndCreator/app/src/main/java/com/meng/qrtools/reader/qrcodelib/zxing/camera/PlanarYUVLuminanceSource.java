@@ -16,9 +16,8 @@
 
 package com.meng.qrtools.reader.qrcodelib.zxing.camera;
 
-import android.graphics.Bitmap;
-
-import com.google.zxing.LuminanceSource;
+import android.graphics.*;
+import com.google.zxing.*;
 
 /**
  * This object extends LuminanceSource around an array of YUV data returned from the camera driver,

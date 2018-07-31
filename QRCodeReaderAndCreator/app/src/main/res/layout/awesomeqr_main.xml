@@ -186,6 +186,7 @@
                 android:text="@string/generate" />
 
             <Button
+				android:visibility="gone"
                 android:id="@+id/awesomeqr_mainButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

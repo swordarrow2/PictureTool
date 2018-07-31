@@ -16,8 +16,8 @@
 
 package com.meng.qrtools.reader.qrcodelib.zxing.decoding;
 
-import android.app.Activity;
-import android.content.DialogInterface;
+import android.app.*;
+import android.content.*;
 
 /**
  * Simple listener used to exit the app in a few cases.

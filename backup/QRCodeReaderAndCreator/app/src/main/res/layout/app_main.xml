@@ -2,10 +2,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-	<TextView
-		android:textStyle="bold"
-        android:autoLink="web"
+
+    <TextView
         android:id="@+id/app_mainTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:textStyle="bold" />
 </LinearLayout>

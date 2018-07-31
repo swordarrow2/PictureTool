@@ -16,9 +16,7 @@
 
 package com.meng.qrtools.reader.qrcodelib.zxing.view;
 
-
-import com.google.zxing.ResultPoint;
-import com.google.zxing.ResultPointCallback;
+import com.google.zxing.*;
 
 public final class ViewfinderResultPointCallback implements ResultPointCallback {
 

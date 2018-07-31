@@ -1,23 +1,10 @@
 package com.meng.qrtools.reader.qrcodelib.common;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.DecodeHintType;
-import com.google.zxing.MultiFormatReader;
-import com.google.zxing.NotFoundException;
-import com.google.zxing.PlanarYUVLuminanceSource;
-import com.google.zxing.ReaderException;
-import com.google.zxing.Result;
-import com.google.zxing.common.GlobalHistogramBinarizer;
-import com.google.zxing.common.HybridBinarizer;
-import com.google.zxing.qrcode.QRCodeReader;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Hashtable;
+import android.graphics.*;
+import com.google.zxing.*;
+import com.google.zxing.common.*;
+import com.google.zxing.qrcode.*;
+import java.util.*;
 
 /**
  * Created by xingli on 12/25/15.
@@ -64,7 +51,7 @@ public class QrUtils {
      * RGB转YUV420sp
      *
      * @param yuv420sp inputWidth * inputHeight * 3 / 2
-     * @param argb inputWidth * inputHeight
+     * @param argb     inputWidth * inputHeight
      * @param width
      * @param height
      */
@@ -173,12 +160,12 @@ public class QrUtils {
             hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
             hints.put(DecodeHintType.POSSIBLE_FORMATS, BarcodeFormat.QR_CODE);
             PlanarYUVLuminanceSource source =
-                new PlanarYUVLuminanceSource(data, width, height, 0, 0, width, height, false);
+                    new PlanarYUVLuminanceSource(data, width, height, 0, 0, width, height, false);
             /**
              * HybridBinarizer算法使用了更高级的算法，但使用GlobalHistogramBinarizer识别效率确实比HybridBinarizer要高一些。
-             * 
+             *
              * GlobalHistogram算法：（http://kuangjianwei.blog.163.com/blog/static/190088953201361015055110/）
-             * 
+             *
              * 二值化的关键就是定义出黑白的界限，我们的图像已经转化为了灰度图像，每个点都是由一个灰度值来表示，就需要定义出一个灰度值，大于这个值就为白（0），低于这个值就为黑（1）。
              * 在GlobalHistogramBinarizer中，是从图像中均匀取5行（覆盖整个图像高度），每行取中间五分之四作为样本；以灰度值为X轴，每个灰度值的像素个数为Y轴建立一个直方图，
              * 从直方图中取点数最多的一个灰度值，然后再去给其他的灰度值进行分数计算，按照点数乘以与最多点数灰度值的距离的平方来进行打分，选分数最高的一个灰度值。接下来在这两个灰度值中间选取一个区分界限，

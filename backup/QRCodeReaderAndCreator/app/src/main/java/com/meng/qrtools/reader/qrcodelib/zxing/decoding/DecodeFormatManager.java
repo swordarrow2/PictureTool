@@ -16,15 +16,11 @@
 
 package com.meng.qrtools.reader.qrcodelib.zxing.decoding;
 
-import android.content.Intent;
-import android.net.Uri;
-
-import com.google.zxing.BarcodeFormat;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Vector;
-import java.util.regex.Pattern;
+import android.content.*;
+import android.net.*;
+import com.google.zxing.*;
+import java.util.*;
+import java.util.regex.*;
 
 final class DecodeFormatManager {
 

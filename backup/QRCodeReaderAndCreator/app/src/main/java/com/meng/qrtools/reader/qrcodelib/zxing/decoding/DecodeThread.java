@@ -16,18 +16,11 @@
 
 package com.meng.qrtools.reader.qrcodelib.zxing.decoding;
 
-import android.os.Handler;
-import android.os.Looper;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.DecodeHintType;
-import com.google.zxing.ResultPointCallback;
-
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.concurrent.CountDownLatch;
-
-import com.meng.qrtools.reader.cameraReader;
+import android.os.*;
+import com.google.zxing.*;
+import com.meng.qrtools.reader.*;
+import java.util.*;
+import java.util.concurrent.*;
 
 
 final class DecodeThread extends Thread {

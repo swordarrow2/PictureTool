@@ -16,16 +16,15 @@
 
 package com.meng.qrtools.reader.qrcodelib.zxing.camera;
 
-import android.content.Context;
-import android.graphics.Point;
-import android.hardware.Camera;
-import android.os.Build;
-import android.util.Log;
-import android.view.Display;
-import android.view.Surface;
-import android.view.WindowManager;
+import android.content.*;
+import android.graphics.*;
+import android.hardware.*;
+import android.os.*;
+import android.util.*;
+import android.view.*;
+import java.util.regex.*;
 
-import java.util.regex.Pattern;
+import android.hardware.Camera;
 
 final class CameraConfigurationManager {
 

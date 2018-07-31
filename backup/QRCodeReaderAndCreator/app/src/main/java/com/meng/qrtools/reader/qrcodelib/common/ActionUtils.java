@@ -1,10 +1,10 @@
 package com.meng.qrtools.reader.qrcodelib.common;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
+import android.app.*;
+import android.content.*;
+import android.graphics.*;
+import android.net.*;
+import android.provider.*;
 
 /**
  * Created by xdj on 16/8/28.
@@ -20,6 +20,7 @@ public class ActionUtils {
 
     /**
      * 进入系统拍照
+     *
      * @param activity
      * @param outputUri 照片输出路径 Environment.getExternalStorageDirectory() + "/image.jpg")
      */
@@ -34,6 +35,7 @@ public class ActionUtils {
     /**
      * 进入系统拍照 (输出为Bitmap)
      * Tips: 返回的Bitmap并非原图的Bitmap而是经过压缩的Bitmap
+     *
      * @param activity
      */
     public static void startActivityForCamera(Activity activity, int requestCode) {
@@ -44,6 +46,7 @@ public class ActionUtils {
 
     /**
      * 进入系统图库
+     *
      * @param activity
      */
     public static void startActivityForGallery(Activity activity, int requestCode) {
@@ -55,10 +58,11 @@ public class ActionUtils {
 
     /**
      * 进入系统裁剪
-     * @param inputUri 需要裁剪的图片路径
+     *
+     * @param inputUri  需要裁剪的图片路径
      * @param outputUri 裁剪后图片路径 Environment.getExternalStorageDirectory() + "/image.jpg")
-     * @param width 裁剪后宽度(px)
-     * @param height 裁剪后高度(px)
+     * @param width     裁剪后宽度(px)
+     * @param height    裁剪后高度(px)
      */
     private void startActivityForImageCut(Activity activity, int requestCode,
                                           Uri inputUri, Uri outputUri,

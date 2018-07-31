@@ -1,22 +1,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-	android:gravity="center|bottom"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
-	<TextView
-		android:enabled="true"
-		android:textIsSelectable="true"
-		android:focusable="true"
-		android:longClickable="true" 
-        android:autoLink="all"
+
+    <TextView
         android:id="@+id/read_galleryTextView"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/long_press_to_copy_result" />
+        android:autoLink="all"
+        android:enabled="true"
+        android:focusable="true"
+        android:longClickable="true"
+        android:text="@string/long_press_to_copy_result"
+        android:textIsSelectable="true" />
+
     <Button
-		android:text="@string/click_to_select_image"
         android:id="@+id/read_galleryButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/click_to_select_image" />
+	<Button
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:id="@+id/read_galleryButtonQR"
+		android:text="生成AwesomeQR" />
 
 </LinearLayout>

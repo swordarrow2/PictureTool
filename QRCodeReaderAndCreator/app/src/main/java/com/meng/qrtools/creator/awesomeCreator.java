@@ -25,7 +25,7 @@ public class awesomeCreator extends Fragment{
 	private Button btGenerate, btSelectBG, btRemoveBackgroundImage;
 	private CheckBox ckbWhiteMargin;
 	private Bitmap backgroundImage = null;
-	private AlertDialog progressDialog;
+	
 	private boolean generating = false;
 	private CheckBox ckbAutoColor;
 	private ScrollView scrollView;
@@ -97,8 +97,6 @@ public class awesomeCreator extends Fragment{
 		btGenerate.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v){
-					try{
-
 						generate(etContents.getText().length()==0? getString(R.string.Makito_loves_Kafuu_Chino) :etContents.getText().toString(),
 								 etSize.getText().length()==0? 800 :Integer.parseInt(etSize.getText().toString()),
 								 etMargin.getText().length()==0? 20 :Integer.parseInt(etMargin.getText().toString()),
@@ -111,9 +109,7 @@ public class awesomeCreator extends Fragment{
 								 ckbBinarize.isChecked(),
 								 etBinarizeThreshold.getText().length()==0? 128 :Integer.parseInt(etBinarizeThreshold.getText().toString())
 								 );
-					}catch(Exception e){
-						Toast.makeText(getActivity().getApplicationContext(),R.string.Error_occurred_please_check_your_configs,Toast.LENGTH_LONG).show();
-					}
+								 btnSave.setVisibility(View.VISIBLE);
 				}
 			});
 		btnSave.setOnClickListener(new View.OnClickListener(){
@@ -126,7 +122,7 @@ public class awesomeCreator extends Fragment{
 						Toast.makeText(getActivity().getApplicationContext(),"已保存至"+s,Toast.LENGTH_LONG).show();
 						getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
 					}catch(IOException e){
-						Toast.makeText(getActivity().getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+						Toast.makeText(getActivity().getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
 					}
 				}
 			});
@@ -178,8 +174,7 @@ public class awesomeCreator extends Fragment{
 						  final boolean autoColor,final boolean binarize,final int binarizeThreshold){
 		if(generating) return;
 		generating=true;
-		progressDialog=new ProgressDialog.Builder(getActivity().getApplicationContext()).setMessage(R.string.generating).setCancelable(false).create();
-		progressDialog.show();
+		
 		new Thread(new Runnable() {
 				@Override
 				public void run(){
@@ -196,7 +191,7 @@ public class awesomeCreator extends Fragment{
 												scrollView.fullScroll(View.FOCUS_DOWN);
 											}
 										});
-									if(progressDialog!=null) progressDialog.dismiss();
+									
 									generating=false;
 								}
 							});
@@ -205,7 +200,7 @@ public class awesomeCreator extends Fragment{
 						getActivity(). runOnUiThread(new Runnable() {
 								@Override
 								public void run(){
-									if(progressDialog!=null) progressDialog.dismiss();
+									
 									generating=false;
 								}
 							});

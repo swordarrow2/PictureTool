@@ -16,10 +16,9 @@
 
 package com.meng.qrtools.reader.qrcodelib.zxing.camera;
 
-import android.hardware.Camera;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
+import android.hardware.*;
+import android.os.*;
+import android.util.*;
 
 final class AutoFocusCallback implements Camera.AutoFocusCallback {
 
