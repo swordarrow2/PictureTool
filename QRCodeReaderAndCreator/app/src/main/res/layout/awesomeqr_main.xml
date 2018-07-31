@@ -113,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:hint="@string/colordark"
+				android:text="@string/colordark"
                 android:lines="1"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -132,6 +133,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:hint="@string/colorlight"
+				android:text="@string/colorlight"
                 android:lines="1"
                 android:maxLines="1"
                 android:singleLine="true" />
