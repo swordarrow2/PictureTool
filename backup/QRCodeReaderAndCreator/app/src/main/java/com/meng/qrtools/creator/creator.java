@@ -9,6 +9,7 @@ import android.view.View.*;
 import android.widget.*;
 import com.meng.qrtools.*;
 import java.io.*;
+import com.google.zxing.*;
 
 public class creator extends Fragment{
 	ImageView qrcode1;
@@ -35,7 +36,7 @@ public class creator extends Fragment{
 				@Override
 				public void onClick(View p1){
 					// TODO: Implement this method
-					 b=QRCode.createQRCode(et.getText().toString()==null||et.getText().toString().equals("")?et.getHint().toString():et.getText().toString());
+					 b=QRCode.createQRCode(et.getText().toString()==null||et.getText().toString().equals("")?et.getHint().toString():et.getText().toString(),BarcodeFormat.QR_CODE);
 					qrcode1.setImageBitmap(b);
 					btnSave.setVisibility(View.VISIBLE);
 				}

@@ -23,9 +23,13 @@
             android:summary=""
             android:title="生成logo二维码" />
 		<CheckBoxPreference
-            android:key="ldaws"
-            android:summary=""
-            android:title="生成AwesomeQR" />
+			android:key="ldaws"
+			android:summary=""
+			android:title="生成AwesomeQR" />
+		<CheckBoxPreference
+			android:key="ldtd"
+			android:summary=""
+			android:title="摸鱼功能" />
 		<CheckBoxPreference
             android:key="ldgr"
             android:summary=""

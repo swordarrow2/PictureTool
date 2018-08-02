@@ -30,6 +30,7 @@ import com.meng.qrtools.reader.cameraReader;
 import com.meng.qrtools.reader.galleryReader;
 import com.meng.qrtools.settings;
 import com.meng.qrtools.welcome;
+import android.widget.*;
 
 public class MainActivity2 extends Activity {
     public static MainActivity2 instence;
@@ -83,13 +84,13 @@ public class MainActivity2 extends Activity {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();
-                log.info("guanbi");
+                log.i("guanbi");
             }
 
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu();
-                log.info("dakai");
+                log.i("dakai");
             }
 
             @Override
@@ -205,6 +206,7 @@ public class MainActivity2 extends Activity {
                         transactionAwesomeCreatorFragment.commit();
                         break;
                     case 6:
+						log.t("咕咕咕");
                         FragmentTransaction transactiontwoDimensionalBarCode = manager.beginTransaction();
                         if (twoDimensionalBarCodeFragment == null) {
                             twoDimensionalBarCodeFragment = new twoDimensionalBarCode();
@@ -213,6 +215,7 @@ public class MainActivity2 extends Activity {
                         hideFragment(transactiontwoDimensionalBarCode);
                         transactiontwoDimensionalBarCode.show(twoDimensionalBarCodeFragment);
                         transactiontwoDimensionalBarCode.commit();
+						
                         break;
 
                     case 7:

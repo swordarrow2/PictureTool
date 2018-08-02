@@ -28,8 +28,8 @@ public class QRCode{
      * @param text 需要生成二维码的文字、网址等
      * @return bitmap
      */
-    public static Bitmap createQRCode(String text){
-        return createQRCode(text,BarcodeFormat.QR_CODE,500);
+    public static Bitmap createQRCode(String text,BarcodeFormat format){
+        return createQRCode(text,format,500);
     }
 
     /**
@@ -43,8 +43,7 @@ public class QRCode{
         try{
             Hashtable<EncodeHintType, String> hints = new Hashtable<>();
             hints.put(EncodeHintType.CHARACTER_SET,"UTF-8");
-            BitMatrix bitMatrix = new MultiFormatWriter().encode(text,
-															format,size,size,hints);
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(text,format,size,size,hints);
             int[] pixels = new int[bitMatrix.getWidth()*bitMatrix.getHeight()];
             for(int y = 0; y<size; y++){
                 for(int x = 0; x<size; x++){

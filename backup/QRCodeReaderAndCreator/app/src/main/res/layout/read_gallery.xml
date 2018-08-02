@@ -1,28 +1,33 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/read_galleryTextView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autoLink="all"
-        android:enabled="true"
-        android:focusable="true"
-        android:longClickable="true"
-        android:text="@string/long_press_to_copy_result"
-        android:textIsSelectable="true" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/read_galleryButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/click_to_select_image" />
-	<Button
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent"
-		android:id="@+id/read_galleryButtonQR"
-		android:text="生成AwesomeQR" />
+        <TextView
+            android:id="@+id/read_galleryTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            android:enabled="true"
+            android:focusable="true"
+            android:longClickable="true"
+            android:text="@string/long_press_to_copy_result"
+            android:textIsSelectable="true" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/read_galleryButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/click_to_select_image" />
+
+        <Button
+            android:id="@+id/read_galleryButtonQR"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="生成AwesomeQR" />
+    </LinearLayout>
+</RelativeLayout>

@@ -151,6 +151,7 @@
                 android:orientation="vertical">
 
                 <TextView
+					android:text="未选择背景图"
                     android:id="@+id/awesomeqr_main_imgPathTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -188,20 +189,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/binarize_background_image" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:text="@string/binarizethreshold_0_lt_threshold_lt_255" />
-
             <EditText
+				android:hint="@string/binarizethreshold_0_lt_threshold_lt_255"
+				android:visibility="gone"
                 android:id="@+id/awesomeqr_main_binarizeThreshold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:hint="@string/_128"
                 android:inputType="number"
                 android:lines="1"
                 android:maxLines="1"

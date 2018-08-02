@@ -158,7 +158,7 @@ public class QrUtils {
             Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>();
             hints.put(DecodeHintType.CHARACTER_SET, "utf-8");
             hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
-            hints.put(DecodeHintType.POSSIBLE_FORMATS, BarcodeFormat.QR_CODE);
+       //     hints.put(DecodeHintType.POSSIBLE_FORMATS, BarcodeFormat.QR_CODE);
             PlanarYUVLuminanceSource source =
                     new PlanarYUVLuminanceSource(data, width, height, 0, 0, width, height, false);
             /**
@@ -194,7 +194,7 @@ public class QrUtils {
 //                BinaryBitmap binaryBitmap = new BinaryBitmap(new GlobalHistogramBinarizer(source1));
         HashMap<DecodeHintType, Object> hints = new HashMap<>();
 
-        hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
+  //      hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
         hints.put(DecodeHintType.CHARACTER_SET, "UTF-8");
 
         try {
