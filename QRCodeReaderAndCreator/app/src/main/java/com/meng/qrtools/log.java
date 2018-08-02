@@ -3,7 +3,7 @@ import com.meng.*;
 
 public class log
 {
-	public static void e(Object o){
+	public static void info(Object o){
 			MainActivity2.logString=MainActivity2.logString+o.toString()+"\n";
 		}
 }

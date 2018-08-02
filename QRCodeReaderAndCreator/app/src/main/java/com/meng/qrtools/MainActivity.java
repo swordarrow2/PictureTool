@@ -8,7 +8,6 @@ import com.meng.qrtools.lib.SharedPreferenceHelper.*;
 import com.meng.qrtools.lib.exception.*;
 
 public class MainActivity extends Activity{
-    @Override
 	public static SharedPreferenceHelper sharedPreference;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);

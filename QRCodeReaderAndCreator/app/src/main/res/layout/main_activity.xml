@@ -41,25 +41,27 @@
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
-        android:drawSelectorOnTop="false"></ListView>
+        android:drawSelectorOnTop="false" />
 
     <RelativeLayout
         android:id="@+id/right_drawer"
         android:layout_width="220dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-		android:background="#eeeeee"
-        android:gravity="center_horizontal" >
-		<ScrollView 
-			android:layout_height="fill_parent"
-			android:layout_width="fill_parent">
-			<TextView
-				android:padding="5dp"
-				android:id="@+id/main_activityTextViewRight"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="" />
-		</ScrollView>
-	</RelativeLayout>
+        android:background="#eeeeee"
+        android:gravity="center_horizontal">
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:id="@+id/main_activityTextViewRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="" />
+        </ScrollView>
+    </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>
 

@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <ScrollView
-        android:id="@+id/scrollView"
+        android:id="@+id/awesomeqr_main_scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
@@ -30,7 +30,7 @@
                 android:text="@string/contents" />
 
             <EditText
-                android:id="@+id/contents"
+                android:id="@+id/awesomeqr_main_contents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/makito_loves_kafuu_chino"
@@ -45,7 +45,7 @@
                 android:text="@string/size_px_includes_the_margin_width_equals_to_height" />
 
             <EditText
-                android:id="@+id/size"
+                android:id="@+id/awesomeqr_main_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/_800"
@@ -63,7 +63,7 @@
                 android:text="@string/margin_px" />
 
             <EditText
-                android:id="@+id/margin"
+                android:id="@+id/awesomeqr_main_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/_20"
@@ -81,7 +81,7 @@
                 android:text="@string/data_dot_scale_0_lt_scale_lt_1_0f" />
 
             <EditText
-                android:id="@+id/dotScale"
+                android:id="@+id/awesomeqr_main_dotScale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/_0_3"
@@ -92,72 +92,98 @@
 
 
             <CheckBox
-                android:id="@+id/autoColor"
+                android:id="@+id/awesomeqr_main_autoColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/automatically_pick_color_from_background_image" />
 
-
-            <TextView
+            <LinearLayout
+                android:id="@+id/awesomeqr_main_select_color_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:text="@string/colordark_true_dots_dddddd" />
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <EditText
-                android:id="@+id/colorDark"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="@string/colordark_true_dots_dddddd" />
+
+                <EditText
+                    android:id="@+id/awesomeqr_main_colorDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:hint="@string/colordark"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@string/colordark" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="@string/colorlight_false_dots_dddddd" />
+
+                <EditText
+                    android:id="@+id/awesomeqr_main_colorLight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:hint="@string/colorlight"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@string/colorlight" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="@string/colordark"
-				android:text="@string/colordark"
-                android:lines="1"
-                android:maxLines="1"
-                android:singleLine="true" />
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/awesomeqr_main_imgPathTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:text="@string/colorlight_false_dots_dddddd" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/colorLight"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="@string/colorlight"
-				android:text="@string/colorlight"
-                android:lines="1"
-                android:maxLines="1"
-                android:singleLine="true" />
+                    <Button
+                        android:id="@+id/awesomeqr_main_backgroundImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/select_background_image" />
 
-            <Button
-                android:id="@+id/backgroundImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/select_background_image" />
-
-            <Button
-                android:id="@+id/removeBackgroundImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/remove_background_image" />
+                    <Button
+                        android:id="@+id/awesomeqr_main_removeBackgroundImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/remove_background_image" />
+                </LinearLayout>
+            </LinearLayout>
 
             <CheckBox
-                android:id="@+id/whiteMargin"
+                android:id="@+id/awesomeqr_main_whiteMargin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/white_margin_on_background_image" />
 
             <CheckBox
-                android:id="@+id/binarize"
+                android:id="@+id/awesomeqr_main_binarize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/binarize_background_image" />
@@ -171,7 +197,7 @@
                 android:text="@string/binarizethreshold_0_lt_threshold_lt_255" />
 
             <EditText
-                android:id="@+id/binarizeThreshold"
+                android:id="@+id/awesomeqr_main_binarizeThreshold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
@@ -182,22 +208,22 @@
                 android:singleLine="true" />
 
             <Button
-                android:id="@+id/generate"
+                android:id="@+id/awesomeqr_main_generate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/generate" />
 
             <Button
-				android:visibility="gone"
                 android:id="@+id/awesomeqr_mainButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/click_to_save" />
+                android:text="@string/click_to_save"
+                android:visibility="gone" />
 
             <ImageView
-                android:id="@+id/qrcode"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+                android:id="@+id/awesomeqr_main_qrcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
                 android:scaleType="centerInside" />
