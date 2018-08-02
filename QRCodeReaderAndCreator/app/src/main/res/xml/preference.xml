@@ -27,10 +27,6 @@
 			android:summary=""
 			android:title="生成AwesomeQR" />
 		<CheckBoxPreference
-			android:key="ldtd"
-			android:summary=""
-			android:title="摸鱼功能" />
-		<CheckBoxPreference
             android:key="ldgr"
             android:summary=""
             android:title="相机扫描" />

@@ -22,7 +22,6 @@ import com.meng.qrtools.about;
 import com.meng.qrtools.creator.awesomeCreator;
 import com.meng.qrtools.creator.creator;
 import com.meng.qrtools.creator.logoCreator;
-import com.meng.qrtools.creator.twoDimensionalBarCode;
 import com.meng.qrtools.lib.materialDesign.ActionBarDrawerToggle;
 import com.meng.qrtools.lib.materialDesign.DrawerArrowDrawable;
 import com.meng.qrtools.log;
@@ -30,7 +29,6 @@ import com.meng.qrtools.reader.cameraReader;
 import com.meng.qrtools.reader.galleryReader;
 import com.meng.qrtools.settings;
 import com.meng.qrtools.welcome;
-import android.widget.*;
 
 public class MainActivity2 extends Activity {
     public static MainActivity2 instence;
@@ -51,7 +49,6 @@ public class MainActivity2 extends Activity {
     private about aboutFragment;
     private settings settingsFragment;
     private TextView rightText;
-    private twoDimensionalBarCode twoDimensionalBarCodeFragment;
 
     public FragmentManager manager;
 
@@ -109,7 +106,6 @@ public class MainActivity2 extends Activity {
                 "创建普通二维码",
                 "创建Logo二维码",
                 "创建Awesome二维码",
-                "实(mo)验(yu)特性",
                 "关于",
                 "设置",
                 "退出"
@@ -206,19 +202,6 @@ public class MainActivity2 extends Activity {
                         transactionAwesomeCreatorFragment.commit();
                         break;
                     case 6:
-						log.t("咕咕咕");
-                        FragmentTransaction transactiontwoDimensionalBarCode = manager.beginTransaction();
-                        if (twoDimensionalBarCodeFragment == null) {
-                            twoDimensionalBarCodeFragment = new twoDimensionalBarCode();
-                            transactiontwoDimensionalBarCode.add(R.id.main_activityLinearLayout, twoDimensionalBarCodeFragment);
-                        }
-                        hideFragment(transactiontwoDimensionalBarCode);
-                        transactiontwoDimensionalBarCode.show(twoDimensionalBarCodeFragment);
-                        transactiontwoDimensionalBarCode.commit();
-						
-                        break;
-
-                    case 7:
                         FragmentTransaction transactionAboutFragment = manager.beginTransaction();
                         if (aboutFragment == null) {
                             aboutFragment = new about();
@@ -228,7 +211,7 @@ public class MainActivity2 extends Activity {
                         transactionAboutFragment.show(aboutFragment);
                         transactionAboutFragment.commit();
                         break;
-                    case 8:
+                    case 7:
                         FragmentTransaction transactionsettings = manager.beginTransaction();
                         if (settingsFragment == null) {
                             settingsFragment = new settings();
@@ -238,7 +221,7 @@ public class MainActivity2 extends Activity {
                         transactionsettings.show(settingsFragment);
                         transactionsettings.commit();
                         break;
-                    case 9:
+                    case 8:
                         if (MainActivity.sharedPreference.getBoolean("exitsettings")) {
                             System.exit(0);
                         } else {
@@ -253,7 +236,6 @@ public class MainActivity2 extends Activity {
         if (MainActivity.sharedPreference.getBoolean("opendraw", true)) {
             mDrawerLayout.openDrawer(mDrawerList);
         }
-
     }
 
     private void initFragment() {
@@ -306,15 +288,6 @@ public class MainActivity2 extends Activity {
             }
             hideFragment(transactionAwesomeCreatorFragment);
             transactionAwesomeCreatorFragment.commit();
-        }
-        if (MainActivity.sharedPreference.getBoolean("ldtd")) {
-            FragmentTransaction transactiontwoDimensionalBarCodeFragment = manager.beginTransaction();
-            if (twoDimensionalBarCodeFragment == null) {
-                twoDimensionalBarCodeFragment = new twoDimensionalBarCode();
-                transactiontwoDimensionalBarCodeFragment.add(R.id.main_activityLinearLayout, twoDimensionalBarCodeFragment);
-            }
-            hideFragment(transactiontwoDimensionalBarCodeFragment);
-            transactiontwoDimensionalBarCodeFragment.commit();
         }
         if (MainActivity.sharedPreference.getBoolean("about")) {
             FragmentTransaction transactionAboutFragment = manager.beginTransaction();
@@ -376,7 +349,6 @@ public class MainActivity2 extends Activity {
         return super.onKeyDown(keyCode, event);
     }
 
-
     public void hideFragment(FragmentTransaction transaction) {
         if (welcomeFragment != null) {
             transaction.hide(welcomeFragment);
@@ -389,9 +361,6 @@ public class MainActivity2 extends Activity {
         }
         if (awesomeCreatorFragment != null) {
             transaction.hide(awesomeCreatorFragment);
-        }
-        if (twoDimensionalBarCodeFragment != null) {
-            transaction.hide(twoDimensionalBarCodeFragment);
         }
         if (cameraReaderFragment != null) {
             transaction.hide(cameraReaderFragment);
