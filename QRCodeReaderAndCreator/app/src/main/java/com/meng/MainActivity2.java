@@ -13,6 +13,7 @@ import com.meng.qrtools.reader.*;
 
 public class MainActivity2 extends Activity{
 	public static MainActivity2 instence;
+	public static String logString="这都被发现了(\n感谢岁41发现了一个玄学问题(\n并且已经修正\n大概吧(\n";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
 	private RelativeLayout rt;
@@ -28,7 +29,8 @@ public class MainActivity2 extends Activity{
     public galleryReader galleryReaderFragment;
     private about aboutFragment;
 	private settings settingsFragment;
-
+	private TextView rightText;
+	
 	public FragmentManager manager;
 
     @Override
@@ -44,6 +46,7 @@ public class MainActivity2 extends Activity{
         initFragment();
 
 		rt=(RelativeLayout)findViewById(R.id.right_drawer);
+		rightText=(TextView)findViewById(R.id.main_activityTextViewRight);
         mDrawerLayout=(DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList=(ListView) findViewById(R.id.navdrawer);
         drawerArrow=new DrawerArrowDrawable(this) {
@@ -59,11 +62,13 @@ public class MainActivity2 extends Activity{
             public void onDrawerClosed(View view){
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();
+				rightText.setText(logString);
             }
 
             public void onDrawerOpened(View drawerView){
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu();
+				rightText.setText(logString);
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -106,28 +111,6 @@ public class MainActivity2 extends Activity{
 					 drawerArrow.setColor(R.color.drawer_arrow_second_color);
 					 }
 					 mDrawerToggle.syncState();
-					 break;
-					 case 4:
-					 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/IkiMuhendis/LDrawer"));
-					 startActivity(browserIntent);
-					 break;
-					 case 5:
-					 Intent share = new Intent(Intent.ACTION_SEND);
-					 share.setType("text/plain");
-					 share.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					 share.putExtra(Intent.EXTRA_SUBJECT,
-					 getString(R.string.app_name));
-					 share.putExtra(Intent.EXTRA_TEXT, "getString(R.string.app_description)" + "\n" +
-					 "GitHub Page :  https://github.com/IkiMuhendis/LDrawer\n" +
-					 "Sample App : https://play.google.com/store/apps/details?id=" +
-					 getPackageName());
-					 startActivity(Intent.createChooser(share,
-					 getString(R.string.app_name)));
-					 break;
-					 case 6:
-					 String appUrl = "https://play.google.com/store/apps/details?id=" + getPackageName();
-					 Intent rateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(appUrl));
-					 startActivity(rateIntent);
 					 break;
 					 }
 					 */
@@ -228,6 +211,7 @@ public class MainActivity2 extends Activity{
 		if(MainActivity.sharedPreference.getBoolean("opendraw",true)){
 			mDrawerLayout.openDrawer(mDrawerList);
 		}
+		
 	}
 
 	private void initFragment(){

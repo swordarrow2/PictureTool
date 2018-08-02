@@ -48,15 +48,18 @@
         android:layout_width="220dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:background="#111"
+		android:background="#eeeeee"
         android:gravity="center_horizontal" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="这都被你发现了"
-            android:textColor="@android:color/white"
-            android:textSize="24sp" />
-    </RelativeLayout>
+		<ScrollView 
+			android:layout_height="fill_parent"
+			android:layout_width="fill_parent">
+			<TextView
+				android:padding="5dp"
+				android:id="@+id/main_activityTextViewRight"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="" />
+		</ScrollView>
+	</RelativeLayout>
 </android.support.v4.widget.DrawerLayout>
 
