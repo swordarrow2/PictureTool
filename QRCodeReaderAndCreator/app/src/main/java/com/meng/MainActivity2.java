@@ -196,9 +196,7 @@ public class MainActivity2 extends Activity {
         if (MainActivity.sharedPreference.getBoolean("ldlgqr")) {
             initLogoCreatorFragment(false);
         }
-        if (MainActivity.sharedPreference.getBoolean("ldaws")) {
-            initAwesomeFragment(false);
-        }
+        initAwesomeFragment(false);
         if (MainActivity.sharedPreference.getBoolean("about")) {
             initAboutFragment(false);
         }
@@ -215,7 +213,7 @@ public class MainActivity2 extends Activity {
             transactionWelcome.add(R.id.main_activityLinearLayout, welcomeFragment);
         }
         hideFragment(transactionWelcome);
-        if(showNow) {
+        if (showNow) {
             transactionWelcome.show(welcomeFragment);
         }
         transactionWelcome.commit();
@@ -228,7 +226,7 @@ public class MainActivity2 extends Activity {
             transactionGalleryReaderFragment.add(R.id.main_activityLinearLayout, galleryReaderFragment);
         }
         hideFragment(transactionGalleryReaderFragment);
-        if(showNow) {
+        if (showNow) {
             transactionGalleryReaderFragment.show(galleryReaderFragment);
         }
         transactionGalleryReaderFragment.commit();
@@ -241,7 +239,7 @@ public class MainActivity2 extends Activity {
             transactionCameraReaderFragment.add(R.id.main_activityLinearLayout, cameraReaderFragment, "cameraReader");
         }
         hideFragment(transactionCameraReaderFragment);
-        if(showNow) {
+        if (showNow) {
             transactionCameraReaderFragment.show(cameraReaderFragment);
         }
         transactionCameraReaderFragment.commit();
@@ -254,7 +252,7 @@ public class MainActivity2 extends Activity {
             transactionCreatorFragment.add(R.id.main_activityLinearLayout, creatorFragment);
         }
         hideFragment(transactionCreatorFragment);
-        if(showNow) {
+        if (showNow) {
             transactionCreatorFragment.show(creatorFragment);
         }
         transactionCreatorFragment.commit();
@@ -267,7 +265,7 @@ public class MainActivity2 extends Activity {
             transactionLogoCreatorFragment.add(R.id.main_activityLinearLayout, logoCreatorFragment);
         }
         hideFragment(transactionLogoCreatorFragment);
-        if(showNow) {
+        if (showNow) {
             transactionLogoCreatorFragment.show(logoCreatorFragment);
         }
         transactionLogoCreatorFragment.commit();
@@ -280,9 +278,10 @@ public class MainActivity2 extends Activity {
             transactionAwesomeCreatorFragment.add(R.id.main_activityLinearLayout, awesomeCreatorFragment);
         }
         hideFragment(transactionAwesomeCreatorFragment);
-        if(showNow) {
+        if (showNow) {
             transactionAwesomeCreatorFragment.show(awesomeCreatorFragment);
-        }transactionAwesomeCreatorFragment.commit();
+        }
+        transactionAwesomeCreatorFragment.commit();
     }
 
     private void initAboutFragment(boolean showNow) {
@@ -292,7 +291,7 @@ public class MainActivity2 extends Activity {
             transactionAboutFragment.add(R.id.main_activityLinearLayout, aboutFragment);
         }
         hideFragment(transactionAboutFragment);
-        if(showNow) {
+        if (showNow) {
             transactionAboutFragment.show(aboutFragment);
         }
         transactionAboutFragment.commit();
@@ -305,7 +304,7 @@ public class MainActivity2 extends Activity {
             transactionsettings.add(R.id.main_activityLinearLayout, settingsFragment);
         }
         hideFragment(transactionsettings);
-        if(showNow) {
+        if (showNow) {
             transactionsettings.show(settingsFragment);
         }
         transactionsettings.commit();
