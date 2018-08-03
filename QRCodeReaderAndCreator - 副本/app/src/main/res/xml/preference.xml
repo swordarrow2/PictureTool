@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<CheckBoxPreference
+		android:defaultValue="true"
+		android:key="opendraw"
+		android:summary="启动时自动打开侧边栏"
+		android:title="启动软件时自动打开菜单" />
+	<CheckBoxPreference
+		android:key="exitsettings"
+		android:summaryOn="System.exit(0);可以彻底关闭应用"
+		android:summaryOff="finish();让软件退出有过渡效果且下次启动更快"
+		android:title="使用System.exit(0);代替finish();" />
+	<PreferenceScreen
+        android:key="ps1"
+		summary="可以避免点击某标签页时加载的卡顿"
+        android:title="功能预加载" >
+		<CheckBoxPreference
+            android:key="ldqr"
+            android:summary=""
+            android:title="生成普通二维码" />
+		<CheckBoxPreference
+            android:key="ldlgqr"
+            android:summary=""
+            android:title="生成logo二维码" />
+		<CheckBoxPreference
+			android:key="ldaws"
+			android:summary=""
+			android:title="生成AwesomeQR" />
+		<CheckBoxPreference
+            android:key="ldgr"
+            android:summary=""
+            android:title="相机扫描" />
+		<CheckBoxPreference
+            android:key="ldcr"
+            android:summary=""
+            android:title="从相册读取" />
+		<CheckBoxPreference
+            android:key="about"
+            android:summary=""
+            android:title="关于" />
+		<CheckBoxPreference
+            android:key="settings"
+            android:summary=""
+            android:title="设置" />
+    </PreferenceScreen>
+
+</PreferenceScreen>

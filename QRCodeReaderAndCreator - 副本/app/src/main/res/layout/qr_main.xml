@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <TextView
+        android:id="@+id/qr_mainTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/qr_mainEditText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/qr_mainTextView"
+        android:hint="@string/input_text" />
+
+    <Button
+        android:id="@+id/qr_mainButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/qr_mainEditText"
+        android:text="@string/click_to_create" />
+
+    <Button
+		android:visibility="gone"
+        android:id="@+id/qr_mainButtonSave"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/qr_mainButton"
+        android:text="@string/click_to_save" />
+
+    <ImageView
+        android:id="@+id/qrcode5"
+        android:layout_width="500px"
+        android:layout_height="500px"
+        android:layout_below="@+id/qr_mainButtonSave" />
+
+</RelativeLayout>
