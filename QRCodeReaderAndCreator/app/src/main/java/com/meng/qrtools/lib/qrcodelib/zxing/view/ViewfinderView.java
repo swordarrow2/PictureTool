@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.meng.qrtools.reader.qrcodelib.zxing.view;
+package com.meng.qrtools.lib.qrcodelib.zxing.view;
 
 import android.content.*;
 import android.content.pm.*;
@@ -25,7 +25,7 @@ import android.util.*;
 import android.view.*;
 import com.google.zxing.*;
 import com.meng.qrtools.*;
-import com.meng.qrtools.reader.qrcodelib.zxing.camera.*;
+import com.meng.qrtools.lib.qrcodelib.zxing.camera.*;
 import java.util.*;
 
 

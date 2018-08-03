@@ -15,10 +15,9 @@ import android.view.SurfaceHolder.*;
 import android.widget.*;
 import com.google.zxing.*;
 import com.meng.*;
-import com.meng.qrtools.*;
-import com.meng.qrtools.reader.qrcodelib.zxing.camera.*;
-import com.meng.qrtools.reader.qrcodelib.zxing.decoding.*;
-import com.meng.qrtools.reader.qrcodelib.zxing.view.*;
+import com.meng.qrtools.lib.qrcodelib.zxing.camera.*;
+import com.meng.qrtools.lib.qrcodelib.zxing.decoding.*;
+import com.meng.qrtools.lib.qrcodelib.zxing.view.*;
 import java.io.*;
 import java.util.*;
 

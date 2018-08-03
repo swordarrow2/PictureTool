@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.meng.qrtools.reader.qrcodelib.zxing.decoding;
+package com.meng.qrtools.lib.qrcodelib.zxing.decoding;
 
 import android.os.*;
 import android.util.*;
@@ -22,10 +22,10 @@ import com.google.zxing.*;
 import com.google.zxing.common.*;
 import com.meng.qrtools.*;
 import com.meng.qrtools.reader.*;
-import com.meng.qrtools.reader.qrcodelib.zxing.camera.*;
+import com.meng.qrtools.lib.qrcodelib.zxing.camera.*;
 import java.util.*;
 
-import com.meng.qrtools.reader.qrcodelib.zxing.camera.PlanarYUVLuminanceSource;
+import com.meng.qrtools.lib.qrcodelib.zxing.camera.PlanarYUVLuminanceSource;
 
 
 final class DecodeHandler extends Handler {
@@ -74,7 +74,7 @@ final class DecodeHandler extends Handler {
         height = tmp;
 
         PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(rotatedData, width, height);
-        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+        BinaryBitmap bitmap = new BinaryBitmap(new com.meng.qrtools.lib.qrcodelib.GlobalHistogramBinarizer(source));
         try {
             rawResult = multiFormatReader.decodeWithState(bitmap);
         } catch (ReaderException re) {
