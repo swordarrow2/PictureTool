@@ -8,11 +8,11 @@
 	<CheckBoxPreference
 		android:key="exitsettings"
 		android:summaryOn="System.exit(0);可以彻底关闭应用"
-		android:summaryOff="finish();让软件退出有过渡效果且下次启动更快"
+		android:summaryOff="finish();让软件退出有过渡效果且下次打开更快"
 		android:title="使用System.exit(0);代替finish();" />
 	<PreferenceScreen
         android:key="ps1"
-		summary="可以避免点击某标签页时加载的卡顿"
+		android:summary="可以避免点击某标签页时加载的卡顿"
         android:title="功能预加载" >
 		<CheckBoxPreference
             android:key="ldqr"
