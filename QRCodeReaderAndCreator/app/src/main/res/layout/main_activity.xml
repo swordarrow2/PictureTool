@@ -59,8 +59,11 @@
                 android:id="@+id/main_activityTextViewRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:enabled="true"
+                android:focusable="true"
+                android:longClickable="true"
                 android:padding="5dp"
-                android:text="" />
+                android:textIsSelectable="true" />
         </ScrollView>
     </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>

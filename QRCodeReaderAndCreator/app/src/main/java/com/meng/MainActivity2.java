@@ -2,6 +2,7 @@ package com.meng;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.res.Configuration;
@@ -29,7 +30,6 @@ import com.meng.qrtools.reader.cameraReader;
 import com.meng.qrtools.reader.galleryReader;
 import com.meng.qrtools.settings;
 import com.meng.qrtools.welcome;
-import android.app.*;
 
 public class MainActivity2 extends Activity {
     public static MainActivity2 instence;
@@ -39,7 +39,7 @@ public class MainActivity2 extends Activity {
     private RelativeLayout rt;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
-    
+
     private welcome welcomeFragment;
     private creator creatorFragment;
     private logoCreator logoCreatorFragment;
@@ -57,26 +57,29 @@ public class MainActivity2 extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         instence = this;
+        setActionBar();
+        initFragment();
+        findViews();
+        setListener();
+        if (MainActivity.sharedPreference.getBoolean("opendraw", true)) {
+            mDrawerLayout.openDrawer(mDrawerList);
+        }
+    }
+
+    private void setActionBar() {
         ActionBar ab = getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setHomeButtonEnabled(true);
-        manager = getFragmentManager();
+    }
 
-        initFragment();
-
-        rt = (RelativeLayout) findViewById(R.id.right_drawer);
-        rightText = (TextView) findViewById(R.id.main_activityTextViewRight);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.navdrawer);
+    private void setListener() {
         drawerArrow = new DrawerArrowDrawable(this) {
             @Override
             public boolean isLayoutRtl() {
                 return false;
             }
         };
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                drawerArrow, R.string.open,
-                R.string.close) {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,drawerArrow, R.string.open,R.string.close) {
 
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -143,35 +146,27 @@ public class MainActivity2 extends Activity {
                 switch (position) {
                     case 0:
                         initWelcome(true);
-						log.c("welcome");
                         break;
                     case 1:
                         initGalleryReaderFragment(true);
-						log.c("galleryReader");
                         break;
                     case 2:
                         initCameraReaderFragment(true);
-						log.c("CameraReader");
                         break;
                     case 3:
                         initCreatorFragment(true);
-						log.c("creator");
                         break;
                     case 4:
                         initLogoCreatorFragment(true);
-						log.c("LogoCreator");
                         break;
                     case 5:
                         initAwesomeFragment(true);
-						log.c("AwesomeQR");
                         break;
                     case 6:
                         initAboutFragment(true);
-						log.c("About");
                         break;
                     case 7:
                         initSettingsFragment(true);
-						log.c("settings");
                         break;
                     case 8:
                         if (MainActivity.sharedPreference.getBoolean("exitsettings")) {
@@ -186,40 +181,37 @@ public class MainActivity2 extends Activity {
             }
 
         });
-        if (MainActivity.sharedPreference.getBoolean("opendraw", true)) {
-            mDrawerLayout.openDrawer(mDrawerList);
-        }
+    }
+
+    private void findViews() {
+        rt = (RelativeLayout) findViewById(R.id.right_drawer);
+        rightText = (TextView) findViewById(R.id.main_activityTextViewRight);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.navdrawer);
     }
 
     private void initFragment() {
+        manager = getFragmentManager();
         if (MainActivity.sharedPreference.getBoolean("ldgr")) {
             initGalleryReaderFragment(false);
-			log.i("initGalleryReaderFragment");
         }
         if (MainActivity.sharedPreference.getBoolean("ldcr")) {
             initCameraReaderFragment(false);
-			log.i("initCameraReaderFragment");
         }
         if (MainActivity.sharedPreference.getBoolean("ldqr")) {
             initCreatorFragment(false);
-			log.i("initCreatorFragment");
         }
         if (MainActivity.sharedPreference.getBoolean("ldlgqr")) {
             initLogoCreatorFragment(false);
-			log.i("initLogoCreatorFragment");
         }
         initAwesomeFragment(false);
-		log.i("initAwesomeFragment");
         if (MainActivity.sharedPreference.getBoolean("about")) {
             initAboutFragment(false);
-			log.i("initAboutFragment");
         }
         if (MainActivity.sharedPreference.getBoolean("settings")) {
             initSettingsFragment(false);
-			log.i("initSettingsFragment");
         }
         initWelcome(true);
-		log.i("initWelcome");
     }
 
     private void initWelcome(boolean showNow) {
@@ -231,6 +223,9 @@ public class MainActivity2 extends Activity {
         hideFragment(transactionWelcome);
         if (showNow) {
             transactionWelcome.show(welcomeFragment);
+            log.c("welcome");
+        } else {
+            log.i("initWelcome");
         }
         transactionWelcome.commit();
     }
@@ -244,6 +239,9 @@ public class MainActivity2 extends Activity {
         hideFragment(transactionGalleryReaderFragment);
         if (showNow) {
             transactionGalleryReaderFragment.show(galleryReaderFragment);
+            log.c("galleryReader");
+        } else {
+            log.i("initGalleryReaderFragment");
         }
         transactionGalleryReaderFragment.commit();
     }
@@ -257,6 +255,9 @@ public class MainActivity2 extends Activity {
         hideFragment(transactionCameraReaderFragment);
         if (showNow) {
             transactionCameraReaderFragment.show(cameraReaderFragment);
+            log.c("CameraReader");
+        } else {
+            log.i("initCameraReaderFragment");
         }
         transactionCameraReaderFragment.commit();
     }
@@ -270,6 +271,9 @@ public class MainActivity2 extends Activity {
         hideFragment(transactionCreatorFragment);
         if (showNow) {
             transactionCreatorFragment.show(creatorFragment);
+            log.c("creator");
+        } else {
+            log.i("initCreatorFragment");
         }
         transactionCreatorFragment.commit();
     }
@@ -283,6 +287,9 @@ public class MainActivity2 extends Activity {
         hideFragment(transactionLogoCreatorFragment);
         if (showNow) {
             transactionLogoCreatorFragment.show(logoCreatorFragment);
+            log.c("LogoCreator");
+        } else {
+            log.i("initLogoCreatorFragment");
         }
         transactionLogoCreatorFragment.commit();
     }
@@ -296,6 +303,9 @@ public class MainActivity2 extends Activity {
         hideFragment(transactionAwesomeCreatorFragment);
         if (showNow) {
             transactionAwesomeCreatorFragment.show(awesomeCreatorFragment);
+            log.c("AwesomeQR");
+        } else {
+            log.i("initAwesomeFragment");
         }
         transactionAwesomeCreatorFragment.commit();
     }
@@ -309,6 +319,9 @@ public class MainActivity2 extends Activity {
         hideFragment(transactionAboutFragment);
         if (showNow) {
             transactionAboutFragment.show(aboutFragment);
+            log.c("About");
+        } else {
+            log.i("initAboutFragment");
         }
         transactionAboutFragment.commit();
     }
@@ -322,6 +335,9 @@ public class MainActivity2 extends Activity {
         hideFragment(transactionsettings);
         if (showNow) {
             transactionsettings.show(settingsFragment);
+            log.c("settings");
+        } else {
+            log.i("initSettingsFragment");
         }
         transactionsettings.commit();
     }
@@ -365,21 +381,21 @@ public class MainActivity2 extends Activity {
     }
 
     public void hideFragment(FragmentTransaction transaction) {
-		Fragment fs[]={
-			welcomeFragment,
-			creatorFragment,
-			logoCreatorFragment,
-			awesomeCreatorFragment,
-			cameraReaderFragment,
-			galleryReaderFragment,
-			aboutFragment,
-			settingsFragment
-		};
-		for(Fragment f:fs){
-			if(f!=null){
-				transaction.hide(f);
-			}
-		}
+        Fragment fs[] = {
+                welcomeFragment,
+                creatorFragment,
+                logoCreatorFragment,
+                awesomeCreatorFragment,
+                cameraReaderFragment,
+                galleryReaderFragment,
+                aboutFragment,
+                settingsFragment
+        };
+        for (Fragment f : fs) {
+            if (f != null) {
+                transaction.hide(f);
+            }
+        }
     }
 
 }
