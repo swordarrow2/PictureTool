@@ -42,6 +42,7 @@
 
     <CheckBoxPreference
         android:key="useLightTheme"
+        android:defaultValue="true"
         android:summaryOff="半夜迫害不瞎眼"
         android:summaryOn="亮主题"
         android:title="使用亮主题" />

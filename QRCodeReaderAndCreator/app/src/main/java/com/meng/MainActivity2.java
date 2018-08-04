@@ -64,7 +64,7 @@ public class MainActivity2 extends Activity {
         if (MainActivity.sharedPreference.getBoolean("opendraw", true)) {
             mDrawerLayout.openDrawer(mDrawerList);
         }
-        if (MainActivity.sharedPreference.getBoolean("useLightTheme", false)) {
+        if (MainActivity.sharedPreference.getBoolean("useLightTheme", true)) {
             mDrawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
             rt.setBackgroundColor(getResources().getColor(android.R.color.background_light));
         } else {
@@ -81,7 +81,7 @@ public class MainActivity2 extends Activity {
 
     @Override
     public void setTheme(int resid) {
-        if (MainActivity.sharedPreference.getBoolean("useLightTheme", false)) {
+        if (MainActivity.sharedPreference.getBoolean("useLightTheme", true)) {
             super.setTheme(R.style.AppThemeLight);
         } else {
             super.setTheme(R.style.AppThemeDark);
