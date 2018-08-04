@@ -19,9 +19,8 @@ import android.widget.TextView;
 
 import com.meng.qrtools.MainActivity;
 import com.meng.qrtools.R;
-import com.meng.qrtools.about;
+import com.meng.qrtools.textFragment;
 import com.meng.qrtools.creator.awesomeCreator;
-import com.meng.qrtools.creator.creator;
 import com.meng.qrtools.creator.logoCreator;
 import com.meng.qrtools.lib.materialDesign.ActionBarDrawerToggle;
 import com.meng.qrtools.lib.materialDesign.DrawerArrowDrawable;
@@ -29,7 +28,6 @@ import com.meng.qrtools.log;
 import com.meng.qrtools.reader.cameraReader;
 import com.meng.qrtools.reader.galleryReader;
 import com.meng.qrtools.settings;
-import com.meng.qrtools.welcome;
 
 public class MainActivity2 extends Activity {
     public static MainActivity2 instence;
@@ -40,13 +38,12 @@ public class MainActivity2 extends Activity {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
 
-    private welcome welcomeFragment;
-    private creator creatorFragment;
+    private textFragment welcomeFragment;
     private logoCreator logoCreatorFragment;
     public awesomeCreator awesomeCreatorFragment;
     public cameraReader cameraReaderFragment;
     public galleryReader galleryReaderFragment;
-    private about aboutFragment;
+    private textFragment aboutFragment;
     private settings settingsFragment;
     private TextView rightText;
 
@@ -61,9 +58,10 @@ public class MainActivity2 extends Activity {
         initFragment();
         findViews();
         setListener();
-        if (MainActivity.sharedPreference.getBoolean("opendraw", true)) {
-            mDrawerLayout.openDrawer(mDrawerList);
-        }
+        changeTheme();
+    }
+
+    private void changeTheme() {
         if (MainActivity.sharedPreference.getBoolean("useLightTheme", true)) {
             mDrawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
             rt.setBackgroundColor(getResources().getColor(android.R.color.background_light));
@@ -72,10 +70,12 @@ public class MainActivity2 extends Activity {
             rt.setBackgroundColor(getResources().getColor(android.R.color.background_dark));
         }
         if (getIntent().getBooleanExtra("setTheme", false)) {
-            initWelcome(true);
-        } else {
             initSettingsFragment(true);
-            mDrawerLayout.closeDrawer(mDrawerList);
+        } else {
+            initWelcome(true);
+            if (MainActivity.sharedPreference.getBoolean("opendraw", true)) {
+                mDrawerLayout.openDrawer(mDrawerList);
+            }
         }
     }
 
@@ -124,18 +124,16 @@ public class MainActivity2 extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        String[] values = new String[]{
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, new String[]{
                 "首页(?)",
                 "读取相册二维码",
                 "相机扫描二维码",
-                "创建普通二维码",
-                "创建Logo二维码",
+                "创建二维码",
                 "创建Awesome二维码",
                 "关于",
                 "设置",
                 "退出"
-        };
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, values));
+        }));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -176,21 +174,18 @@ public class MainActivity2 extends Activity {
                         initCameraReaderFragment(true);
                         break;
                     case 3:
-                        initCreatorFragment(true);
-                        break;
-                    case 4:
                         initLogoCreatorFragment(true);
                         break;
-                    case 5:
+                    case 4:
                         initAwesomeFragment(true);
                         break;
-                    case 6:
+                    case 5:
                         initAboutFragment(true);
                         break;
-                    case 7:
+                    case 6:
                         initSettingsFragment(true);
                         break;
-                    case 8:
+                    case 7:
                         if (MainActivity.sharedPreference.getBoolean("exitsettings")) {
                             System.exit(0);
                         } else {
@@ -214,21 +209,17 @@ public class MainActivity2 extends Activity {
 
     private void initFragment() {
         manager = getFragmentManager();
-        initWelcome(false);
         if (MainActivity.sharedPreference.getBoolean("ldgr")) {
             initGalleryReaderFragment(false);
         }
         if (MainActivity.sharedPreference.getBoolean("ldcr")) {
             initCameraReaderFragment(false);
         }
-        if (MainActivity.sharedPreference.getBoolean("ldqr")) {
-            initCreatorFragment(false);
-        }
         if (MainActivity.sharedPreference.getBoolean("ldlgqr")) {
             initLogoCreatorFragment(false);
         }
         initAwesomeFragment(false);
-        if (MainActivity.sharedPreference.getBoolean("about")) {
+        if (MainActivity.sharedPreference.getBoolean("textFragment")) {
             initAboutFragment(false);
         }
         if (MainActivity.sharedPreference.getBoolean("settings")) {
@@ -239,7 +230,7 @@ public class MainActivity2 extends Activity {
     private void initWelcome(boolean showNow) {
         FragmentTransaction transactionWelcome = manager.beginTransaction();
         if (welcomeFragment == null) {
-            welcomeFragment = new welcome();
+            welcomeFragment = new textFragment(0);
             transactionWelcome.add(R.id.main_activityLinearLayout, welcomeFragment);
         }
         hideFragment(transactionWelcome);
@@ -284,22 +275,6 @@ public class MainActivity2 extends Activity {
         transactionCameraReaderFragment.commit();
     }
 
-    private void initCreatorFragment(boolean showNow) {
-        FragmentTransaction transactionCreatorFragment = manager.beginTransaction();
-        if (creatorFragment == null) {
-            creatorFragment = new creator();
-            transactionCreatorFragment.add(R.id.main_activityLinearLayout, creatorFragment);
-        }
-        hideFragment(transactionCreatorFragment);
-        if (showNow) {
-            transactionCreatorFragment.show(creatorFragment);
-            log.c("creator");
-        } else {
-            log.i("initCreatorFragment");
-        }
-        transactionCreatorFragment.commit();
-    }
-
     private void initLogoCreatorFragment(boolean showNow) {
         FragmentTransaction transactionLogoCreatorFragment = manager.beginTransaction();
         if (logoCreatorFragment == null) {
@@ -335,7 +310,7 @@ public class MainActivity2 extends Activity {
     private void initAboutFragment(boolean showNow) {
         FragmentTransaction transactionAboutFragment = manager.beginTransaction();
         if (aboutFragment == null) {
-            aboutFragment = new about();
+            aboutFragment = new textFragment(1);
             transactionAboutFragment.add(R.id.main_activityLinearLayout, aboutFragment);
         }
         hideFragment(transactionAboutFragment);
@@ -399,13 +374,20 @@ public class MainActivity2 extends Activity {
             }
             return true;
         }
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+                mDrawerLayout.closeDrawer(mDrawerList);
+            } else {
+                mDrawerLayout.openDrawer(mDrawerList);
+            }
+            return true;
+        }
         return super.onKeyDown(keyCode, event);
     }
 
     public void hideFragment(FragmentTransaction transaction) {
         Fragment fs[] = {
                 welcomeFragment,
-                creatorFragment,
                 logoCreatorFragment,
                 awesomeCreatorFragment,
                 cameraReaderFragment,

@@ -309,10 +309,10 @@ public final class CameraManager {
         String previewFormatString = configManager.getPreviewFormatString();
         switch (previewFormat) {
             // This is the standard Android format which all devices are REQUIRED to support.
-            // In theory, it's the only one we should ever care about.
+            // In theory, it's the only one we should ever care textFragment.
             case PixelFormat.YCbCr_420_SP:
                 // This format has never been seen in the wild, but is compatible as we only care
-                // about the Y channel, so allow it.
+                // textFragment the Y channel, so allow it.
             case PixelFormat.YCbCr_422_SP:
                 return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top,
                         rect.width(), rect.height());

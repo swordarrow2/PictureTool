@@ -29,7 +29,7 @@ public class QRCode{
      * @return bitmap
      */
     public static Bitmap createQRCode(String text,BarcodeFormat format){
-        return createQRCode(text,format,500);
+        return createQRCode(text,0xff000000,0xffffffff,format,500);
     }
 
     /**
@@ -39,7 +39,7 @@ public class QRCode{
      * @param size 生成二维码的大小
      * @return bitmap
      */
-    public static Bitmap createQRCode(String text,BarcodeFormat format,int size){
+    public static Bitmap createQRCode(String text,int true_dot_argb,int false_dot_argb,BarcodeFormat format,int size){
         try{
             Hashtable<EncodeHintType, String> hints = new Hashtable<>();
             hints.put(EncodeHintType.CHARACTER_SET,"UTF-8");
@@ -48,9 +48,9 @@ public class QRCode{
             for(int y = 0; y<size; y++){
                 for(int x = 0; x<size; x++){
                     if(bitMatrix.get(x,y)){
-                        pixels[y*size+x]=0xff000000;
+                        pixels[y*size+x]=true_dot_argb;
                     }else{
-                        pixels[y*size+x]=0xffffffff;
+                        pixels[y*size+x]=false_dot_argb;
                     }
                 }
             }
@@ -72,7 +72,7 @@ public class QRCode{
      * @param mBitmap
      * @return
      */
-    public static Bitmap createLogoQR(int true_dot_argb,int false_dot_argb,String text,int size,Bitmap mBitmap){
+    public static Bitmap createLogoQR(String text,int true_dot_argb,int false_dot_argb,int size,Bitmap mBitmap){
         try{
             IMAGE_HALFWIDTH=size/10;
             Hashtable<EncodeHintType, Object> hints = new Hashtable<>();

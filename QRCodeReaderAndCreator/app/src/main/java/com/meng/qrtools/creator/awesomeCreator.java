@@ -119,7 +119,7 @@ public class awesomeCreator extends Fragment{
         btGenerate.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v){
-					generate(etContents.getText().length()==0? getString(R.string.Makito_loves_Kafuu_Chino) :etContents.getText().toString(),
+					generate(etContents.getText().length()==0? getString(R.string.input_text) :etContents.getText().toString(),
 							 etSize.getText().length()==0? 800 :Integer.parseInt(etSize.getText().toString()),
 							 etMargin.getText().length()==0? 20 :Integer.parseInt(etMargin.getText().toString()),
 							 etDotScale.getText().length()==0? 0.3f :Float.parseFloat(etDotScale.getText().toString()),

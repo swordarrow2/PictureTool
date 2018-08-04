@@ -15,11 +15,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         ExceptionCatcher.getInstance().init(this);
         sharedPreference = new SharedPreferenceHelper(this, "main");
-        Intent i = new Intent(MainActivity.this, MainActivity2.class);
-        if (!getIntent().getBooleanExtra("setTheme", false)) {
-            i.putExtra("setTheme", true);
-        }
-        startActivity(i);
+    //    Intent i = new Intent(MainActivity.this, MainActivity2.class);
+    //    i.putExtra("setTheme", getIntent().getBooleanExtra("setTheme", false));
+    //    startActivity(i);
+        startActivity(new Intent(MainActivity.this, MainActivity2.class).putExtra("setTheme", getIntent().getBooleanExtra("setTheme", false)));
         finish();
         overridePendingTransition(0, 0);
     }
