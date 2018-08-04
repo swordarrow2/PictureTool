@@ -64,6 +64,28 @@ public class MainActivity2 extends Activity {
         if (MainActivity.sharedPreference.getBoolean("opendraw", true)) {
             mDrawerLayout.openDrawer(mDrawerList);
         }
+        if (MainActivity.sharedPreference.getBoolean("useLightTheme", false)) {
+            mDrawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+            rt.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+        } else {
+            mDrawerList.setBackgroundColor(getResources().getColor(android.R.color.background_dark));
+            rt.setBackgroundColor(getResources().getColor(android.R.color.background_dark));
+        }
+        if (getIntent().getBooleanExtra("setTheme", false)) {
+            initWelcome(true);
+        } else {
+            initSettingsFragment(true);
+            mDrawerLayout.closeDrawer(mDrawerList);
+        }
+    }
+
+    @Override
+    public void setTheme(int resid) {
+        if (MainActivity.sharedPreference.getBoolean("useLightTheme", false)) {
+            super.setTheme(R.style.AppThemeLight);
+        } else {
+            super.setTheme(R.style.AppThemeDark);
+        }
     }
 
     private void setActionBar() {
@@ -79,7 +101,7 @@ public class MainActivity2 extends Activity {
                 return false;
             }
         };
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,drawerArrow, R.string.open,R.string.close) {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, drawerArrow, R.string.open, R.string.close) {
 
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -192,6 +214,7 @@ public class MainActivity2 extends Activity {
 
     private void initFragment() {
         manager = getFragmentManager();
+        initWelcome(false);
         if (MainActivity.sharedPreference.getBoolean("ldgr")) {
             initGalleryReaderFragment(false);
         }
@@ -211,7 +234,6 @@ public class MainActivity2 extends Activity {
         if (MainActivity.sharedPreference.getBoolean("settings")) {
             initSettingsFragment(false);
         }
-        initWelcome(true);
     }
 
     private void initWelcome(boolean showNow) {

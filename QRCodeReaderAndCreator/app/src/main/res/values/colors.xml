@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#222222</color>
+    <color name="actionBarLight">#3F51B5</color>
+    <color name="actionBarDark">#888888</color>
     <color name="drawerBackground">#FFFFFF</color>
-    <color name="drawerBackgroundDark">#111111</color>
     <color name="ldrawer_color">#FFFFFF</color>
     <color name="possible_result_points">#c0ffff00</color>
     <color name="result_view">#b0000000</color>

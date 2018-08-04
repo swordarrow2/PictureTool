@@ -40,4 +40,9 @@
             android:title="设置" />
     </PreferenceScreen>
 
+    <CheckBoxPreference
+        android:key="useLightTheme"
+        android:summaryOff="半夜迫害不瞎眼"
+        android:summaryOn="亮主题"
+        android:title="使用亮主题" />
 </PreferenceScreen>
