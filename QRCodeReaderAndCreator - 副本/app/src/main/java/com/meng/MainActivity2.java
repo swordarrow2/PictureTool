@@ -29,6 +29,7 @@ import com.meng.qrtools.reader.cameraReader;
 import com.meng.qrtools.reader.galleryReader;
 import com.meng.qrtools.settings;
 import com.meng.qrtools.welcome;
+import android.app.*;
 
 public class MainActivity2 extends Activity {
     public static MainActivity2 instence;
@@ -38,8 +39,7 @@ public class MainActivity2 extends Activity {
     private RelativeLayout rt;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
-    private boolean drawerArrowColor;
-
+    
     private welcome welcomeFragment;
     private creator creatorFragment;
     private logoCreator logoCreatorFragment;
@@ -81,13 +81,13 @@ public class MainActivity2 extends Activity {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();
-                log.i("guanbi");
+                log.i("抽屉打开");
             }
 
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu();
-                log.i("dakai");
+                log.i("抽屉关闭");
             }
 
             @Override
@@ -142,77 +142,36 @@ public class MainActivity2 extends Activity {
 
                 switch (position) {
                     case 0:
-                        FragmentTransaction transactionWelcome = manager.beginTransaction();
-                        if (welcomeFragment == null) {
-                            welcomeFragment = new welcome();
-                            transactionWelcome.add(R.id.main_activityLinearLayout, welcomeFragment);
-                        }
-                        hideFragment(transactionWelcome);
-                        transactionWelcome.show(welcomeFragment);
-                        transactionWelcome.commit();
+                        initWelcome(true);
+						log.c("welcome");
                         break;
                     case 1:
-                        FragmentTransaction transactionGalleryReaderFragment = manager.beginTransaction();
-                        if (galleryReaderFragment == null) {
-                            galleryReaderFragment = new galleryReader();
-                            transactionGalleryReaderFragment.add(R.id.main_activityLinearLayout, galleryReaderFragment);
-                        }
-                        hideFragment(transactionGalleryReaderFragment);
-                        transactionGalleryReaderFragment.show(galleryReaderFragment);
-                        transactionGalleryReaderFragment.commit();
+                        initGalleryReaderFragment(true);
+						log.c("galleryReader");
                         break;
                     case 2:
-                        FragmentTransaction transactionCameraReaderFragment = manager.beginTransaction();
-                        if (cameraReaderFragment == null) {
-                            cameraReaderFragment = new cameraReader();
-                            transactionCameraReaderFragment.add(R.id.main_activityLinearLayout, cameraReaderFragment, "cameraReader");
-                        }
-                        hideFragment(transactionCameraReaderFragment);
-                        transactionCameraReaderFragment.show(cameraReaderFragment);
-                        transactionCameraReaderFragment.commit();
+                        initCameraReaderFragment(true);
+						log.c("CameraReader");
                         break;
                     case 3:
-                        FragmentTransaction transactionCreatorFragment = manager.beginTransaction();
-                        if (creatorFragment == null) {
-                            creatorFragment = new creator();
-                            transactionCreatorFragment.add(R.id.main_activityLinearLayout, creatorFragment);
-                        }
-                        hideFragment(transactionCreatorFragment);
-                        transactionCreatorFragment.show(creatorFragment);
-                        transactionCreatorFragment.commit();
+                        initCreatorFragment(true);
+						log.c("creator");
                         break;
                     case 4:
-                        FragmentTransaction transactionLogoCreatorFragment = manager.beginTransaction();
-                        if (logoCreatorFragment == null) {
-                            logoCreatorFragment = new logoCreator();
-                            transactionLogoCreatorFragment.add(R.id.main_activityLinearLayout, logoCreatorFragment);
-                        }
-                        hideFragment(transactionLogoCreatorFragment);
-                        transactionLogoCreatorFragment.show(logoCreatorFragment);
-                        transactionLogoCreatorFragment.commit();
+                        initLogoCreatorFragment(true);
+						log.c("LogoCreator");
                         break;
                     case 5:
-                        FragmentTransaction transactionAwesomeCreatorFragment = manager.beginTransaction();
-                        if (awesomeCreatorFragment == null) {
-                            awesomeCreatorFragment = new awesomeCreator();
-                            transactionAwesomeCreatorFragment.add(R.id.main_activityLinearLayout, awesomeCreatorFragment);
-                        }
-                        hideFragment(transactionAwesomeCreatorFragment);
-                        transactionAwesomeCreatorFragment.show(awesomeCreatorFragment);
-                        transactionAwesomeCreatorFragment.commit();
+                        initAwesomeFragment(true);
+						log.c("AwesomeQR");
                         break;
                     case 6:
-                        FragmentTransaction transactionAboutFragment = manager.beginTransaction();
-                        if (aboutFragment == null) {
-                            aboutFragment = new about();
-                            transactionAboutFragment.add(R.id.main_activityLinearLayout, aboutFragment);
-                        }
-                        hideFragment(transactionAboutFragment);
-                        transactionAboutFragment.show(aboutFragment);
-                        transactionAboutFragment.commit();
+                        initAboutFragment(true);
+						log.c("About");
                         break;
                     case 7:
-                        initSettingsFragment();
+                        initSettingsFragment(true);
+						log.c("settings");
                         break;
                     case 8:
                         if (MainActivity.sharedPreference.getBoolean("exitsettings")) {
@@ -226,18 +185,6 @@ public class MainActivity2 extends Activity {
                 mDrawerLayout.closeDrawer(mDrawerList);
             }
 
-            private void initSettingsFragment(boolean showNow) {
-                FragmentTransaction transactionsettings = manager.beginTransaction();
-                if (settingsFragment == null) {
-                    settingsFragment = new settings();
-                    transactionsettings.add(R.id.main_activityLinearLayout, settingsFragment);
-                }
-                hideFragment(transactionsettings);
-                if(showNow) {
-                    transactionsettings.show(settingsFragment);
-                }
-                transactionsettings.commit();
-            }
         });
         if (MainActivity.sharedPreference.getBoolean("opendraw", true)) {
             mDrawerLayout.openDrawer(mDrawerList);
@@ -245,76 +192,138 @@ public class MainActivity2 extends Activity {
     }
 
     private void initFragment() {
+        if (MainActivity.sharedPreference.getBoolean("ldgr")) {
+            initGalleryReaderFragment(false);
+			log.i("initGalleryReaderFragment");
+        }
+        if (MainActivity.sharedPreference.getBoolean("ldcr")) {
+            initCameraReaderFragment(false);
+			log.i("initCameraReaderFragment");
+        }
+        if (MainActivity.sharedPreference.getBoolean("ldqr")) {
+            initCreatorFragment(false);
+			log.i("initCreatorFragment");
+        }
+        if (MainActivity.sharedPreference.getBoolean("ldlgqr")) {
+            initLogoCreatorFragment(false);
+			log.i("initLogoCreatorFragment");
+        }
+        initAwesomeFragment(false);
+		log.i("initAwesomeFragment");
+        if (MainActivity.sharedPreference.getBoolean("about")) {
+            initAboutFragment(false);
+			log.i("initAboutFragment");
+        }
+        if (MainActivity.sharedPreference.getBoolean("settings")) {
+            initSettingsFragment(false);
+			log.i("initSettingsFragment");
+        }
+        initWelcome(true);
+		log.i("initWelcome");
+    }
+
+    private void initWelcome(boolean showNow) {
         FragmentTransaction transactionWelcome = manager.beginTransaction();
         if (welcomeFragment == null) {
             welcomeFragment = new welcome();
             transactionWelcome.add(R.id.main_activityLinearLayout, welcomeFragment);
         }
-        if (MainActivity.sharedPreference.getBoolean("ldgr")) {
-            FragmentTransaction transactionGalleryReaderFragment = manager.beginTransaction();
-            if (galleryReaderFragment == null) {
-                galleryReaderFragment = new galleryReader();
-                transactionGalleryReaderFragment.add(R.id.main_activityLinearLayout, galleryReaderFragment);
-            }
-            hideFragment(transactionGalleryReaderFragment);
-            transactionGalleryReaderFragment.commit();
+        hideFragment(transactionWelcome);
+        if (showNow) {
+            transactionWelcome.show(welcomeFragment);
         }
-        if (MainActivity.sharedPreference.getBoolean("ldcr")) {
-            FragmentTransaction transactionCameraReaderFragment = manager.beginTransaction();
-            if (cameraReaderFragment == null) {
-                cameraReaderFragment = new cameraReader();
-                transactionCameraReaderFragment.add(R.id.main_activityLinearLayout, cameraReaderFragment, "cameraReader");
-            }
-            hideFragment(transactionCameraReaderFragment);
-            transactionCameraReaderFragment.commit();
-        }
-        if (MainActivity.sharedPreference.getBoolean("ldqr")) {
-            FragmentTransaction transactionCreatorFragment = manager.beginTransaction();
-            if (creatorFragment == null) {
-                creatorFragment = new creator();
-                transactionCreatorFragment.add(R.id.main_activityLinearLayout, creatorFragment);
-            }
-            hideFragment(transactionCreatorFragment);
-            transactionCreatorFragment.commit();
-        }
-        if (MainActivity.sharedPreference.getBoolean("ldlgqr")) {
-            FragmentTransaction transactionLogoCreatorFragment = manager.beginTransaction();
-            if (logoCreatorFragment == null) {
-                logoCreatorFragment = new logoCreator();
-                transactionLogoCreatorFragment.add(R.id.main_activityLinearLayout, logoCreatorFragment);
-            }
-            hideFragment(transactionLogoCreatorFragment);
-            transactionLogoCreatorFragment.commit();
-        }
-        if (MainActivity.sharedPreference.getBoolean("ldaws")) {
-            FragmentTransaction transactionAwesomeCreatorFragment = manager.beginTransaction();
-            if (awesomeCreatorFragment == null) {
-                awesomeCreatorFragment = new awesomeCreator();
-                transactionAwesomeCreatorFragment.add(R.id.main_activityLinearLayout, awesomeCreatorFragment);
-            }
-            hideFragment(transactionAwesomeCreatorFragment);
-            transactionAwesomeCreatorFragment.commit();
-        }
-        if (MainActivity.sharedPreference.getBoolean("about")) {
-            FragmentTransaction transactionAboutFragment = manager.beginTransaction();
-            if (aboutFragment == null) {
-                aboutFragment = new about();
-                transactionAboutFragment.add(R.id.main_activityLinearLayout, aboutFragment);
-            }
-            hideFragment(transactionAboutFragment);
-            transactionAboutFragment.commit();
-        }
-        if (MainActivity.sharedPreference.getBoolean("settings")) {
-            FragmentTransaction transactionsettings = manager.beginTransaction();
-            if (settingsFragment == null) {
-                settingsFragment = new settings();
-                transactionsettings.add(R.id.main_activityLinearLayout, settingsFragment);
-            }
-            hideFragment(transactionsettings);
-            transactionsettings.commit();
-        }
-        transactionWelcome.show(welcomeFragment);
         transactionWelcome.commit();
+    }
+
+    private void initGalleryReaderFragment(boolean showNow) {
+        FragmentTransaction transactionGalleryReaderFragment = manager.beginTransaction();
+        if (galleryReaderFragment == null) {
+            galleryReaderFragment = new galleryReader();
+            transactionGalleryReaderFragment.add(R.id.main_activityLinearLayout, galleryReaderFragment);
+        }
+        hideFragment(transactionGalleryReaderFragment);
+        if (showNow) {
+            transactionGalleryReaderFragment.show(galleryReaderFragment);
+        }
+        transactionGalleryReaderFragment.commit();
+    }
+
+    private void initCameraReaderFragment(boolean showNow) {
+        FragmentTransaction transactionCameraReaderFragment = manager.beginTransaction();
+        if (cameraReaderFragment == null) {
+            cameraReaderFragment = new cameraReader();
+            transactionCameraReaderFragment.add(R.id.main_activityLinearLayout, cameraReaderFragment, "cameraReader");
+        }
+        hideFragment(transactionCameraReaderFragment);
+        if (showNow) {
+            transactionCameraReaderFragment.show(cameraReaderFragment);
+        }
+        transactionCameraReaderFragment.commit();
+    }
+
+    private void initCreatorFragment(boolean showNow) {
+        FragmentTransaction transactionCreatorFragment = manager.beginTransaction();
+        if (creatorFragment == null) {
+            creatorFragment = new creator();
+            transactionCreatorFragment.add(R.id.main_activityLinearLayout, creatorFragment);
+        }
+        hideFragment(transactionCreatorFragment);
+        if (showNow) {
+            transactionCreatorFragment.show(creatorFragment);
+        }
+        transactionCreatorFragment.commit();
+    }
+
+    private void initLogoCreatorFragment(boolean showNow) {
+        FragmentTransaction transactionLogoCreatorFragment = manager.beginTransaction();
+        if (logoCreatorFragment == null) {
+            logoCreatorFragment = new logoCreator();
+            transactionLogoCreatorFragment.add(R.id.main_activityLinearLayout, logoCreatorFragment);
+        }
+        hideFragment(transactionLogoCreatorFragment);
+        if (showNow) {
+            transactionLogoCreatorFragment.show(logoCreatorFragment);
+        }
+        transactionLogoCreatorFragment.commit();
+    }
+
+    private void initAwesomeFragment(boolean showNow) {
+        FragmentTransaction transactionAwesomeCreatorFragment = manager.beginTransaction();
+        if (awesomeCreatorFragment == null) {
+            awesomeCreatorFragment = new awesomeCreator();
+            transactionAwesomeCreatorFragment.add(R.id.main_activityLinearLayout, awesomeCreatorFragment);
+        }
+        hideFragment(transactionAwesomeCreatorFragment);
+        if (showNow) {
+            transactionAwesomeCreatorFragment.show(awesomeCreatorFragment);
+        }
+        transactionAwesomeCreatorFragment.commit();
+    }
+
+    private void initAboutFragment(boolean showNow) {
+        FragmentTransaction transactionAboutFragment = manager.beginTransaction();
+        if (aboutFragment == null) {
+            aboutFragment = new about();
+            transactionAboutFragment.add(R.id.main_activityLinearLayout, aboutFragment);
+        }
+        hideFragment(transactionAboutFragment);
+        if (showNow) {
+            transactionAboutFragment.show(aboutFragment);
+        }
+        transactionAboutFragment.commit();
+    }
+
+    private void initSettingsFragment(boolean showNow) {
+        FragmentTransaction transactionsettings = manager.beginTransaction();
+        if (settingsFragment == null) {
+            settingsFragment = new settings();
+            transactionsettings.add(R.id.main_activityLinearLayout, settingsFragment);
+        }
+        hideFragment(transactionsettings);
+        if (showNow) {
+            transactionsettings.show(settingsFragment);
+        }
+        transactionsettings.commit();
     }
 
     @Override
@@ -356,30 +365,21 @@ public class MainActivity2 extends Activity {
     }
 
     public void hideFragment(FragmentTransaction transaction) {
-        if (welcomeFragment != null) {
-            transaction.hide(welcomeFragment);
-        }
-        if (creatorFragment != null) {
-            transaction.hide(creatorFragment);
-        }
-        if (logoCreatorFragment != null) {
-            transaction.hide(logoCreatorFragment);
-        }
-        if (awesomeCreatorFragment != null) {
-            transaction.hide(awesomeCreatorFragment);
-        }
-        if (cameraReaderFragment != null) {
-            transaction.hide(cameraReaderFragment);
-        }
-        if (galleryReaderFragment != null) {
-            transaction.hide(galleryReaderFragment);
-        }
-        if (aboutFragment != null) {
-            transaction.hide(aboutFragment);
-        }
-        if (settingsFragment != null) {
-            transaction.hide(settingsFragment);
-        }
+		Fragment fs[]={
+			welcomeFragment,
+			creatorFragment,
+			logoCreatorFragment,
+			awesomeCreatorFragment,
+			cameraReaderFragment,
+			galleryReaderFragment,
+			aboutFragment,
+			settingsFragment
+		};
+		for(Fragment f:fs){
+			if(f!=null){
+				transaction.hide(f);
+			}
+		}
     }
 
 }

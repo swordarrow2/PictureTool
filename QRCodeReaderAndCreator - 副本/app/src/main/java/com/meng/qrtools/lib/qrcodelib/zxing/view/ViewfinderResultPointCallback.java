@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.meng.qrtools.reader.qrcodelib.zxing.view;
+package com.meng.qrtools.lib.qrcodelib.zxing.view;
 
 import com.google.zxing.*;
 

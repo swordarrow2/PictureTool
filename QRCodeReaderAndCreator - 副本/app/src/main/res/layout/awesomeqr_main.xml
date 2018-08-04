@@ -205,7 +205,7 @@
                 android:id="@+id/awesomeqr_main_generate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/generate" />
+                android:text="@string/click_to_create" />
 
             <Button
                 android:id="@+id/awesomeqr_mainButton"

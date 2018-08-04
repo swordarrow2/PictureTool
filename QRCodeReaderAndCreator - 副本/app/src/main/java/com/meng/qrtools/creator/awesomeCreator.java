@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.meng.qrtools.R;
+import com.meng.qrtools.log;
 
 import java.io.File;
 import java.io.IOException;
@@ -111,7 +112,7 @@ public class awesomeCreator extends Fragment{
 				public void onClick(View v){
 					backgroundImage=null;
 					imgPathTextView.setText("未选择背景图");
-					Toast.makeText(getActivity().getApplicationContext(),R.string.Background_image_removed,Toast.LENGTH_SHORT).show();
+					log.t(getResources().getString(R.string.Background_image_removed));
 				}
 			});
 

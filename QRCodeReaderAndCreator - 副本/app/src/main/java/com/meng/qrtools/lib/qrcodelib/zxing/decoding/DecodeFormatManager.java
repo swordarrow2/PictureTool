@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.meng.qrtools.reader.qrcodelib.zxing.decoding;
+package com.meng.qrtools.lib.qrcodelib.zxing.decoding;
 
 import android.content.*;
 import android.net.*;

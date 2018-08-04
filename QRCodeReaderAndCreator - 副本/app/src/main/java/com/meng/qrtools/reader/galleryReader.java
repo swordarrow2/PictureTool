@@ -16,7 +16,7 @@ import android.webkit.*;
 import android.widget.*;
 import com.google.zxing.*;
 import com.meng.*;
-import com.meng.qrtools.reader.qrcodelib.common.*;
+import com.meng.qrtools.lib.qrcodelib.common.*;
 
 public class galleryReader extends Fragment{
     private final int REQUEST_PERMISSION_PHOTO = 1001;

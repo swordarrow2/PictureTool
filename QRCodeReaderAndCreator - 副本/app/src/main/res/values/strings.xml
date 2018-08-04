@@ -26,12 +26,7 @@
     <string name="white_margin_on_background_image">给图片添加白色边框</string>
     <string name="binarize_background_image">二进制颜色图片(黑白图片)</string>
     <string name="binarizethreshold_0_lt_threshold_lt_255"><![CDATA[转换阀值 (0 < 值 < 255)]]></string>
-    <string name="generate">生成</string>
-    <string name="_128">128</string>
-    <string name="Error_occurred_please_check_your_configs">发生错误,请检查参数设置</string>
     <string name="Makito_loves_Kafuu_Chino">示例内容</string>
     <string name="Background_image_removed">背景图移除成功</string>
     <string name="Background_image_added">背景图添加成功</string>
-    <string name="Failed_to_add_the_background_image">背景图添加失败</string>
-    <string name="generating">生成中</string>
 </resources>

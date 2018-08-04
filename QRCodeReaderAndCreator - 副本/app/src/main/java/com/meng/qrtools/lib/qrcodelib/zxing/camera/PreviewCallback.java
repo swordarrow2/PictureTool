@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.meng.qrtools.reader.qrcodelib.zxing.camera;
+package com.meng.qrtools.lib.qrcodelib.zxing.camera;
 
 import android.graphics.*;
-import android.hardware.*;
 import android.os.*;
 import android.util.*;
 

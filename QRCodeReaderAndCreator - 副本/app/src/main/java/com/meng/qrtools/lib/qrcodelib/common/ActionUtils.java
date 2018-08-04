@@ -1,4 +1,4 @@
-package com.meng.qrtools.reader.qrcodelib.common;
+package com.meng.qrtools.lib.qrcodelib.common;
 
 import android.app.*;
 import android.content.*;
