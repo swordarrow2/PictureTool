@@ -29,6 +29,7 @@ import com.meng.qrtools.reader.cameraReader;
 import com.meng.qrtools.reader.galleryReader;
 import com.meng.qrtools.settings;
 import com.meng.qrtools.welcome;
+import android.app.*;
 
 public class MainActivity2 extends Activity {
     public static MainActivity2 instence;
@@ -38,8 +39,7 @@ public class MainActivity2 extends Activity {
     private RelativeLayout rt;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
-    private boolean drawerArrowColor;
-
+    
     private welcome welcomeFragment;
     private creator creatorFragment;
     private logoCreator logoCreatorFragment;
@@ -143,27 +143,35 @@ public class MainActivity2 extends Activity {
                 switch (position) {
                     case 0:
                         initWelcome(true);
+						log.c("welcome");
                         break;
                     case 1:
                         initGalleryReaderFragment(true);
+						log.c("galleryReader");
                         break;
                     case 2:
                         initCameraReaderFragment(true);
+						log.c("CameraReader");
                         break;
                     case 3:
                         initCreatorFragment(true);
+						log.c("creator");
                         break;
                     case 4:
                         initLogoCreatorFragment(true);
+						log.c("LogoCreator");
                         break;
                     case 5:
                         initAwesomeFragment(true);
+						log.c("AwesomeQR");
                         break;
                     case 6:
                         initAboutFragment(true);
+						log.c("About");
                         break;
                     case 7:
                         initSettingsFragment(true);
+						log.c("settings");
                         break;
                     case 8:
                         if (MainActivity.sharedPreference.getBoolean("exitsettings")) {
@@ -186,24 +194,32 @@ public class MainActivity2 extends Activity {
     private void initFragment() {
         if (MainActivity.sharedPreference.getBoolean("ldgr")) {
             initGalleryReaderFragment(false);
+			log.i("initGalleryReaderFragment");
         }
         if (MainActivity.sharedPreference.getBoolean("ldcr")) {
             initCameraReaderFragment(false);
+			log.i("initCameraReaderFragment");
         }
         if (MainActivity.sharedPreference.getBoolean("ldqr")) {
             initCreatorFragment(false);
+			log.i("initCreatorFragment");
         }
         if (MainActivity.sharedPreference.getBoolean("ldlgqr")) {
             initLogoCreatorFragment(false);
+			log.i("initLogoCreatorFragment");
         }
         initAwesomeFragment(false);
+		log.i("initAwesomeFragment");
         if (MainActivity.sharedPreference.getBoolean("about")) {
             initAboutFragment(false);
+			log.i("initAboutFragment");
         }
         if (MainActivity.sharedPreference.getBoolean("settings")) {
             initSettingsFragment(false);
+			log.i("initSettingsFragment");
         }
         initWelcome(true);
+		log.i("initWelcome");
     }
 
     private void initWelcome(boolean showNow) {
@@ -349,30 +365,21 @@ public class MainActivity2 extends Activity {
     }
 
     public void hideFragment(FragmentTransaction transaction) {
-        if (welcomeFragment != null) {
-            transaction.hide(welcomeFragment);
-        }
-        if (creatorFragment != null) {
-            transaction.hide(creatorFragment);
-        }
-        if (logoCreatorFragment != null) {
-            transaction.hide(logoCreatorFragment);
-        }
-        if (awesomeCreatorFragment != null) {
-            transaction.hide(awesomeCreatorFragment);
-        }
-        if (cameraReaderFragment != null) {
-            transaction.hide(cameraReaderFragment);
-        }
-        if (galleryReaderFragment != null) {
-            transaction.hide(galleryReaderFragment);
-        }
-        if (aboutFragment != null) {
-            transaction.hide(aboutFragment);
-        }
-        if (settingsFragment != null) {
-            transaction.hide(settingsFragment);
-        }
+		Fragment fs[]={
+			welcomeFragment,
+			creatorFragment,
+			logoCreatorFragment,
+			awesomeCreatorFragment,
+			cameraReaderFragment,
+			galleryReaderFragment,
+			aboutFragment,
+			settingsFragment
+		};
+		for(Fragment f:fs){
+			if(f!=null){
+				transaction.hide(f);
+			}
+		}
     }
 
 }
