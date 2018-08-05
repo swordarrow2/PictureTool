@@ -1,36 +1,17 @@
 package com.meng.qrtools.creator;
 
-import android.app.Fragment;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.SystemClock;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.zxing.BarcodeFormat;
-import com.meng.qrtools.R;
-import com.meng.qrtools.log;
-
-import java.io.File;
-import java.io.IOException;
+import android.app.*;
+import android.content.*;
+import android.graphics.*;
+import android.graphics.drawable.*;
+import android.net.*;
+import android.os.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
+import com.google.zxing.*;
+import com.meng.qrtools.*;
+import java.io.*;
 
 public class logoCreator extends Fragment {
     private ImageView qrcodeImageView;

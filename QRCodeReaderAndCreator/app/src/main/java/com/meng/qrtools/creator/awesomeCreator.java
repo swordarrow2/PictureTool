@@ -1,35 +1,20 @@
 package com.meng.qrtools.creator;
 
-import android.Manifest;
+import android.*;
+import android.app.*;
+import android.content.*;
+import android.content.pm.*;
+import android.graphics.*;
+import android.net.*;
+import android.os.*;
+import android.support.v4.app.*;
+import android.view.*;
+import android.widget.*;
+import com.meng.qrtools.*;
+import java.io.*;
+
 import android.app.Fragment;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.SystemClock;
-import android.support.v4.app.ActivityCompat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.meng.qrtools.R;
-import com.meng.qrtools.log;
-
-import java.io.File;
-import java.io.IOException;
 
 public class awesomeCreator extends Fragment{
 

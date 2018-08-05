@@ -1,6 +1,6 @@
 package com.meng.qrtools;
-import com.meng.*;
 import android.widget.*;
+import com.meng.*;
 
 public class log
 {

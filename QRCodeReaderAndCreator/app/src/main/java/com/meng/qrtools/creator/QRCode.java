@@ -17,7 +17,6 @@ import com.google.zxing.qrcode.*;
 import com.google.zxing.qrcode.decoder.*;
 import java.io.*;
 import java.util.*;
-import com.google.zxing.pdf417.*;
 
 public class QRCode{
     private static int IMAGE_HALFWIDTH = 50;

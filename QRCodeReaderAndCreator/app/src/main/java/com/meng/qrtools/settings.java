@@ -1,10 +1,8 @@
 package com.meng.qrtools;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
+import android.content.*;
+import android.os.*;
+import android.preference.*;
 
 public class settings extends PreferenceFragment {
 

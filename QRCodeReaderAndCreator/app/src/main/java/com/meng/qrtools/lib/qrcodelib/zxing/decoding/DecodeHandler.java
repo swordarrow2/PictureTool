@@ -21,8 +21,8 @@ import android.util.*;
 import com.google.zxing.*;
 import com.google.zxing.common.*;
 import com.meng.qrtools.*;
-import com.meng.qrtools.reader.*;
 import com.meng.qrtools.lib.qrcodelib.zxing.camera.*;
+import com.meng.qrtools.reader.*;
 import java.util.*;
 
 import com.meng.qrtools.lib.qrcodelib.zxing.camera.PlanarYUVLuminanceSource;
@@ -74,7 +74,7 @@ final class DecodeHandler extends Handler {
         height = tmp;
 
         PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(rotatedData, width, height);
-        BinaryBitmap bitmap = new BinaryBitmap(new com.meng.qrtools.lib.qrcodelib.GlobalHistogramBinarizer(source));
+        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
         try {
             rawResult = multiFormatReader.decodeWithState(bitmap);
         } catch (ReaderException re) {
