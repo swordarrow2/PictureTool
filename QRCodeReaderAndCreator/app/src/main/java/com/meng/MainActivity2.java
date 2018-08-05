@@ -10,6 +10,7 @@ import com.meng.qrtools.*;
 import com.meng.qrtools.creator.*;
 import com.meng.qrtools.lib.materialDesign.*;
 import com.meng.qrtools.reader.*;
+import com.example.androidndkgif.*;
 
 public class MainActivity2 extends Activity{
     public static MainActivity2 instence;
@@ -26,6 +27,8 @@ public class MainActivity2 extends Activity{
     public cameraReader cameraReaderFragment;
     public galleryReader galleryReaderFragment;
     private textFragment aboutFragment;
+	private ExampleActivity gifFragment;
+
     private settings settingsFragment;
     private TextView rightText;
 
@@ -108,7 +111,7 @@ public class MainActivity2 extends Activity{
 
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,android.R.id.text1,new String[]{
 															"首页(?)","读取相册二维码","相机扫描二维码","创建二维码",
-															"创建Awesome二维码","关于","设置","退出"
+															"创建Awesome二维码","创建动态Awesome二维码","关于","设置","退出"
 														}));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 				@Override
@@ -128,6 +131,9 @@ public class MainActivity2 extends Activity{
 							break;
 						case "创建Awesome二维码":
 							initAwesomeFragment(true);
+							break;
+						case "创建动态Awesome二维码":
+							initGifAwesomeFragment(true);
 							break;
 						case "关于":
 							initAboutFragment(true);
@@ -169,6 +175,7 @@ public class MainActivity2 extends Activity{
             initLogoCreatorFragment(false);
         }
         initAwesomeFragment(false);
+		initGifAwesomeFragment(false);
         if(MainActivity.sharedPreference.getBoolean("textFragment")){
             initAboutFragment(false);
         }
@@ -257,6 +264,22 @@ public class MainActivity2 extends Activity{
         transactionAwesomeCreatorFragment.commit();
     }
 
+	private void initGifAwesomeFragment(boolean showNow){
+        FragmentTransaction transactionGifAwesomeCreatorFragment = manager.beginTransaction();
+        if(gifFragment==null){
+            gifFragment=new ExampleActivity();
+            transactionGifAwesomeCreatorFragment.add(R.id.main_activityLinearLayout,gifFragment);
+        }
+        hideFragment(transactionGifAwesomeCreatorFragment);
+        if(showNow){
+            transactionGifAwesomeCreatorFragment.show(gifFragment);
+            log.c("gifAwesomeQR");
+        }else{
+            log.i("initGifAwesomeFragment");
+        }
+        transactionGifAwesomeCreatorFragment.commit();
+    }
+
     private void initAboutFragment(boolean showNow){
         FragmentTransaction transactionAboutFragment = manager.beginTransaction();
         if(aboutFragment==null){
@@ -332,6 +355,7 @@ public class MainActivity2 extends Activity{
 			welcomeFragment,
 			logoCreatorFragment,
 			awesomeCreatorFragment,
+			gifFragment,
 			cameraReaderFragment,
 			galleryReaderFragment,
 			aboutFragment,
