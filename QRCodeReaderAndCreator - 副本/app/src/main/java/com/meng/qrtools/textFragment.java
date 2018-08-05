@@ -9,14 +9,18 @@ import android.widget.*;
  * Created by Administrator on 2018/7/19.
  */
 
-public class about extends Fragment {
+public class textFragment extends Fragment {
 
     private TextView tv;
+    private int flag=0;
+    public textFragment(int i) {
+    flag=i;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: Implement this method
-        return inflater.inflate(R.layout.about, container, false);
+        return inflater.inflate(R.layout.text_fragment, container, false);
     }
 
     @Override
@@ -24,6 +28,20 @@ public class about extends Fragment {
         // TODO: Implement this method
         super.onViewCreated(view, savedInstanceState);
         tv = (TextView) view.findViewById(R.id.aboutTextView);
+        switch (flag) {
+            case 0:
+                welcome();
+                break;
+            case 1:
+                about();
+                break;
+        }
+    }
+    private void welcome(){
+        tv.setText("选择想要使用的功能吧");
+    }
+
+    private void about() {
         String[] s = new String[]{
                 //	"欢迎使用QRtools\n",
                 "    这是一个可以对二维码进行读取内容和生成二维码的软件。\n",

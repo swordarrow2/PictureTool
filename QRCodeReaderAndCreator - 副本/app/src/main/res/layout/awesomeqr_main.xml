@@ -33,7 +33,7 @@
                 android:id="@+id/awesomeqr_main_contents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/makito_loves_kafuu_chino"
+                android:hint="@string/input_text"
                 android:maxLines="3" />
 
             <TextView
@@ -48,7 +48,7 @@
                 android:id="@+id/awesomeqr_main_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/_800"
+                android:hint="800"
                 android:inputType="number"
                 android:lines="1"
                 android:maxLines="1"
@@ -66,7 +66,7 @@
                 android:id="@+id/awesomeqr_main_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/_20"
+                android:hint="20"
                 android:inputType="number"
                 android:lines="1"
                 android:maxLines="1"
@@ -84,7 +84,7 @@
                 android:id="@+id/awesomeqr_main_dotScale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/_0_3"
+                android:hint="0.3"
                 android:inputType="numberDecimal"
                 android:lines="1"
                 android:maxLines="1"
@@ -96,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="@string/automatically_pick_color_from_background_image" />
+                android:text="@string/auto_pick_color" />
 
             <LinearLayout
                 android:id="@+id/awesomeqr_main_select_color_linearLayout"
@@ -118,11 +118,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:hint="@string/colordark"
+                    android:hint="#000000"
                     android:lines="1"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="@string/colordark" />
+                    android:text="#000000" />
 
 
                 <TextView
@@ -138,11 +138,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:hint="@string/colorlight"
+                    android:hint="#ffffff"
                     android:lines="1"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="@string/colorlight" />
+                    android:text="#ffffff" />
             </LinearLayout>
 
             <LinearLayout
@@ -151,10 +151,10 @@
                 android:orientation="vertical">
 
                 <TextView
-					android:text="未选择背景图"
                     android:id="@+id/awesomeqr_main_imgPathTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="未选择背景图" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -166,14 +166,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/select_background_image" />
+                        android:text="@string/select_image" />
 
                     <Button
                         android:id="@+id/awesomeqr_main_removeBackgroundImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/remove_background_image" />
+                        android:text="@string/remove_image" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -190,16 +190,16 @@
                 android:text="@string/binarize_background_image" />
 
             <EditText
-				android:hint="@string/binarizethreshold_0_lt_threshold_lt_255"
-				android:visibility="gone"
                 android:id="@+id/awesomeqr_main_binarizeThreshold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
+                android:hint="@string/binarizethreshold_0_lt_threshold_lt_255"
                 android:inputType="number"
                 android:lines="1"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/awesomeqr_main_generate"

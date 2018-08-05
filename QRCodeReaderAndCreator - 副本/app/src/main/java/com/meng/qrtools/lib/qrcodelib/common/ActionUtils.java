@@ -12,8 +12,7 @@ import android.provider.*;
 
 public class ActionUtils {
 
-    private static final String TAG = ActionUtils.class.getSimpleName();
-
+    
     public static final int PHOTO_REQUEST_GALLERY = 1000;
     public static final int PHOTO_REQUEST_CAMERA = 1001;
     public static final int PHOTO_REQUEST_CUT = 1002;

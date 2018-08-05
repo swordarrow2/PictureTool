@@ -9,5 +9,4 @@
     <dimen name="ldrawer_gapBetweenBars">3dp</dimen>
     <dimen name="ldrawer_middleBarArrowSize">16dp</dimen>
     <dimen name="navdrawer_width">260dp</dimen>
-
 </resources>
