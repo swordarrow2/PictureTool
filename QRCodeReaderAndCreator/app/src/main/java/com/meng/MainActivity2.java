@@ -113,30 +113,29 @@ public class MainActivity2 extends Activity{
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent,View view,int position,long id){
-
-					switch(position){
-						case 0:
+					switch(((TextView)view).getText().toString()){
+						case "首页(?)":
 							initWelcome(true);
 							break;
-						case 1:
+						case "读取相册二维码":
 							initGalleryReaderFragment(true);
 							break;
-						case 2:
+						case "相机扫描二维码":
 							initCameraReaderFragment(true);
 							break;
-						case 3:
+						case "创建二维码":
 							initLogoCreatorFragment(true);
 							break;
-						case 4:
+						case "创建Awesome二维码":
 							initAwesomeFragment(true);
 							break;
-						case 5:
+						case "关于":
 							initAboutFragment(true);
 							break;
-						case 6:
+						case "设置":
 							initSettingsFragment(true);
 							break;
-						case 7:
+						case "退出":
 							if(MainActivity.sharedPreference.getBoolean("exitsettings")){
 								System.exit(0);
 							}else{
