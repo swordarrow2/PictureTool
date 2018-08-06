@@ -171,6 +171,7 @@ public class gifAwesomeQr extends Fragment {
         GifEncoder gifEncoder = new GifEncoder();
         gifEncoder.setDither(dither.isChecked());
         int picCount=new File(tmpFolder).listFiles().length;
+		gifSize=300;
         if(lowMem.isChecked()){
             gifEncoder.init(gifSize, gifSize, filePath, GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
             for (int t=0;t<picCount;t++) {
@@ -178,7 +179,7 @@ public class gifAwesomeQr extends Fragment {
                         encodeAwesome(
                                 "发了发了你稳了",
                                 gifSize,
-                                0.3f,
+                                0.4f,
                                 BitmapFactory.decodeFile(tmpFolder+t+".png")
                         ), gifDelay);
             }
@@ -189,7 +190,7 @@ public class gifAwesomeQr extends Fragment {
                         encodeAwesome(
                                 "发了发了你稳了",
                                 gifSize,
-                                0.3f,
+                                0.4f,
                                 bitmaps[t]
                         ), gifDelay);
             }
@@ -286,7 +287,7 @@ public class gifAwesomeQr extends Fragment {
     }
 
     private Bitmap encodeAwesome(String contents,int size,float dotScale,Bitmap bg){
-        return AwesomeQRCode.create(contents,size,(int)(size*0.025f),dotScale, Color.GREEN,Color.WHITE,bg,false,false,false,0);
+        return AwesomeQRCode.create(contents,size,(int)(size*0.025f),dotScale, Color. BLUE,Color.WHITE,bg,false,false,false,0);
 
     }
 
