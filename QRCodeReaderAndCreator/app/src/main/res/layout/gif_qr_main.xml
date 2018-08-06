@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
@@ -17,6 +17,14 @@
         android:layout_height="wrap_content"
         android:text="decode GIF"
         />
+	
+	<Button
+        android:id="@+id/gif_qr_mainButton_selectImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="decode GIF2"
+		
+	/>
 
     <Button
         android:id="@+id/decode_gif_using_iterator_btn"
@@ -42,5 +50,5 @@
         android:layout_toRightOf="@id/encode_gif_btn"
         android:text="disable dithering"
         />
-</RelativeLayout>
+</LinearLayout>
 

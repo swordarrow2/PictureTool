@@ -10,16 +10,21 @@ import android.widget.*;
 import com.meng.qrtools.*;
 import com.waynejo.androidndkgif.*;
 import java.io.*;
+import android.content.*;
+import android.net.*;
+import com.meng.qrtools.creator.*;
 
 public class ExampleActivity extends Fragment{
 
     private boolean useDither = true;
     private ImageView imageView;
 	Button decode_gif_btn
+	,btn_selectImg
 	,decode_gif_using_iterator_btn
 	,encode_gif_btn
 	,gif_qr_mainButton;
-
+	private final int SELECT_FILE_REQUEST_CODE = 8212;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
 		// TODO: Implement this method
@@ -31,11 +36,25 @@ public class ExampleActivity extends Fragment{
 		// TODO: Implement this method
 		super.onViewCreated(view,savedInstanceState);
         imageView=(ImageView)view. findViewById(R.id.image_view);
+		btn_selectImg=(Button)view.findViewById(R.id.gif_qr_mainButton_selectImg);
 		decode_gif_btn=(Button)view.findViewById(R.id.decode_gif_btn);
 		decode_gif_using_iterator_btn=(Button)view.findViewById(R.id.decode_gif_using_iterator_btn);
 		encode_gif_btn=(Button)view.findViewById(R.id.encode_gif_btn);
 		gif_qr_mainButton=(Button)view.findViewById(R.id.gif_qr_mainButton);
 
+		
+		btn_selectImg.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View p1){
+					// TODO: Implement this method
+					Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+					intent.addCategory(Intent.CATEGORY_OPENABLE);
+					intent.setType("image/*");
+					startActivityForResult(intent,SELECT_FILE_REQUEST_CODE);
+					
+				}
+			});
 		decode_gif_btn.setOnClickListener(new OnClickListener(){
 
 				@Override
@@ -70,37 +89,15 @@ public class ExampleActivity extends Fragment{
 			});
     }
 
-    private String setupSampleFile(){
-        AssetManager assetManager =getActivity(). getAssets();
-        String srcFile = "sample1.gif";
-        String destFile =getActivity(). getFilesDir().getAbsolutePath()+File.separator+srcFile;
-        copyFile(assetManager,srcFile,destFile);
-        return destFile;
-    }
+    
 
-    private void copyFile(AssetManager assetManager,String srcFile,String destFile){
-        try{
-            InputStream is = assetManager.open(srcFile);
-            FileOutputStream os = new FileOutputStream(destFile);
-
-            byte[] buffer = new byte[1024];
-            int read;
-            while((read=is.read(buffer))!=-1){
-                os.write(buffer,0,read);
-            }
-            is.close();
-            os.flush();
-            os.close();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
+    
 
     public void onDecodeGIF(){
         new Thread(new Runnable() {
 				@Override
 				public void run(){
-					String destFile = setupSampleFile();
+					String destFile="";// = setupSampleFile();
 
 					final GifDecoder gifDecoder = new GifDecoder();
 					final boolean isSucceeded = gifDecoder.load(destFile);
@@ -128,7 +125,7 @@ public class ExampleActivity extends Fragment{
         new Thread(new Runnable() {
 				@Override
 				public void run(){
-					String destFile = setupSampleFile();
+					String destFile = "";//setupSampleFile();
 
 					final GifDecoder gifDecoder = new GifDecoder();
 					final GifImageIterator iterator = gifDecoder.loadUsingIterator(destFile);
@@ -169,10 +166,11 @@ public class ExampleActivity extends Fragment{
 
     private void encodeGIF() throws IOException{
         String dstFile = "result.gif";
-        final String filePath = Environment.getExternalStorageDirectory()+File.separator+dstFile;
-        int width = 50;
-        int height = 50;
-        int delayMs = 100;
+       // final String filePath = Environment.getExternalStorageDirectory()+File.separator+dstFile;
+		final String filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/AwesomeQR"+SystemClock.elapsedRealtime()+dstFile;
+        int width = 500;
+        int height = 500;
+        int delayMs = 50;
 
         GifEncoder gifEncoder = new GifEncoder();
         gifEncoder.init(width,height,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
@@ -180,7 +178,7 @@ public class ExampleActivity extends Fragment{
         Bitmap bitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Paint p = new Paint();
-        int[] colors = new int[] {0xFFFF0000, 0xFFFFFF00, 0xFFFFFFFF};
+        int[] colors = new int[] {0xFF000000, 0xFFFFFFFF};
         for(int color : colors){
             p.setColor(color);
             canvas.drawRect(0,0,width,height,p);
@@ -199,4 +197,54 @@ public class ExampleActivity extends Fragment{
     public void onDisableDithering(){
         useDither=false;
     }
+
+	@Override
+	public void onActivityResult(int requestCode,int resultCode,Intent data){
+		// TODO: Implement this method
+		if(requestCode==SELECT_FILE_REQUEST_CODE&&resultCode==getActivity().RESULT_OK&&data.getData()!=null){
+            try{
+                Uri imageUri = data.getData();
+                final String path = ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),imageUri);
+				new Thread(new Runnable() {
+						@Override
+						public void run(){
+							String destFile = path;
+
+							final GifDecoder gifDecoder = new GifDecoder();
+							final boolean isSucceeded = gifDecoder.load(destFile);
+							getActivity().runOnUiThread(new Runnable() {
+									int idx = 0;
+									@Override
+									public void run(){
+										
+										if(isSucceeded){
+											Bitmap bitmap = gifDecoder.frame(idx);
+											imageView.setImageBitmap(bitmap);
+											
+											if(idx+1<gifDecoder.frameNum()){
+												imageView.postDelayed(this,gifDecoder.delay(idx));
+												++idx;
+											}else{
+												idx=0;
+											
+											
+											}
+										}else{
+											log.t("Failed");
+										}
+									}
+								});
+						}
+					}).start();
+            }catch(Exception e){
+                log.e(e);
+            }
+        }else if(resultCode==getActivity().RESULT_CANCELED){
+            Toast.makeText(getActivity().getApplicationContext(),"用户取消了操作",Toast.LENGTH_SHORT).show();
+        }else{
+          //  selectImage();
+        }
+		super.onActivityResult(requestCode,resultCode,data);
+	}
+	
 }
