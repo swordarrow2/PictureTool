@@ -31,7 +31,6 @@ import com.waynejo.androidndkgif.GifImageIterator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.DecimalFormat;
 
 public class gifAwesomeQr extends Fragment {
 
@@ -45,6 +44,7 @@ public class gifAwesomeQr extends Fragment {
     private String selectGifPath = "";
     private Bitmap[] bitmaps;
     private int gifDelay;
+    private int gifSize;
     private String tmpFolder=Environment.getExternalStorageDirectory().getAbsolutePath() +
             "/Pictures/QRcode/tmp/";
 
@@ -166,23 +166,38 @@ public class gifAwesomeQr extends Fragment {
     }
 
     private void encodeGIF() throws IOException {
-        // final String filePath = Environment.getExternalStorageDirectory()+File.separator+dstFile;
         final String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() +
                 "/Pictures/QRcode/GifAwesomeQR" + SystemClock.elapsedRealtime() + ".gif";
-        Bitmap tmpb= BitmapFactory.decodeFile(tmpFolder+"000.png");
-
         GifEncoder gifEncoder = new GifEncoder();
-        gifEncoder.init(tmpb.getWidth(), tmpb.getHeight(), filePath, GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
         gifEncoder.setDither(dither.isChecked());
         int picCount=new File(tmpFolder).listFiles().length;
-        for (int t=0;t<picCount;t++) {
-            gifEncoder.encodeFrame(encodeAwesome("发了发了你稳了",tmpb.getWidth(),0.3f,bitmaps[t]), gifDelay);
+        if(lowMem.isChecked()){
+            gifEncoder.init(gifSize, gifSize, filePath, GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
+            for (int t=0;t<picCount;t++) {
+                gifEncoder.encodeFrame(
+                        encodeAwesome(
+                                "发了发了你稳了",
+                                gifSize,
+                                0.3f,
+                                BitmapFactory.decodeFile(tmpFolder+t+".png")
+                        ), gifDelay);
+            }
+        }else {
+            gifEncoder.init(gifSize, gifSize, filePath, GifEncoder.EncodingType.ENCODING_TYPE_FAST);
+            for (int t=0;t<picCount;t++) {
+                gifEncoder.encodeFrame(
+                        encodeAwesome(
+                                "发了发了你稳了",
+                                gifSize,
+                                0.3f,
+                                bitmaps[t]
+                        ), gifDelay);
+            }
         }
-        gifEncoder.close();
-        getActivity().getApplicationContext().sendBroadcast(
-                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));//更新图库
-
-        log.i("done : " + filePath);
+            gifEncoder.close();
+            getActivity().getApplicationContext().sendBroadcast(
+                    new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));//更新图库
+            log.i("done : " + filePath);
     }
 
     public void onDisableDithering() {
@@ -224,14 +239,11 @@ public class gifAwesomeQr extends Fragment {
                     GifDecoder gifDecoder = new GifDecoder();
                     GifImageIterator iterator = gifDecoder.loadUsingIterator(path);
                     int flag = 0;
-                    DecimalFormat df=new DecimalFormat();
-                    String style = "000";//定义要显示的数字的格式
-                    df.applyPattern(style);// 将格式应用于格式化器
                     while (iterator.hasNext()) {
                         GifImage next = iterator.next();
                         if (next != null) {
                             try {
-                                QRCode.saveMyBitmap(tmpFolder + df.format(flag++) + ".png", next.bitmap);
+                                QRCode.saveMyBitmap(tmpFolder + flag++ + ".png", next.bitmap);
                             } catch (IOException e) {
                                 log.e(e);
                             }
@@ -241,6 +253,7 @@ public class gifAwesomeQr extends Fragment {
                         }
                     }
                     iterator.close();
+                    gifSize= BitmapFactory.decodeFile(tmpFolder+"0.png").getWidth();
                 }
             }).start();
         } else {
@@ -248,9 +261,6 @@ public class gifAwesomeQr extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    DecimalFormat df=new DecimalFormat();
-                    String style = "000";//定义要显示的数字的格式
-                    df.applyPattern(style);// 将格式应用于格式化器
                     final GifDecoder gifDecoder = new GifDecoder();
                     if (gifDecoder.load(path)) {
                         bitmaps = new Bitmap[gifDecoder.frameNum()];
@@ -258,13 +268,14 @@ public class gifAwesomeQr extends Fragment {
                         for (int i = 0; i < gifDecoder.frameNum(); i++) {
                             bitmaps[i] = gifDecoder.frame(i);
                             try {
-                                QRCode.saveMyBitmap(tmpFolder + df.format(i) + ".png", bitmaps[i]);
+                                QRCode.saveMyBitmap(tmpFolder + i + ".png", bitmaps[i]);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
 
                             log.i("第" + i + "张解码成功");
                         }
+                        gifSize=bitmaps[0].getWidth();
                     } else {
                         log.e("解码失败，可能不是GIF文件");
                     }
