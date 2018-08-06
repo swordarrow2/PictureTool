@@ -16,40 +16,105 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <CheckBox
-            android:id="@+id/gif_qr_checkbox_low_memery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="低配置模式" />
+		<ProgressBar
+			android:max="100"
+			style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+			android:id="@+id/gif_qr_mainProgressBar"
+			android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+			<CheckBox
+				android:id="@+id/gif_qr_checkbox_low_memery"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="低配置模式" />
 
-        <Button
-            android:id="@+id/gif_qr_button_selectImg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="选择gif" />
+			<Button
+				android:id="@+id/gif_qr_button_selectImg"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="选择gif" />
 
-        <Button
-            android:id="@+id/gif_qr_button_startDecodeImg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="开始解码" />
-
+			<Button
+				android:id="@+id/gif_qr_button_startDecodeImg"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="开始解码" />
+		</LinearLayout>
         <TextView
             android:id="@+id/gif_qr_selected_path"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+			<CheckBox
+				android:id="@+id/gif_qr_checkbox_dither"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="使用dither" />
 
-        <CheckBox
-            android:id="@+id/gif_qr_checkbox_dither"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="使用dither" />
+			<Button
+				android:id="@+id/gif_qr_button_encode_gif"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="生成gif" />
+		</LinearLayout>
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+			<EditText
+				android:id="@+id/gif_qr_mainEditText_content"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/gif_qr_button_encode_gif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="生成gif" />
+		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/gif_qr_mainLinearLayout_selecr_color"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical" >
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="4dp"
+				android:paddingLeft="4dp"
+				android:paddingRight="4dp"
+				android:text="@string/colordark_true_dots_dddddd" />
+
+			<EditText
+				android:id="@+id/gif_qr_mainEditText_dot_dark"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="#000000"
+				android:lines="1"
+				android:maxLines="1"
+				android:singleLine="true" />
+
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="4dp"
+				android:paddingLeft="4dp"
+				android:paddingRight="4dp"
+				android:text="@string/colorlight_false_dots_dddddd" />
+
+			<EditText
+				android:id="@+id/gif_qr_mainEditText_dot_color_light"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="#ffffff"
+				android:lines="1"
+				android:maxLines="1"
+				android:singleLine="true" />
+		</LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>
