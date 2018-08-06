@@ -10,7 +10,6 @@ import com.meng.qrtools.*;
 import com.meng.qrtools.creator.*;
 import com.meng.qrtools.lib.materialDesign.*;
 import com.meng.qrtools.reader.*;
-import com.example.androidndkgif.*;
 
 public class MainActivity2 extends Activity{
     public static MainActivity2 instence;
@@ -27,7 +26,7 @@ public class MainActivity2 extends Activity{
     public cameraReader cameraReaderFragment;
     public galleryReader galleryReaderFragment;
     private textFragment aboutFragment;
-	private ExampleActivity gifFragment;
+	private gifAwesomeQr gifFragment;
 
     private settings settingsFragment;
     private TextView rightText;
@@ -267,7 +266,7 @@ public class MainActivity2 extends Activity{
 	private void initGifAwesomeFragment(boolean showNow){
         FragmentTransaction transactionGifAwesomeCreatorFragment = manager.beginTransaction();
         if(gifFragment==null){
-            gifFragment=new ExampleActivity();
+            gifFragment=new gifAwesomeQr();
             transactionGifAwesomeCreatorFragment.add(R.id.main_activityLinearLayout,gifFragment);
         }
         hideFragment(transactionGifAwesomeCreatorFragment);
