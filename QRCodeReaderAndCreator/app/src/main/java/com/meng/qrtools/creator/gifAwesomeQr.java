@@ -3,7 +3,9 @@ package com.meng.qrtools.creator;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import com.waynejo.androidndkgif.GifEncoder;
 import com.waynejo.androidndkgif.GifImage;
 import com.waynejo.androidndkgif.GifImageIterator;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -155,9 +158,7 @@ public class gifAwesomeQr extends Fragment {
             public void run() {
                 try {
                     encodeGIF();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -165,32 +166,23 @@ public class gifAwesomeQr extends Fragment {
     }
 
     private void encodeGIF() throws IOException {
-        String dstFile = "result.gif";
         // final String filePath = Environment.getExternalStorageDirectory()+File.separator+dstFile;
-        final String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/QRcode/AwesomeQR" + SystemClock.elapsedRealtime() + dstFile;
-        int width = 500;
-        int height = 500;
-        int delayMs = 50;
+        final String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                "/Pictures/QRcode/GifAwesomeQR" + SystemClock.elapsedRealtime() + ".gif";
+        Bitmap tmpb= BitmapFactory.decodeFile(tmpFolder+"000.png");
 
         GifEncoder gifEncoder = new GifEncoder();
-        gifEncoder.init(width, height, filePath, GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
-        gifEncoder.setDither(useDither);
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Paint p = new Paint();
-        int[] colors = new int[]{0xFF000000, 0xFFFFFFFF};
-        for (int color : colors) {
-            p.setColor(color);
-            canvas.drawRect(0, 0, width, height, p);
-            gifEncoder.encodeFrame(bitmap, delayMs);
+        gifEncoder.init(tmpb.getWidth(), tmpb.getHeight(), filePath, GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
+        gifEncoder.setDither(dither.isChecked());
+        int picCount=new File(tmpFolder).listFiles().length;
+        for (int t=0;t<picCount;t++) {
+            gifEncoder.encodeFrame(encodeAwesome("发了发了你稳了",tmpb.getWidth(),0.3f,bitmaps[t]), gifDelay);
         }
         gifEncoder.close();
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                log.t("done : " + filePath);
-            }
-        });
+        getActivity().getApplicationContext().sendBroadcast(
+                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));//更新图库
+
+        log.i("done : " + filePath);
     }
 
     public void onDisableDithering() {
@@ -245,7 +237,7 @@ public class gifAwesomeQr extends Fragment {
                             }
                             gifDelay = next.delayMs;
                         } else {
-                            log.t("解码失败，可能文件损坏");
+                            log.e("解码失败，可能文件损坏");
                         }
                     }
                     iterator.close();
@@ -256,12 +248,21 @@ public class gifAwesomeQr extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    DecimalFormat df=new DecimalFormat();
+                    String style = "000";//定义要显示的数字的格式
+                    df.applyPattern(style);// 将格式应用于格式化器
                     final GifDecoder gifDecoder = new GifDecoder();
                     if (gifDecoder.load(path)) {
                         bitmaps = new Bitmap[gifDecoder.frameNum()];
                         gifDelay = gifDecoder.delay(1);
                         for (int i = 0; i < gifDecoder.frameNum(); i++) {
                             bitmaps[i] = gifDecoder.frame(i);
+                            try {
+                                QRCode.saveMyBitmap(tmpFolder + df.format(i) + ".png", bitmaps[i]);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
                             log.i("第" + i + "张解码成功");
                         }
                     } else {
@@ -271,6 +272,11 @@ public class gifAwesomeQr extends Fragment {
                 }
             }).start();
         }
+    }
+
+    private Bitmap encodeAwesome(String contents,int size,float dotScale,Bitmap bg){
+        return AwesomeQRCode.create(contents,size,(int)(size*0.025f),dotScale, Color.GREEN,Color.WHITE,bg,false,false,false,0);
+
     }
 
 }
