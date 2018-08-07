@@ -254,7 +254,7 @@ public class gifAwesomeQr extends Fragment {
                 light.getText().toString().equals("") ? Color.WHITE : Color.parseColor(light.getText().toString()),
                 bg,
                 false,
-                false,
+                true,
                 false,
                 0);
 

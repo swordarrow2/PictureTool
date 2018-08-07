@@ -15,6 +15,7 @@ import java.io.*;
 
 import android.app.Fragment;
 import com.meng.qrtools.R;
+import android.text.*;
 
 public class awesomeCreator extends Fragment{
 
@@ -65,6 +66,8 @@ public class awesomeCreator extends Fragment{
         etBinarizeThreshold=(EditText) view.findViewById(R.id.awesomeqr_main_binarizeThreshold);
         btnSave=(Button) view.findViewById(R.id.awesomeqr_mainButton);
         imgPathTextView=(TextView) view.findViewById(R.id.awesomeqr_main_imgPathTextView);
+		etColorDark.addTextChangedListener(tw);
+		etColorLight.addTextChangedListener(tw);
         ckbAutoColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
@@ -211,4 +214,27 @@ public class awesomeCreator extends Fragment{
 				}
 			}).start();
     }
+	TextWatcher tw=new TextWatcher(){
+
+        @Override
+        public void beforeTextChanged(CharSequence p1,int p2,int p3,int p4){}
+        @Override
+        public void onTextChanged(CharSequence p1,int p2,int p3,int p4){
+            try {
+                etColorLight.setTextColor(Color.parseColor(etColorLight.getText().toString()));
+            }catch (Exception e){
+                etColorLight.setTextColor(Color.BLACK);
+            }
+            try {
+                etColorDark.setTextColor(Color.parseColor(etColorDark.getText().toString()));
+            }catch (Exception e){
+                etColorDark.setTextColor(Color.BLACK);
+            }
+        }
+        @Override
+        public void afterTextChanged(Editable p1){
+
+        }
+    };
+	
 }
