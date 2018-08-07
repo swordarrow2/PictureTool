@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,8 +36,6 @@ public class gifAwesomeQr extends Fragment {
     private boolean coding = false;
 
     private EditText dark, light;
-    private boolean useDither = true;
-    private ImageView imageView;
     private Button btnSelectImg, btnStartDecode,
             encodeGifBtn;
     private CheckBox lowMem, dither;
@@ -64,7 +61,6 @@ public class gifAwesomeQr extends Fragment {
         pb = (ProgressBar) view.findViewById(R.id.gif_qr_mainProgressBar);
         lowMem = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_low_memery);
         dither = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_dither);
-        imageView = (ImageView) view.findViewById(R.id.image_view);
         btnSelectImg = (Button) view.findViewById(R.id.gif_qr_button_selectImg);
         btnStartDecode = (Button) view.findViewById(R.id.gif_qr_button_startDecodeImg);
         encodeGifBtn = (Button) view.findViewById(R.id.gif_qr_button_encode_gif);
@@ -106,64 +102,6 @@ public class gifAwesomeQr extends Fragment {
                 }
             }
         });
-    }
-
-
-    public void onDecodeGIF() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String destFile = "";// = setupSampleFile();
-
-                final GifDecoder gifDecoder = new GifDecoder();
-                final boolean isSucceeded = gifDecoder.load(destFile);
-                getActivity().runOnUiThread(new Runnable() {
-                    int idx = 0;
-
-                    @Override
-                    public void run() {
-                        if (isSucceeded) {
-                            Bitmap bitmap = gifDecoder.frame(idx);
-                            imageView.setImageBitmap(bitmap);
-                            if (idx + 1 < gifDecoder.frameNum()) {
-                                imageView.postDelayed(this, gifDecoder.delay(idx));
-                            }
-                            ++idx;
-                        } else {
-                            log.t("Failed");
-                        }
-                    }
-                });
-            }
-        }).start();
-    }
-
-    public void onDecodeGIFUsingIterator() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String destFile = "";//setupSampleFile();
-
-                final GifDecoder gifDecoder = new GifDecoder();
-                final GifImageIterator iterator = gifDecoder.loadUsingIterator(destFile);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (iterator.hasNext()) {
-                            GifImage next = iterator.next();
-                            if (null != next) {
-                                imageView.setImageBitmap(next.bitmap);
-                                imageView.postDelayed(this, next.delayMs);
-                            } else {
-                                log.t("Failed");
-                            }
-                        } else {
-                            iterator.close();
-                        }
-                    }
-                });
-            }
-        }).start();
     }
 
     public void onEncodeGIF() {
@@ -216,10 +154,6 @@ public class gifAwesomeQr extends Fragment {
         getActivity().getApplicationContext().sendBroadcast(
                 new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(filePath))));//更新图库
         log.i("done : " + filePath);
-    }
-
-    public void onDisableDithering() {
-        useDither = false;
     }
 
     @Override
