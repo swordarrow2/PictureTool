@@ -40,7 +40,7 @@ public class gifAwesomeQr extends Fragment {
     private EditText dark, light;
     private Button btnSelectImg, btnStartDecode,
             encodeGifBtn;
-    private CheckBox lowMem, dither;
+    private CheckBox lowMem, dither,autoColor;
     private TextView imgPath;
     private final int SELECT_FILE_REQUEST_CODE = 8212;
     private String selectGifPath = "";
@@ -60,6 +60,7 @@ public class gifAwesomeQr extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // TODO: Implement this method
         super.onViewCreated(view, savedInstanceState);
+		autoColor=(CheckBox)view.findViewById(R.id.gif_qr_checkbox_autocolor);
         pb = (ProgressBar) view.findViewById(R.id.gif_qr_mainProgressBar);
         lowMem = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_low_memery);
         dither = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_dither);
@@ -86,7 +87,7 @@ public class gifAwesomeQr extends Fragment {
             public void onClick(View p1) {
                 // TODO: Implement this method
                 if (coding) {
-                    log.t("正在执行操作");
+                    log.t(getActivity(),"正在执行操作");
                 } else {
                     decodeGif(selectGifPath);
                     coding = true;
@@ -100,7 +101,7 @@ public class gifAwesomeQr extends Fragment {
             public void onClick(View p1) {
                 // TODO: Implement this method
                 if (coding) {
-                    log.t("正在执行操作");
+                    log.t(getActivity(),"正在执行操作");
                 } else {
                     onEncodeGIF();
                 }
@@ -157,7 +158,7 @@ public class gifAwesomeQr extends Fragment {
         gifEncoder.close();
         getActivity().getApplicationContext().sendBroadcast(
                 new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(filePath))));//更新图库
-        log.i("done : " + filePath);
+        log.i(getActivity(),"done : " + filePath);
     }
 
     @Override
@@ -169,7 +170,7 @@ public class gifAwesomeQr extends Fragment {
                 imgPath.setText(selectGifPath);
                 selectGifPath = ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), imageUri);
             } catch (Exception e) {
-                log.e(e);
+                log.e(getActivity(),e);
             }
         } else if (resultCode == getActivity().RESULT_CANCELED) {
             Toast.makeText(getActivity().getApplicationContext(), "用户取消了操作", Toast.LENGTH_SHORT).show();
@@ -201,15 +202,15 @@ public class gifAwesomeQr extends Fragment {
                             try {
                                 QRCode.saveMyBitmap(tmpFolder + flag++ + ".png", next.bitmap);
                             } catch (IOException e) {
-                                log.e(e);
+                                log.e(getActivity(),e);
                             }
                             gifDelay = next.delayMs;
                         } else {
-                            log.e("解码失败，可能文件损坏");
+                            log.e(getActivity(),"解码失败，可能文件损坏");
                         }
                     }
                     iterator.close();
-                    log.i("共" + (flag - 1) + "张,解码成功");
+                    log.i(getActivity(),"共" + (flag - 1) + "张,解码成功");
                     bitmaps = new Bitmap[flag - 1];
                     gifSize = BitmapFactory.decodeFile(tmpFolder + "0.png").getWidth();
                     coding = false;
@@ -233,10 +234,10 @@ public class gifAwesomeQr extends Fragment {
                             }
                             setProgress((int) ((i + 1) * 100.0f / gifDecoder.frameNum()), false);
                         }
-                        log.i("共" + gifDecoder.frameNum() + "张,解码成功");
+                        log.i(getActivity(),"共" + gifDecoder.frameNum() + "张,解码成功");
                         gifSize = bitmaps[0].getWidth();
                     } else {
-                        log.e("解码失败，可能不是GIF文件");
+                        log.e(getActivity(),"解码失败，可能不是GIF文件");
                     }
                     coding = false;
                 }
@@ -254,27 +255,22 @@ public class gifAwesomeQr extends Fragment {
                 light.getText().toString().equals("") ? Color.WHITE : Color.parseColor(light.getText().toString()),
                 bg,
                 false,
-                true,
+                autoColor.isChecked(),
                 false,
                 0);
 
     }
 
     private void setProgress(final int p, final boolean encoing) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                // TODO: Implement this method
+        
                 pb.setProgress(p);
                 if (p == 100) {
                     if (encoing) {
-                        log.t("编码完成");
+                        log.t(getActivity(),"编码完成");
                     } else {
-                        log.t("解码完成");
+                        log.t(getActivity(),"解码完成");
                     }
                 }
-            }
-        });
     }
     TextWatcher tw=new TextWatcher(){
 

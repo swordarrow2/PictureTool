@@ -13,7 +13,7 @@ import com.meng.qrtools.reader.*;
 
 public class MainActivity2 extends Activity{
     public static MainActivity2 instence;
-    public static String logString = "这都被发现了(\n感谢岁41发现了一个玄学问题(\n并且已经修正\n大概吧(\n以下为操作记录：\n";
+    private final String logString = "这都被发现了(\n感谢岁41发现了一个玄学问题(\n并且已经修正\n大概吧(\n以下为操作记录：\n";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private RelativeLayout rt;
@@ -29,7 +29,7 @@ public class MainActivity2 extends Activity{
 	private gifAwesomeQr gifFragment;
 
     private settings settingsFragment;
-    private TextView rightText;
+    public static TextView rightText;
 
     public FragmentManager manager;
 
@@ -39,10 +39,12 @@ public class MainActivity2 extends Activity{
         setContentView(R.layout.main_activity);
         instence=this;
         setActionBar();
-        initFragment();
         findViews();
+		rightText.setText(logString);
+		initFragment();
         setListener();
         changeTheme();
+
     }
 
     private void changeTheme(){
@@ -90,24 +92,20 @@ public class MainActivity2 extends Activity{
             public void onDrawerClosed(View view){
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();
-                log.i("抽屉打开");
             }
 
             public void onDrawerOpened(View drawerView){
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu();
-                log.i("抽屉关闭");
             }
 
             @Override
             public void onDrawerSlide(View drawerView,float slideOffset){
-                super.onDrawerSlide(drawerView,slideOffset);
-                rightText.setText(logString);
+                super.onDrawerSlide(drawerView,slideOffset);  
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,android.R.id.text1,new String[]{
 															"首页(?)","读取相册二维码","相机扫描二维码","创建二维码",
 															"创建Awesome二维码","创建动态Awesome二维码","关于","设置","退出"
@@ -192,9 +190,9 @@ public class MainActivity2 extends Activity{
         hideFragment(transactionWelcome);
         if(showNow){
             transactionWelcome.show(welcomeFragment);
-            log.c("welcome");
+            log.c(this,"welcome");
         }else{
-            log.i("initWelcome");
+            log.i(this,"initWelcome");
         }
         transactionWelcome.commit();
     }
@@ -208,9 +206,9 @@ public class MainActivity2 extends Activity{
         hideFragment(transactionGalleryReaderFragment);
         if(showNow){
             transactionGalleryReaderFragment.show(galleryReaderFragment);
-            log.c("galleryReader");
+            log.c(this,"galleryReader");
         }else{
-            log.i("initGalleryReaderFragment");
+            log.i(this,"initGalleryReaderFragment");
         }
         transactionGalleryReaderFragment.commit();
     }
@@ -224,9 +222,9 @@ public class MainActivity2 extends Activity{
         hideFragment(transactionCameraReaderFragment);
         if(showNow){
             transactionCameraReaderFragment.show(cameraReaderFragment);
-            log.c("CameraReader");
+            log.c(this,"CameraReader");
         }else{
-            log.i("initCameraReaderFragment");
+            log.i(this,"initCameraReaderFragment");
         }
         transactionCameraReaderFragment.commit();
     }
@@ -240,9 +238,9 @@ public class MainActivity2 extends Activity{
         hideFragment(transactionLogoCreatorFragment);
         if(showNow){
             transactionLogoCreatorFragment.show(logoCreatorFragment);
-            log.c("LogoCreator");
+            log.c(this,"LogoCreator");
         }else{
-            log.i("initLogoCreatorFragment");
+            log.i(this,"initLogoCreatorFragment");
         }
         transactionLogoCreatorFragment.commit();
     }
@@ -256,9 +254,9 @@ public class MainActivity2 extends Activity{
         hideFragment(transactionAwesomeCreatorFragment);
         if(showNow){
             transactionAwesomeCreatorFragment.show(awesomeCreatorFragment);
-            log.c("AwesomeQR");
+            log.c(this,"AwesomeQR");
         }else{
-            log.i("initAwesomeFragment");
+            log.i(this,"initAwesomeFragment");
         }
         transactionAwesomeCreatorFragment.commit();
     }
@@ -272,9 +270,9 @@ public class MainActivity2 extends Activity{
         hideFragment(transactionGifAwesomeCreatorFragment);
         if(showNow){
             transactionGifAwesomeCreatorFragment.show(gifFragment);
-            log.c("gifAwesomeQR");
+            log.c(this,"gifAwesomeQR");
         }else{
-            log.i("initGifAwesomeFragment");
+            log.i(this,"initGifAwesomeFragment");
         }
         transactionGifAwesomeCreatorFragment.commit();
     }
@@ -288,9 +286,9 @@ public class MainActivity2 extends Activity{
         hideFragment(transactionAboutFragment);
         if(showNow){
             transactionAboutFragment.show(aboutFragment);
-            log.c("About");
+            log.c(this,"About");
         }else{
-            log.i("initAboutFragment");
+            log.i(this,"initAboutFragment");
         }
         transactionAboutFragment.commit();
     }
@@ -304,9 +302,9 @@ public class MainActivity2 extends Activity{
         hideFragment(transactionsettings);
         if(showNow){
             transactionsettings.show(settingsFragment);
-            log.c("settings");
+            log.c(this,"settings");
         }else{
-            log.i("initSettingsFragment");
+            log.i(this,"initSettingsFragment");
         }
         transactionsettings.commit();
     }

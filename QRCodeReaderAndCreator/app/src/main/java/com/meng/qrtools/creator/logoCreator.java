@@ -149,7 +149,7 @@ public class logoCreator extends Fragment{
                 imgPath.setText("当前："+path);
                 logoImage=BitmapFactory.decodeFile(path);
             }catch(Exception e){
-                log.e(e);
+                log.e(getActivity(),e);
             }
         }else if(resultCode==getActivity().RESULT_CANCELED){
             Toast.makeText(getActivity().getApplicationContext(),"用户取消了操作",Toast.LENGTH_SHORT).show();

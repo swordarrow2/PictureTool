@@ -100,7 +100,7 @@ public class awesomeCreator extends Fragment{
 				public void onClick(View v){
 					backgroundImage=null;
 					imgPathTextView.setText("未选择背景图");
-					log.t(getResources().getString(R.string.Background_image_removed));
+					log.t(getActivity(),getResources().getString(R.string.Background_image_removed));
 				}
 			});
 
