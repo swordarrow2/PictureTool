@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -68,6 +70,8 @@ public class gifAwesomeQr extends Fragment {
         contentEt = (EditText) view.findViewById(R.id.gif_qr_mainEditText_content);
         dark = (EditText) view.findViewById(R.id.gif_qr_mainEditText_dot_dark);
         light = (EditText) view.findViewById(R.id.gif_qr_mainEditText_dot_color_light);
+        dark.addTextChangedListener(tw);
+        light.addTextChangedListener(tw);
         btnSelectImg.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -272,4 +276,26 @@ public class gifAwesomeQr extends Fragment {
             }
         });
     }
+    TextWatcher tw=new TextWatcher(){
+
+        @Override
+        public void beforeTextChanged(CharSequence p1,int p2,int p3,int p4){}
+        @Override
+        public void onTextChanged(CharSequence p1,int p2,int p3,int p4){
+            try {
+                dark.setTextColor(Color.parseColor(dark.getText().toString()));
+            }catch (Exception e){
+                dark.setTextColor(Color.BLACK);
+            }
+            try {
+                light.setTextColor(Color.parseColor(light.getText().toString()));
+            }catch (Exception e){
+                light.setTextColor(Color.BLACK);
+            }
+        }
+        @Override
+        public void afterTextChanged(Editable p1){
+
+        }
+    };
 }
