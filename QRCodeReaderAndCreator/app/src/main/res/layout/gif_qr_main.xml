@@ -56,6 +56,7 @@
 				android:id="@+id/gif_qr_checkbox_autocolor"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:checked="true"
 				android:text="自动颜色" />
 			<Button
 				android:id="@+id/gif_qr_button_encode_gif"
@@ -68,12 +69,14 @@
 			android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
 			<EditText
+				android:hint="内容"
 				android:id="@+id/gif_qr_mainEditText_content"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content" />
 
 		</LinearLayout>
 		<LinearLayout
+			android:visibility="gone"
 			android:id="@+id/gif_qr_mainLinearLayout_selecr_color"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"

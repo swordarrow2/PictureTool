@@ -17,7 +17,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +42,7 @@ public class gifAwesomeQr extends Fragment {
     private EditText dark, light;
     private Button btnSelectImg, btnStartDecode,
             encodeGifBtn;
-    private CheckBox lowMem, dither,autoColor;
+    private CheckBox lowMem, dither, autoColor;
     private TextView imgPath;
     private final int SELECT_FILE_REQUEST_CODE = 8212;
     private String selectGifPath = "";
@@ -49,6 +51,7 @@ public class gifAwesomeQr extends Fragment {
     private int gifSize;
     private String tmpFolder = Environment.getExternalStorageDirectory().getAbsolutePath() +
             "/Pictures/QRcode/tmp/";
+    private LinearLayout selectColorLinearLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,7 +63,8 @@ public class gifAwesomeQr extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // TODO: Implement this method
         super.onViewCreated(view, savedInstanceState);
-		autoColor=(CheckBox)view.findViewById(R.id.gif_qr_checkbox_autocolor);
+        selectColorLinearLayout=(LinearLayout) view.findViewById(R.id.gif_qr_mainLinearLayout_selecr_color);
+        autoColor = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_autocolor);
         pb = (ProgressBar) view.findViewById(R.id.gif_qr_mainProgressBar);
         lowMem = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_low_memery);
         dither = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_dither);
@@ -73,6 +77,14 @@ public class gifAwesomeQr extends Fragment {
         light = (EditText) view.findViewById(R.id.gif_qr_mainEditText_dot_color_light);
         dark.addTextChangedListener(tw);
         light.addTextChangedListener(tw);
+        autoColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
+                dark.setEnabled(!isChecked);
+                light.setEnabled(!isChecked);
+                selectColorLinearLayout.setVisibility(isChecked? View.GONE :View.VISIBLE);
+            }
+        });
         btnSelectImg.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -87,7 +99,7 @@ public class gifAwesomeQr extends Fragment {
             public void onClick(View p1) {
                 // TODO: Implement this method
                 if (coding) {
-                    log.t(getActivity(),"正在执行操作");
+                    log.t(getActivity(), "正在执行操作");
                 } else {
                     decodeGif(selectGifPath);
                     coding = true;
@@ -100,65 +112,62 @@ public class gifAwesomeQr extends Fragment {
             @Override
             public void onClick(View p1) {
                 // TODO: Implement this method
-                if (coding) {
-                    log.t(getActivity(),"正在执行操作");
-                } else {
-                    onEncodeGIF();
+                try {
+                    if (coding) {
+                        log.t(getActivity(), "正在执行操作");
+                    } else {
+                        encodeGIF();
+                    }
+                } catch (IOException e) {
+                    log.e(getActivity(), e);
                 }
             }
+
         });
     }
 
-    public void onEncodeGIF() {
+
+    private void encodeGIF() throws IOException {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    encodeGIF();
+                    coding = true;
+                    final String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                            "/Pictures/QRcode/GifAwesomeQR" + SystemClock.elapsedRealtime() + ".gif";
+                    GifEncoder gifEncoder = new GifEncoder();
+                    gifEncoder.setDither(dither.isChecked());
+
+                    gifSize = 300;
+                    if (lowMem.isChecked()) {
+                        gifEncoder.init(gifSize, gifSize, filePath, GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
+                        for (int t = 0; t < bitmaps.length; t++) {
+                            gifEncoder.encodeFrame(
+                                    encodeAwesome(contentEt.getText().toString(), gifSize,0.4f,BitmapFactory.decodeFile(tmpFolder + t + ".png")
+                                    ), gifDelay);
+                            setProgress((int) ((t + 1) * 100.0f / bitmaps.length), true);
+                        }
+                    } else {
+                        gifEncoder.init(gifSize, gifSize, filePath, GifEncoder.EncodingType.ENCODING_TYPE_FAST);
+                        for (int t = 0; t < bitmaps.length; t++) {
+                            gifEncoder.encodeFrame(
+                                    encodeAwesome(
+                                            contentEt.getText().toString(),gifSize, 0.4f,bitmaps[t]
+                                    ), gifDelay);
+                            setProgress((int) ((t + 1) * 100.0f / bitmaps.length), true);
+                        }
+                    }
+                    gifEncoder.close();
+                    getActivity().getApplicationContext().sendBroadcast(
+                            new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(filePath))));//更新图库
+                    log.i(getActivity(), "done : " + filePath);
+
                 } catch (Exception e) {
-                    e.printStackTrace();
+                   log.e(getActivity(),e);
                 }
                 coding = false;
             }
         }).start();
-    }
-
-    private void encodeGIF() throws IOException {
-        final String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                "/Pictures/QRcode/GifAwesomeQR" + SystemClock.elapsedRealtime() + ".gif";
-        GifEncoder gifEncoder = new GifEncoder();
-        gifEncoder.setDither(dither.isChecked());
-
-        gifSize = 300;
-        if (lowMem.isChecked()) {
-            gifEncoder.init(gifSize, gifSize, filePath, GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
-            for (int t = 0; t < bitmaps.length; t++) {
-                gifEncoder.encodeFrame(
-                        encodeAwesome(
-                                contentEt.getText().toString(),
-                                gifSize,
-                                0.4f,
-                                BitmapFactory.decodeFile(tmpFolder + t + ".png")
-                        ), gifDelay);
-                setProgress((int) ((t + 1) * 100.0f / bitmaps.length), true);
-            }
-        } else {
-            gifEncoder.init(gifSize, gifSize, filePath, GifEncoder.EncodingType.ENCODING_TYPE_FAST);
-            for (int t = 0; t < bitmaps.length; t++) {
-                gifEncoder.encodeFrame(
-                        encodeAwesome(
-                                contentEt.getText().toString(),
-                                gifSize,
-                                0.4f,
-                                bitmaps[t]
-                        ), gifDelay);
-                setProgress((int) ((t + 1) * 100.0f / bitmaps.length), true);
-            }
-        }
-        gifEncoder.close();
-        getActivity().getApplicationContext().sendBroadcast(
-                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(filePath))));//更新图库
-        log.i(getActivity(),"done : " + filePath);
     }
 
     @Override
@@ -170,7 +179,7 @@ public class gifAwesomeQr extends Fragment {
                 imgPath.setText(selectGifPath);
                 selectGifPath = ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), imageUri);
             } catch (Exception e) {
-                log.e(getActivity(),e);
+                log.e(getActivity(), e);
             }
         } else if (resultCode == getActivity().RESULT_CANCELED) {
             Toast.makeText(getActivity().getApplicationContext(), "用户取消了操作", Toast.LENGTH_SHORT).show();
@@ -202,15 +211,15 @@ public class gifAwesomeQr extends Fragment {
                             try {
                                 QRCode.saveMyBitmap(tmpFolder + flag++ + ".png", next.bitmap);
                             } catch (IOException e) {
-                                log.e(getActivity(),e);
+                                log.e(getActivity(), e);
                             }
                             gifDelay = next.delayMs;
                         } else {
-                            log.e(getActivity(),"解码失败，可能文件损坏");
+                            log.e(getActivity(), "解码失败，可能文件损坏");
                         }
                     }
                     iterator.close();
-                    log.i(getActivity(),"共" + (flag - 1) + "张,解码成功");
+                    log.i(getActivity(), "共" + (flag - 1) + "张,解码成功");
                     bitmaps = new Bitmap[flag - 1];
                     gifSize = BitmapFactory.decodeFile(tmpFolder + "0.png").getWidth();
                     coding = false;
@@ -234,10 +243,10 @@ public class gifAwesomeQr extends Fragment {
                             }
                             setProgress((int) ((i + 1) * 100.0f / gifDecoder.frameNum()), false);
                         }
-                        log.i(getActivity(),"共" + gifDecoder.frameNum() + "张,解码成功");
+                        log.i(getActivity(), "共" + gifDecoder.frameNum() + "张,解码成功");
                         gifSize = bitmaps[0].getWidth();
                     } else {
-                        log.e(getActivity(),"解码失败，可能不是GIF文件");
+                        log.e(getActivity(), "解码失败，可能不是GIF文件");
                     }
                     coding = false;
                 }
@@ -251,8 +260,8 @@ public class gifAwesomeQr extends Fragment {
                 size,
                 (int) (size * 0.025f),
                 dotScale,
-                dark.getText().toString().equals("") ? Color.BLACK : Color.parseColor(dark.getText().toString()),
-                light.getText().toString().equals("") ? Color.WHITE : Color.parseColor(light.getText().toString()),
+                autoColor.isChecked() ? Color.BLACK : Color.parseColor(dark.getText().toString()),
+                autoColor.isChecked() ? Color.WHITE : Color.parseColor(light.getText().toString()),
                 bg,
                 false,
                 autoColor.isChecked(),
@@ -262,35 +271,39 @@ public class gifAwesomeQr extends Fragment {
     }
 
     private void setProgress(final int p, final boolean encoing) {
-        
-                pb.setProgress(p);
-                if (p == 100) {
-                    if (encoing) {
-                        log.t(getActivity(),"编码完成");
-                    } else {
-                        log.t(getActivity(),"解码完成");
-                    }
-                }
+
+        pb.setProgress(p);
+        if (p == 100) {
+            if (encoing) {
+                log.t(getActivity(), "编码完成");
+            } else {
+                log.t(getActivity(), "解码完成");
+            }
+        }
     }
-    TextWatcher tw=new TextWatcher(){
+
+    TextWatcher tw = new TextWatcher() {
 
         @Override
-        public void beforeTextChanged(CharSequence p1,int p2,int p3,int p4){}
+        public void beforeTextChanged(CharSequence p1, int p2, int p3, int p4) {
+        }
+
         @Override
-        public void onTextChanged(CharSequence p1,int p2,int p3,int p4){
+        public void onTextChanged(CharSequence p1, int p2, int p3, int p4) {
             try {
                 dark.setTextColor(Color.parseColor(dark.getText().toString()));
-            }catch (Exception e){
+            } catch (Exception e) {
                 dark.setTextColor(Color.BLACK);
             }
             try {
                 light.setTextColor(Color.parseColor(light.getText().toString()));
-            }catch (Exception e){
+            } catch (Exception e) {
                 light.setTextColor(Color.BLACK);
             }
         }
+
         @Override
-        public void afterTextChanged(Editable p1){
+        public void afterTextChanged(Editable p1) {
 
         }
     };
