@@ -1,16 +1,11 @@
 package com.meng.qrtools.views;
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.meng.qrtools.R;
+import android.content.*;
+import android.content.res.*;
+import android.util.*;
+import android.view.*;
+import android.widget.*;
+import com.meng.qrtools.*;
 
 /**
  * Created by Administrator on 2018/8/9.

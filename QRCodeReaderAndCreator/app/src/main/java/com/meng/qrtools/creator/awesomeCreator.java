@@ -1,37 +1,22 @@
 package com.meng.qrtools.creator;
 
-import android.Manifest;
+import android.*;
+import android.app.*;
+import android.content.*;
+import android.content.pm.*;
+import android.graphics.*;
+import android.net.*;
+import android.os.*;
+import android.support.v4.app.*;
+import android.text.*;
+import android.view.*;
+import android.widget.*;
+import com.meng.qrtools.*;
+import com.meng.qrtools.views.*;
+import java.io.*;
+
 import android.app.Fragment;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.SystemClock;
-import android.support.v4.app.ActivityCompat;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.meng.qrtools.R;
-import com.meng.qrtools.log;
-import com.meng.qrtools.views.mengEdittext;
-
-import java.io.File;
-import java.io.IOException;
 
 public class awesomeCreator extends Fragment {
 
@@ -86,8 +71,6 @@ public class awesomeCreator extends Fragment {
         ckbAutoColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mengEtColorLight.setEnabled(!isChecked);
-                mengEtColorDark.setEnabled(!isChecked);
                 selectColorLinearLayout.setVisibility(isChecked ? View.GONE : View.VISIBLE);
             }
         });
@@ -95,7 +78,6 @@ public class awesomeCreator extends Fragment {
         ckbBinarize.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mengEtBinarizeThreshold.setEnabled(isChecked);
                 mengEtBinarizeThreshold.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             }
         });
@@ -114,7 +96,7 @@ public class awesomeCreator extends Fragment {
             @Override
             public void onClick(View v) {
                 backgroundImage = null;
-                imgPathTextView.setText("未选择背景图");
+                imgPathTextView.setVisibility(View.GONE);
                 log.t(getActivity(), getResources().getString(R.string.Background_image_removed));
             }
         });
@@ -122,17 +104,17 @@ public class awesomeCreator extends Fragment {
         btGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                generate(mengEtContents.isEmpty() ? getString(R.string.input_text) : mengEtContents.getText(),
-                        mengEtSize.isEmpty() ? Integer.parseInt(mengEtSize.getHint()) : Integer.parseInt(mengEtSize.getText()),
-                        mengEtMargin.isEmpty() ? Integer.parseInt(mengEtMargin.getHint()) : Integer.parseInt(mengEtMargin.getText()),
-                        mengEtDotScale.isEmpty() ? Float.parseFloat(mengEtDotScale.getHint()) : Float.parseFloat(mengEtDotScale.getText()),
-                        ckbAutoColor.isChecked() ? Color.BLACK : Color.parseColor(mengEtColorDark.getText()),
-                        ckbAutoColor.isChecked() ? Color.WHITE : Color.parseColor(mengEtColorLight.getText()),
+                generate(mengEtContents.isEmpty() ? getString(R.string.input_text) : mengEtContents.getString(),
+                        mengEtSize.isEmpty() ? Integer.parseInt(mengEtSize.getHint()) : Integer.parseInt(mengEtSize.getString()),
+                        mengEtMargin.isEmpty() ? Integer.parseInt(mengEtMargin.getHint()) : Integer.parseInt(mengEtMargin.getString()),
+                        mengEtDotScale.isEmpty() ? Float.parseFloat(mengEtDotScale.getHint()) : Float.parseFloat(mengEtDotScale.getString()),
+                        ckbAutoColor.isChecked() ? Color.BLACK : Color.parseColor(mengEtColorDark.getString()),
+                        ckbAutoColor.isChecked() ? Color.WHITE : Color.parseColor(mengEtColorLight.getString()),
                         backgroundImage,
                         ckbWhiteMargin.isChecked(),
                         ckbAutoColor.isChecked(),
                         ckbBinarize.isChecked(),
-                        mengEtBinarizeThreshold.isEmpty() ? Integer.parseInt(mengEtBinarizeThreshold.getHint()) : Integer.parseInt(mengEtBinarizeThreshold.getText())
+                        mengEtBinarizeThreshold.isEmpty() ? Integer.parseInt(mengEtBinarizeThreshold.getHint()) : Integer.parseInt(mengEtBinarizeThreshold.getString())
                 );
                 btnSave.setVisibility(View.VISIBLE);
             }
@@ -154,7 +136,7 @@ public class awesomeCreator extends Fragment {
     }
 
     public void setDataStr(String s) {
-        mengEtContents.setText(s);
+        mengEtContents.setString(s);
     }
 
     @Override
@@ -186,6 +168,7 @@ public class awesomeCreator extends Fragment {
             Uri imageUri = data.getData();
             String imgPath = ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), imageUri);
             backgroundImage = BitmapFactory.decodeFile(imgPath);
+			imgPathTextView.setVisibility(View.VISIBLE);
             imgPathTextView.setText("当前：" + imgPath);
             Toast.makeText(getActivity().getApplicationContext(), R.string.Background_image_added, Toast.LENGTH_SHORT).show();
         }
@@ -239,12 +222,12 @@ public class awesomeCreator extends Fragment {
         @Override
         public void onTextChanged(CharSequence p1, int p2, int p3, int p4) {
             try {
-                mengEtColorLight.setTextColor(Color.parseColor(mengEtColorLight.getText().toString()));
+                mengEtColorLight.setTextColor(Color.parseColor(mengEtColorLight.getString().toString()));
             } catch (Exception e) {
                 mengEtColorLight.setTextColor(Color.BLACK);
             }
             try {
-                mengEtColorDark.setTextColor(Color.parseColor(mengEtColorDark.getText().toString()));
+                mengEtColorDark.setTextColor(Color.parseColor(mengEtColorDark.getString().toString()));
             } catch (Exception e) {
                 mengEtColorDark.setTextColor(Color.BLACK);
             }

@@ -1,9 +1,8 @@
 package com.meng.qrtools;
 
-import android.app.Activity;
-import android.widget.Toast;
-
-import com.meng.MainActivity2;
+import android.app.*;
+import android.widget.*;
+import com.meng.*;
 
 public class log {
 

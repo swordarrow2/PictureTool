@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             ran:checkboxText="使用原始GIF宽度作为动态二维码的尺寸"
             ran:checked="true"
-            ran:edittextHint="0.4"
+            ran:edittextHint="300"
             ran:showOnCheck="false"
             ran:textviewText="大小(像素)" />
 
