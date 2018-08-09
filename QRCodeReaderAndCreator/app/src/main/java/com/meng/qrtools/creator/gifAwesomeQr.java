@@ -53,12 +53,12 @@ public class gifAwesomeQr extends Fragment {
     private mengEdittext mengEtDarkDotColor;
     private mengEdittext mengEtDotScale;
     private mengEdittext mengEtLightDotColor;
+    private mengEdittext mengEtTextToEncode;
     private mengEdittextWithCheckBox mengEtSize;
     private ProgressBar pbCodingProgress;
     private String strSelectedGifPath = "";
     private TextView tvImagePath;
 
-    private mengEdittext etTextToEncode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class gifAwesomeQr extends Fragment {
         cbLowMemoryMode = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_low_memery);
         cbUseDither = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_dither);
         mengEtDotScale = (mengEdittext) view.findViewById(R.id.gif_qr_mengEdittext_dotScale);
-        etTextToEncode = (mengEdittext) view.findViewById(R.id.gif_qr_mainmengTextview_content);
+        mengEtTextToEncode = (mengEdittext) view.findViewById(R.id.gif_qr_mainmengTextview_content);
         mengEtDarkDotColor = (mengEdittext) view.findViewById(R.id.gif_qr_mainMengEditText_dot_dark);
         mengEtLightDotColor = (mengEdittext) view.findViewById(R.id.gif_qr_mainMengEditText_dot_color_light);
         mengEtSize = (mengEdittextWithCheckBox) view.findViewById(R.id.gif_qr_mainEditTextWithCheckbox_size);
@@ -138,7 +138,7 @@ public class gifAwesomeQr extends Fragment {
                         gifEncoder.init(intGifSize, intGifSize, filePath, GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
                         for (int t = 0; t < bmpDecodedBitmaps.length; t++) {
                             gifEncoder.encodeFrame(
-                                    encodeAwesome(etTextToEncode.getText().toString(), intGifSize, BitmapFactory.decodeFile(strTmpFolder + t + ".png")
+                                    encodeAwesome(mengEtTextToEncode.getText().toString(), intGifSize, BitmapFactory.decodeFile(strTmpFolder + t + ".png")
                                     ), intGifFrameDelay);
                             setProgress((int) ((t + 1) * 100.0f / bmpDecodedBitmaps.length), true);
                         }
@@ -147,7 +147,7 @@ public class gifAwesomeQr extends Fragment {
                         for (int t = 0; t < bmpDecodedBitmaps.length; t++) {
                             gifEncoder.encodeFrame(
                                     encodeAwesome(
-                                            etTextToEncode.getText().toString(), intGifSize, bmpDecodedBitmaps[t]
+                                            mengEtTextToEncode.getText().toString(), intGifSize, bmpDecodedBitmaps[t]
                                     ), intGifFrameDelay);
                             setProgress((int) ((t + 1) * 100.0f / bmpDecodedBitmaps.length), true);
                         }
@@ -205,6 +205,14 @@ public class gifAwesomeQr extends Fragment {
                     intGifSize = BitmapFactory.decodeFile(strTmpFolder + "0.png").getWidth();
                     createNomediaFile();
                     coding = false;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            btnEncodeGif.setVisibility(View.VISIBLE);
+                            cbUseDither.setVisibility(View.VISIBLE);
+                            tvImagePath.setVisibility(View.VISIBLE);
+                        }
+                    });
                 }
             }).start();
         } else {
@@ -226,6 +234,14 @@ public class gifAwesomeQr extends Fragment {
                     }
                     createNomediaFile();
                     coding = false;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            btnEncodeGif.setVisibility(View.VISIBLE);
+                            cbUseDither.setVisibility(View.VISIBLE);
+                            tvImagePath.setVisibility(View.VISIBLE);
+                        }
+                    });
                 }
             }).start();
         }
@@ -244,7 +260,7 @@ public class gifAwesomeQr extends Fragment {
 
     private Bitmap encodeAwesome(String contents, int size, Bitmap bg) {
         return AwesomeQRCode.create(
-                contents.equals("") ? etTextToEncode.getHint().toString() : contents,
+                contents.equals("") ? mengEtTextToEncode.getHint().toString() : contents,
                 mengEtSize.isChecked() ? size : Integer.parseInt(mengEtSize.getText().toString()),
                 (int) (size * 0.025f),
                 mengEtDotScale.getText().length() == 0 ? 0.4f : Float.parseFloat(mengEtDotScale.getText().toString()),
@@ -315,9 +331,6 @@ public class gifAwesomeQr extends Fragment {
                     tvImagePath.setText(strSelectedGifPath);
                     decodeGif(strSelectedGifPath);
                     coding = true;
-                    btnEncodeGif.setVisibility(View.VISIBLE);
-                    cbUseDither.setVisibility(View.VISIBLE);
-                    tvImagePath.setVisibility(View.VISIBLE);
                 }
             } catch (Exception e) {
                 log.e(getActivity(), e);
