@@ -51,4 +51,12 @@ public class mengEdittext extends LinearLayout {
     public void setTextColor(int textColor) {
         tv.setTextColor(textColor);
     }
+
+    public boolean isEmpty() {
+        if(et.getText().toString()==null||et.getText().toString().trim().length()==0){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

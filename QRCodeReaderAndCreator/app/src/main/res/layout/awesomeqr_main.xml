@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ran="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="top|center_horizontal"
@@ -21,75 +22,33 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <TextView
+            <com.meng.qrtools.views.mengEdittext
+                android:id="@+id/awesomeqr_main_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:text="@string/contents" />
+                ran:edittextHint="@string/input_text"
+                ran:textviewText="@string/contents" />
 
-            <EditText
-                android:id="@+id/awesomeqr_main_contents"
+            <com.meng.qrtools.views.mengEdittext
+                android:id="@+id/awesomeqr_main_mengEdittext_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/input_text"
-                android:maxLines="3" />
+                ran:edittextHint="800"
+                ran:textviewText="@string/size_px_includes_the_margin_width_equals_to_height" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:text="@string/size_px_includes_the_margin_width_equals_to_height" />
-
-            <EditText
-                android:id="@+id/awesomeqr_main_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="800"
-                android:inputType="number"
-                android:lines="1"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:text="@string/margin_px" />
-
-            <EditText
+            <com.meng.qrtools.views.mengEdittext
                 android:id="@+id/awesomeqr_main_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="20"
-                android:inputType="number"
-                android:lines="1"
-                android:maxLines="1"
-                android:singleLine="true" />
+                ran:edittextHint="20"
+                ran:textviewText="@string/margin_px" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:text="@string/data_dot_scale_0_lt_scale_lt_1_0f" />
-
-            <EditText
+            <com.meng.qrtools.views.mengEdittext
                 android:id="@+id/awesomeqr_main_dotScale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="0.3"
-                android:inputType="numberDecimal"
-                android:lines="1"
-                android:maxLines="1"
-                android:singleLine="true" />
-
+                ran:edittextHint="0.3"
+                ran:textviewText="@string/data_dot_scale_0_lt_scale_lt_1_0f" />
 
             <CheckBox
                 android:id="@+id/awesomeqr_main_autoColor"
@@ -105,44 +64,20 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp"
-                    android:text="@string/colordark_true_dots_dddddd" />
-
-                <EditText
+                <com.meng.qrtools.views.mengEdittext
                     android:id="@+id/awesomeqr_main_colorDark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="#000000"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="#000000" />
+                    ran:edittextHint="#000000"
+                    ran:textviewText="@string/colordark_true_dots_dddddd" />
 
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp"
-                    android:text="@string/colorlight_false_dots_dddddd" />
-
-                <EditText
+                <com.meng.qrtools.views.mengEdittext
                     android:id="@+id/awesomeqr_main_colorLight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="#ffffff"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="#ffffff" />
+                    ran:edittextHint="#ffffff"
+                    ran:textviewText="@string/colorlight_false_dots_dddddd" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -189,17 +124,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/binarize_background_image" />
 
-            <EditText
-                android:id="@+id/awesomeqr_main_binarizeThreshold"
+            <com.meng.qrtools.views.mengEdittext
+                android:id="@+id/awesomeqr_main_mengEdittext_binarizeThreshold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="@string/binarizethreshold_0_lt_threshold_lt_255"
-                android:inputType="number"
-                android:lines="1"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:visibility="gone" />
+                android:visibility="gone"
+                ran:edittextHint="128"
+                ran:textviewText="@string/binarizethreshold_0_lt_threshold_lt_255" />
 
             <Button
                 android:id="@+id/awesomeqr_main_generate"
