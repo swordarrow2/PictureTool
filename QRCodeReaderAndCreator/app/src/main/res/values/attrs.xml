@@ -11,6 +11,8 @@
         <attr name="qr_showPossiblePoint" format="boolean" />
     </declare-styleable>
     <declare-styleable name="mengViews">
+        <attr name="checked" format="boolean" />
+        <attr name="showOnCheck" format="boolean" />
         <attr name="textviewText" format="string" />
         <attr name="checkboxText" format="string" />
         <attr name="edittextHint" format="string" />

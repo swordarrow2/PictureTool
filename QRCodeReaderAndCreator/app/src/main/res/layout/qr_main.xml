@@ -11,10 +11,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
         <com.meng.qrtools.views.mengEdittext
             android:id="@+id/qr_EditText"
             android:layout_width="match_parent"

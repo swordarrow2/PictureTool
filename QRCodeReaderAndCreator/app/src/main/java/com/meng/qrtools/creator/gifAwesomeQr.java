@@ -18,8 +18,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +25,7 @@ import android.widget.Toast;
 import com.meng.qrtools.R;
 import com.meng.qrtools.log;
 import com.meng.qrtools.views.mengEdittext;
+import com.meng.qrtools.views.mengEdittextWithCheckBox;
 import com.waynejo.androidndkgif.GifDecoder;
 import com.waynejo.androidndkgif.GifEncoder;
 import com.waynejo.androidndkgif.GifImage;
@@ -49,19 +48,15 @@ public class gifAwesomeQr extends Fragment {
     private Button btnEncodeGif;
     private Button btnSelectImage;
     private CheckBox cbAutoColor;
-    private CheckBox cbAutoSize;
     private CheckBox cbLowMemoryMode;
     private CheckBox cbUseDither;
-    private EditText etDarkDotColor;
-    private EditText etDotScale;
-    private EditText etLightDotColor;
-   // private EditText etTextToEncode;
-    private EditText etSize;
-    private LinearLayout llSelectColor;
+    private mengEdittext mengEtDarkDotColor;
+    private mengEdittext mengEtDotScale;
+    private mengEdittext mengEtLightDotColor;
+    private mengEdittextWithCheckBox mengEtSize;
     private ProgressBar pbCodingProgress;
     private String strSelectedGifPath = "";
     private TextView tvImagePath;
-    private TextView tvSize;
 
     private mengEdittext etTextToEncode;
 
@@ -78,45 +73,33 @@ public class gifAwesomeQr extends Fragment {
         btnEncodeGif = (Button) view.findViewById(R.id.gif_qr_button_encode_gif);
         btnSelectImage = (Button) view.findViewById(R.id.gif_qr_button_selectImg);
         cbAutoColor = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_autocolor);
-        cbAutoSize = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_autosize);
         cbLowMemoryMode = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_low_memery);
         cbUseDither = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_dither);
-        etDotScale = (EditText) view.findViewById(R.id.gif_qr_edittext_dotScale);
-     //   etTextToEncode = (EditText) view.findViewById(R.id.gif_qr_mainEditText_content);
-
+        mengEtDotScale = (mengEdittext) view.findViewById(R.id.gif_qr_mengEdittext_dotScale);
         etTextToEncode = (mengEdittext) view.findViewById(R.id.gif_qr_mainmengTextview_content);
-        etDarkDotColor = (EditText) view.findViewById(R.id.gif_qr_mainEditText_dot_dark);
-        etLightDotColor = (EditText) view.findViewById(R.id.gif_qr_mainEditText_dot_color_light);
-        etSize = (EditText) view.findViewById(R.id.gif_qr_mainEditText_size);
-        llSelectColor = (LinearLayout) view.findViewById(R.id.gif_qr_mainLinearLayout_selecr_color);
+        mengEtDarkDotColor = (mengEdittext) view.findViewById(R.id.gif_qr_mainMengEditText_dot_dark);
+        mengEtLightDotColor = (mengEdittext) view.findViewById(R.id.gif_qr_mainMengEditText_dot_color_light);
+        mengEtSize = (mengEdittextWithCheckBox) view.findViewById(R.id.gif_qr_mainEditTextWithCheckbox_size);
         pbCodingProgress = (ProgressBar) view.findViewById(R.id.gif_qr_mainProgressBar);
         tvImagePath = (TextView) view.findViewById(R.id.gif_qr_selected_path);
-        tvSize=(TextView)view.findViewById(R.id.gif_qr_mainTextView_size);
-        etDarkDotColor.addTextChangedListener(twColor);
-        etLightDotColor.addTextChangedListener(twColor);
-        cbAutoColor.setOnCheckedChangeListener(listenerCheckChange);
-        cbAutoSize.setOnCheckedChangeListener(listenerCheckChange);
+        mengEtDarkDotColor.addTextChangedListener(twColor);
+        mengEtLightDotColor.addTextChangedListener(twColor);
+        cbAutoColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mengEtDarkDotColor.setVisibility(View.GONE);
+                    mengEtLightDotColor.setVisibility(View.GONE);
+                } else {
+                    mengEtDarkDotColor.setVisibility(View.VISIBLE);
+                    mengEtLightDotColor.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         btnSelectImage.setOnClickListener(listenerBtnClick);
         btnEncodeGif.setOnClickListener(listenerBtnClick);
     }
 
-    CompoundButton.OnCheckedChangeListener listenerCheckChange = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            switch (buttonView.getId()) {
-                case R.id.gif_qr_checkbox_autocolor:
-                    etDarkDotColor.setEnabled(!isChecked);
-                    etLightDotColor.setEnabled(!isChecked);
-                    llSelectColor.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-                    break;
-                case R.id.gif_qr_checkbox_autosize:
-                    etSize.setEnabled(!isChecked);
-                    etSize.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-                    tvSize.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-                    break;
-            }
-        }
-    };
     OnClickListener listenerBtnClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -140,7 +123,6 @@ public class gifAwesomeQr extends Fragment {
             }
         }
     };
-
 
     private void encodeGIF() throws IOException {
         new Thread(new Runnable() {
@@ -263,11 +245,11 @@ public class gifAwesomeQr extends Fragment {
     private Bitmap encodeAwesome(String contents, int size, Bitmap bg) {
         return AwesomeQRCode.create(
                 contents.equals("") ? etTextToEncode.getHint().toString() : contents,
-                cbAutoSize.isChecked() ? size : Integer.parseInt(etSize.getText().toString()),
+                mengEtSize.isChecked() ? size : Integer.parseInt(mengEtSize.getText().toString()),
                 (int) (size * 0.025f),
-                etDotScale.getText().length() == 0 ? 0.4f : Float.parseFloat(etDotScale.getText().toString()),
-                cbAutoColor.isChecked() ? Color.BLACK : Color.parseColor(etDarkDotColor.getText().toString()),
-                cbAutoColor.isChecked() ? Color.WHITE : Color.parseColor(etLightDotColor.getText().toString()),
+                mengEtDotScale.getText().length() == 0 ? 0.4f : Float.parseFloat(mengEtDotScale.getText().toString()),
+                cbAutoColor.isChecked() ? Color.BLACK : Color.parseColor(mengEtDarkDotColor.getText().toString()),
+                cbAutoColor.isChecked() ? Color.WHITE : Color.parseColor(mengEtLightDotColor.getText().toString()),
                 bg,
                 false,
                 cbAutoColor.isChecked(),
@@ -305,14 +287,14 @@ public class gifAwesomeQr extends Fragment {
         @Override
         public void onTextChanged(CharSequence p1, int p2, int p3, int p4) {
             try {
-                etDarkDotColor.setTextColor(Color.parseColor(etDarkDotColor.getText().toString()));
+                mengEtDarkDotColor.setTextColor(Color.parseColor(mengEtDarkDotColor.getText().toString()));
             } catch (Exception e) {
-                etDarkDotColor.setTextColor(Color.BLACK);
+                mengEtDarkDotColor.setTextColor(Color.BLACK);
             }
             try {
-                etLightDotColor.setTextColor(Color.parseColor(etLightDotColor.getText().toString()));
+                mengEtLightDotColor.setTextColor(Color.parseColor(mengEtLightDotColor.getText().toString()));
             } catch (Exception e) {
-                etLightDotColor.setTextColor(Color.BLACK);
+                mengEtLightDotColor.setTextColor(Color.BLACK);
             }
         }
 

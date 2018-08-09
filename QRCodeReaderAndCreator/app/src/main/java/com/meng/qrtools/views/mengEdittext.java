@@ -2,6 +2,7 @@ package com.meng.qrtools.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.EditText;
@@ -30,14 +31,24 @@ public class mengEdittext extends LinearLayout {
         et.setHint(typedArray.getString(R.styleable.mengViews_edittextHint));
         typedArray.recycle();
     }
+
     public String getText(){
         return et.getText().toString();
     }
+
     public String getHint(){
         return et.getHint().toString();
     }
+
     public void setText(String s){
         et.setText(s);
     }
 
+    public void addTextChangedListener(TextWatcher twColor) {
+        et.addTextChangedListener(twColor);
+    }
+
+    public void setTextColor(int textColor) {
+        tv.setTextColor(textColor);
+    }
 }
