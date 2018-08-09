@@ -11,12 +11,14 @@ import android.view.View.*;
 import android.widget.*;
 import com.google.zxing.*;
 import com.meng.qrtools.*;
+import com.meng.qrtools.views.mengEdittext;
+
 import java.io.*;
 
 public class logoCreator extends Fragment{
 	private ScrollView scrollView;
     private ImageView qrcodeImageView;
-    private EditText et;
+    private mengEdittext et;
     private Button btnSelectImg;
     private Button btnRemoveImg;
     private Button btnCreate;
@@ -40,7 +42,7 @@ public class logoCreator extends Fragment{
         // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
         qrcodeImageView=(ImageView) view.findViewById(R.id.qr_imageview);
-        et=(EditText) view.findViewById(R.id.qr_EditText);
+        et=(mengEdittext) view.findViewById(R.id.qr_EditText);
 		scrollView=(ScrollView)view.findViewById(R.id.qr_mainScrollView);
         ckbAutoColor=(CheckBox) view.findViewById(R.id.qr_main_autoColor);
         btnSelectImg=(Button) view.findViewById(R.id.qr_ButtonSelectImage);

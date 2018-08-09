@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ran="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="top|center_horizontal"
@@ -18,6 +19,14 @@
             android:layout_height="wrap_content"
             android:max="100"
             android:visibility="gone" />
+
+        <com.meng.qrtools.views.mengEdittextWithCheckBox
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ran:textviewText="textview"
+            ran:checkboxText="checkboxText"
+            ran:edittextHint="edittext"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -70,12 +79,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/gif_qr_mainEditText_content"
-                android:layout_width="fill_parent"
+            <com.meng.qrtools.views.mengEdittext
+                android:id="@+id/gif_qr_mainmengTextview_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="内容" />
-
+                ran:textviewText="输入内容"
+                ran:edittextHint="示例"/>
 
             <TextView
                 android:layout_width="match_parent"

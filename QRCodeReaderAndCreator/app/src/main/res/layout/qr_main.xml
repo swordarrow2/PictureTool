@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:ran="http://schemas.android.com/apk/res-auto">
 <ScrollView
 	android:id="@+id/qr_mainScrollView"
 	android:layout_width="match_parent"
@@ -14,11 +15,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <EditText
+        <com.meng.qrtools.views.mengEdittext
             android:id="@+id/qr_EditText"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/input_text" />
+            ran:textviewText="输入内容"
+            ran:edittextHint="示例"/>
 
         <TextView
             android:id="@+id/qr_main_imgPathTextView"

@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.meng.qrtools.R;
 import com.meng.qrtools.log;
+import com.meng.qrtools.views.mengEdittext;
 import com.waynejo.androidndkgif.GifDecoder;
 import com.waynejo.androidndkgif.GifEncoder;
 import com.waynejo.androidndkgif.GifImage;
@@ -54,13 +55,15 @@ public class gifAwesomeQr extends Fragment {
     private EditText etDarkDotColor;
     private EditText etDotScale;
     private EditText etLightDotColor;
-    private EditText etTextToEncode;
+   // private EditText etTextToEncode;
     private EditText etSize;
     private LinearLayout llSelectColor;
     private ProgressBar pbCodingProgress;
     private String strSelectedGifPath = "";
     private TextView tvImagePath;
     private TextView tvSize;
+
+    private mengEdittext etTextToEncode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,7 +82,9 @@ public class gifAwesomeQr extends Fragment {
         cbLowMemoryMode = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_low_memery);
         cbUseDither = (CheckBox) view.findViewById(R.id.gif_qr_checkbox_dither);
         etDotScale = (EditText) view.findViewById(R.id.gif_qr_edittext_dotScale);
-        etTextToEncode = (EditText) view.findViewById(R.id.gif_qr_mainEditText_content);
+     //   etTextToEncode = (EditText) view.findViewById(R.id.gif_qr_mainEditText_content);
+
+        etTextToEncode = (mengEdittext) view.findViewById(R.id.gif_qr_mainmengTextview_content);
         etDarkDotColor = (EditText) view.findViewById(R.id.gif_qr_mainEditText_dot_dark);
         etLightDotColor = (EditText) view.findViewById(R.id.gif_qr_mainEditText_dot_color_light);
         etSize = (EditText) view.findViewById(R.id.gif_qr_mainEditText_size);
