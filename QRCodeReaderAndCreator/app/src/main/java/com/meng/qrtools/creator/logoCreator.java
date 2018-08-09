@@ -11,8 +11,7 @@ import android.view.View.*;
 import android.widget.*;
 import com.google.zxing.*;
 import com.meng.qrtools.*;
-import com.meng.qrtools.views.mengEdittext;
-
+import com.meng.qrtools.views.*;
 import java.io.*;
 
 public class logoCreator extends Fragment{
@@ -83,14 +82,14 @@ public class logoCreator extends Fragment{
 					// TODO: Implement this method
 					if(logoImage==null){
 						bmp=QRCode.createQRCode(
-                            et.getText().toString()==null||et.getText().toString().equals("")? et.getHint().toString() :et.getText().toString(),
+                            et.getString().toString()==null||et.getString().toString().equals("")? et.getHint().toString() :et.getString().toString(),
                             ckbAutoColor.isChecked()? Color.BLACK :Color.parseColor(etColorDark.getText().toString()),
                             ckbAutoColor.isChecked()? Color.WHITE :Color.parseColor(etColorLight.getText().toString()),
                             BarcodeFormat.QR_CODE,
                             500);
 					}else{
 						bmp=QRCode.createLogoQR(
-                            et.getText().toString()==null||et.getText().toString().equals("")? getActivity().getResources().getString(R.string.input_text) :et.getText().toString(),
+                            et.getString().toString()==null||et.getString().toString().equals("")? getActivity().getResources().getString(R.string.input_text) :et.getString().toString(),
                             ckbAutoColor.isChecked()? Color.BLACK :Color.parseColor(etColorDark.getText().toString()),
                             ckbAutoColor.isChecked()? Color.WHITE :Color.parseColor(etColorLight.getText().toString()),
                             500,

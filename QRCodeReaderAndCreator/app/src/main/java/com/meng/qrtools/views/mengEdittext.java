@@ -1,15 +1,12 @@
 package com.meng.qrtools.views;
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.text.TextWatcher;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.meng.qrtools.R;
+import android.content.*;
+import android.content.res.*;
+import android.text.*;
+import android.util.*;
+import android.view.*;
+import android.widget.*;
+import com.meng.qrtools.*;
 
 /**
  * Created by Administrator on 2018/8/9.
@@ -32,7 +29,7 @@ public class mengEdittext extends LinearLayout {
         typedArray.recycle();
     }
 
-    public String getText(){
+    public String getString(){
         return et.getText().toString();
     }
 
@@ -40,7 +37,7 @@ public class mengEdittext extends LinearLayout {
         return et.getHint().toString();
     }
 
-    public void setText(String s){
+    public void setString(String s){
         et.setText(s);
     }
 
