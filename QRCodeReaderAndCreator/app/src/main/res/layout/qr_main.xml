@@ -57,45 +57,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:text="@string/colordark_true_dots_dddddd" />
-
-            <EditText
-                android:id="@+id/qr_main_colorDark"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="#000000"
-                android:lines="1"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text="#000000" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:text="@string/colorlight_false_dots_dddddd" />
-
-            <EditText
-                android:id="@+id/qr_main_colorLight"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="#ffffff"
-                android:lines="1"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text="#ffffff" />
+			<com.meng.qrtools.views.mengEdittext
+				android:id="@+id/qr_main_colorDark"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				ran:textviewText="@string/colordark_true_dots_dddddd"
+				ran:edittextHint="#000000"/>
+			<com.meng.qrtools.views.mengEdittext
+				android:id="@+id/qr_main_colorLight"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				ran:textviewText="@string/colorlight_false_dots_dddddd"
+				ran:edittextHint="#ffffff"/>
+            
         </LinearLayout>
 
         <Button

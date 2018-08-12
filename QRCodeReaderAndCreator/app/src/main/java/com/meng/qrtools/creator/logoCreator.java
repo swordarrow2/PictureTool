@@ -13,6 +13,7 @@ import com.google.zxing.*;
 import com.meng.qrtools.*;
 import com.meng.qrtools.views.*;
 import java.io.*;
+import android.text.*;
 
 public class logoCreator extends Fragment{
 	private ScrollView scrollView;
@@ -25,7 +26,7 @@ public class logoCreator extends Fragment{
     private Button btnSave;
     private Bitmap bmp = null;
     private Bitmap logoImage = null;
-    private EditText etColorLight, etColorDark;
+    private mengEdittext etColorLight, etColorDark;
     private LinearLayout selectColorLinearLayout;
     private CheckBox ckbAutoColor;
     private final int SELECT_FILE_REQUEST_CODE = 822;
@@ -49,9 +50,11 @@ public class logoCreator extends Fragment{
         btnCreate=(Button) view.findViewById(R.id.qr_ButtonCreate);
         btnSave=(Button) view.findViewById(R.id.qr_ButtonSave);
         imgPath=(TextView)view.findViewById(R.id.qr_main_imgPathTextView);
-        etColorLight=(EditText) view.findViewById(R.id.qr_main_colorLight);
-        etColorDark=(EditText) view.findViewById(R.id.qr_main_colorDark);
+        etColorLight=(mengEdittext) view.findViewById(R.id.qr_main_colorLight);
+        etColorDark=(mengEdittext) view.findViewById(R.id.qr_main_colorDark);
         selectColorLinearLayout=(LinearLayout) view.findViewById(R.id.qr_main_select_color_linearLayout);
+		etColorDark.addTextChangedListener(tw);
+        etColorLight.addTextChangedListener(tw);
         btnSelectImg.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -83,15 +86,15 @@ public class logoCreator extends Fragment{
 					if(logoImage==null){
 						bmp=QRCode.createQRCode(
                             et.getString(),
-                            ckbAutoColor.isChecked()? Color.BLACK :Color.parseColor(etColorDark.getText().toString()),
-                            ckbAutoColor.isChecked()? Color.WHITE :Color.parseColor(etColorLight.getText().toString()),
+                            ckbAutoColor.isChecked()? Color.BLACK :Color.parseColor(etColorDark.getString()),
+                            ckbAutoColor.isChecked()? Color.WHITE :Color.parseColor(etColorLight.getString()),
                             BarcodeFormat.QR_CODE,
                             500);
 					}else{
 						bmp=QRCode.createLogoQR(
                             et.getString().toString()==null||et.getString().toString().equals("")? getActivity().getResources().getString(R.string.input_text) :et.getString().toString(),
-                            ckbAutoColor.isChecked()? Color.BLACK :Color.parseColor(etColorDark.getText().toString()),
-                            ckbAutoColor.isChecked()? Color.WHITE :Color.parseColor(etColorLight.getText().toString()),
+                            ckbAutoColor.isChecked()? Color.BLACK :Color.parseColor(etColorDark.getString()),
+                            ckbAutoColor.isChecked()? Color.WHITE :Color.parseColor(etColorLight.getString()),
                             500,
                             logoImage);
 					}
@@ -139,7 +142,31 @@ public class logoCreator extends Fragment{
         intent.setType("image/*");
         startActivityForResult(intent,SELECT_FILE_REQUEST_CODE);
     }
+	TextWatcher tw = new TextWatcher() {
 
+        @Override
+        public void beforeTextChanged(CharSequence p1, int p2, int p3, int p4) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence p1, int p2, int p3, int p4) {
+            try {
+                etColorLight.setTextColor(Color.parseColor(etColorLight.getString()));
+            } catch (Exception e) {
+                etColorLight.setTextColor(Color.BLACK);
+            }
+            try {
+                etColorDark.setTextColor(Color.parseColor(etColorDark.getString()));
+            } catch (Exception e) {
+                etColorDark.setTextColor(Color.BLACK);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable p1) {
+
+        }
+    };
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
 

@@ -110,6 +110,9 @@ public class gifAwesomeQr extends Fragment{
                             "/Pictures/QRcode/GifAwesomeQR"+SystemClock.elapsedRealtime()+".gif";
 						GifEncoder gifEncoder = new GifEncoder();
 						gifEncoder.setDither(cbUseDither.isChecked());
+						if(!mengEtSize.isChecked()){
+							intGifSize=Integer.parseInt(mengEtSize.getString());
+						}
 						if(cbLowMemoryMode.isChecked()){
 							gifEncoder.init(intGifSize,intGifSize,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
 							for(int t = 0; t<bmpDecodedBitmaps.length; t++){
