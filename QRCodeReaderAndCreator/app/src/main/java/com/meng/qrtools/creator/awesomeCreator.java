@@ -104,17 +104,17 @@ public class awesomeCreator extends Fragment {
         btGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                generate(mengEtContents.isEmpty() ? getString(R.string.input_text) : mengEtContents.getString(),
-                        mengEtSize.isEmpty() ? Integer.parseInt(mengEtSize.getHint()) : Integer.parseInt(mengEtSize.getString()),
-                        mengEtMargin.isEmpty() ? Integer.parseInt(mengEtMargin.getHint()) : Integer.parseInt(mengEtMargin.getString()),
-                        mengEtDotScale.isEmpty() ? Float.parseFloat(mengEtDotScale.getHint()) : Float.parseFloat(mengEtDotScale.getString()),
+                generate(mengEtContents.getString(),
+                        Integer.parseInt(mengEtSize.getString()),
+                        Integer.parseInt(mengEtMargin.getString()),
+                        Float.parseFloat(mengEtDotScale.getString()),
                         ckbAutoColor.isChecked() ? Color.BLACK : Color.parseColor(mengEtColorDark.getString()),
                         ckbAutoColor.isChecked() ? Color.WHITE : Color.parseColor(mengEtColorLight.getString()),
                         backgroundImage,
                         ckbWhiteMargin.isChecked(),
                         ckbAutoColor.isChecked(),
                         ckbBinarize.isChecked(),
-                        mengEtBinarizeThreshold.isEmpty() ? Integer.parseInt(mengEtBinarizeThreshold.getHint()) : Integer.parseInt(mengEtBinarizeThreshold.getString())
+                        Integer.parseInt(mengEtBinarizeThreshold.getString())
                 );
                 btnSave.setVisibility(View.VISIBLE);
             }

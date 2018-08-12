@@ -114,16 +114,15 @@ public class gifAwesomeQr extends Fragment{
 							gifEncoder.init(intGifSize,intGifSize,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
 							for(int t = 0; t<bmpDecodedBitmaps.length; t++){
 								gifEncoder.encodeFrame(
-                                    encodeAwesome(mengEtTextToEncode.getString().toString(),intGifSize,BitmapFactory.decodeFile(strTmpFolder+t+".png")
-												  ),intGifFrameDelay);
+                                    encodeAwesome(intGifSize,BitmapFactory.decodeFile(strTmpFolder+t+".png")),
+												  intGifFrameDelay);
 							}
 						}else{
 							gifEncoder.init(intGifSize,intGifSize,filePath,GifEncoder.EncodingType.ENCODING_TYPE_FAST);
 							for(int t = 0; t<bmpDecodedBitmaps.length; t++){
 								gifEncoder.encodeFrame(
-                                    encodeAwesome(
-										mengEtTextToEncode.getString().toString(),intGifSize,bmpDecodedBitmaps[t]
-                                    ),intGifFrameDelay);
+                                    encodeAwesome(intGifSize,bmpDecodedBitmaps[t]),
+									intGifFrameDelay);
 								setProgress((int) ((t+1)*100.0f/bmpDecodedBitmaps.length),true);
 							}
 						}
@@ -231,12 +230,12 @@ public class gifAwesomeQr extends Fragment{
         }
     }
 
-    private Bitmap encodeAwesome(String contents,int size,Bitmap bg){
+    private Bitmap encodeAwesome(int size,Bitmap bg){
         return AwesomeQRCode.create(
-			contents.equals("")? mengEtTextToEncode.getHint().toString() :contents,
-			mengEtSize.isChecked()? size :Integer.parseInt(mengEtSize.getText().toString()),
+			mengEtTextToEncode.getString(),
+			mengEtSize.isChecked()? size :Integer.parseInt(mengEtSize.getString().toString()),
 			(int) (size*0.025f),
-			mengEtDotScale.isEmpty()? Float.parseFloat(mengEtDotScale.getHint()) :Float.parseFloat(mengEtDotScale.getString()),
+			Float.parseFloat(mengEtDotScale.getString()),
 			cbAutoColor.isChecked()? Color.BLACK :Color.parseColor(mengEtDarkDotColor.getString()),
 			cbAutoColor.isChecked()? Color.WHITE :Color.parseColor(mengEtLightDotColor.getString()),
 			bg,

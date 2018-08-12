@@ -82,7 +82,7 @@ public class logoCreator extends Fragment{
 					// TODO: Implement this method
 					if(logoImage==null){
 						bmp=QRCode.createQRCode(
-                            et.getString().toString()==null||et.getString().toString().equals("")? et.getHint().toString() :et.getString().toString(),
+                            et.getString(),
                             ckbAutoColor.isChecked()? Color.BLACK :Color.parseColor(etColorDark.getText().toString()),
                             ckbAutoColor.isChecked()? Color.WHITE :Color.parseColor(etColorLight.getText().toString()),
                             BarcodeFormat.QR_CODE,

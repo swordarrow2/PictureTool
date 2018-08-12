@@ -57,7 +57,14 @@ public class mengEdittextWithCheckBox extends LinearLayout {
         return cb.isChecked();
     }
 
-    public String getText() {
-        return et.getText().toString();
+    public String getString() {
+        return isEmpty()?et.getHint().toString():et.getText().toString();
+    }
+	private boolean isEmpty() {
+        if(et.getText().toString()==null||et.getText().toString().trim().length()==0){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

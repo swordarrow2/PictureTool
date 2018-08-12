@@ -30,11 +30,7 @@ public class mengEdittext extends LinearLayout {
     }
 
     public String getString(){
-        return et.getText().toString();
-    }
-
-    public String getHint(){
-        return et.getHint().toString();
+        return isEmpty()?et.getHint().toString():et.getText().toString();
     }
 
     public void setString(String s){
@@ -49,7 +45,7 @@ public class mengEdittext extends LinearLayout {
         tv.setTextColor(textColor);
     }
 
-    public boolean isEmpty() {
+    private boolean isEmpty() {
         if(et.getText().toString()==null||et.getText().toString().trim().length()==0){
             return true;
         }else {
