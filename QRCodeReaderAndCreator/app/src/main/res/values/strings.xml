@@ -21,4 +21,7 @@
     <string name="binarizethreshold_0_lt_threshold_lt_255"><![CDATA[转换阀值 (0 < 值 < 255)]]></string>
     <string name="Background_image_removed">背景图移除成功</string>
     <string name="Background_image_added">背景图添加成功</string>
+    <string name="qr_without_logo">未选择图片，将会生成普通二维码</string>
+    <string name="example">示例</string>
+    <string name="input">输入内容</string>
 </resources>

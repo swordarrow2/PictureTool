@@ -57,60 +57,47 @@
                 android:checked="true"
                 android:text="@string/auto_pick_color" />
 
-            <LinearLayout
-                android:id="@+id/awesomeqr_main_select_color_linearLayout"
+            <com.meng.qrtools.views.mengEdittext
+                android:id="@+id/awesomeqr_main_colorDark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="gone"
+                ran:edittextHint="#000000"
+                ran:textviewText="@string/colordark_true_dots_dddddd" />
 
-                <com.meng.qrtools.views.mengEdittext
-                    android:id="@+id/awesomeqr_main_colorDark"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ran:edittextHint="#000000"
-                    ran:textviewText="@string/colordark_true_dots_dddddd" />
+            <com.meng.qrtools.views.mengEdittext
+                android:id="@+id/awesomeqr_main_colorLight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                ran:edittextHint="#ffffff"
+                ran:textviewText="@string/colorlight_false_dots_dddddd" />
 
-                <com.meng.qrtools.views.mengEdittext
-                    android:id="@+id/awesomeqr_main_colorLight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ran:edittextHint="#ffffff"
-                    ran:textviewText="@string/colorlight_false_dots_dddddd" />
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/awesomeqr_main_imgPathTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="未选择背景图"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <TextView
-					android:visibility="gone"
-                    android:id="@+id/awesomeqr_main_imgPathTextView"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/awesomeqr_main_backgroundImage"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="未选择背景图" />
+                    android:layout_weight="1"
+                    android:text="@string/select_image" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/awesomeqr_main_removeBackgroundImage"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/awesomeqr_main_backgroundImage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/select_image" />
-
-                    <Button
-                        android:id="@+id/awesomeqr_main_removeBackgroundImage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/remove_image" />
-                </LinearLayout>
+                    android:layout_weight="1"
+                    android:text="@string/remove_image" />
             </LinearLayout>
 
             <CheckBox

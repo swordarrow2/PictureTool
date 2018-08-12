@@ -1,22 +1,36 @@
 package com.meng.qrtools.creator;
 
-import android.*;
-import android.app.*;
-import android.content.*;
-import android.content.pm.*;
-import android.graphics.*;
-import android.net.*;
-import android.os.*;
-import android.support.v4.app.*;
-import android.text.*;
-import android.view.*;
-import android.widget.*;
-import com.meng.qrtools.*;
-import com.meng.qrtools.views.*;
-import java.io.*;
-
+import android.Manifest;
 import android.app.Fragment;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.meng.qrtools.R;
+import com.meng.qrtools.log;
+import com.meng.qrtools.views.mengEdittext;
+
+import java.io.File;
+import java.io.IOException;
 
 public class awesomeCreator extends Fragment {
 
@@ -34,9 +48,9 @@ public class awesomeCreator extends Fragment {
     private CheckBox ckbBinarize;
     private mengEdittext mengEtBinarizeThreshold;
     private Button btnSave;
-    private LinearLayout selectColorLinearLayout;
     private TextView imgPathTextView;
-    Bitmap bmp = null;
+    private Bitmap bmp = null;
+    private static final int CROP_REQUEST_CODE = 3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +62,6 @@ public class awesomeCreator extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // TODO: Implement this method
         super.onViewCreated(view, savedInstanceState);
-        selectColorLinearLayout = (LinearLayout) view.findViewById(R.id.awesomeqr_main_select_color_linearLayout);
         scrollView = (ScrollView) view.findViewById(R.id.awesomeqr_main_scrollView);
         qrCodeImageView = (ImageView) view.findViewById(R.id.awesomeqr_main_qrcode);
         mengEtColorLight = (mengEdittext) view.findViewById(R.id.awesomeqr_main_colorLight);
@@ -71,7 +84,8 @@ public class awesomeCreator extends Fragment {
         ckbAutoColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                selectColorLinearLayout.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+                mengEtColorDark.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+                mengEtColorLight.setVisibility(isChecked ? View.GONE : View.VISIBLE);
             }
         });
 
@@ -85,10 +99,7 @@ public class awesomeCreator extends Fragment {
         btSelectBG.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("image/*");
-                startActivityForResult(intent, SELECT_FILE_REQUEST_CODE);
+                selectImage();
             }
         });
 
@@ -135,6 +146,13 @@ public class awesomeCreator extends Fragment {
         });
     }
 
+    private void selectImage() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        startActivityForResult(intent, SELECT_FILE_REQUEST_CODE);
+    }
+
     public void setDataStr(String s) {
         mengEtContents.setString(s);
     }
@@ -165,12 +183,20 @@ public class awesomeCreator extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SELECT_FILE_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data.getData() != null) {
-            Uri imageUri = data.getData();
-            String imgPath = ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), imageUri);
-            backgroundImage = BitmapFactory.decodeFile(imgPath);
-			imgPathTextView.setVisibility(View.VISIBLE);
-            imgPathTextView.setText("当前：" + imgPath);
-            Toast.makeText(getActivity().getApplicationContext(), R.string.Background_image_added, Toast.LENGTH_SHORT).show();
+            imgPathTextView.setVisibility(View.VISIBLE);
+            imgPathTextView.setText("当前文件：" + ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), cropPhoto(data.getData())));
+        } else if (requestCode == CROP_REQUEST_CODE) {
+            Bundle bundle = data.getExtras();
+            if (bundle != null) {
+                backgroundImage = bundle.getParcelable("data");
+                log.t(getActivity(), getResources().getString(R.string.Background_image_added));
+            } else {
+                log.t(getActivity(), "裁剪失败");
+            }
+        } else if (resultCode == getActivity().RESULT_CANCELED) {
+            Toast.makeText(getActivity().getApplicationContext(), "取消选择图片", Toast.LENGTH_SHORT).show();
+        } else {
+            selectImage();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -201,7 +227,7 @@ public class awesomeCreator extends Fragment {
                         }
                     });
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.e(getActivity(), e);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -222,12 +248,12 @@ public class awesomeCreator extends Fragment {
         @Override
         public void onTextChanged(CharSequence p1, int p2, int p3, int p4) {
             try {
-                mengEtColorLight.setTextColor(Color.parseColor(mengEtColorLight.getString().toString()));
+                mengEtColorLight.setTextColor(Color.parseColor(mengEtColorLight.getString()));
             } catch (Exception e) {
                 mengEtColorLight.setTextColor(Color.BLACK);
             }
             try {
-                mengEtColorDark.setTextColor(Color.parseColor(mengEtColorDark.getString().toString()));
+                mengEtColorDark.setTextColor(Color.parseColor(mengEtColorDark.getString()));
             } catch (Exception e) {
                 mengEtColorDark.setTextColor(Color.BLACK);
             }
@@ -238,5 +264,20 @@ public class awesomeCreator extends Fragment {
 
         }
     };
+
+    private Uri cropPhoto(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, CROP_REQUEST_CODE);
+        return uri;
+    }
 
 }
