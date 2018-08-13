@@ -34,7 +34,8 @@ public class gifAwesomeQr extends Fragment{
     private mengEdittext mengEtDotScale;
     private mengEdittext mengEtLightDotColor;
     private mengEdittext mengEtTextToEncode;
-    private mengEdittextWithCheckBox mengEtSize;
+	private CheckBox cbAutoSize;
+	private mengEdittext mengEtSize;
     private ProgressBar pbCodingProgress;
     private String strSelectedGifPath = "";
     private TextView tvImagePath;
@@ -59,11 +60,18 @@ public class gifAwesomeQr extends Fragment{
         mengEtTextToEncode=(mengEdittext) view.findViewById(R.id.gif_qr_mainmengTextview_content);
         mengEtDarkDotColor=(mengEdittext) view.findViewById(R.id.gif_qr_mainMengEditText_dot_dark);
         mengEtLightDotColor=(mengEdittext) view.findViewById(R.id.gif_qr_mainMengEditText_dot_color_light);
-        mengEtSize=(mengEdittextWithCheckBox) view.findViewById(R.id.gif_qr_mainEditTextWithCheckbox_size);
+		mengEtSize=(mengEdittext) view.findViewById(R.id.gif_qr_mainEditText_size);
+		cbAutoSize=(CheckBox)view.findViewById(R.id.gif_qr_mainCheckbox_size);
         pbCodingProgress=(ProgressBar) view.findViewById(R.id.gif_qr_mainProgressBar);
         tvImagePath=(TextView) view.findViewById(R.id.gif_qr_selected_path);
         mengEtDarkDotColor.addTextChangedListener(twColor);
         mengEtLightDotColor.addTextChangedListener(twColor);
+		cbAutoSize.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				mengEtSize.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+			}
+		});
         cbAutoColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
@@ -110,7 +118,7 @@ public class gifAwesomeQr extends Fragment{
                             "/Pictures/QRcode/GifAwesomeQR"+SystemClock.elapsedRealtime()+".gif";
 						GifEncoder gifEncoder = new GifEncoder();
 						gifEncoder.setDither(cbUseDither.isChecked());
-						if(!mengEtSize.isChecked()){
+						if(!cbAutoSize.isChecked()){
 							intGifSize=Integer.parseInt(mengEtSize.getString());
 						}
 						if(cbLowMemoryMode.isChecked()){
@@ -236,7 +244,7 @@ public class gifAwesomeQr extends Fragment{
     private Bitmap encodeAwesome(int size,Bitmap bg){
         return AwesomeQRCode.create(
 			mengEtTextToEncode.getString(),
-			mengEtSize.isChecked()? size :Integer.parseInt(mengEtSize.getString().toString()),
+			cbAutoSize.isChecked()? size :Integer.parseInt(mengEtSize.getString()),
 			(int) (size*0.025f),
 			Float.parseFloat(mengEtDotScale.getString()),
 			cbAutoColor.isChecked()? Color.BLACK :Color.parseColor(mengEtDarkDotColor.getString()),
@@ -278,12 +286,12 @@ public class gifAwesomeQr extends Fragment{
         @Override
         public void onTextChanged(CharSequence p1,int p2,int p3,int p4){
             try{
-                mengEtDarkDotColor.setTextColor(Color.parseColor(mengEtDarkDotColor.getString().toString()));
+                mengEtDarkDotColor.setTextColor(Color.parseColor(mengEtDarkDotColor.getString()));
             }catch(Exception e){
                 mengEtDarkDotColor.setTextColor(Color.BLACK);
             }
             try{
-                mengEtLightDotColor.setTextColor(Color.parseColor(mengEtLightDotColor.getString().toString()));
+                mengEtLightDotColor.setTextColor(Color.parseColor(mengEtLightDotColor.getString()));
             }catch(Exception e){
                 mengEtLightDotColor.setTextColor(Color.BLACK);
             }

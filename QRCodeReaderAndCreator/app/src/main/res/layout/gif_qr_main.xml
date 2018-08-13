@@ -77,14 +77,18 @@
             ran:edittextHint="0.4"
             ran:textviewText="@string/data_dot_scale_0_lt_scale_lt_1_0f" />
 
-        <com.meng.qrtools.views.mengEdittextWithCheckBox
-            android:id="@+id/gif_qr_mainEditTextWithCheckbox_size"
+        <CheckBox
+            android:id="@+id/gif_qr_mainCheckbox_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="使用原始GIF宽度作为动态二维码的尺寸" />
+
+        <com.meng.qrtools.views.mengEdittext
+            android:id="@+id/gif_qr_mainEditText_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ran:checkboxText="使用原始GIF宽度作为动态二维码的尺寸"
-            ran:checked="true"
             ran:edittextHint="300"
-            ran:showOnCheck="false"
             ran:textviewText="大小(像素)" />
 
         <CheckBox
