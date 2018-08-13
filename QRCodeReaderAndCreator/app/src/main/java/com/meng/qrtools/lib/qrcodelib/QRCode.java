@@ -1,4 +1,4 @@
-package com.meng.qrtools.creator;
+package com.meng.qrtools.lib.qrcodelib;
 
 /**
  * *          _       _
@@ -42,7 +42,7 @@ public class QRCode{
         try{
             Hashtable<EncodeHintType, String> hints = new Hashtable<>();
             hints.put(EncodeHintType.CHARACTER_SET,"UTF-8");
-            BitMatrix bitMatrix = new MultiFormatWriter().encode(text,BarcodeFormat.QR_CODE,size,size,hints);
+            BitMatrix bitMatrix = new QRCodeWriter().encode(text,BarcodeFormat.QR_CODE,size,size,hints);
             int[] pixels = new int[bitMatrix.getWidth()*bitMatrix.getHeight()];
             for(int y = 0; y<size; y++){
                 for(int x = 0; x<size; x++){
@@ -78,9 +78,7 @@ public class QRCode{
             hints.put(EncodeHintType.CHARACTER_SET,"utf-8");
 
             hints.put(EncodeHintType.ERROR_CORRECTION,ErrorCorrectionLevel.H);
-            BitMatrix bitMatrix = new QRCodeWriter().encode(text,
-															BarcodeFormat.QR_CODE,size,size,hints);
-
+            BitMatrix bitMatrix = new QRCodeWriter().encode(text,BarcodeFormat.QR_CODE,size,size,hints);
             //将logo图片按martix设置的信息缩放
             mBitmap=Bitmap.createScaledBitmap(mBitmap,size,size,false);
 
@@ -91,8 +89,7 @@ public class QRCode{
 
             Matrix m = new Matrix();
             float sx = (float) 2*IMAGE_HALFWIDTH/mBitmap.getWidth();
-            float sy = (float) 2*IMAGE_HALFWIDTH
-				/mBitmap.getHeight();
+            float sy = (float) 2*IMAGE_HALFWIDTH /mBitmap.getHeight();
             m.setScale(sx,sy);
             //设置缩放信息
             //将logo图片按martix设置的信息缩放
@@ -102,9 +99,10 @@ public class QRCode{
             int[] pixels = new int[size*size];
             for(int y = 0; y<size; y++){
                 for(int x = 0; x<size; x++){
-                    if(x>halfW-IMAGE_HALFWIDTH&&x<halfW+IMAGE_HALFWIDTH
-					   &&y>halfH-IMAGE_HALFWIDTH
-					   &&y<halfH+IMAGE_HALFWIDTH){
+                    if(x>halfW-IMAGE_HALFWIDTH&&
+                            x<halfW+IMAGE_HALFWIDTH&&
+                            y>halfH-IMAGE_HALFWIDTH&&
+                            y<halfH+IMAGE_HALFWIDTH){
                         //该位置用于存放图片信息
                         //记录图片每个像素信息
                         pixels[y*width+x]=mBitmap.getPixel(x-halfW

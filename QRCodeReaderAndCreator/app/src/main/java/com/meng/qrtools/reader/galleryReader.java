@@ -6,25 +6,22 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
 import com.meng.MainActivity2;
-import com.meng.qrtools.lib.qrcodelib.common.QrUtils;
+import com.meng.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.qrtools.creator.*;
 
 public class galleryReader extends Fragment {

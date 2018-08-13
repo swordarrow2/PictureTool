@@ -1,4 +1,4 @@
-package com.meng.qrtools.lib.exception;
+package com.meng.qrtools.lib;
 
 import android.content.*;
 import android.content.pm.*;

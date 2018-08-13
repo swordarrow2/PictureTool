@@ -1,4 +1,4 @@
-package com.meng.qrtools.lib.SharedPreferenceHelper;
+package com.meng.qrtools.lib;
 
 import android.content.*;
 
@@ -9,13 +9,13 @@ import android.content.*;
 public class SharedPreferenceHelper{
 
     private SharedPreferences sp;
-    private SharedPreferences.Editor editor;
+   // private SharedPreferences.Editor editor;
     private Context context;
 
     public SharedPreferenceHelper(Context c,String name){
         context=c;
         sp=context.getSharedPreferences(name,0);
-        editor=sp.edit();
+    //    editor=sp.edit();
     }
 	public boolean getBoolean(String key){
         return sp.getBoolean(key,false);
@@ -23,6 +23,7 @@ public class SharedPreferenceHelper{
 	public boolean getBoolean(String key,boolean p1){
 		return sp.getBoolean(key,p1);
 	}
+   /*
     public void putBoolean(String key,Boolean value){
         editor=sp.edit();
         editor.putBoolean(key,value);
@@ -38,6 +39,7 @@ public class SharedPreferenceHelper{
         editor=sp.edit();
         editor.putString(key,value);
         editor.commit();
-    } 
+    }
+    */
 }
 

@@ -1,4 +1,4 @@
-package com.meng.qrtools.creator;
+package com.meng.qrtools.lib.qrcodelib;
 
 import android.graphics.*;
 import android.util.*;
@@ -148,7 +148,6 @@ public class AwesomeQRCode {
 
 
         for (int row = 0; row < byteMatrix.getHeight(); row++) {
-            String s = "";
             for (int col = 0; col < byteMatrix.getWidth(); col++) {
                 switch (byteMatrix.get(col, row)) {
                     case BYTE_AGN:
@@ -161,7 +160,6 @@ public class AwesomeQRCode {
                                 margin + (row + 1.0f) * nHeight,
                                 paintDark
                         );
-                        s += "Ｘ";
                         break;
                     case BYTE_DTA:
                         canvas.drawRect(
@@ -171,7 +169,6 @@ public class AwesomeQRCode {
                                 margin + (row + 0.5f * (1 + dataDotScale)) * nHeight,
                                 paintDark
                         );
-                        s += "〇";
                         break;
                     case BYTE_PTC:
                         canvas.drawRect(
@@ -181,7 +178,6 @@ public class AwesomeQRCode {
                                 margin + (row + 1.0f) * nHeight,
                                 paintProtector
                         );
-                        s += "＋";
                         break;
                     case BYTE_EPT:
                         canvas.drawRect(
@@ -191,11 +187,9 @@ public class AwesomeQRCode {
                                 margin + (row + 0.5f * (1 + dataDotScale)) * nHeight,
                                 paintLight
                         );
-                        s += "　";
                         break;
                 }
             }
-            Log.d("QR_MAPPING", s);
         }
 
         return renderedBitmap;

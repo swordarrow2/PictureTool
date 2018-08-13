@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.meng.qrtools.R;
+import com.meng.qrtools.lib.qrcodelib.QRCode;
 import com.meng.qrtools.views.mengEdittext;
 
 import java.io.File;

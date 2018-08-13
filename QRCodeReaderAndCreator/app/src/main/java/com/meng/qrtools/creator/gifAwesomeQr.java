@@ -10,6 +10,8 @@ import android.view.*;
 import android.view.View.*;
 import android.widget.*;
 import com.meng.qrtools.*;
+import com.meng.qrtools.lib.qrcodelib.AwesomeQRCode;
+import com.meng.qrtools.lib.qrcodelib.QRCode;
 import com.meng.qrtools.views.*;
 import com.waynejo.androidndkgif.*;
 import java.io.*;

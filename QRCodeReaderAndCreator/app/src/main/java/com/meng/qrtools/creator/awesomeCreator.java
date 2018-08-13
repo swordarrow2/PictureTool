@@ -20,12 +20,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.meng.qrtools.R;
+import com.meng.qrtools.lib.qrcodelib.AwesomeQRCode;
+import com.meng.qrtools.lib.qrcodelib.QRCode;
 import com.meng.qrtools.log;
 import com.meng.qrtools.views.mengEdittext;
 
@@ -84,8 +85,13 @@ public class awesomeCreator extends Fragment {
         ckbAutoColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mengEtColorDark.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-                mengEtColorLight.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+                if(isChecked){
+                    mengEtColorDark.setVisibility(View.GONE);
+                    mengEtColorLight.setVisibility(View.GONE);
+                }else{
+                    mengEtColorDark.setVisibility(View.VISIBLE);
+                    mengEtColorLight.setVisibility(View.VISIBLE);
+                }
             }
         });
 

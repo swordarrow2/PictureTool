@@ -25,8 +25,8 @@ public class log {
             @Override
             public void run() {
                 // TODO: Implement this method
-                MainActivity2.rightText.setText(
-                        MainActivity2.rightText.getText().toString() +
+                MainActivity2.instence.rightText.setText(
+                        MainActivity2.instence.rightText.getText().toString() +
                                 "点击:" + o.toString() + "\n"
                 );
             }
@@ -39,8 +39,8 @@ public class log {
             @Override
             public void run() {
                 // TODO: Implement this method
-                MainActivity2.rightText.setText(
-                        MainActivity2.rightText.getText().toString() +
+                MainActivity2.instence.rightText.setText(
+                        MainActivity2.instence.rightText.getText().toString() +
                                 o.toString() + "\n"
                 );
             }

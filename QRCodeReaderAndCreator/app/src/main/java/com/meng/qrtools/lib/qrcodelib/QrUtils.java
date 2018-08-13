@@ -1,9 +1,9 @@
-package com.meng.qrtools.lib.qrcodelib.common;
+package com.meng.qrtools.lib.qrcodelib;
 
 import android.graphics.*;
 import com.google.zxing.*;
 import com.google.zxing.common.*;
-import com.google.zxing.qrcode.*;
+
 import java.util.*;
 
 /**
@@ -39,11 +39,8 @@ public class QrUtils {
         } else {
             Arrays.fill(yuvs, (byte) 0);
         }
-
         encodeYUV420SP(yuvs, argb, inputWidth, inputHeight);
-
         scaled.recycle();
-
         return yuvs;
     }
 
@@ -151,7 +148,7 @@ public class QrUtils {
      * Decode the data within the viewfinder rectangle, and time how long it took. For efficiency, reuse the same reader
      * objects from one decode to the next.
      */
-    public static Result decodeImage(byte[] data, int width, int height) {
+   /* public static Result decodeImage(byte[] data, int width, int height) {
         // 处理
         Result result = null;
         try {
@@ -170,7 +167,7 @@ public class QrUtils {
              * 在GlobalHistogramBinarizer中，是从图像中均匀取5行（覆盖整个图像高度），每行取中间五分之四作为样本；以灰度值为X轴，每个灰度值的像素个数为Y轴建立一个直方图，
              * 从直方图中取点数最多的一个灰度值，然后再去给其他的灰度值进行分数计算，按照点数乘以与最多点数灰度值的距离的平方来进行打分，选分数最高的一个灰度值。接下来在这两个灰度值中间选取一个区分界限，
              * 取的原则是尽量靠近中间并且要点数越少越好。界限有了以后就容易了，与整幅图像的每个点进行比较，如果灰度值比界限小的就是黑，在新的矩阵中将该点置1，其余的就是白，为0。
-             */
+             *
             BinaryBitmap bitmap1 = new BinaryBitmap(new GlobalHistogramBinarizer(source));
             // BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
             QRCodeReader reader2 = new QRCodeReader();
@@ -179,7 +176,7 @@ public class QrUtils {
         }
         return result;
     }
-
+*/
     public static Result decodeImage(final String path) {
         Bitmap bitmap = QrUtils.decodeSampledBitmapFromFile(path, 256, 256);
         // Google Photo 相册中选取云照片是会出现 Bitmap == null
@@ -194,7 +191,7 @@ public class QrUtils {
 //                BinaryBitmap binaryBitmap = new BinaryBitmap(new GlobalHistogramBinarizer(source1));
         HashMap<DecodeHintType, Object> hints = new HashMap<>();
 
-  //      hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
+        hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
         hints.put(DecodeHintType.CHARACTER_SET, "UTF-8");
 
         try {
