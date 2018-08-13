@@ -17,8 +17,8 @@
                 android:id="@+id/qr_EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ran:edittextHint="@string/example"
-                ran:textviewText="@string/input" />
+                ran:edittextHint="@string/input_text"
+                ran:textviewText="@string/contents" />
 
             <TextView
                 android:id="@+id/qr_main_imgPathTextView"
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="@string/auto_pick_color" />
+                android:text="@string/auto_color" />
 
             <com.meng.qrtools.views.mengColorBar
                 android:layout_width="match_parent"

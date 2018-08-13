@@ -20,7 +20,6 @@ import com.meng.qrtools.R;
 public class mengColorBar extends LinearLayout {
     Context c;
 
-    private mengColorBar mColorBar;
     private EditText etTrue;
     private TextView tvTrue;
     private EditText etFalse;
@@ -34,8 +33,8 @@ public class mengColorBar extends LinearLayout {
         tvFalse = (TextView) findViewById(R.id.test_view_textview_falseDot);
         etTrue = (EditText) findViewById(R.id.test_view_edittext_true);
         etFalse = (EditText) findViewById(R.id.test_view_edittext_false);
-        tvTrue.addTextChangedListener(tw);
-        tvFalse.addTextChangedListener(tw);
+        etTrue.addTextChangedListener(tw);
+        etFalse.addTextChangedListener(tw);
     }
 
     public int getTrueColor() {

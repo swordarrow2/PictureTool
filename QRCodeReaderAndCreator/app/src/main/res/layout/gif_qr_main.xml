@@ -67,15 +67,15 @@
             android:id="@+id/gif_qr_mainmengTextview_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ran:edittextHint="示例"
-            ran:textviewText="输入内容" />
+            ran:edittextHint="@string/contents"
+            ran:textviewText="@string/input_text" />
 
         <com.meng.qrtools.views.mengEdittext
             android:id="@+id/gif_qr_mengEdittext_dotScale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             ran:edittextHint="0.4"
-            ran:textviewText="@string/data_dot_scale_0_lt_scale_lt_1_0f" />
+            ran:textviewText="@string/data_dot_scale" />
 
         <CheckBox
             android:id="@+id/gif_qr_mainCheckbox_size"
@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="自动颜色" />
+            android:text="@string/auto_color" />
 
         <com.meng.qrtools.views.mengColorBar
             android:layout_width="match_parent"

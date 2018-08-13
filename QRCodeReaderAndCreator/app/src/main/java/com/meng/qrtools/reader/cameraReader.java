@@ -338,7 +338,6 @@ public class cameraReader extends Fragment implements Callback{
             vibrator.vibrate(VIBRATE_DURATION);
         }
     }
-
     /**
      * When the beep has finished playing, rewind to queue up another one.
      */

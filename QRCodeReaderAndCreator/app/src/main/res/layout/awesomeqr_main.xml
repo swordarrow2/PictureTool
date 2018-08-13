@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="800"
-                ran:textviewText="@string/size_px_includes_the_margin_width_equals_to_height" />
+                ran:textviewText="@string/qr_size" />
 
             <com.meng.qrtools.views.mengEdittext
                 android:id="@+id/awesomeqr_main_margin"
@@ -48,14 +48,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="0.3"
-                ran:textviewText="@string/data_dot_scale_0_lt_scale_lt_1_0f" />
+                ran:textviewText="@string/data_dot_scale" />
 
             <CheckBox
                 android:id="@+id/awesomeqr_main_autoColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="@string/auto_pick_color" />
+                android:text="@string/auto_color" />
 
             <com.meng.qrtools.views.mengColorBar
                 android:layout_width="match_parent"
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 ran:edittextHint="128"
-                ran:textviewText="@string/binarizethreshold_0_lt_threshold_lt_255" />
+                ran:textviewText="@string/binNumber" />
 
             <Button
                 android:id="@+id/awesomeqr_main_generate"
