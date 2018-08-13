@@ -18,4 +18,10 @@ public class MainActivity extends Activity {
         finish();
         overridePendingTransition(0, 0);
     }
+    public static void selectImage(Activity a,int SELECT_FILE_REQUEST_CODE){
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        a.startActivityForResult(intent,SELECT_FILE_REQUEST_CODE);
+    }
 }

@@ -8,8 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,8 +20,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.meng.qrtools.MainActivity;
 import com.meng.qrtools.R;
 import com.meng.qrtools.lib.qrcodelib.QRCode;
+import com.meng.qrtools.views.mengColorBar;
 import com.meng.qrtools.views.mengEdittext;
 
 import java.io.File;
@@ -38,10 +38,10 @@ public class logoCreator extends Fragment {
     private Button btnCreate;
     private TextView tvImgPath;
     private Button btnSave;
-    private Bitmap bmp = null;
+    private Bitmap bmpQRcode = null;
     private Bitmap logoImage = null;
-    private mengEdittext mengEtColorLight, mengEtColorDark;
     private CheckBox ckbAutoColor;
+    private mengColorBar mColorBar;
     private final int SELECT_FILE_REQUEST_CODE = 822;
     private static final int CROP_REQUEST_CODE = 3;
 
@@ -55,6 +55,7 @@ public class logoCreator extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // TODO: Implement this method
         super.onViewCreated(view, savedInstanceState);
+        mColorBar = (mengColorBar) view.findViewById(R.id.awesomeqr_main_colorBar);
         qrcodeImageView = (ImageView) view.findViewById(R.id.qr_imageview);
         mengEtContent = (mengEdittext) view.findViewById(R.id.qr_EditText);
         scrollView = (ScrollView) view.findViewById(R.id.qr_mainScrollView);
@@ -64,73 +65,14 @@ public class logoCreator extends Fragment {
         btnCreate = (Button) view.findViewById(R.id.qr_ButtonCreate);
         btnSave = (Button) view.findViewById(R.id.qr_ButtonSave);
         tvImgPath = (TextView) view.findViewById(R.id.qr_main_imgPathTextView);
-        mengEtColorLight = (mengEdittext) view.findViewById(R.id.qr_main_colorLight);
-        mengEtColorDark = (mengEdittext) view.findViewById(R.id.qr_main_colorDark);
-        mengEtColorDark.addTextChangedListener(tw);
-        mengEtColorLight.addTextChangedListener(tw);
-        btnSelectImg.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View p1) {
-                // TODO: Implement this method
-                selectImage();
-            }
-        });
-        btnRemoveImg.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logoImage = null;
-                tvImgPath.setText("未选择图片，将会生成普通二维码");
-            }
-        });
+        btnSelectImg.setOnClickListener(click);
+        btnRemoveImg.setOnClickListener(click);
+        btnCreate.setOnClickListener(click);
+        btnSave.setOnClickListener(click);
         ckbAutoColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mengEtColorLight.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-                mengEtColorDark.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-            }
-        });
-        btnCreate.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View p1) {
-                // TODO: Implement this method
-                if (logoImage == null) {
-                    bmp = QRCode.createQRCode(
-                            mengEtContent.getString(),
-                            ckbAutoColor.isChecked() ? Color.BLACK : Color.parseColor(mengEtColorDark.getString()),
-                            ckbAutoColor.isChecked() ? Color.WHITE : Color.parseColor(mengEtColorLight.getString()),
-                            500);
-                } else {
-                    bmp = QRCode.createLogoQR(
-                            mengEtContent.getString(),
-                            ckbAutoColor.isChecked() ? Color.BLACK : Color.parseColor(mengEtColorDark.getString()),
-                            ckbAutoColor.isChecked() ? Color.WHITE : Color.parseColor(mengEtColorLight.getString()),
-                            500,
-                            logoImage);
-                }
-                scrollView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        scrollView.fullScroll(View.FOCUS_DOWN);
-                    }
-                });
-                qrcodeImageView.setImageBitmap(bmp);
-                btnSave.setVisibility(View.VISIBLE);
-            }
-        });
-        btnSave.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View p1) {
-                // TODO: Implement this method
-                try {
-                    String s = QRCode.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/QRcode/LogoQR" + SystemClock.elapsedRealtime() + ".png", bmp);
-                    Toast.makeText(getActivity().getApplicationContext(), "已保存至" + s, Toast.LENGTH_LONG).show();
-                    getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(s))));//更新图库
-                } catch (IOException e) {
-                    Toast.makeText(getActivity().getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                }
+                mColorBar.setVisibility(isChecked ? View.GONE : View.VISIBLE);
             }
         });
     }
@@ -147,12 +89,45 @@ public class logoCreator extends Fragment {
          return bitmap;
      }
  */
-    private void selectImage() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-        startActivityForResult(intent, SELECT_FILE_REQUEST_CODE);
-    }
+    OnClickListener click = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.qr_ButtonSelectImage:
+                    MainActivity.selectImage(getActivity(), SELECT_FILE_REQUEST_CODE);
+                    break;
+                case R.id.qr_ButtonRemoveImage:
+                    logoImage = null;
+                    tvImgPath.setText("未选择图片，将会生成普通二维码");
+                    break;
+                case R.id.qr_ButtonCreate:
+                    bmpQRcode = QRCode.createQRCode(
+                            mengEtContent.getString(),
+                            ckbAutoColor.isChecked() ? Color.BLACK : mColorBar.getTrueColor(),
+                            ckbAutoColor.isChecked() ? Color.WHITE : mColorBar.getFalseColor(),
+                            500,
+                            logoImage);
+                    scrollView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.fullScroll(View.FOCUS_DOWN);
+                        }
+                    });
+                    qrcodeImageView.setImageBitmap(bmpQRcode);
+                    btnSave.setVisibility(View.VISIBLE);
+                    break;
+                case R.id.qr_ButtonSave:
+                    try {
+                        String s = QRCode.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/QRcode/LogoQR" + SystemClock.elapsedRealtime() + ".png", bmpQRcode);
+                        Toast.makeText(getActivity().getApplicationContext(), "已保存至" + s, Toast.LENGTH_LONG).show();
+                        getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(s))));//更新图库
+                    } catch (IOException e) {
+                        Toast.makeText(getActivity().getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    break;
+            }
+        }
+    };
 
     private Uri cropPhoto(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -169,32 +144,6 @@ public class logoCreator extends Fragment {
         return uri;
     }
 
-    TextWatcher tw = new TextWatcher() {
-
-        @Override
-        public void beforeTextChanged(CharSequence p1, int p2, int p3, int p4) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence p1, int p2, int p3, int p4) {
-            try {
-                mengEtColorLight.setTextColor(Color.parseColor(mengEtColorLight.getString()));
-            } catch (Exception e) {
-                mengEtColorLight.setTextColor(Color.BLACK);
-            }
-            try {
-                mengEtColorDark.setTextColor(Color.parseColor(mengEtColorDark.getString()));
-            } catch (Exception e) {
-                mengEtColorDark.setTextColor(Color.BLACK);
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable p1) {
-
-        }
-    };
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SELECT_FILE_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data.getData() != null) {
@@ -208,7 +157,7 @@ public class logoCreator extends Fragment {
         } else if (resultCode == getActivity().RESULT_CANCELED) {
             Toast.makeText(getActivity().getApplicationContext(), "取消选择图片", Toast.LENGTH_SHORT).show();
         } else {
-            selectImage();
+            MainActivity.selectImage(getActivity(), SELECT_FILE_REQUEST_CODE);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

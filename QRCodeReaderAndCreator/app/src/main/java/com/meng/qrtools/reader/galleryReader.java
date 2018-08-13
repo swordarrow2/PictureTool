@@ -77,6 +77,7 @@ public class galleryReader extends Fragment {
             Toast.makeText(getActivity(), com.meng.qrtools.R.string.scan_failed, Toast.LENGTH_SHORT).show();
         } else {
             tv.setText(resultString);
+            btnqr.setVisibility(View.VISIBLE);
             /*	if(mDialog==null){
 			 mDialog=new AlertDialog.Builder(getActivity())
 			 .setMessage(resultString).setNegativeButton("确定",new DialogInterface.OnClickListener() {

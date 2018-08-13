@@ -57,21 +57,11 @@
                 android:checked="true"
                 android:text="@string/auto_pick_color" />
 
-            <com.meng.qrtools.views.mengEdittext
-                android:id="@+id/awesomeqr_main_colorDark"
+            <com.meng.qrtools.views.mengColorBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                ran:edittextHint="#000000"
-                ran:textviewText="@string/colordark_true_dots_dddddd" />
-
-            <com.meng.qrtools.views.mengEdittext
-                android:id="@+id/awesomeqr_main_colorLight"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                ran:edittextHint="#ffffff"
-                ran:textviewText="@string/colorlight_false_dots_dddddd" />
+                android:id="@+id/awesomeqr_main_colorBar"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/awesomeqr_main_imgPathTextView"
@@ -127,7 +117,7 @@
                 android:text="@string/click_to_create" />
 
             <Button
-                android:id="@+id/awesomeqr_mainButton"
+                android:id="@+id/awesomeqr_mainButton_save"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/click_to_save"
