@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.google.zxing.Result;
 import com.meng.MainActivity2;
 import com.meng.qrtools.lib.qrcodelib.common.QrUtils;
+import com.meng.qrtools.creator.*;
 
 public class galleryReader extends Fragment {
     private final int REQUEST_PERMISSION_PHOTO = 1001;
@@ -111,16 +112,8 @@ public class galleryReader extends Fragment {
         if (resultCode == getActivity().RESULT_OK && data != null && requestCode == PHOTO_REQUEST_GALLERY) {
             Uri inputUri = data.getData();
             String path = null;
-            if (URLUtil.isFileUrl(inputUri.toString())) {
-                // 小米手机直接返回的文件路径
-                path = inputUri.getPath();
-            } else {
-                String[] proj = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getActivity().getContentResolver().query(inputUri, proj, null, null, null);
-                if (cursor != null && cursor.moveToFirst()) {
-                    path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
-                }
-            }
+			path=ContentHelper.absolutePathFromUri(getActivity(),inputUri);
+            
             if (!TextUtils.isEmpty(path)) {
                 Result result = QrUtils.decodeImage(path);
                 if (result != null) {

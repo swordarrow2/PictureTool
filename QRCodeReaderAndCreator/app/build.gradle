@@ -8,8 +8,8 @@ android {
         applicationId "com.meng.qrtools"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 20180812
-        versionName "4.2"
+        versionCode 20180813
+        versionName "4.3"
     }
     buildTypes {
         release {
