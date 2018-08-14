@@ -111,7 +111,7 @@ public class awesomeCreator extends Fragment{
 							 Integer.parseInt(mengEtSize.getString()),
 							 Integer.parseInt(mengEtMargin.getString()),
 							 Float.parseFloat(mengEtDotScale.getString()),
-							 ckbAutoColor.isChecked()?Color.BLACK :mColorBar.getTrueColor(),
+							 ckbAutoColor.isChecked()?Color.WHITE :mColorBar.getTrueColor(),
 							 mColorBar.getFalseColor(),
 							 backgroundImage,
 							 ckbWhiteMargin.isChecked(),

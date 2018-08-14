@@ -235,7 +235,7 @@ public class gifAwesomeQr extends Fragment{
 			(int) (size*0.025f),
 			Float.parseFloat(mengEtDotScale.getString()),
 			mColorBar.getTrueColor(),
-			cbAutoColor.isChecked()?Color.BLACK :mColorBar.getFalseColor(),
+			cbAutoColor.isChecked()?Color.WHITE :mColorBar.getFalseColor(),
 			bg,
 			false,
 			cbAutoColor.isChecked(),
