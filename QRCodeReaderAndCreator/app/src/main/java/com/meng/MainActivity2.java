@@ -32,10 +32,10 @@ import com.meng.qrtools.reader.galleryReader;
 import com.meng.qrtools.settings;
 import com.meng.qrtools.textFragment;
 import android.content.*;
+import com.meng.qrtools.*;
 
 public class MainActivity2 extends Activity {
     public static MainActivity2 instence;
-    private final String logString = "这都被发现了(\n感谢岁41发现了一个玄学问题(\n并且已经修正\n大概吧(\n以下为操作记录：\n";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private RelativeLayout rt;
@@ -49,6 +49,7 @@ public class MainActivity2 extends Activity {
     public galleryReader galleryReaderFragment;
     private textFragment aboutFragment;
     private gifAwesomeQr gifFragment;
+	private testFragment testFragment;
     private settings settingsFragment;
     public TextView rightText;
 
@@ -63,7 +64,6 @@ public class MainActivity2 extends Activity {
         instence = this;
         setActionBar();
         findViews();
-        rightText.setText(logString);
         initFragment();
         setListener();
         changeTheme();
@@ -136,7 +136,7 @@ public class MainActivity2 extends Activity {
         mDrawerToggle.syncState();
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, new String[]{
                 "首页(?)", "读取相册二维码", "相机扫描二维码", "创建二维码",
-                "创建Awesome二维码", "创建动态Awesome二维码", "关于", "设置", "退出"
+                "创建Awesome二维码", "创建动态Awesome二维码","实验性功能", "关于", "设置", "退出"
         }));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -159,6 +159,10 @@ public class MainActivity2 extends Activity {
                         break;
                     case "创建动态Awesome二维码":
                         initGifAwesomeFragment(true);
+						break;
+					case "实验性功能":
+						initTestFragment(true);
+						//TODO
                         break;
                     case "关于":
                         initAboutFragment(true);
@@ -201,6 +205,7 @@ public class MainActivity2 extends Activity {
         }
         initAwesomeFragment(false);
         initGifAwesomeFragment(false);
+		initTestFragment(false);
         if (MainActivity.sharedPreference.getBoolean("textFragment")) {
             initAboutFragment(false);
         }
@@ -287,6 +292,18 @@ public class MainActivity2 extends Activity {
         transactionGifAwesomeCreatorFragment.commit();
     }
 
+	private void initTestFragment(boolean showNow) {
+        FragmentTransaction transactionTestFragment = manager.beginTransaction();
+        if (testFragment == null) {
+            testFragment = new testFragment();
+            transactionTestFragment.add(R.id.main_activityLinearLayout, testFragment);
+        }
+        hideFragment(transactionTestFragment);
+        if (showNow) {
+            transactionTestFragment.show(testFragment);
+        }
+        transactionTestFragment.commit();
+    }
     private void initAboutFragment(boolean showNow) {
         FragmentTransaction transactionAboutFragment = manager.beginTransaction();
         if (aboutFragment == null) {
