@@ -31,6 +31,7 @@ import com.meng.qrtools.reader.cameraReader;
 import com.meng.qrtools.reader.galleryReader;
 import com.meng.qrtools.settings;
 import com.meng.qrtools.textFragment;
+import android.content.*;
 
 public class MainActivity2 extends Activity {
     public static MainActivity2 instence;
@@ -52,6 +53,8 @@ public class MainActivity2 extends Activity {
     public TextView rightText;
 
     public FragmentManager manager;
+	
+	public static final int SELECT_FILE_REQUEST_CODE = 822;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,12 @@ public class MainActivity2 extends Activity {
         changeTheme();
 
     }
-
+	public static void selectImage(Fragment f){
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        f.startActivityForResult(intent,SELECT_FILE_REQUEST_CODE);
+    }
     private void changeTheme() {
         if (MainActivity.sharedPreference.getBoolean("useLightTheme", true)) {
             mDrawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));

@@ -85,6 +85,7 @@
             android:text="使用原始GIF宽度作为动态二维码的尺寸" />
 
         <com.meng.qrtools.views.mengEdittext
+			android:visibility="gone"
             android:id="@+id/gif_qr_mainEditText_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

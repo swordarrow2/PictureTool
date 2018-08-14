@@ -1,33 +1,18 @@
 package com.meng.qrtools.creator;
 
-import android.app.Fragment;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.SystemClock;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.meng.qrtools.MainActivity;
-import com.meng.qrtools.R;
-import com.meng.qrtools.lib.qrcodelib.QRCode;
-import com.meng.qrtools.views.mengColorBar;
-import com.meng.qrtools.views.mengEdittext;
-
-import java.io.File;
-import java.io.IOException;
+import android.app.*;
+import android.content.*;
+import android.graphics.*;
+import android.net.*;
+import android.os.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
+import com.meng.qrtools.*;
+import com.meng.qrtools.lib.qrcodelib.*;
+import com.meng.qrtools.views.*;
+import java.io.*;
+import com.meng.*;
 
 public class logoCreator extends Fragment {
     private ScrollView scrollView;
@@ -42,7 +27,7 @@ public class logoCreator extends Fragment {
     private Bitmap logoImage = null;
     private CheckBox ckbAutoColor;
     private mengColorBar mColorBar;
-    private final int SELECT_FILE_REQUEST_CODE = 822;
+    
     private static final int CROP_REQUEST_CODE = 3;
 
     @Override
@@ -94,7 +79,7 @@ public class logoCreator extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.qr_ButtonSelectImage:
-                    MainActivity.selectImage(getActivity(), SELECT_FILE_REQUEST_CODE);
+                    MainActivity2.selectImage(logoCreator.this);
                     break;
                 case R.id.qr_ButtonRemoveImage:
                     logoImage = null;
@@ -146,7 +131,7 @@ public class logoCreator extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == SELECT_FILE_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data.getData() != null) {
+        if (requestCode == MainActivity2.SELECT_FILE_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data.getData() != null) {
             tvImgPath.setText("当前：" + ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), cropPhoto(data.getData())));
         } else if (requestCode == CROP_REQUEST_CODE) {
             Bundle bundle = data.getExtras();
@@ -157,7 +142,7 @@ public class logoCreator extends Fragment {
         } else if (resultCode == getActivity().RESULT_CANCELED) {
             Toast.makeText(getActivity().getApplicationContext(), "取消选择图片", Toast.LENGTH_SHORT).show();
         } else {
-            MainActivity.selectImage(getActivity(), SELECT_FILE_REQUEST_CODE);
+            MainActivity2.selectImage(this);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

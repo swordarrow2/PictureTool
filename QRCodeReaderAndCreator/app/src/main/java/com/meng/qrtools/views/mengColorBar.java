@@ -45,8 +45,8 @@ public class mengColorBar extends LinearLayout {
 
     public int getFalseColor() {
         return etFalse.getText().toString().trim().length() == 0 ?
-                Color.parseColor(etTrue.getHint().toString()) :
-                Color.parseColor(etTrue.getText().toString());
+                Color.parseColor(etFalse.getHint().toString()) :
+                Color.parseColor(etFalse.getText().toString());
     }
 
     TextWatcher tw = new TextWatcher() {
