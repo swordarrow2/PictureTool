@@ -21,8 +21,6 @@ import com.meng.qrtools.R;
 
 public class awesomeCreator extends Fragment{
 
-
-
     private ImageView qrCodeImageView;
     private mengEdittext mengEtDotScale, mengEtContents, mengEtMargin, mengEtSize;
     private Button btGenerate, btSelectBG, btRemoveBG;
@@ -111,8 +109,8 @@ public class awesomeCreator extends Fragment{
 							 Integer.parseInt(mengEtSize.getString()),
 							 Integer.parseInt(mengEtMargin.getString()),
 							 Float.parseFloat(mengEtDotScale.getString()),
-							 ckbAutoColor.isChecked()?Color.WHITE :mColorBar.getTrueColor(),
-							 mColorBar.getFalseColor(),
+							 mColorBar.getTrueColor(),
+							 ckbAutoColor.isChecked()?Color.WHITE :mColorBar.getFalseColor(), 
 							 backgroundImage,
 							 ckbWhiteMargin.isChecked(),
 							 ckbAutoColor.isChecked(),
