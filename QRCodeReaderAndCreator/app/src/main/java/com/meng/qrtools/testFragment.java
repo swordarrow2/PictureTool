@@ -48,7 +48,7 @@ public class testFragment extends android.app.Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
         // TODO: Implement this method
-        return inflater.inflate(R.layout.awesomeqr_main,container,false);
+        return inflater.inflate(R.layout.test,container,false);
     }
 
     @Override
@@ -159,7 +159,11 @@ public class testFragment extends android.app.Fragment{
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         if(requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE&&resultCode==getActivity().RESULT_OK&&data.getData()!=null){
             imgPathTextView.setVisibility(View.VISIBLE);
-            imgPathTextView.setText("当前文件："+ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),cropPhoto(data.getData())));
+            Uri uri=data.getData();
+            String path=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),uri);
+            imgPathTextView.setText("当前文件："+path);
+            Bitmap bmp=BitmapFactory.decodeFile(path);
+            cropPhoto(Math.min(bmp.getWidth(),bmp.getHeight()),path);
         }else if(requestCode==CROP_REQUEST_CODE){
             Bundle bundle = data.getExtras();
             if(bundle!=null){
@@ -208,20 +212,20 @@ public class testFragment extends android.app.Fragment{
 			}).start();
     }
 
-
-    private Uri cropPhoto(Uri uri){
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        intent.setDataAndType(uri,"image/*");
-        intent.putExtra("crop","true");
-        intent.putExtra("aspectX",1);
-        intent.putExtra("aspectY",1);
-        intent.putExtra("outputX",300);
-        intent.putExtra("outputY",300);
-        intent.putExtra("return-data",true);
-        startActivityForResult(intent,CROP_REQUEST_CODE);
-        return uri;
+    private void cropPhoto(final int size, final String path){
+        EditText et=new EditText(getActivity());
+        et.setHint("0<大小<"+(size+1));
+        new AlertDialog.Builder(getActivity())
+                .setTitle("输入要添加的二维码大小(像素)")
+                .setView(et)
+                .setPositiveButton("确定",new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface p1,int p2){
+                        Intent i=new Intent(getActivity(),sizeSelect.class);
+                        i.putExtra("content",path);
+                        i.putExtra("size",size);
+                        getActivity().startActivity(i);
+                    }}).show();
     }
 
 }

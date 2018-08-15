@@ -12,7 +12,7 @@ public class MainActivity extends Activity {
 	
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ExceptionCatcher.getInstance().init(this);
+       // ExceptionCatcher.getInstance().init(this);
         sharedPreference = new SharedPreferenceHelper(this, "main");
         startActivity(new Intent(MainActivity.this, MainActivity2.class).putExtra("setTheme", getIntent().getBooleanExtra("setTheme", false)));
         finish();
