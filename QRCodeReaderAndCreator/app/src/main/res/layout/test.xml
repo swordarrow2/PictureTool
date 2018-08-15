@@ -35,24 +35,10 @@
                 ran:textviewText="@string/contents" />
 
             <com.meng.qrtools.views.mengEdittext
-                android:id="@+id/awesomeqr_main_mengEdittext_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                ran:edittextHint="800"
-                ran:textviewText="@string/qr_size" />
-
-            <com.meng.qrtools.views.mengEdittext
-                android:id="@+id/awesomeqr_main_margin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                ran:edittextHint="20"
-                ran:textviewText="@string/margin_px" />
-
-            <com.meng.qrtools.views.mengEdittext
                 android:id="@+id/awesomeqr_main_dotScale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ran:edittextHint="0.3"
+                ran:edittextHint="0.4"
                 ran:textviewText="@string/data_dot_scale" />
 
             <CheckBox
@@ -94,26 +80,6 @@
                     android:layout_weight="1"
                     android:text="@string/remove_image" />
             </LinearLayout>
-
-            <CheckBox
-                android:id="@+id/awesomeqr_main_whiteMargin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/white_margin_on_background_image" />
-
-            <CheckBox
-                android:id="@+id/awesomeqr_main_binarize"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/binarize_background_image" />
-
-            <com.meng.qrtools.views.mengEdittext
-                android:id="@+id/awesomeqr_main_mengEdittext_binarizeThreshold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                ran:edittextHint="128"
-                ran:textviewText="@string/binNumber" />
 
             <Button
                 android:id="@+id/awesomeqr_main_generate"

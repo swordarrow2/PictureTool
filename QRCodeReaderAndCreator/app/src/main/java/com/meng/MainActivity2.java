@@ -95,7 +95,7 @@ public class MainActivity2 extends Activity {
 
     @Override
     public void setTheme(int resid) {
-        if (MainActivity.sharedPreference.getBoolean("useLightTheme", true)) {
+        if (MainActivity.lightTheme) {
             super.setTheme(R.style.AppThemeLight);
         } else {
             super.setTheme(R.style.AppThemeDark);
@@ -338,6 +338,7 @@ public class MainActivity2 extends Activity {
                 gifFragment,
                 cameraReaderFragment,
                 galleryReaderFragment,
+                testFragment,
                 aboutFragment,
                 settingsFragment
         };

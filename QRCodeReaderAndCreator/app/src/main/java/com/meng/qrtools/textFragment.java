@@ -16,6 +16,9 @@ public class textFragment extends Fragment{
     public textFragment(int i){
 		flag=i;
     }
+    public textFragment(){
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
