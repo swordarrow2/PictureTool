@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/size_button"
-        android:text="btn"/>
+        android:text="确定"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
