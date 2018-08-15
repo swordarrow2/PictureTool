@@ -5,8 +5,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -26,13 +25,11 @@ import com.meng.qrtools.creator.gifAwesomeQr;
 import com.meng.qrtools.creator.logoCreator;
 import com.meng.qrtools.lib.materialDesign.ActionBarDrawerToggle;
 import com.meng.qrtools.lib.materialDesign.DrawerArrowDrawable;
-import com.meng.qrtools.log;
 import com.meng.qrtools.reader.cameraReader;
 import com.meng.qrtools.reader.galleryReader;
 import com.meng.qrtools.settings;
+import com.meng.qrtools.arbAwesomeFragment;
 import com.meng.qrtools.textFragment;
-import android.content.*;
-import com.meng.qrtools.*;
 
 public class MainActivity2 extends Activity {
     public static MainActivity2 instence;
@@ -49,13 +46,13 @@ public class MainActivity2 extends Activity {
     public galleryReader galleryReaderFragment;
     private textFragment aboutFragment;
     private gifAwesomeQr gifFragment;
-	private testFragment testFragment;
+    private arbAwesomeFragment arbAwesomeFragment;
     private settings settingsFragment;
     public TextView rightText;
 
     public FragmentManager manager;
-	
-	public static final int SELECT_FILE_REQUEST_CODE = 822;
+
+    public static final int SELECT_FILE_REQUEST_CODE = 822;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +66,14 @@ public class MainActivity2 extends Activity {
         changeTheme();
 
     }
-	public static void selectImage(Fragment f){
+
+    public static void selectImage(Fragment f) {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
-        f.startActivityForResult(intent,SELECT_FILE_REQUEST_CODE);
+        f.startActivityForResult(intent, SELECT_FILE_REQUEST_CODE);
     }
+
     private void changeTheme() {
         if (MainActivity.sharedPreference.getBoolean("useLightTheme", true)) {
             mDrawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
@@ -136,7 +135,7 @@ public class MainActivity2 extends Activity {
         mDrawerToggle.syncState();
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, new String[]{
                 "首页(?)", "读取相册二维码", "相机扫描二维码", "创建二维码",
-                "创建Awesome二维码", "创建动态Awesome二维码","实验性功能", "关于", "设置", "退出"
+                "创建Awesome二维码", "创建动态Awesome二维码", "任意位置的Awesome二维码", "关于", "设置", "退出"
         }));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -159,10 +158,10 @@ public class MainActivity2 extends Activity {
                         break;
                     case "创建动态Awesome二维码":
                         initGifAwesomeFragment(true);
-						break;
-					case "实验性功能":
-						initTestFragment(true);
-						//TODO
+                        break;
+                    case "任意位置的Awesome二维码":
+                        initTestFragment(true);
+                        //TODO
                         break;
                     case "关于":
                         initAboutFragment(true);
@@ -204,8 +203,12 @@ public class MainActivity2 extends Activity {
             initLogoCreatorFragment(false);
         }
         initAwesomeFragment(false);
-        initGifAwesomeFragment(false);
-		initTestFragment(false);
+        if (MainActivity.sharedPreference.getBoolean("ldgif")) {
+            initGifAwesomeFragment(false);
+        }
+        if (MainActivity.sharedPreference.getBoolean("ldaw2")) {
+            initTestFragment(false);
+        }
         if (MainActivity.sharedPreference.getBoolean("textFragment")) {
             initAboutFragment(false);
         }
@@ -292,18 +295,19 @@ public class MainActivity2 extends Activity {
         transactionGifAwesomeCreatorFragment.commit();
     }
 
-	private void initTestFragment(boolean showNow) {
+    private void initTestFragment(boolean showNow) {
         FragmentTransaction transactionTestFragment = manager.beginTransaction();
-        if (testFragment == null) {
-            testFragment = new testFragment();
-            transactionTestFragment.add(R.id.main_activityLinearLayout, testFragment);
+        if (arbAwesomeFragment == null) {
+            arbAwesomeFragment = new arbAwesomeFragment();
+            transactionTestFragment.add(R.id.main_activityLinearLayout, arbAwesomeFragment);
         }
         hideFragment(transactionTestFragment);
         if (showNow) {
-            transactionTestFragment.show(testFragment);
+            transactionTestFragment.show(arbAwesomeFragment);
         }
         transactionTestFragment.commit();
     }
+
     private void initAboutFragment(boolean showNow) {
         FragmentTransaction transactionAboutFragment = manager.beginTransaction();
         if (aboutFragment == null) {
@@ -338,7 +342,7 @@ public class MainActivity2 extends Activity {
                 gifFragment,
                 cameraReaderFragment,
                 galleryReaderFragment,
-                testFragment,
+                arbAwesomeFragment,
                 aboutFragment,
                 settingsFragment
         };

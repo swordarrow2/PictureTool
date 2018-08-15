@@ -22,11 +22,6 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="test"/>
-
             <com.meng.qrtools.views.mengEdittext
                 android:id="@+id/awesomeqr_main_content"
                 android:layout_width="match_parent"
@@ -96,11 +91,11 @@
 
             <ImageView
                 android:id="@+id/awesomeqr_main_qrcode"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
-                android:scaleType="centerInside" />
+                android:scaleType="fitCenter" />
 
         </LinearLayout>
     </ScrollView>

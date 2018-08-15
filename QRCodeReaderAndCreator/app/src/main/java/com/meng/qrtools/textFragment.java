@@ -57,7 +57,7 @@ public class textFragment extends Fragment{
 			"    https://github.com/XuDaojie/QRCode-Android/\n",
 			"    https://github.com/vivian8725118/ZXingGenerator/\n",
 			"    https://github.com/zxing/zxing/\n",
-			"    https://github.com/waynejo/android-ndk-gif"
+			"    https://github.com/waynejo/android-ndk-gif\n"
         };
         String temp = "";
         for(String ss : s){

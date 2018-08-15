@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ import java.io.IOException;
  * Created by Administrator on 2018/7/19.
  */
 
-public class testFragment extends android.app.Fragment {
+public class arbAwesomeFragment extends android.app.Fragment {
 
     private ImageView qrCodeImageView;
     private mengEdittext mengEtDotScale, mengEtContents;
@@ -53,7 +54,6 @@ public class testFragment extends android.app.Fragment {
     private Button btnSave;
     private TextView imgPathTextView;
     private mengColorBar mColorBar;
-    private static final int CROP_REQUEST_CODE = 3;
     public static final int selectRect = 2;
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -71,7 +71,7 @@ public class testFragment extends android.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: Implement this method
-        return inflater.inflate(R.layout.test, container, false);
+        return inflater.inflate(R.layout.arb_awesome_qr, container, false);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class testFragment extends android.app.Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.awesomeqr_main_backgroundImage:
-                    MainActivity2.selectImage(testFragment.this);
+                    MainActivity2.selectImage(arbAwesomeFragment.this);
                     break;
                 case R.id.awesomeqr_main_removeBackgroundImage:
                     tmpBackground = null;
@@ -146,10 +146,6 @@ public class testFragment extends android.app.Fragment {
         }
     };
 
-    public void setDataStr(String s) {
-        mengEtContents.setString(s);
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -179,12 +175,12 @@ public class testFragment extends android.app.Fragment {
         } else if (requestCode == selectRect && resultCode == getActivity().RESULT_OK) {
             byte[] bis = data.getByteArrayExtra("bitmap");
             tmpBackground = BitmapFactory.decodeByteArray(bis, 0, bis.length);
-            leftMargin = data.getFloatExtra("left", 0f);
-            topMargin = data.getFloatExtra("top", 0);
+            leftMargin = data.getFloatExtra("left", 0f)-1;
+            topMargin = data.getFloatExtra("top", 0)-1;
         } else if (resultCode == getActivity().RESULT_CANCELED) {
             Toast.makeText(getActivity().getApplicationContext(), "取消选择图片", Toast.LENGTH_SHORT).show();
         } else {
-            MainActivity2.selectImage(testFragment.this);
+            MainActivity2.selectImage(arbAwesomeFragment.this);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -206,6 +202,12 @@ public class testFragment extends android.app.Fragment {
                             Canvas c = new Canvas(finallyBmp);
                             c.drawBitmap(bmpQRcode, leftMargin, topMargin, new Paint());
                             qrCodeImageView.setImageBitmap(finallyBmp);
+                            ViewGroup.LayoutParams para= qrCodeImageView.getLayoutParams();
+                            DisplayMetrics dm = new DisplayMetrics();
+                            getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+                            float screenW = dm.widthPixels;
+                            para.height = (int) (screenW/finallyBmp.getWidth()*finallyBmp.getHeight());
+                            qrCodeImageView.setLayoutParams(para);
                             scrollView.post(new Runnable() {
                                 @Override
                                 public void run() {

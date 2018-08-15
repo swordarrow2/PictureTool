@@ -13,13 +13,19 @@
         android:title="启动时要加载的项目">
         <CheckBoxPreference
             android:key="ldlgqr"
-            android:title="生成logo二维码" />
+            android:title="logo二维码" />
         <CheckBoxPreference
             android:key="ldgr"
             android:title="相机扫描" />
         <CheckBoxPreference
             android:key="ldcr"
             android:title="从相册读取" />
+        <CheckBoxPreference
+            android:key="ldgif"
+            android:title="动态Awesome二维码" />
+        <CheckBoxPreference
+            android:key="ldaw2"
+            android:title="任意位置的Awesome二维码" />
         <CheckBoxPreference
             android:key="about"
             android:title="关于" />
