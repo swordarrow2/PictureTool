@@ -7,6 +7,9 @@ import com.meng.*;
 public class log {
 
     public static void e(final Activity a, final Object o) {
+        if (o instanceof Exception){
+            ((Exception)o).printStackTrace();
+        }
         a.runOnUiThread(new Runnable() {
 
             @Override

@@ -35,8 +35,7 @@ public class MainActivity2 extends Activity {
     public FragmentManager manager;
 
     public static final int SELECT_FILE_REQUEST_CODE = 822;
-	public static Bitmap tmpBackground=null;
-	public static Bitmap selectedBmp = null;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
