@@ -51,8 +51,6 @@ public class arbAwesomeFragment extends android.app.Fragment{
     private int qrSize;
     private float xishu;
 
-    
-    private LinearLayout ll;
     private TextView tv;
 
     float screenW;
@@ -84,7 +82,6 @@ public class arbAwesomeFragment extends android.app.Fragment{
         ckbAutoColor=(CheckBox) view.findViewById(R.id.awesomeqr_main_autoColor);
         btnSave=(Button) view.findViewById(R.id.awesomeqr_mainButton_save);
         imgPathTextView=(TextView) view.findViewById(R.id.awesomeqr_main_imgPathTextView);
-        ll=(LinearLayout) view.findViewById(R.id.arbll);
         tv=(TextView) view.findViewById(R.id.size_text);
         ckbAutoColor.setOnCheckedChangeListener(check);
         btSelectBG.setOnClickListener(click);
@@ -203,13 +200,13 @@ public class arbAwesomeFragment extends android.app.Fragment{
 			qrSize,
 			qrSize);
 		Bitmap bmpQRcode = AwesomeQRCode.create(contents,qrSize,0,dotScale,colorDark,colorLight,tmpQRBackground,false,autoColor,false,128);
-		Canvas c = new Canvas(finallyBmp);
+		Canvas c = new Canvas(bmp);
 		c.drawBitmap(
 			bmpQRcode, 
 			mv.mLeft/xishu,
 			mv.mTop/xishu, 
 			new Paint());
-		
+		finallyBmp=bmp.copy(Bitmap.Config.ARGB_8888,true);
 		qrCodeImageView.setImageBitmap(finallyBmp);//scaleBitmap(bmp,xishu));
 		ViewGroup.LayoutParams para = qrCodeImageView.getLayoutParams();
 		DisplayMetrics dm = new DisplayMetrics();
