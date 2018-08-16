@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="27.0.3"
+        sha1="fcd01fd11233459f546c437ec927e9b61bf7caf1">
+        <dex dex="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\build\intermediates\pre-dexed\debug\com.android.support-support-core-ui-26.0.0-alpha1_3801781f1c5b15662747904b8c55846e3a67031a.jar" />
+    </item>
+    <item
+        jar="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\build\intermediates\exploded-aar\com.android.support\support-compat\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="27.0.3"
+        sha1="8df0e365e40beb151bc42dee20817721a6cab7b0">
+        <dex dex="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\build\intermediates\pre-dexed\debug\com.android.support-support-compat-26.0.0-alpha1_5a6257ecaad11bc61ea45e2828a1b38af272e646.jar" />
+    </item>
+    <item
+        jar="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\libs\core-3.2.1.jar"
+        jumboMode="false"
+        revision="27.0.3"
+        sha1="2287494d4f5f9f3a9a2bb6980e3f32053721b315">
+        <dex dex="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\build\intermediates\pre-dexed\debug\core-3.2.1_31dad02e610a9ad05b0cb039a882307a1164732e.jar" />
+    </item>
+    <item
+        jar="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="27.0.3"
+        sha1="2e92aa0163544a804a0b34f169ca61801770839a">
+        <dex dex="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\build\intermediates\pre-dexed\debug\com.android.support-support-core-utils-26.0.0-alpha1_a3d1928371b9e1c9770100013fc733bc32c52537.jar" />
+    </item>
+    <item
+        jar="E:\AndroidSDK\extras\android\m2repository\com\android\support\support-annotations\26.0.0-alpha1\support-annotations-26.0.0-alpha1.jar"
+        jumboMode="false"
+        revision="27.0.3"
+        sha1="023ee503b631f69511e335a061ea008f8da60f40">
+        <dex dex="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\build\intermediates\pre-dexed\debug\support-annotations-26.0.0-alpha1_449e24c90657ff8951b3db52f0448c077c239f6a.jar" />
+    </item>
+    <item
+        jar="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\build\intermediates\exploded-aar\com.android.support\support-fragment\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="27.0.3"
+        sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
+        <dex dex="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\build\intermediates\pre-dexed\debug\com.android.support-support-fragment-26.0.0-alpha1_6b1a23f6f624d79f19b75bcf09bb53f1c18dbe0a.jar" />
+    </item>
+    <item
+        jar="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\build\intermediates\exploded-aar\com.android.support\support-v4\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="27.0.3"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-26.0.0-alpha1_0a1b2c0f56b4f2525c3a5e4c2f172693072354fc.jar" />
+    </item>
+    <item
+        jar="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="27.0.3"
+        sha1="9935891f23923f39d002087085d9696568a9f657">
+        <dex dex="F:\AS\QRCodeReaderAndCreator\QRCodeReaderAndCreator\app\build\intermediates\pre-dexed\debug\com.android.support-support-media-compat-26.0.0-alpha1_99d251b4cec045434bf18ad8e3edbc7a67023ff0.jar" />
+    </item>
+
+</items>

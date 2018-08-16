@@ -27,10 +27,6 @@
             android:name="com.meng.MainActivity2"
             android:label="@string/app_name"
             android:theme="@style/AppThemeDark"/>
-        <activity
-            android:name=".creator.sizeSelect"
-            android:label="选择要添加二维码的区域"
-            android:theme="@style/AppThemeDark"/>
 
     </application>
 
