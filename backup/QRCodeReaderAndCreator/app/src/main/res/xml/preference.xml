@@ -1,51 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<CheckBoxPreference
-		android:defaultValue="true"
-		android:key="opendraw"
-		android:summary="启动时自动打开侧边栏"
-		android:title="启动软件时自动打开菜单" />
-	<CheckBoxPreference
-		android:key="exitsettings"
-		android:summaryOn="System.exit(0);可以彻底关闭应用"
-		android:summaryOff="finish();让软件退出有过渡效果且下次启动更快"
-		android:title="使用System.exit(0);代替finish();" />
-	<PreferenceScreen
-        android:key="ps1"
-		summary="可以避免点击某标签页时加载的卡顿"
-        android:title="功能预加载" >
-		<CheckBoxPreference
-            android:key="ldqr"
-            android:summary=""
-            android:title="生成普通二维码" />
-		<CheckBoxPreference
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="opendraw"
+        android:title="启动时打开滑动菜单" />
+    <CheckBoxPreference
+        android:key="exitsettings"
+        android:summary="System.exit(0)可以彻底关闭软件"
+        android:title="使用System.exit(0)代替finish()" />
+    <PreferenceScreen
+        android:summary="可以避免第一次点击标签页时的卡顿"
+        android:title="启动时要加载的项目">
+        <CheckBoxPreference
             android:key="ldlgqr"
-            android:summary=""
-            android:title="生成logo二维码" />
-		<CheckBoxPreference
-			android:key="ldaws"
-			android:summary=""
-			android:title="生成AwesomeQR" />
-		<CheckBoxPreference
-			android:key="ldtd"
-			android:summary=""
-			android:title="摸鱼功能" />
-		<CheckBoxPreference
+            android:title="logo二维码" />
+        <CheckBoxPreference
             android:key="ldgr"
-            android:summary=""
             android:title="相机扫描" />
-		<CheckBoxPreference
+        <CheckBoxPreference
             android:key="ldcr"
-            android:summary=""
             android:title="从相册读取" />
-		<CheckBoxPreference
+        <CheckBoxPreference
+            android:key="ldgif"
+            android:title="动态Awesome二维码" />
+        <CheckBoxPreference
+            android:key="ldaw2"
+            android:title="任意位置的Awesome二维码" />
+        <CheckBoxPreference
             android:key="about"
-            android:summary=""
             android:title="关于" />
-		<CheckBoxPreference
+        <CheckBoxPreference
             android:key="settings"
-            android:summary=""
             android:title="设置" />
     </PreferenceScreen>
 
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="useLightTheme"
+        android:summaryOff="晚上迫害不瞎眼"
+        android:summaryOn="白天迫害有精神"
+        android:title="使用亮主题" />
 </PreferenceScreen>

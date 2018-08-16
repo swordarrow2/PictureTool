@@ -1,77 +1,84 @@
 package com.meng.qrtools.reader;
 
-import android.*;
-import android.app.*;
-import android.content.*;
-import android.content.pm.*;
-import android.database.*;
-import android.graphics.*;
-import android.net.*;
-import android.os.*;
-import android.provider.*;
-import android.text.*;
-import android.view.*;
-import android.view.View.*;
-import android.webkit.*;
-import android.widget.*;
-import com.google.zxing.*;
-import com.meng.*;
-import com.meng.qrtools.reader.qrcodelib.common.*;
+import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class galleryReader extends Fragment{
+import com.google.zxing.Result;
+import com.meng.MainActivity2;
+import com.meng.qrtools.lib.qrcodelib.QrUtils;
+import com.meng.qrtools.creator.*;
+
+public class galleryReader extends Fragment {
     private final int REQUEST_PERMISSION_PHOTO = 1001;
-    private AlertDialog mDialog;
-    Button btn,btnqr;
+    Button btn, btnqr;
     TextView tv;
+    public static final int PHOTO_REQUEST_GALLERY = 1000;
 
     @Override
-    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: Implement this method
-        return inflater.inflate(com.meng.qrtools.R.layout.read_gallery,container,false);
+        return inflater.inflate(com.meng.qrtools.R.layout.read_gallery, container, false);
     }
 
     @Override
-    public void onViewCreated(View view,Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         // TODO: Implement this method
-        super.onViewCreated(view,savedInstanceState);
-        btn=(Button) view.findViewById(com.meng.qrtools.R.id.read_galleryButton);
-        tv=(TextView) view.findViewById(com.meng.qrtools.R.id.read_galleryTextView);
-		btnqr=(Button)view.findViewById(com.meng.qrtools.R.id.read_galleryButtonQR);
+        super.onViewCreated(view, savedInstanceState);
+        btn = (Button) view.findViewById(com.meng.qrtools.R.id.read_galleryButton);
+        tv = (TextView) view.findViewById(com.meng.qrtools.R.id.read_galleryTextView);
+        btnqr = (Button) view.findViewById(com.meng.qrtools.R.id.read_galleryButtonQR);
         btn.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View p1){
-					// TODO: Implement this method
-					openGallery();
-				}
-			});
-		btnqr.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View p1) {
+                // TODO: Implement this method
+                openGallery();
+            }
+        });
+        btnqr.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View p1){
-					// TODO: Implement this method
-					FragmentTransaction transaction =getActivity().getFragmentManager().beginTransaction();
-					MainActivity2.instence.awesomeCreatorFragment.setDataStr(tv.getText().toString());				
-					transaction.hide(MainActivity2.instence.galleryReaderFragment);
-					transaction.show(MainActivity2.instence.awesomeCreatorFragment);
-					transaction.commit();
-				}
-			});
+            @Override
+            public void onClick(View p1) {
+                // TODO: Implement this method
+                FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+                MainActivity2.instence.awesomeCreatorFragment.setDataStr(tv.getText().toString());
+                transaction.hide(MainActivity2.instence.galleryReaderFragment);
+                transaction.show(MainActivity2.instence.awesomeCreatorFragment);
+                transaction.commit();
+            }
+        });
 
     }
 
 
-    public void handleDecode(Result result,Bitmap barcode){
+    public void handleDecode(Result result, Bitmap barcode) {
         String resultString = result.getText();
         handleResult(resultString);
     }
 
-    protected void handleResult(final String resultString){
-        if(resultString.equals("")){
-            Toast.makeText(getActivity(),com.meng.qrtools.R.string.scan_failed,Toast.LENGTH_SHORT).show();
-        }else{
+    protected void handleResult(final String resultString) {
+        if (resultString.equals("")) {
+            Toast.makeText(getActivity(), com.meng.qrtools.R.string.scan_failed, Toast.LENGTH_SHORT).show();
+        } else {
             tv.setText(resultString);
-			/*	if(mDialog==null){
+            btnqr.setVisibility(View.VISIBLE);
+            /*	if(mDialog==null){
 			 mDialog=new AlertDialog.Builder(getActivity())
 			 .setMessage(resultString).setNegativeButton("确定",new DialogInterface.OnClickListener() {
 
@@ -99,64 +106,60 @@ public class galleryReader extends Fragment{
     }
 
     @Override
-    public void onActivityResult(int requestCode,int resultCode,Intent data){
-        //     super.onActivityResult(requestCode,resultCode,data);
-        if(resultCode==getActivity().RESULT_OK&&data!=null&&requestCode==ActionUtils.PHOTO_REQUEST_GALLERY){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == getActivity().RESULT_OK && data != null && requestCode == PHOTO_REQUEST_GALLERY) {
             Uri inputUri = data.getData();
             String path = null;
-            if(URLUtil.isFileUrl(inputUri.toString())){
-                // 小米手机直接返回的文件路径
-                path=inputUri.getPath();
-            }else{
-                String[] proj = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getActivity().getContentResolver().query(inputUri,proj,null,null,null);
-                if(cursor!=null&&cursor.moveToFirst()){
-                    path=cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
-                }
-            }
-            if(!TextUtils.isEmpty(path)){
+			path=ContentHelper.absolutePathFromUri(getActivity(),inputUri);
+            
+            if (!TextUtils.isEmpty(path)) {
                 Result result = QrUtils.decodeImage(path);
-                if(result!=null){
-                    handleDecode(result,null);
-                }else{
+                if (result != null) {
+                    handleDecode(result, null);
+                } else {
                     new AlertDialog.Builder(getActivity())
-						.setTitle("提示")
-						.setMessage("此图片无法识别")
-						.setPositiveButton("确定",null)
-						.show();
+                            .setTitle("提示")
+                            .setMessage("此图片无法识别")
+                            .setPositiveButton("确定", null)
+                            .show();
                 }
-            }else{
-                Toast.makeText(getActivity().getApplicationContext(),"图片路径未找到",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity().getApplicationContext(), "图片路径未找到", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults){
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        if(grantResults.length>0&&requestCode==REQUEST_PERMISSION_PHOTO){
-            if(grantResults[0]!=PackageManager.PERMISSION_GRANTED){
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0 && requestCode == REQUEST_PERMISSION_PHOTO) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 new AlertDialog.Builder(getActivity())
-					.setTitle("提示")
-					.setMessage("请在系统设置中为App中开启文件权限后重试")
-					.setPositiveButton("确定",null)
-					.show();
-            }else{
-                ActionUtils.startActivityForGallery(getActivity(),ActionUtils.PHOTO_REQUEST_GALLERY);
+                        .setTitle("提示")
+                        .setMessage("请在系统设置中为App中开启文件权限后重试")
+                        .setPositiveButton("确定", null)
+                        .show();
+            } else {
+                selectImage();
             }
         }
     }
 
-    public void openGallery(){
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M
-		   &&getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-		   !=PackageManager.PERMISSION_GRANTED){
+    private void selectImage() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+    }
+
+    public void openGallery() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-							   REQUEST_PERMISSION_PHOTO);
-        }else{
-            Intent i = new Intent(Intent.ACTION_PICK,
-								  MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(i,ActionUtils.PHOTO_REQUEST_GALLERY);
+                    REQUEST_PERMISSION_PHOTO);
+        } else {
+            selectImage();
         }
     }
 }

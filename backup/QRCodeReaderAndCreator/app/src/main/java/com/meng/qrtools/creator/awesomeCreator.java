@@ -1,55 +1,48 @@
 package com.meng.qrtools.creator;
 
-import android.Manifest;
+import android.*;
+import android.app.*;
+import android.content.*;
+import android.content.pm.*;
+import android.graphics.*;
+import android.net.*;
+import android.os.*;
+import android.support.v4.app.*;
+import android.view.*;
+import android.widget.*;
+import com.meng.*;
+import com.meng.qrtools.*;
+import com.meng.qrtools.lib.qrcodelib.*;
+import com.meng.qrtools.views.*;
+import java.io.*;
+
 import android.app.Fragment;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.SystemClock;
-import android.support.v4.app.ActivityCompat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.meng.qrtools.R;
-
-import java.io.File;
-import java.io.IOException;
 
 public class awesomeCreator extends Fragment{
 
-    private final int SELECT_FILE_REQUEST_CODE = 822;
-
     private ImageView qrCodeImageView;
-    private EditText etColorLight, etColorDark, etContents, etMargin, etSize;
-    private Button btGenerate, btSelectBG, btRemoveBackgroundImage;
+    private mengEdittext mengEtDotScale, mengEtContents, mengEtMargin, mengEtSize;
+    private Button btGenerate, btSelectBG, btRemoveBG;
     private CheckBox ckbWhiteMargin;
     private Bitmap backgroundImage = null;
 
     private boolean generating = false;
     private CheckBox ckbAutoColor;
     private ScrollView scrollView;
-    private EditText etDotScale;
     private CheckBox ckbBinarize;
-    private EditText etBinarizeThreshold;
+    private mengEdittext mengEtBinarize;
     private Button btnSave;
-    private LinearLayout selectColorLinearLayout;
     private TextView imgPathTextView;
-    Bitmap bmp = null;
+    private Bitmap bmpQRcode = null;
+    private mengColorBar mColorBar;
+    private static final int CROP_REQUEST_CODE = 3;
+
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+		Manifest.permission.READ_EXTERNAL_STORAGE,
+		Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -61,96 +54,86 @@ public class awesomeCreator extends Fragment{
     public void onViewCreated(View view,Bundle savedInstanceState){
         // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
-        selectColorLinearLayout=(LinearLayout) view.findViewById(R.id.awesomeqr_main_select_color_linearLayout);
+        mColorBar=(mengColorBar) view.findViewById(R.id.awesomeqr_main_colorBar);
         scrollView=(ScrollView) view.findViewById(R.id.awesomeqr_main_scrollView);
         qrCodeImageView=(ImageView) view.findViewById(R.id.awesomeqr_main_qrcode);
-        etColorLight=(EditText) view.findViewById(R.id.awesomeqr_main_colorLight);
-        etColorDark=(EditText) view.findViewById(R.id.awesomeqr_main_colorDark);
-        etContents=(EditText) view.findViewById(R.id.awesomeqr_main_contents);
-        etSize=(EditText) view.findViewById(R.id.awesomeqr_main_size);
-        etMargin=(EditText) view.findViewById(R.id.awesomeqr_main_margin);
-        etDotScale=(EditText) view.findViewById(R.id.awesomeqr_main_dotScale);
+        mengEtContents=(mengEdittext) view.findViewById(R.id.awesomeqr_main_content);
+        mengEtSize=(mengEdittext) view.findViewById(R.id.awesomeqr_main_mengEdittext_size);
+        mengEtMargin=(mengEdittext) view.findViewById(R.id.awesomeqr_main_margin);
+        mengEtDotScale=(mengEdittext) view.findViewById(R.id.awesomeqr_main_dotScale);
         btSelectBG=(Button) view.findViewById(R.id.awesomeqr_main_backgroundImage);
-        btRemoveBackgroundImage=(Button) view.findViewById(R.id.awesomeqr_main_removeBackgroundImage);
+        btRemoveBG=(Button) view.findViewById(R.id.awesomeqr_main_removeBackgroundImage);
         btGenerate=(Button) view.findViewById(R.id.awesomeqr_main_generate);
         ckbWhiteMargin=(CheckBox) view.findViewById(R.id.awesomeqr_main_whiteMargin);
         ckbAutoColor=(CheckBox) view.findViewById(R.id.awesomeqr_main_autoColor);
         ckbBinarize=(CheckBox) view.findViewById(R.id.awesomeqr_main_binarize);
-        etBinarizeThreshold=(EditText) view.findViewById(R.id.awesomeqr_main_binarizeThreshold);
-        btnSave=(Button) view.findViewById(R.id.awesomeqr_mainButton);
+        mengEtBinarize=(mengEdittext) view.findViewById(R.id.awesomeqr_main_mengEdittext_binarizeThreshold);
+        btnSave=(Button) view.findViewById(R.id.awesomeqr_mainButton_save);
         imgPathTextView=(TextView) view.findViewById(R.id.awesomeqr_main_imgPathTextView);
-        ckbAutoColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
-					etColorLight.setEnabled(!isChecked);
-					etColorDark.setEnabled(!isChecked);
-					selectColorLinearLayout.setVisibility(isChecked? View.GONE :View.VISIBLE);
-				}
-			});
+        ckbAutoColor.setOnCheckedChangeListener(check);
+        ckbBinarize.setOnCheckedChangeListener(check);
+        btSelectBG.setOnClickListener(click);
+        btRemoveBG.setOnClickListener(click);
+        btGenerate.setOnClickListener(click);
+        btnSave.setOnClickListener(click);
+    }
 
-        ckbBinarize.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
-					etBinarizeThreshold.setEnabled(isChecked);
-					etBinarizeThreshold.setVisibility(isChecked? View.VISIBLE :View.GONE);
-				}
-			});
+    CompoundButton.OnCheckedChangeListener check = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
+            switch(buttonView.getId()){
+                case R.id.awesomeqr_main_autoColor:
+                    mColorBar.setVisibility(isChecked? View.GONE :View.VISIBLE);
+                    break;
+                case R.id.awesomeqr_main_binarize:
+                    mengEtBinarize.setVisibility(isChecked? View.VISIBLE :View.GONE);
+                    break;
+            }
+        }
+    };
 
-        btSelectBG.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v){
-					Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-					intent.addCategory(Intent.CATEGORY_OPENABLE);
-					intent.setType("image/*");
-					startActivityForResult(intent,SELECT_FILE_REQUEST_CODE);
-				}
-			});
-
-        btRemoveBackgroundImage.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v){
-					backgroundImage=null;
-					imgPathTextView.setText("未选择背景图");
-					Toast.makeText(getActivity().getApplicationContext(),R.string.Background_image_removed,Toast.LENGTH_SHORT).show();
-				}
-			});
-
-        btGenerate.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v){
-					generate(etContents.getText().length()==0? getString(R.string.Makito_loves_Kafuu_Chino) :etContents.getText().toString(),
-							 etSize.getText().length()==0? 800 :Integer.parseInt(etSize.getText().toString()),
-							 etMargin.getText().length()==0? 20 :Integer.parseInt(etMargin.getText().toString()),
-							 etDotScale.getText().length()==0? 0.3f :Float.parseFloat(etDotScale.getText().toString()),
-							 ckbAutoColor.isChecked()? Color.BLACK :Color.parseColor(etColorDark.getText().toString()),
-							 ckbAutoColor.isChecked()? Color.WHITE :Color.parseColor(etColorLight.getText().toString()),
+    View.OnClickListener click = new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            switch(v.getId()){
+                case R.id.awesomeqr_main_backgroundImage:
+                    MainActivity2.selectImage(awesomeCreator.this);
+                    break;
+                case R.id.awesomeqr_main_removeBackgroundImage:
+                    backgroundImage=null;
+                    imgPathTextView.setVisibility(View.GONE);
+                    log.t(getActivity(),getResources().getString(R.string.Background_image_removed));
+                    break;
+                case R.id.awesomeqr_main_generate:
+                    generate(mengEtContents.getString(),
+							 Integer.parseInt(mengEtSize.getString()),
+							 Integer.parseInt(mengEtMargin.getString()),
+							 Float.parseFloat(mengEtDotScale.getString()),
+							 mColorBar.getTrueColor(),
+							 ckbAutoColor.isChecked()?Color.WHITE :mColorBar.getFalseColor(), 
 							 backgroundImage,
 							 ckbWhiteMargin.isChecked(),
 							 ckbAutoColor.isChecked(),
 							 ckbBinarize.isChecked(),
-							 etBinarizeThreshold.getText().length()==0? 128 :Integer.parseInt(etBinarizeThreshold.getText().toString())
+							 Integer.parseInt(mengEtBinarize.getString())
 							 );
-					btnSave.setVisibility(View.VISIBLE);
-				}
-			});
-        btnSave.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View p1){
-					// TODO: Implement this method
-					try{
-						String s = QRCode.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/AwesomeQR"+SystemClock.elapsedRealtime()+".png",bmp);
-						Toast.makeText(getActivity().getApplicationContext(),"已保存至"+s,Toast.LENGTH_LONG).show();
-						getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
-					}catch(IOException e){
-						Toast.makeText(getActivity().getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
-					}
-				}
-			});
-    }
+                    btnSave.setVisibility(View.VISIBLE);
+                    break;
+                case R.id.awesomeqr_mainButton_save:
+                    try{
+                        String s = QRCode.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/AwesomeQR"+SystemClock.elapsedRealtime()+".png",bmpQRcode);
+                        log.t(getActivity(),"已保存至"+s);
+                        getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
+                    }catch(IOException e){
+                        log.e(getActivity(),e);
+                    }
+                    break;
+            }
+        }
+    };
 
     public void setDataStr(String s){
-        etContents.setText(s);
+        mengEtContents.setString(s);
     }
 
     @Override
@@ -159,11 +142,6 @@ public class awesomeCreator extends Fragment{
         acquireStoragePermissions();
     }
 
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-		Manifest.permission.READ_EXTERNAL_STORAGE,
-		Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
 
     private void acquireStoragePermissions(){
         int permission = ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -178,12 +156,21 @@ public class awesomeCreator extends Fragment{
 
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
-        if(requestCode==SELECT_FILE_REQUEST_CODE&&resultCode==getActivity().RESULT_OK&&data.getData()!=null){
-            Uri imageUri = data.getData();
-            String imgPath = ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),imageUri);
-            backgroundImage=BitmapFactory.decodeFile(imgPath);
-            imgPathTextView.setText("当前："+imgPath);
-            Toast.makeText(getActivity().getApplicationContext(),R.string.Background_image_added,Toast.LENGTH_SHORT).show();
+        if(requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE&&resultCode==getActivity().RESULT_OK&&data.getData()!=null){
+            imgPathTextView.setVisibility(View.VISIBLE);
+            imgPathTextView.setText("当前文件："+ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),cropPhoto(data.getData())));
+        }else if(requestCode==CROP_REQUEST_CODE){
+            Bundle bundle = data.getExtras();
+            if(bundle!=null){
+                backgroundImage=bundle.getParcelable("data");
+                log.t(getActivity(),getResources().getString(R.string.Background_image_added));
+            }else{
+                log.t(getActivity(),"裁剪失败");
+            }
+        }else if(resultCode==getActivity().RESULT_CANCELED){
+            Toast.makeText(getActivity().getApplicationContext(),"取消选择图片",Toast.LENGTH_SHORT).show();
+        }else{
+            MainActivity2.selectImage(this);
         }
         super.onActivityResult(requestCode,resultCode,data);
     }
@@ -193,7 +180,6 @@ public class awesomeCreator extends Fragment{
                           final boolean autoColor,final boolean binarize,final int binarizeThreshold){
         if(generating) return;
         generating=true;
-
         new Thread(new Runnable() {
 				@Override
 				public void run(){
@@ -203,7 +189,7 @@ public class awesomeCreator extends Fragment{
 								@Override
 								public void run(){
 									qrCodeImageView.setImageBitmap(b);
-									bmp=b;
+									bmpQRcode=b;
 									scrollView.post(new Runnable() {
 											@Override
 											public void run(){
@@ -214,15 +200,27 @@ public class awesomeCreator extends Fragment{
 								}
 							});
 					}catch(Exception e){
-						e.printStackTrace();
-						getActivity().runOnUiThread(new Runnable() {
-								@Override
-								public void run(){
-									generating=false;
-								}
-							});
+						log.e(getActivity(),e);
+						generating=false;
 					}
 				}
 			}).start();
     }
+
+
+    private Uri cropPhoto(Uri uri){
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.setDataAndType(uri,"image/*");
+        intent.putExtra("crop","true");
+        intent.putExtra("aspectX",1);
+        intent.putExtra("aspectY",1);
+        intent.putExtra("outputX",300);
+        intent.putExtra("outputY",300);
+        intent.putExtra("return-data",true);
+        startActivityForResult(intent,CROP_REQUEST_CODE);
+        return uri;
+    }
+
 }

@@ -22,9 +22,10 @@
             android:id="@+id/read_galleryButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/click_to_select_image" />
+            android:text="@string/select_image" />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/read_galleryButtonQR"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

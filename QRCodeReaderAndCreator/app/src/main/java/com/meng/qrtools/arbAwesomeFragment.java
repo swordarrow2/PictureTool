@@ -38,6 +38,7 @@ import com.meng.qrtools.views.mengEdittext;
 
 import java.io.File;
 import java.io.IOException;
+import android.graphics.*;
 
 /**
  * Created by Administrator on 2018/7/19.
@@ -61,12 +62,14 @@ public class arbAwesomeFragment extends android.app.Fragment {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-    private Bitmap selectedBmp = null;
-    private Bitmap finallyBmp = null;
-    private Bitmap tmpBackground = null;
+    
+	public static Bitmap tmpBackground=null;
+	public static Bitmap selectedBmp = null;
+	
     private float topMargin = 0f;
     private float leftMargin = 0f;
     private int qrSize = 0;
+	private float xishu=0f;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -112,6 +115,7 @@ public class arbAwesomeFragment extends android.app.Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.awesomeqr_main_backgroundImage:
+					tmpBackground=null;
                     MainActivity2.selectImage(arbAwesomeFragment.this);
                     break;
                 case R.id.awesomeqr_main_removeBackgroundImage:
@@ -125,7 +129,7 @@ public class arbAwesomeFragment extends android.app.Fragment {
                             Float.parseFloat(mengEtDotScale.getString()),
                             mColorBar.getTrueColor(),
                             ckbAutoColor.isChecked() ? Color.WHITE : mColorBar.getFalseColor(),
-                            tmpBackground,
+							 arbAwesomeFragment.tmpBackground,
                             ckbAutoColor.isChecked()
                     );
                     btnSave.setVisibility(View.VISIBLE);
@@ -135,7 +139,7 @@ public class arbAwesomeFragment extends android.app.Fragment {
                         String s = QRCode.saveMyBitmap(
                                 Environment.getExternalStorageDirectory().getAbsolutePath() +
                                         "/Pictures/QRcode/AwesomeQR" + SystemClock.elapsedRealtime() + ".png",
-                                finallyBmp);
+							selectedBmp);
                         log.t(getActivity(), "已保存至" + s);
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(s))));//更新图库
                     } catch (IOException e) {
@@ -170,13 +174,12 @@ public class arbAwesomeFragment extends android.app.Fragment {
             Uri uri = data.getData();
             String path = ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), uri);
             imgPathTextView.setText("当前文件：" + path);
-            selectedBmp = BitmapFactory.decodeFile(path).copy(Bitmap.Config.ARGB_8888, true);
-            cropPhoto(Math.min(selectedBmp.getWidth(), selectedBmp.getHeight()), path);
+			selectedBmp = BitmapFactory.decodeFile(path).copy(Bitmap.Config.ARGB_8888, true);
+            cropPhoto(Math.min(selectedBmp.getWidth(),selectedBmp.getHeight()), path);
         } else if (requestCode == selectRect && resultCode == getActivity().RESULT_OK) {
-            byte[] bis = data.getByteArrayExtra("bitmap");
-            tmpBackground = BitmapFactory.decodeByteArray(bis, 0, bis.length);
             leftMargin = data.getFloatExtra("left", 0f)-1;
             topMargin = data.getFloatExtra("top", 0)-1;
+			xishu=data.getFloatExtra("xishu",0);
         } else if (resultCode == getActivity().RESULT_CANCELED) {
             Toast.makeText(getActivity().getApplicationContext(), "取消选择图片", Toast.LENGTH_SHORT).show();
         } else {
@@ -197,16 +200,14 @@ public class arbAwesomeFragment extends android.app.Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            qrCodeImageView.setImageBitmap(bmpQRcode);
-                            finallyBmp = selectedBmp;
-                            Canvas c = new Canvas(finallyBmp);
+                            Canvas c = new Canvas(selectedBmp);
                             c.drawBitmap(bmpQRcode, leftMargin, topMargin, new Paint());
-                            qrCodeImageView.setImageBitmap(finallyBmp);
+                            qrCodeImageView.setImageBitmap(scaleBitmap(selectedBmp,xishu));
                             ViewGroup.LayoutParams para= qrCodeImageView.getLayoutParams();
                             DisplayMetrics dm = new DisplayMetrics();
                             getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
                             float screenW = dm.widthPixels;
-                            para.height = (int) (screenW/finallyBmp.getWidth()*finallyBmp.getHeight());
+                            para.height = (int) (screenW/selectedBmp.getWidth()*selectedBmp.getHeight());
                             qrCodeImageView.setLayoutParams(para);
                             scrollView.post(new Runnable() {
                                 @Override
@@ -242,4 +243,20 @@ public class arbAwesomeFragment extends android.app.Fragment {
                     }
                 }).show();
     }
+	
+	private Bitmap scaleBitmap(Bitmap origin,float ratio){
+		if(origin==null){
+			return null;
+		}
+		int width = origin.getWidth();
+		int height = origin.getHeight();
+		Matrix matrix = new Matrix();
+		matrix.preScale(ratio,ratio);
+		Bitmap newBM = Bitmap.createBitmap(origin,0,0,width,height,matrix,false);
+		if(newBM.equals(origin)){
+			return newBM;
+		}
+		origin.recycle();
+		return newBM;
+	}
 }
