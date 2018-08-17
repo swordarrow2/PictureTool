@@ -10,8 +10,8 @@ public class selectRectView extends View{
 	public Bitmap imageViewBackground = null;
 	float xishu;
 	private Bitmap bmpUseRect = null;
-	public float mLeft;
-    public float mTop;
+	private float mLeft;
+    private float mTop;
 	boolean seted=false;
 	
 	public selectRectView(Context c,AttributeSet attr){
@@ -81,4 +81,13 @@ public class selectRectView extends View{
         }
         return (int) a;
     }
+	public float getSelectLeft(){
+		return mLeft;
+	}
+	public float getSelectTop(){
+		return mTop;
+	}
+	public float getXishu(){
+		return xishu;
+	}
 }

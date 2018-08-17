@@ -16,6 +16,7 @@ import com.meng.qrtools.creator.*;
 import com.meng.qrtools.lib.qrcodelib.*;
 import com.meng.qrtools.views.*;
 import java.io.*;
+import android.view.inputmethod.*;
 
 /**
  * Created by Administrator on 2018/7/19.
@@ -25,7 +26,7 @@ public class arbAwesomeFragment extends android.app.Fragment{
 
     private ImageView qrCodeImageView;
     private mengEdittext mengEtDotScale, mengEtContents;
-    private Button btGenerate, btSelectBG, btRemoveBG;
+    private Button btGenerate, btSelectBG;
     private boolean generating = false;
     private CheckBox ckbAutoColor;
     private ScrollView scrollView;
@@ -44,15 +45,12 @@ public class arbAwesomeFragment extends android.app.Fragment{
     private Bitmap tmpQRBackground = null;
     //private Bitmap imageViewBackground = null;
     
-    private Bitmap finallyBmp = null;
-
+  //  private Bitmap finallyBmp = null;
+	Bitmap bmp=null;
     private String selectedBmpPath = "";
 
     private int qrSize;
-    private float xishu;
-
-    private TextView tv;
-
+    
     float screenW;
     float screenH;
 	
@@ -77,15 +75,12 @@ public class arbAwesomeFragment extends android.app.Fragment{
         mengEtContents=(mengEdittext) view.findViewById(R.id.awesomeqr_main_content);
         mengEtDotScale=(mengEdittext) view.findViewById(R.id.awesomeqr_main_dotScale);
         btSelectBG=(Button) view.findViewById(R.id.awesomeqr_main_backgroundImage);
-        btRemoveBG=(Button) view.findViewById(R.id.awesomeqr_main_removeBackgroundImage);
         btGenerate=(Button) view.findViewById(R.id.awesomeqr_main_generate);
         ckbAutoColor=(CheckBox) view.findViewById(R.id.awesomeqr_main_autoColor);
         btnSave=(Button) view.findViewById(R.id.awesomeqr_mainButton_save);
         imgPathTextView=(TextView) view.findViewById(R.id.awesomeqr_main_imgPathTextView);
-        tv=(TextView) view.findViewById(R.id.size_text);
         ckbAutoColor.setOnCheckedChangeListener(check);
         btSelectBG.setOnClickListener(click);
-        btRemoveBG.setOnClickListener(click);
         btGenerate.setOnClickListener(click);
         btnSave.setOnClickListener(click);
         DisplayMetrics dm = new DisplayMetrics();
@@ -110,12 +105,11 @@ public class arbAwesomeFragment extends android.app.Fragment{
         public void onClick(View v){
             switch(v.getId()){
                 case R.id.awesomeqr_main_backgroundImage:
+					qrCodeImageView.setVisibility(View.GONE);
+					btGenerate.setEnabled(true);
                     MainActivity2.selectImage(arbAwesomeFragment.this);
                     break;
-                case R.id.awesomeqr_main_removeBackgroundImage:
-                    imgPathTextView.setVisibility(View.GONE);
-                    log.t(getActivity(),getResources().getString(R.string.Background_image_removed));
-                    break;
+                
                 case R.id.awesomeqr_main_generate:
                     generate(mengEtContents.getString(),
 							 Float.parseFloat(mengEtDotScale.getString()),
@@ -124,13 +118,15 @@ public class arbAwesomeFragment extends android.app.Fragment{
 							 ckbAutoColor.isChecked()
 							 );
                     btnSave.setVisibility(View.VISIBLE);
+					qrCodeImageView.setVisibility(View.VISIBLE);
+					mv.setVisibility(View.GONE);
                     break;
                 case R.id.awesomeqr_mainButton_save:
                     try{
                         String s = QRCode.saveMyBitmap(
 							Environment.getExternalStorageDirectory().getAbsolutePath()+
 							"/Pictures/QRcode/AwesomeQR"+SystemClock.elapsedRealtime()+".png",
-							finallyBmp);
+							bmp);
                         log.t(getActivity(),"已保存至"+s);
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
                     }catch(IOException e){
@@ -177,6 +173,16 @@ public class arbAwesomeFragment extends android.app.Fragment{
 						qrSize=Integer.parseInt(et.getText().toString());
 						//ll.addView(new selectRectView(getActivity(),selectedBmp,screenW,screenH));
 						mv.setup(selectedBmp,screenW,screenH,qrSize);
+						ViewGroup.LayoutParams para = mv.getLayoutParams();
+						DisplayMetrics dm = new DisplayMetrics();
+						getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+						float screenW = dm.widthPixels;
+						Bitmap bmp = BitmapFactory.decodeFile(selectedBmpPath).copy(Bitmap.Config.ARGB_8888,true);
+						para.height=(int) (screenW/bmp.getWidth()*bmp.getHeight());
+						mv.setLayoutParams(para);
+						mv.setVisibility(View.VISIBLE);
+						InputMethodManager imm = (InputMethodManager)getActivity(). getSystemService(Context.INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
 					}
 				}).show();
         }else if(resultCode==getActivity().RESULT_CANCELED){
@@ -192,34 +198,36 @@ public class arbAwesomeFragment extends android.app.Fragment{
         if(generating) return;
         generating=true;
 		//  try {
-		Bitmap bmp = BitmapFactory.decodeFile(selectedBmpPath).copy(Bitmap.Config.ARGB_8888,true);
+		bmp = BitmapFactory.decodeFile(selectedBmpPath).copy(Bitmap.Config.ARGB_8888,true);
+		int cutX=between(mv.getSelectLeft()/mv.getXishu(),0,bmp.getWidth()-qrSize);
+		int cutY=between(mv.getSelectTop()/mv.getXishu(),0,bmp.getHeight()-qrSize);
 		tmpQRBackground=Bitmap.createBitmap(
 			bmp,
-			between(mv.mLeft/xishu,0,bmp.getWidth()-qrSize),
-			between(mv.mTop/xishu,0,bmp.getHeight()-qrSize),
+			cutX,
+			cutY,
 			qrSize,
 			qrSize);
 		Bitmap bmpQRcode = AwesomeQRCode.create(contents,qrSize,0,dotScale,colorDark,colorLight,tmpQRBackground,false,autoColor,false,128);
 		Canvas c = new Canvas(bmp);
 		c.drawBitmap(
 			bmpQRcode, 
-			mv.mLeft/xishu,
-			mv.mTop/xishu, 
-			new Paint());
-		finallyBmp=bmp.copy(Bitmap.Config.ARGB_8888,true);
-		qrCodeImageView.setImageBitmap(finallyBmp);//scaleBitmap(bmp,xishu));
+			cutX,
+			cutY, 
+			new Paint());	
+		qrCodeImageView.setImageBitmap(scaleBitmap(bmp,mv.getXishu()));
 		ViewGroup.LayoutParams para = qrCodeImageView.getLayoutParams();
 		DisplayMetrics dm = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 		float screenW = dm.widthPixels;
 		para.height=(int) (screenW/bmp.getWidth()*bmp.getHeight());
 		qrCodeImageView.setLayoutParams(para);
-		scrollView.post(new Runnable() {
-                @Override
-                public void run(){
-                    scrollView.fullScroll(View.FOCUS_DOWN);
-                }
-            });
+		
+//		scrollView.post(new Runnable() {
+//                @Override
+//                public void run(){
+//                    scrollView.fullScroll(View.FOCUS_DOWN);
+//                }
+//            });
 		generating=false;
 
 		// } catch (Exception e) {

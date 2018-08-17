@@ -22,11 +22,6 @@
             android:orientation="vertical"
             android:padding="8dp">
 			
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/size_text"/>
-
             <com.meng.qrtools.views.mengEdittext
                 android:id="@+id/awesomeqr_main_content"
                 android:layout_width="match_parent"
@@ -72,20 +67,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/select_image" />
-
-                <Button
-                    android:id="@+id/awesomeqr_main_removeBackgroundImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/remove_image" />
+				
+				<Button
+					android:enabled="false"
+					android:layout_weight="1"
+					android:id="@+id/awesomeqr_main_generate"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/click_to_create" />
+                
             </LinearLayout>
-
-            <Button
-                android:id="@+id/awesomeqr_main_generate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/click_to_create" />
 
             <Button
                 android:id="@+id/awesomeqr_mainButton_save"
@@ -93,17 +84,18 @@
                 android:layout_height="wrap_content"
                 android:text="@string/click_to_save"
                 android:visibility="gone" />
-			<com.meng.qrtools.views.selectRectView
-				android:id="@+id/arb_awesome_qrselectRectView"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"/>
-            <ImageView
+			<ImageView
                 android:id="@+id/awesomeqr_main_qrcode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
                 android:scaleType="fitCenter" />
+			<com.meng.qrtools.views.selectRectView
+				android:id="@+id/arb_awesome_qrselectRectView"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"/>
+            
 			
         </LinearLayout>
     </ScrollView>
