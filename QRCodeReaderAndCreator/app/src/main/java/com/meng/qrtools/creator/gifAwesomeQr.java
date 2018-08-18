@@ -162,7 +162,7 @@ public class gifAwesomeQr extends Fragment{
 							GifImage next = iterator.next();
 							if(next!=null){
 								try{
-									QRCode.saveMyBitmap(strTmpFolder+flag+++".png",next.bitmap);
+									QrUtils.saveMyBitmap(strTmpFolder+flag+++".png",next.bitmap);
 								}catch(IOException e){
 									log.e(getActivity(),e);
 								}

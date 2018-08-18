@@ -121,7 +121,7 @@ public class awesomeCreator extends Fragment{
                     break;
                 case R.id.awesomeqr_mainButton_save:
                     try{
-                        String s = QRCode.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/AwesomeQR"+SystemClock.elapsedRealtime()+".png",bmpQRcode);
+                        String s = QrUtils.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/AwesomeQR"+SystemClock.elapsedRealtime()+".png",bmpQRcode);
                         log.t(getActivity(),"已保存至"+s);
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
                     }catch(IOException e){

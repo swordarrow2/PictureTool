@@ -5,14 +5,16 @@ import android.graphics.*;
 import android.util.*;
 import android.view.*;
 
+import com.meng.qrtools.lib.qrcodelib.QrUtils;
+
 public class selectRectView extends View{
 	
-	public Bitmap imageViewBackground = null;
-	float xishu;
+	private Bitmap imageViewBackground = null;
 	private Bitmap bmpUseRect = null;
+	private float xishu;
 	private float mLeft;
     private float mTop;
-	boolean seted=false;
+	private boolean seted=false;
 	
 	public selectRectView(Context c,AttributeSet attr){
 		super(c,attr);
@@ -28,27 +30,13 @@ public class selectRectView extends View{
 		float bmpW = seleBmp.getWidth();
 		float bmpH = seleBmp.getHeight();
 		xishu=Math.min(screenH/bmpH,screenW/bmpW);
-		imageViewBackground=scaleBitmap(seleBmp,xishu);
+		imageViewBackground= QrUtils.scaleBitmap(seleBmp,xishu);
 		bmpUseRect=Bitmap.createBitmap((int) (qrSize*xishu),(int) (qrSize*xishu),Bitmap.Config.ARGB_8888);
 		Canvas c = new Canvas(bmpUseRect);
 		c.drawARGB(0x7f,0x7f,0xca,0x00);
 		seted=true;
-	}   
-	private Bitmap scaleBitmap(Bitmap origin,float ratio){
-        if(origin==null){
-            return null;
-        }
-        int width = origin.getWidth();
-        int height = origin.getHeight();
-        Matrix matrix = new Matrix();
-        matrix.preScale(ratio,ratio);
-        Bitmap newBM = Bitmap.createBitmap(origin,0,0,width,height,matrix,false);
-        if(newBM.equals(origin)){
-            return newBM;
-        }
-     //   origin.recycle();
-        return newBM;
-    }
+	}
+
 	@Override
 	protected void onDraw(Canvas canvas){
 		super.onDraw(canvas);
@@ -63,10 +51,10 @@ public class selectRectView extends View{
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
 		if(!seted)return true;
-		final int x = (int) event.getX(); // 获取当前触摸点的X轴坐标
-		final int y = (int) event.getY(); // 获取当前触摸点的Y轴坐标
-		mLeft=between(x-bmpUseRect.getWidth()/2,0,imageViewBackground.getWidth()-bmpUseRect.getWidth()); // 计算放大镜的左边距
-		mTop=between(y-bmpUseRect.getHeight()/2,0,imageViewBackground.getHeight()-bmpUseRect.getHeight()); // 计算放大镜的右边距
+		final int x = (int) event.getX();
+		final int y = (int) event.getY();
+		mLeft=between(x-bmpUseRect.getWidth()/2,0,imageViewBackground.getWidth()-bmpUseRect.getWidth());
+		mTop=between(y-bmpUseRect.getHeight()/2,0,imageViewBackground.getHeight()-bmpUseRect.getHeight());
 		//tv.setText("x:"+(mLeft/xishu)+"  y:"+(mTop/xishu));
 		invalidate(); // 重绘画布
 		return true;

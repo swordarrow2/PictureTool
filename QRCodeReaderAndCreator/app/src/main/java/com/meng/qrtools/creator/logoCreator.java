@@ -86,7 +86,7 @@ public class logoCreator extends Fragment {
                     tvImgPath.setText("未选择图片，将会生成普通二维码");
                     break;
                 case R.id.qr_ButtonCreate:
-                    bmpQRcode = QRCode.createQRCode(
+                    bmpQRcode = QrUtils.createQRCode(
                             mengEtContent.getString(),
                             ckbAutoColor.isChecked() ? Color.BLACK : mColorBar.getTrueColor(),
                             ckbAutoColor.isChecked() ? Color.WHITE : mColorBar.getFalseColor(),
@@ -103,7 +103,7 @@ public class logoCreator extends Fragment {
                     break;
                 case R.id.qr_ButtonSave:
                     try {
-                        String s = QRCode.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/QRcode/LogoQR" + SystemClock.elapsedRealtime() + ".png", bmpQRcode);
+                        String s = QrUtils.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/QRcode/LogoQR" + SystemClock.elapsedRealtime() + ".png", bmpQRcode);
                         Toast.makeText(getActivity().getApplicationContext(), "已保存至" + s, Toast.LENGTH_LONG).show();
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(s))));//更新图库
                     } catch (IOException e) {
