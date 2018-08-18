@@ -1,19 +1,37 @@
 package com.meng;
 
-import android.app.*;
-import android.content.*;
-import android.content.res.*;
-import android.graphics.*;
-import android.os.*;
-import android.support.v4.widget.*;
-import android.view.*;
-import android.widget.*;
-import com.meng.qrtools.*;
-import com.meng.qrtools.creator.*;
-import com.meng.qrtools.lib.materialDesign.*;
-import com.meng.qrtools.reader.*;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.view.KeyEvent;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-public class MainActivity2 extends Activity {
+import com.meng.qrtools.MainActivity;
+import com.meng.qrtools.R;
+import com.meng.qrtools.creator.arbAwesome;
+import com.meng.qrtools.creator.awesomeCreator;
+import com.meng.qrtools.creator.gifAwesomeQr;
+import com.meng.qrtools.creator.logoCreator;
+import com.meng.qrtools.lib.materialDesign.ActionBarDrawerToggle;
+import com.meng.qrtools.lib.materialDesign.DrawerArrowDrawable;
+import com.meng.qrtools.reader.cameraReader;
+import com.meng.qrtools.reader.galleryReader;
+import com.meng.qrtools.settings;
+import com.meng.qrtools.textFragment;
+
+public class MainActivity2 extends Activity{
     public static MainActivity2 instence;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -28,19 +46,19 @@ public class MainActivity2 extends Activity {
     public galleryReader galleryReaderFragment;
     private textFragment aboutFragment;
     private gifAwesomeQr gifFragment;
-    private arbAwesomeFragment arbAwesomeFragment;
+    private arbAwesome arbAwesome;
     private settings settingsFragment;
     public TextView rightText;
 
     public FragmentManager manager;
 
-    public static final int SELECT_FILE_REQUEST_CODE = 822;
-	
+    public static final int SELECT_FILE_REQUEST_CODE=822;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        instence = this;
+        instence=this;
         setActionBar();
         findViews();
         initFragment();
@@ -49,80 +67,80 @@ public class MainActivity2 extends Activity {
 
     }
 
-    public static void selectImage(Fragment f) {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+    public static void selectImage(Fragment f){
+        Intent intent=new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
-        f.startActivityForResult(intent, SELECT_FILE_REQUEST_CODE);
+        f.startActivityForResult(intent,SELECT_FILE_REQUEST_CODE);
     }
 
-    private void changeTheme() {
-        if (MainActivity.sharedPreference.getBoolean("useLightTheme", true)) {
+    private void changeTheme(){
+        if(MainActivity.sharedPreference.getBoolean("useLightTheme",true)){
             mDrawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
             rt.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-        } else {
+        }else{
             mDrawerList.setBackgroundColor(getResources().getColor(android.R.color.background_dark));
             rt.setBackgroundColor(getResources().getColor(android.R.color.background_dark));
         }
-        if (getIntent().getBooleanExtra("setTheme", false)) {
+        if(getIntent().getBooleanExtra("setTheme",false)){
             initSettingsFragment(true);
-        } else {
+        }else{
             initWelcome(true);
-            if (MainActivity.sharedPreference.getBoolean("opendraw", true)) {
+            if(MainActivity.sharedPreference.getBoolean("opendraw",true)){
                 mDrawerLayout.openDrawer(mDrawerList);
             }
         }
     }
 
     @Override
-    public void setTheme(int resid) {
-        if (MainActivity.lightTheme) {
+    public void setTheme(int resid){
+        if(MainActivity.lightTheme){
             super.setTheme(R.style.AppThemeLight);
-        } else {
+        }else{
             super.setTheme(R.style.AppThemeDark);
         }
     }
 
-    private void setActionBar() {
-        ActionBar ab = getActionBar();
+    private void setActionBar(){
+        ActionBar ab=getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setHomeButtonEnabled(true);
     }
 
-    private void setListener() {
-        drawerArrow = new DrawerArrowDrawable(this) {
+    private void setListener(){
+        drawerArrow=new DrawerArrowDrawable(this){
             @Override
-            public boolean isLayoutRtl() {
+            public boolean isLayoutRtl(){
                 return false;
             }
         };
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, drawerArrow, R.string.open, R.string.close) {
+        mDrawerToggle=new ActionBarDrawerToggle(this,mDrawerLayout,drawerArrow,R.string.open,R.string.close){
 
-            public void onDrawerClosed(View view) {
+            public void onDrawerClosed(View view){
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();
             }
 
-            public void onDrawerOpened(View drawerView) {
+            public void onDrawerOpened(View drawerView){
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu();
             }
 
             @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, slideOffset);
+            public void onDrawerSlide(View drawerView,float slideOffset){
+                super.onDrawerSlide(drawerView,slideOffset);
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, new String[]{
-                "首页(?)", "读取相册二维码", "相机扫描二维码", "创建二维码",
-                "创建Awesome二维码", "创建动态Awesome二维码", "任意位置的Awesome二维码", "关于", "设置", "退出"
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,android.R.id.text1,new String[]{
+                "首页(?)","读取相册二维码","相机扫描二维码","创建二维码",
+                "创建Awesome二维码","创建动态Awesome二维码","任意位置的Awesome二维码","关于","设置","退出"
         }));
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (((TextView) view).getText().toString()) {
+            public void onItemClick(AdapterView<?> parent,View view,int position,long id){
+                switch(((TextView)view).getText().toString()){
                     case "首页(?)":
                         initWelcome(true);
                         break;
@@ -152,9 +170,9 @@ public class MainActivity2 extends Activity {
                         initSettingsFragment(true);
                         break;
                     case "退出":
-                        if (MainActivity.sharedPreference.getBoolean("exitsettings")) {
+                        if(MainActivity.sharedPreference.getBoolean("exitsettings")){
                             System.exit(0);
-                        } else {
+                        }else{
                             finish();
                         }
                         break;
@@ -166,181 +184,181 @@ public class MainActivity2 extends Activity {
         });
     }
 
-    private void findViews() {
-        rt = (RelativeLayout) findViewById(R.id.right_drawer);
-        rightText = (TextView) findViewById(R.id.main_activityTextViewRight);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.navdrawer);
+    private void findViews(){
+        rt=(RelativeLayout)findViewById(R.id.right_drawer);
+        rightText=(TextView)findViewById(R.id.main_activityTextViewRight);
+        mDrawerLayout=(DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerList=(ListView)findViewById(R.id.navdrawer);
     }
 
-    private void initFragment() {
-        manager = getFragmentManager();
-        if (MainActivity.sharedPreference.getBoolean("ldgr")) {
+    private void initFragment(){
+        manager=getFragmentManager();
+        if(MainActivity.sharedPreference.getBoolean("ldgr")){
             initGalleryReaderFragment(false);
         }
-        if (MainActivity.sharedPreference.getBoolean("ldcr")) {
+        if(MainActivity.sharedPreference.getBoolean("ldcr")){
             initCameraReaderFragment(false);
         }
-        if (MainActivity.sharedPreference.getBoolean("ldlgqr")) {
+        if(MainActivity.sharedPreference.getBoolean("ldlgqr")){
             initLogoCreatorFragment(false);
         }
         initAwesomeFragment(false);
-        if (MainActivity.sharedPreference.getBoolean("ldgif")) {
+        if(MainActivity.sharedPreference.getBoolean("ldgif")){
             initGifAwesomeFragment(false);
         }
-        if (MainActivity.sharedPreference.getBoolean("ldaw2")) {
+        if(MainActivity.sharedPreference.getBoolean("ldaw2")){
             initTestFragment(false);
         }
-        if (MainActivity.sharedPreference.getBoolean("textFragment")) {
+        if(MainActivity.sharedPreference.getBoolean("textFragment")){
             initAboutFragment(false);
         }
-        if (MainActivity.sharedPreference.getBoolean("settings")) {
+        if(MainActivity.sharedPreference.getBoolean("settings")){
             initSettingsFragment(false);
         }
     }
 
-    private void initWelcome(boolean showNow) {
-        FragmentTransaction transactionWelcome = manager.beginTransaction();
-        if (welcomeFragment == null) {
-            welcomeFragment = new textFragment(0);
-            transactionWelcome.add(R.id.main_activityLinearLayout, welcomeFragment);
+    private void initWelcome(boolean showNow){
+        FragmentTransaction transactionWelcome=manager.beginTransaction();
+        if(welcomeFragment==null){
+            welcomeFragment=new textFragment(0);
+            transactionWelcome.add(R.id.main_activityLinearLayout,welcomeFragment);
         }
         hideFragment(transactionWelcome);
-        if (showNow) {
+        if(showNow){
             transactionWelcome.show(welcomeFragment);
         }
         transactionWelcome.commit();
     }
 
-    private void initGalleryReaderFragment(boolean showNow) {
-        FragmentTransaction transactionGalleryReaderFragment = manager.beginTransaction();
-        if (galleryReaderFragment == null) {
-            galleryReaderFragment = new galleryReader();
-            transactionGalleryReaderFragment.add(R.id.main_activityLinearLayout, galleryReaderFragment);
+    private void initGalleryReaderFragment(boolean showNow){
+        FragmentTransaction transactionGalleryReaderFragment=manager.beginTransaction();
+        if(galleryReaderFragment==null){
+            galleryReaderFragment=new galleryReader();
+            transactionGalleryReaderFragment.add(R.id.main_activityLinearLayout,galleryReaderFragment);
         }
         hideFragment(transactionGalleryReaderFragment);
-        if (showNow) {
+        if(showNow){
             transactionGalleryReaderFragment.show(galleryReaderFragment);
         }
         transactionGalleryReaderFragment.commit();
     }
 
-    private void initCameraReaderFragment(boolean showNow) {
-        FragmentTransaction transactionCameraReaderFragment = manager.beginTransaction();
-        if (cameraReaderFragment == null) {
-            cameraReaderFragment = new cameraReader();
-            transactionCameraReaderFragment.add(R.id.main_activityLinearLayout, cameraReaderFragment);
+    private void initCameraReaderFragment(boolean showNow){
+        FragmentTransaction transactionCameraReaderFragment=manager.beginTransaction();
+        if(cameraReaderFragment==null){
+            cameraReaderFragment=new cameraReader();
+            transactionCameraReaderFragment.add(R.id.main_activityLinearLayout,cameraReaderFragment);
         }
         hideFragment(transactionCameraReaderFragment);
-        if (showNow) {
+        if(showNow){
             transactionCameraReaderFragment.show(cameraReaderFragment);
         }
         transactionCameraReaderFragment.commit();
     }
 
-    private void initLogoCreatorFragment(boolean showNow) {
-        FragmentTransaction transactionLogoCreatorFragment = manager.beginTransaction();
-        if (logoCreatorFragment == null) {
-            logoCreatorFragment = new logoCreator();
-            transactionLogoCreatorFragment.add(R.id.main_activityLinearLayout, logoCreatorFragment);
+    private void initLogoCreatorFragment(boolean showNow){
+        FragmentTransaction transactionLogoCreatorFragment=manager.beginTransaction();
+        if(logoCreatorFragment==null){
+            logoCreatorFragment=new logoCreator();
+            transactionLogoCreatorFragment.add(R.id.main_activityLinearLayout,logoCreatorFragment);
         }
         hideFragment(transactionLogoCreatorFragment);
-        if (showNow) {
+        if(showNow){
             transactionLogoCreatorFragment.show(logoCreatorFragment);
         }
         transactionLogoCreatorFragment.commit();
     }
 
-    private void initAwesomeFragment(boolean showNow) {
-        FragmentTransaction transactionAwesomeCreatorFragment = manager.beginTransaction();
-        if (awesomeCreatorFragment == null) {
-            awesomeCreatorFragment = new awesomeCreator();
-            transactionAwesomeCreatorFragment.add(R.id.main_activityLinearLayout, awesomeCreatorFragment);
+    private void initAwesomeFragment(boolean showNow){
+        FragmentTransaction transactionAwesomeCreatorFragment=manager.beginTransaction();
+        if(awesomeCreatorFragment==null){
+            awesomeCreatorFragment=new awesomeCreator();
+            transactionAwesomeCreatorFragment.add(R.id.main_activityLinearLayout,awesomeCreatorFragment);
         }
         hideFragment(transactionAwesomeCreatorFragment);
-        if (showNow) {
+        if(showNow){
             transactionAwesomeCreatorFragment.show(awesomeCreatorFragment);
         }
         transactionAwesomeCreatorFragment.commit();
     }
 
-    private void initGifAwesomeFragment(boolean showNow) {
-        FragmentTransaction transactionGifAwesomeCreatorFragment = manager.beginTransaction();
-        if (gifFragment == null) {
-            gifFragment = new gifAwesomeQr();
-            transactionGifAwesomeCreatorFragment.add(R.id.main_activityLinearLayout, gifFragment);
+    private void initGifAwesomeFragment(boolean showNow){
+        FragmentTransaction transactionGifAwesomeCreatorFragment=manager.beginTransaction();
+        if(gifFragment==null){
+            gifFragment=new gifAwesomeQr();
+            transactionGifAwesomeCreatorFragment.add(R.id.main_activityLinearLayout,gifFragment);
         }
         hideFragment(transactionGifAwesomeCreatorFragment);
-        if (showNow) {
+        if(showNow){
             transactionGifAwesomeCreatorFragment.show(gifFragment);
         }
         transactionGifAwesomeCreatorFragment.commit();
     }
 
-    private void initTestFragment(boolean showNow) {
-        FragmentTransaction transactionTestFragment = manager.beginTransaction();
-        if (arbAwesomeFragment == null) {
-            arbAwesomeFragment = new arbAwesomeFragment();
-            transactionTestFragment.add(R.id.main_activityLinearLayout, arbAwesomeFragment);
+    private void initTestFragment(boolean showNow){
+        FragmentTransaction transactionTestFragment=manager.beginTransaction();
+        if(arbAwesome==null){
+            arbAwesome=new arbAwesome();
+            transactionTestFragment.add(R.id.main_activityLinearLayout,arbAwesome);
         }
         hideFragment(transactionTestFragment);
-        if (showNow) {
-            transactionTestFragment.show(arbAwesomeFragment);
+        if(showNow){
+            transactionTestFragment.show(arbAwesome);
         }
         transactionTestFragment.commit();
     }
 
-    private void initAboutFragment(boolean showNow) {
-        FragmentTransaction transactionAboutFragment = manager.beginTransaction();
-        if (aboutFragment == null) {
-            aboutFragment = new textFragment(1);
-            transactionAboutFragment.add(R.id.main_activityLinearLayout, aboutFragment);
+    private void initAboutFragment(boolean showNow){
+        FragmentTransaction transactionAboutFragment=manager.beginTransaction();
+        if(aboutFragment==null){
+            aboutFragment=new textFragment(1);
+            transactionAboutFragment.add(R.id.main_activityLinearLayout,aboutFragment);
         }
         hideFragment(transactionAboutFragment);
-        if (showNow) {
+        if(showNow){
             transactionAboutFragment.show(aboutFragment);
         }
         transactionAboutFragment.commit();
     }
 
-    private void initSettingsFragment(boolean showNow) {
-        FragmentTransaction transactionsettings = manager.beginTransaction();
-        if (settingsFragment == null) {
-            settingsFragment = new settings();
-            transactionsettings.add(R.id.main_activityLinearLayout, settingsFragment);
+    private void initSettingsFragment(boolean showNow){
+        FragmentTransaction transactionsettings=manager.beginTransaction();
+        if(settingsFragment==null){
+            settingsFragment=new settings();
+            transactionsettings.add(R.id.main_activityLinearLayout,settingsFragment);
         }
         hideFragment(transactionsettings);
-        if (showNow) {
+        if(showNow){
             transactionsettings.show(settingsFragment);
         }
         transactionsettings.commit();
     }
 
-    public void hideFragment(FragmentTransaction transaction) {
-        Fragment fs[] = {
+    public void hideFragment(FragmentTransaction transaction){
+        Fragment fs[]={
                 welcomeFragment,
                 logoCreatorFragment,
                 awesomeCreatorFragment,
                 gifFragment,
                 cameraReaderFragment,
                 galleryReaderFragment,
-                arbAwesomeFragment,
+                arbAwesome,
                 aboutFragment,
                 settingsFragment
         };
-        for (Fragment f : fs) {
-            if (f != null) {
+        for(Fragment f : fs){
+            if(f!=null){
                 transaction.hide(f);
             }
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId()==android.R.id.home){
+            if(mDrawerLayout.isDrawerOpen(mDrawerList)){
                 mDrawerLayout.closeDrawer(mDrawerList);
-            } else {
+            }else{
                 mDrawerLayout.openDrawer(mDrawerList);
             }
         }
@@ -348,29 +366,29 @@ public class MainActivity2 extends Activity {
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    protected void onPostCreate(Bundle savedInstanceState){
         super.onPostCreate(savedInstanceState);
         mDrawerToggle.syncState();
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(Configuration newConfig){
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(int keyCode,KeyEvent event){
         // TODO: Implement this method
-        if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_MENU) {
-            if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+        if(keyCode==KeyEvent.KEYCODE_BACK||keyCode==KeyEvent.KEYCODE_MENU){
+            if(mDrawerLayout.isDrawerOpen(mDrawerList)){
                 mDrawerLayout.closeDrawer(mDrawerList);
-            } else {
+            }else{
                 mDrawerLayout.openDrawer(mDrawerList);
             }
             return true;
         }
-        return super.onKeyDown(keyCode, event);
+        return super.onKeyDown(keyCode,event);
     }
 
 

@@ -20,16 +20,16 @@ package com.meng.qrtools.lib.qrcodelib.zxing.decoding;
  * This class provides the constants to use when sending an Intent to Barcode Scanner.
  * These strings are effectively API and cannot be changed.
  */
-public final class Intents {
-    private Intents() {
+public final class Intents{
+    private Intents(){
     }
 
-    public static final class Scan {
+    public static final class Scan{
         /**
          * Send this intent to open the Barcodes app in scanning mode, find a barcode, and return
          * the results.
          */
-        public static final String ACTION = "com.google.zxing.client.android.SCAN";
+        public static final String ACTION="com.google.zxing.client.android.SCAN";
 
         /**
          * By default, sending Scan.ACTION will decode all barcodes that we understand. However it
@@ -40,7 +40,7 @@ public final class Intents {
          * Setting this is effectively shorthnad for setting explicit formats with {@link #SCAN_FORMATS}.
          * It is overridden by that setting.
          */
-        public static final String MODE = "SCAN_MODE";
+        public static final String MODE="SCAN_MODE";
 
         /**
          * Comma-separated list of formats to scan for. The values must match the names of
@@ -49,33 +49,33 @@ public final class Intents {
          * <p>
          * This overrides {@link #MODE}.
          */
-        public static final String SCAN_FORMATS = "SCAN_FORMATS";
+        public static final String SCAN_FORMATS="SCAN_FORMATS";
 
         /**
          * @see com.google.zxing.DecodeHintType#CHARACTER_SET
          */
-        public static final String CHARACTER_SET = "CHARACTER_SET";
+        public static final String CHARACTER_SET="CHARACTER_SET";
 
         /**
          * Decode only UPC and EAN barcodes. This is the right choice for shopping apps which get
          * prices, reviews, etc. for products.
          */
-        public static final String PRODUCT_MODE = "PRODUCT_MODE";
+        public static final String PRODUCT_MODE="PRODUCT_MODE";
 
         /**
          * Decode only 1D barcodes (currently UPC, EAN, Code 39, and Code 128).
          */
-        public static final String ONE_D_MODE = "ONE_D_MODE";
+        public static final String ONE_D_MODE="ONE_D_MODE";
 
         /**
          * Decode only QR codes.
          */
-        public static final String QR_CODE_MODE = "QR_CODE_MODE";
+        public static final String QR_CODE_MODE="QR_CODE_MODE";
 
         /**
          * Decode only Data Matrix codes.
          */
-        public static final String DATA_MATRIX_MODE = "DATA_MATRIX_MODE";
+        public static final String DATA_MATRIX_MODE="DATA_MATRIX_MODE";
 
         /**
          * If a barcode is found, Barcodes returns RESULT_OK to onActivityResult() of the app which
@@ -83,108 +83,108 @@ public final class Intents {
          * intent.getStringExtra(RESULT). If the user presses Back, the result code will be
          * RESULT_CANCELED.
          */
-        public static final String RESULT = "SCAN_RESULT";
+        public static final String RESULT="SCAN_RESULT";
 
         /**
          * Call intent.getStringExtra(RESULT_FORMAT) to determine which barcode format was found.
          * See Contents.Format for possible values.
          */
-        public static final String RESULT_FORMAT = "SCAN_RESULT_FORMAT";
+        public static final String RESULT_FORMAT="SCAN_RESULT_FORMAT";
 
         /**
          * Setting this to false will not save scanned codes in the history.
          */
-        public static final String SAVE_HISTORY = "SAVE_HISTORY";
+        public static final String SAVE_HISTORY="SAVE_HISTORY";
 
-        private Scan() {
+        private Scan(){
         }
     }
 
-    public static final class Encode {
+    public static final class Encode{
         /**
          * Send this intent to encode a piece of data as a QR code and display it full screen, so
          * that another person can scan the barcode from your screen.
          */
-        public static final String ACTION = "com.google.zxing.client.android.ENCODE";
+        public static final String ACTION="com.google.zxing.client.android.ENCODE";
 
         /**
          * The data to encode. Use Intent.putExtra(DATA, data) where data is either a String or a
          * Bundle, depending on the type and format specified. Non-QR Code formats should
          * just use a String here. For QR Code, see Contents for details.
          */
-        public static final String DATA = "ENCODE_DATA";
+        public static final String DATA="ENCODE_DATA";
 
         /**
          * The type of data being supplied if the format is QR Code. Use
          * Intent.putExtra(TYPE, type) with one of Contents.Type.
          */
-        public static final String TYPE = "ENCODE_TYPE";
+        public static final String TYPE="ENCODE_TYPE";
 
         /**
          * The barcode format to be displayed. If this isn't specified or is blank,
          * it defaults to QR Code. Use Intent.putExtra(FORMAT, format), where
          * format is one of Contents.Format.
          */
-        public static final String FORMAT = "ENCODE_FORMAT";
+        public static final String FORMAT="ENCODE_FORMAT";
 
-        private Encode() {
+        private Encode(){
         }
     }
 
-    public static final class SearchBookContents {
+    public static final class SearchBookContents{
         /**
          * Use Google Book Search to search the contents of the book provided.
          */
-        public static final String ACTION = "com.google.zxing.client.android.SEARCH_BOOK_CONTENTS";
+        public static final String ACTION="com.google.zxing.client.android.SEARCH_BOOK_CONTENTS";
 
         /**
          * The book to search, identified by ISBN number.
          */
-        public static final String ISBN = "ISBN";
+        public static final String ISBN="ISBN";
 
         /**
          * An optional field which is the text to search for.
          */
-        public static final String QUERY = "QUERY";
+        public static final String QUERY="QUERY";
 
-        private SearchBookContents() {
+        private SearchBookContents(){
         }
     }
 
-    public static final class WifiConnect {
+    public static final class WifiConnect{
         /**
          * Internal intent used to trigger connection to a wi-fi network.
          */
-        public static final String ACTION = "com.google.zxing.client.android.WIFI_CONNECT";
+        public static final String ACTION="com.google.zxing.client.android.WIFI_CONNECT";
 
         /**
          * The network to connect to, all the configuration provided here.
          */
-        public static final String SSID = "SSID";
+        public static final String SSID="SSID";
 
         /**
          * The network to connect to, all the configuration provided here.
          */
-        public static final String TYPE = "TYPE";
+        public static final String TYPE="TYPE";
 
         /**
          * The network to connect to, all the configuration provided here.
          */
-        public static final String PASSWORD = "PASSWORD";
+        public static final String PASSWORD="PASSWORD";
 
-        private WifiConnect() {
+        private WifiConnect(){
         }
     }
 
 
-    public static final class Share {
+    public static final class Share{
         /**
          * Give the user a choice of items to encode as a barcode, then render it as a QR Code and
          * display onscreen for a friend to scan with their phone.
          */
-        public static final String ACTION = "com.google.zxing.client.android.SHARE";
+        public static final String ACTION="com.google.zxing.client.android.SHARE";
 
-        private Share() {
+        private Share(){
         }
     }
 }

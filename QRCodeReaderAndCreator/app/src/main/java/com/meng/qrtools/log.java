@@ -1,63 +1,64 @@
 package com.meng.qrtools;
 
-import android.app.*;
-import android.widget.*;
-import com.meng.*;
+import android.app.Activity;
+import android.widget.Toast;
 
-public class log {
+import com.meng.MainActivity2;
 
-    public static void e(final Activity a, final Object o) {
-        if (o instanceof Exception){
+public class log{
+
+    public static void e(final Activity a,final Object o){
+        if(o instanceof Exception){
             ((Exception)o).printStackTrace();
         }
-        a.runOnUiThread(new Runnable() {
+        a.runOnUiThread(new Runnable(){
 
             @Override
-            public void run() {
+            public void run(){
                 // TODO: Implement this method
-                Toast.makeText(a, "发生错误:" + o.toString(), Toast.LENGTH_SHORT).show();
-                i(a, "发生错误:" + o.toString());
+                Toast.makeText(a,"发生错误:"+o.toString(),Toast.LENGTH_SHORT).show();
+                i(a,"发生错误:"+o.toString());
             }
         });
     }
 
-    public static void c(final Activity a, final Object o) {
+    public static void c(final Activity a,final Object o){
 
-        a.runOnUiThread(new Runnable() {
+        a.runOnUiThread(new Runnable(){
 
             @Override
-            public void run() {
+            public void run(){
                 // TODO: Implement this method
                 MainActivity2.instence.rightText.setText(
-                        MainActivity2.instence.rightText.getText().toString() +
-                                "点击:" + o.toString() + "\n"
+                        MainActivity2.instence.rightText.getText().toString()+
+                                "点击:"+o.toString()+"\n"
                 );
             }
         });
     }
 
-    public static void i(final Activity a, final Object o) {
-        a.runOnUiThread(new Runnable() {
+    public static void i(final Activity a,final Object o){
+        a.runOnUiThread(new Runnable(){
 
             @Override
-            public void run() {
+            public void run(){
                 // TODO: Implement this method
                 MainActivity2.instence.rightText.setText(
-                        MainActivity2.instence.rightText.getText().toString() +
-                                o.toString() + "\n"
+                        MainActivity2.instence.rightText.getText().toString()+
+                                o.toString()+"\n"
                 );
             }
         });
     }
 
-    public static void t(final Activity a, final Object o) {
-        a.runOnUiThread(new Runnable() {
+    public static void t(final Activity a,final Object o){
+        a.runOnUiThread(new Runnable(){
 
             @Override
-            public void run() {
+            public void run(){
                 // TODO: Implement this method
-                Toast.makeText(a, o.toString(), Toast.LENGTH_SHORT).show();
-                i(a, o.toString());
+                Toast.makeText(a,o.toString(),Toast.LENGTH_SHORT).show();
+                i(a,o.toString());
             }
         });
     }

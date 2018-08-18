@@ -1,7 +1,6 @@
 package com.meng.qrtools.views;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,7 +16,7 @@ import com.meng.qrtools.R;
  * Created by Administrator on 2018/8/13.
  */
 
-public class mengColorBar extends LinearLayout {
+public class mengColorBar extends LinearLayout{
     Context c;
 
     private EditText etTrue;
@@ -25,52 +24,52 @@ public class mengColorBar extends LinearLayout {
     private EditText etFalse;
     private TextView tvFalse;
 
-    public mengColorBar(Context c, AttributeSet a) {
-        super(c, a);
-        this.c = c;
-        LayoutInflater.from(c).inflate(R.layout.meng_colorbar, this);
-        tvTrue = (TextView) findViewById(R.id.test_view_textview_trueDot);
-        tvFalse = (TextView) findViewById(R.id.test_view_textview_falseDot);
-        etTrue = (EditText) findViewById(R.id.test_view_edittext_true);
-        etFalse = (EditText) findViewById(R.id.test_view_edittext_false);
+    public mengColorBar(Context c,AttributeSet a){
+        super(c,a);
+        this.c=c;
+        LayoutInflater.from(c).inflate(R.layout.meng_colorbar,this);
+        tvTrue=(TextView)findViewById(R.id.test_view_textview_trueDot);
+        tvFalse=(TextView)findViewById(R.id.test_view_textview_falseDot);
+        etTrue=(EditText)findViewById(R.id.test_view_edittext_true);
+        etFalse=(EditText)findViewById(R.id.test_view_edittext_false);
         etTrue.addTextChangedListener(tw);
         etFalse.addTextChangedListener(tw);
     }
 
-    public int getTrueColor() {
-        return etTrue.getText().toString().trim().length() == 0 ?
-                Color.parseColor(etTrue.getHint().toString()) :
+    public int getTrueColor(){
+        return etTrue.getText().toString().trim().length()==0?
+                Color.parseColor(etTrue.getHint().toString()):
                 Color.parseColor(etTrue.getText().toString());
     }
 
-    public int getFalseColor() {
-        return etFalse.getText().toString().trim().length() == 0 ?
-                Color.parseColor(etFalse.getHint().toString()) :
+    public int getFalseColor(){
+        return etFalse.getText().toString().trim().length()==0?
+                Color.parseColor(etFalse.getHint().toString()):
                 Color.parseColor(etFalse.getText().toString());
     }
 
-    TextWatcher tw = new TextWatcher() {
+    TextWatcher tw=new TextWatcher(){
 
         @Override
-        public void beforeTextChanged(CharSequence p1, int p2, int p3, int p4) {
+        public void beforeTextChanged(CharSequence p1,int p2,int p3,int p4){
         }
 
         @Override
-        public void onTextChanged(CharSequence p1, int p2, int p3, int p4) {
-            try {
+        public void onTextChanged(CharSequence p1,int p2,int p3,int p4){
+            try{
                 tvTrue.setTextColor(getTrueColor());
-            } catch (Exception e) {
+            }catch(Exception e){
                 tvTrue.setTextColor(Color.BLACK);
             }
-            try {
+            try{
                 tvFalse.setTextColor(getFalseColor());
-            } catch (Exception e) {
+            }catch(Exception e){
                 tvFalse.setTextColor(Color.BLACK);
             }
         }
 
         @Override
-        public void afterTextChanged(Editable p1) {
+        public void afterTextChanged(Editable p1){
 
         }
     };

@@ -25,10 +25,10 @@
             android:text="@string/select_image" />
 
         <Button
-            android:visibility="gone"
             android:id="@+id/read_galleryButtonQR"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="生成AwesomeQR" />
+            android:text="生成AwesomeQR"
+            android:visibility="gone" />
     </LinearLayout>
 </RelativeLayout>

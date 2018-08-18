@@ -1,18 +1,23 @@
 package com.meng.qrtools.lib.materialDesign;
 
-import android.app.*;
-import android.content.res.*;
-import android.graphics.drawable.*;
-import android.os.*;
-import android.support.v4.view.*;
-import android.support.v4.widget.*;
-import android.view.*;
-import android.widget.*;
-import com.meng.qrtools.*;
-import java.lang.reflect.*;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.meng.qrtools.R;
+
+import java.lang.reflect.Method;
 
 
-public class ActionBarDrawerToggle extends android.support.v4.app.ActionBarDrawerToggle {
+public class ActionBarDrawerToggle extends android.support.v4.app.ActionBarDrawerToggle{
 
     protected Activity mActivity;
     protected DrawerLayout mDrawerLayout;
@@ -22,29 +27,29 @@ public class ActionBarDrawerToggle extends android.support.v4.app.ActionBarDrawe
     protected DrawerArrowDrawable mDrawerImage;
     protected boolean animateEnabled;
 
-    public ActionBarDrawerToggle(Activity activity, DrawerLayout drawerLayout, int drawerImageRes, int openDrawerContentDescRes, int closeDrawerContentDescRes) {
-        super(activity, drawerLayout, drawerImageRes, openDrawerContentDescRes, closeDrawerContentDescRes);
+    public ActionBarDrawerToggle(Activity activity,DrawerLayout drawerLayout,int drawerImageRes,int openDrawerContentDescRes,int closeDrawerContentDescRes){
+        super(activity,drawerLayout,drawerImageRes,openDrawerContentDescRes,closeDrawerContentDescRes);
     }
 
-    public ActionBarDrawerToggle(Activity activity, DrawerLayout drawerLayout, DrawerArrowDrawable drawerImage, int openDrawerContentDescRes, int closeDrawerContentDescRes) {
-        super(activity, drawerLayout, R.drawable.ic_drawer, openDrawerContentDescRes, closeDrawerContentDescRes);
-        mActivity = activity;
-        mDrawerLayout = drawerLayout;
-        mOpenDrawerContentDescRes = openDrawerContentDescRes;
-        mCloseDrawerContentDescRes = closeDrawerContentDescRes;
-        mDrawerImage = drawerImage;
-        animateEnabled = true;
+    public ActionBarDrawerToggle(Activity activity,DrawerLayout drawerLayout,DrawerArrowDrawable drawerImage,int openDrawerContentDescRes,int closeDrawerContentDescRes){
+        super(activity,drawerLayout,R.drawable.ic_drawer,openDrawerContentDescRes,closeDrawerContentDescRes);
+        mActivity=activity;
+        mDrawerLayout=drawerLayout;
+        mOpenDrawerContentDescRes=openDrawerContentDescRes;
+        mCloseDrawerContentDescRes=closeDrawerContentDescRes;
+        mDrawerImage=drawerImage;
+        animateEnabled=true;
     }
 
-    public void syncState() {
-        if (mDrawerImage == null) {
+    public void syncState(){
+        if(mDrawerImage==null){
             super.syncState();
             return;
         }
-        if (animateEnabled) {
-            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if(animateEnabled){
+            if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
                 mDrawerImage.setProgress(1.f);
-            } else {
+            }else{
                 mDrawerImage.setProgress(0.f);
             }
         }
@@ -52,8 +57,8 @@ public class ActionBarDrawerToggle extends android.support.v4.app.ActionBarDrawe
         setActionBarDescription();
     }
 
-    public void setDrawerIndicatorEnabled(boolean enable) {
-        if (mDrawerImage == null) {
+    public void setDrawerIndicatorEnabled(boolean enable){
+        if(mDrawerImage==null){
             super.setDrawerIndicatorEnabled(enable);
             return;
         }
@@ -61,113 +66,113 @@ public class ActionBarDrawerToggle extends android.support.v4.app.ActionBarDrawe
         setActionBarDescription();
     }
 
-    public boolean isDrawerIndicatorEnabled() {
-        if (mDrawerImage == null) {
+    public boolean isDrawerIndicatorEnabled(){
+        if(mDrawerImage==null){
             return super.isDrawerIndicatorEnabled();
         }
         return true;
     }
 
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (mDrawerImage == null) {
+    public void onConfigurationChanged(Configuration newConfig){
+        if(mDrawerImage==null){
             super.onConfigurationChanged(newConfig);
             return;
         }
         syncState();
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item){
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onDrawerSlide(View drawerView, float slideOffset) {
-        if (mDrawerImage == null) {
-            super.onDrawerSlide(drawerView, slideOffset);
+    public void onDrawerSlide(View drawerView,float slideOffset){
+        if(mDrawerImage==null){
+            super.onDrawerSlide(drawerView,slideOffset);
             return;
         }
-        if (animateEnabled) {
+        if(animateEnabled){
             mDrawerImage.setVerticalMirror(!mDrawerLayout.isDrawerOpen(GravityCompat.START));
             mDrawerImage.setProgress(slideOffset);
         }
     }
 
     @Override
-    public void onDrawerOpened(View drawerView) {
-        if (mDrawerImage == null) {
+    public void onDrawerOpened(View drawerView){
+        if(mDrawerImage==null){
             super.onDrawerOpened(drawerView);
             return;
         }
-        if (animateEnabled) {
+        if(animateEnabled){
             mDrawerImage.setProgress(1.f);
         }
         setActionBarDescription();
     }
 
     @Override
-    public void onDrawerClosed(View drawerView) {
-        if (mDrawerImage == null) {
+    public void onDrawerClosed(View drawerView){
+        if(mDrawerImage==null){
             super.onDrawerClosed(drawerView);
             return;
         }
-        if (animateEnabled) {
+        if(animateEnabled){
             mDrawerImage.setProgress(0.f);
         }
         setActionBarDescription();
     }
 
-    protected void setActionBarUpIndicator() {
-        if (mActivity != null) {
-            try {
-                Method setHomeAsUpIndicator = ActionBar.class.getDeclaredMethod("setHomeAsUpIndicator",
+    protected void setActionBarUpIndicator(){
+        if(mActivity!=null){
+            try{
+                Method setHomeAsUpIndicator=ActionBar.class.getDeclaredMethod("setHomeAsUpIndicator",
                         Drawable.class);
-                setHomeAsUpIndicator.invoke(mActivity.getActionBar(), mDrawerImage);
+                setHomeAsUpIndicator.invoke(mActivity.getActionBar(),mDrawerImage);
                 return;
-            } catch (Exception e) {
+            }catch(Exception e){
             }
 
-            final View home = mActivity.findViewById(android.R.id.home);
-            if (home == null) {
-                return;
-            }
-
-            final ViewGroup parent = (ViewGroup) home.getParent();
-            final int childCount = parent.getChildCount();
-            if (childCount != 2) {
+            final View home=mActivity.findViewById(android.R.id.home);
+            if(home==null){
                 return;
             }
 
-            final View first = parent.getChildAt(0);
-            final View second = parent.getChildAt(1);
-            final View up = first.getId() == android.R.id.home ? second : first;
+            final ViewGroup parent=(ViewGroup)home.getParent();
+            final int childCount=parent.getChildCount();
+            if(childCount!=2){
+                return;
+            }
 
-            if (up instanceof ImageView) {
-                ImageView upV = (ImageView) up;
+            final View first=parent.getChildAt(0);
+            final View second=parent.getChildAt(1);
+            final View up=first.getId()==android.R.id.home?second:first;
+
+            if(up instanceof ImageView){
+                ImageView upV=(ImageView)up;
                 upV.setImageDrawable(mDrawerImage);
             }
         }
     }
 
-    protected void setActionBarDescription() {
-        if (mActivity != null && mActivity.getActionBar() != null) {
-            try {
-                Method setHomeActionContentDescription = ActionBar.class.getDeclaredMethod(
-                        "setHomeActionContentDescription", Integer.TYPE);
+    protected void setActionBarDescription(){
+        if(mActivity!=null&&mActivity.getActionBar()!=null){
+            try{
+                Method setHomeActionContentDescription=ActionBar.class.getDeclaredMethod(
+                        "setHomeActionContentDescription",Integer.TYPE);
                 setHomeActionContentDescription.invoke(mActivity.getActionBar(),
-                        mDrawerLayout.isDrawerOpen(GravityCompat.START) ? mOpenDrawerContentDescRes : mCloseDrawerContentDescRes);
-                if (Build.VERSION.SDK_INT <= 19) {
+                        mDrawerLayout.isDrawerOpen(GravityCompat.START)?mOpenDrawerContentDescRes:mCloseDrawerContentDescRes);
+                if(Build.VERSION.SDK_INT<=19){
                     mActivity.getActionBar().setSubtitle(mActivity.getActionBar().getSubtitle());
                 }
-            } catch (Exception e) {
+            }catch(Exception e){
             }
         }
     }
 
-    public void setAnimateEnabled(boolean enabled) {
-        this.animateEnabled = enabled;
+    public void setAnimateEnabled(boolean enabled){
+        this.animateEnabled=enabled;
     }
 
-    public boolean isAnimateEnabled() {
+    public boolean isAnimateEnabled(){
         return this.animateEnabled;
     }
 

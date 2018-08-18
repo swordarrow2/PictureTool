@@ -1,4 +1,4 @@
-package com.meng.qrtools;
+package com.meng.qrtools.creator;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -31,9 +31,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.meng.MainActivity2;
-import com.meng.qrtools.creator.ContentHelper;
+import com.meng.qrtools.R;
 import com.meng.qrtools.lib.qrcodelib.AwesomeQRCode;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
+import com.meng.qrtools.log;
 import com.meng.qrtools.views.mengColorBar;
 import com.meng.qrtools.views.mengEdittext;
 import com.meng.qrtools.views.selectRectView;
@@ -45,7 +46,7 @@ import java.io.IOException;
  * Created by Administrator on 2018/7/19.
  */
 
-public class arbAwesomeFragment extends Fragment{
+public class arbAwesome extends Fragment{
 
     private ImageView qrCodeImageView;
     private mengEdittext mengEtDotScale, mengEtContents;
@@ -121,7 +122,7 @@ public class arbAwesomeFragment extends Fragment{
                 case R.id.awesomeqr_main_backgroundImage:
                     qrCodeImageView.setVisibility(View.GONE);
                     btGenerate.setEnabled(true);
-                    MainActivity2.selectImage(arbAwesomeFragment.this);
+                    MainActivity2.selectImage(arbAwesome.this);
                     break;
 
                 case R.id.awesomeqr_main_generate:
@@ -199,7 +200,7 @@ public class arbAwesomeFragment extends Fragment{
         }else if(resultCode==getActivity().RESULT_CANCELED){
             Toast.makeText(getActivity().getApplicationContext(),"取消选择图片",Toast.LENGTH_SHORT).show();
         }else{
-            MainActivity2.selectImage(arbAwesomeFragment.this);
+            MainActivity2.selectImage(arbAwesome.this);
         }
         super.onActivityResult(requestCode,resultCode,data);
     }

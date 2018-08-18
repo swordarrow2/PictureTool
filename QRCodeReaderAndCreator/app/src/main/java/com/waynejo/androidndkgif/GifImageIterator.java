@@ -2,7 +2,7 @@ package com.waynejo.androidndkgif;
 
 import java.util.Iterator;
 
-public abstract class GifImageIterator implements Iterator<GifImage> {
+public abstract class GifImageIterator implements Iterator<GifImage>{
 
     @Override
     public abstract boolean hasNext();
@@ -11,7 +11,7 @@ public abstract class GifImageIterator implements Iterator<GifImage> {
     public abstract GifImage next();
 
     @Override
-    public void remove() {
+    public void remove(){
         throw new UnsupportedOperationException();
     }
 
