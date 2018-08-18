@@ -193,6 +193,7 @@ public class gifAwesomeQr extends Fragment{
                     }
                     iterator.close();
                     log.t(getActivity(),"共"+(flag-1)+"张,解码成功");
+					bmpDecodedBitmaps=new Bitmap[flag];
                     intGifSize=BitmapFactory.decodeFile(strTmpFolder+"0.png").getWidth();
                     createNomediaFile();
                     coding=false;
