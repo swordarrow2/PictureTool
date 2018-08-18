@@ -2,7 +2,10 @@ package com.meng.qrtools.lib.qrcodelib;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.view.ViewGroup;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
@@ -363,5 +366,27 @@ public class QrUtils{
         matrix.preScale(ratio,ratio);
         Bitmap newBM=Bitmap.createBitmap(origin,0,0,width,height,matrix,false);
         return newBM;
+    }
+    public static Bitmap generate( String contents,
+                           float dotScale,
+                           int colorDark,
+                                   int colorLight,
+                           boolean autoColor,
+                          int cutX,
+                          int cutY,
+                          int qrSize,
+                          Bitmap background){
+        //int cutX=between(mv.getSelectLeft()/mv.getXishu(),0,finallyBmp.getWidth()-qrSize);
+        //int cutY=between(mv.getSelectTop()/mv.getXishu(),0,finallyBmp.getHeight()-qrSize);
+        Bitmap tmpQRBackground=Bitmap.createBitmap(background,cutX,cutY,qrSize,qrSize);
+        Bitmap bmpQRcode=AwesomeQRCode.create(contents,qrSize,0,dotScale,colorDark,colorLight,tmpQRBackground,false,autoColor,false,128);
+        Bitmap finallyBmp=background.copy(Bitmap.Config.ARGB_8888,true);
+        Canvas c=new Canvas(finallyBmp);
+        c.drawBitmap(bmpQRcode,cutX,cutY,new Paint());
+       // qrCodeImageView.setImageBitmap(QrUtils.scaleBitmap(finallyBmp,mv.getXishu()));
+       // ViewGroup.LayoutParams para=qrCodeImageView.getLayoutParams();
+       // para.height=(int)(screenW/finallyBmp.getWidth()*finallyBmp.getHeight());
+      //  qrCodeImageView.setLayoutParams(para);
+        return finallyBmp;
     }
 }

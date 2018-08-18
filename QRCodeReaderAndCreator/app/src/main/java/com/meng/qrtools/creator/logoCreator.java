@@ -55,7 +55,7 @@ public class logoCreator extends Fragment{
     public void onViewCreated(View view,Bundle savedInstanceState){
         // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
-        mColorBar=(mengColorBar)view.findViewById(R.id.awesomeqr_main_colorBar);
+        mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         qrcodeImageView=(ImageView)view.findViewById(R.id.qr_imageview);
         mengEtContent=(mengEdittext)view.findViewById(R.id.qr_EditText);
         scrollView=(ScrollView)view.findViewById(R.id.qr_mainScrollView);

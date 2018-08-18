@@ -44,7 +44,7 @@
                 android:text="@string/auto_color" />
 
             <com.meng.qrtools.views.mengColorBar
-                android:id="@+id/awesomeqr_main_colorBar"
+                android:id="@+id/gif_arb_qr_main_colorBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone" />

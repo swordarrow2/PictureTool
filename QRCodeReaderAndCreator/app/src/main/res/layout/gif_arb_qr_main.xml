@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:ran="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top|center_horizontal"
+                android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/gif_arb_qr_mainProgressBar"
+            style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/gif_arb_qr_checkbox_low_memery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="低配置模式"/>
+
+            <Button
+                android:id="@+id/gif_arb_qr_button_selectImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择gif"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/gif_arb_qr_selected_path"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/gif_arb_qr_checkbox_dither"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="使用dither"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/gif_arb_qr_button_encode_gif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="生成gif"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <com.meng.qrtools.views.mengEdittext
+            android:id="@+id/gif_arb_qr_mainmengTextview_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ran:edittextHint="@string/contents"
+            ran:textviewText="@string/input_text"/>
+
+        <com.meng.qrtools.views.mengEdittext
+            android:id="@+id/gif_arb_qr_mengEdittext_dotScale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ran:edittextHint="0.4"
+            ran:textviewText="@string/data_dot_scale"/>
+
+        <CheckBox
+            android:id="@+id/gif_arb_qr_checkbox_autocolor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/auto_color"/>
+
+        <com.meng.qrtools.views.mengColorBar
+            android:id="@+id/gif_arb_qr_main_colorBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <com.meng.qrtools.views.selectRectView
+            android:id="@+id/gif_arb_awesome_qrselectRectView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+</RelativeLayout>
+

@@ -9,9 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -32,7 +30,6 @@ import android.widget.Toast;
 
 import com.meng.MainActivity2;
 import com.meng.qrtools.R;
-import com.meng.qrtools.lib.qrcodelib.AwesomeQRCode;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.qrtools.log;
 import com.meng.qrtools.views.mengColorBar;
@@ -56,10 +53,11 @@ public class arbAwesome extends Fragment{
     private TextView imgPathTextView;
     private mengColorBar mColorBar;
 
-    private Bitmap tmpQRBackground=null;
     private Bitmap finallyBmp=null;
     private String selectedBmpPath="";
     private int qrSize;
+    private int selectedBmpWidth=0;
+    private int selectedBmpHeight=0;
     private float screenW;
     private float screenH;
     private selectRectView mv;
@@ -80,7 +78,7 @@ public class arbAwesome extends Fragment{
         // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
         mv=(selectRectView)view.findViewById(R.id.arb_awesome_qrselectRectView);
-        mColorBar=(mengColorBar)view.findViewById(R.id.awesomeqr_main_colorBar);
+        mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         qrCodeImageView=(ImageView)view.findViewById(R.id.awesomeqr_main_qrcode);
         mengEtContents=(mengEdittext)view.findViewById(R.id.awesomeqr_main_content);
         mengEtDotScale=(mengEdittext)view.findViewById(R.id.awesomeqr_main_dotScale);
@@ -126,12 +124,7 @@ public class arbAwesome extends Fragment{
                     break;
 
                 case R.id.awesomeqr_main_generate:
-                    generate(mengEtContents.getString(),
-                            Float.parseFloat(mengEtDotScale.getString()),
-                            mColorBar.getTrueColor(),
-                            ckbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
-                            ckbAutoColor.isChecked()
-                    );
+                    generate();
                     btnSave.setVisibility(View.VISIBLE);
                     qrCodeImageView.setVisibility(View.VISIBLE);
                     mv.setVisibility(View.GONE);
@@ -178,8 +171,10 @@ public class arbAwesome extends Fragment{
             selectedBmpPath=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),uri);
             imgPathTextView.setText("当前文件："+selectedBmpPath);
             final Bitmap selectedBmp=BitmapFactory.decodeFile(selectedBmpPath);
+            selectedBmpWidth=selectedBmp.getWidth();
+            selectedBmpHeight=selectedBmp.getHeight();
             final EditText et=new EditText(getActivity());
-            et.setHint("0<大小<"+(Math.min(selectedBmp.getWidth(),selectedBmp.getHeight())+1));
+            et.setHint("0<大小<"+(Math.min(selectedBmpWidth,selectedBmpHeight)+1));
             new AlertDialog.Builder(getActivity())
                     .setTitle("输入要添加的二维码大小(像素)")
                     .setView(et)
@@ -190,8 +185,7 @@ public class arbAwesome extends Fragment{
                             //ll.addView(new selectRectView(getActivity(),selectedBmp,screenW,screenH));
                             mv.setup(selectedBmp,screenW,screenH,qrSize);
                             ViewGroup.LayoutParams para=mv.getLayoutParams();
-                            Bitmap bmp=BitmapFactory.decodeFile(selectedBmpPath).copy(Bitmap.Config.ARGB_8888,true);
-                            para.height=(int)(screenW/bmp.getWidth()*bmp.getHeight());
+                            para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);
                             mv.setLayoutParams(para);
                             mv.setVisibility(View.VISIBLE);
                             ((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(et.getWindowToken(),0);
@@ -205,31 +199,18 @@ public class arbAwesome extends Fragment{
         super.onActivityResult(requestCode,resultCode,data);
     }
 
-    private void generate(final String contents,final float dotScale,final int colorDark,
-                          final int colorLight,final boolean autoColor){
-        //  try {
-        finallyBmp=BitmapFactory.decodeFile(selectedBmpPath).copy(Bitmap.Config.ARGB_8888,true);
-        int cutX=between(mv.getSelectLeft()/mv.getXishu(),0,finallyBmp.getWidth()-qrSize);
-        int cutY=between(mv.getSelectTop()/mv.getXishu(),0,finallyBmp.getHeight()-qrSize);
-        tmpQRBackground=Bitmap.createBitmap(finallyBmp,cutX,cutY,qrSize,qrSize);
-        Bitmap bmpQRcode=AwesomeQRCode.create(contents,qrSize,0,dotScale,colorDark,colorLight,tmpQRBackground,false,autoColor,false,128);
-        Canvas c=new Canvas(finallyBmp);
-        c.drawBitmap(bmpQRcode,cutX,cutY,new Paint());
+    private void generate(){
+        finallyBmp=QrUtils.generate(
+                mengEtContents.getString(),
+                Float.parseFloat(mengEtDotScale.getString()),
+                ckbAutoColor.isChecked()?Color.BLACK:mColorBar.getTrueColor(),
+                ckbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
+                ckbAutoColor.isChecked(),
+                between(mv.getSelectLeft()/mv.getXishu(),0,selectedBmpWidth-qrSize),
+                between(mv.getSelectTop()/mv.getXishu(),0,selectedBmpHeight-qrSize),
+                qrSize,
+                BitmapFactory.decodeFile(selectedBmpPath).copy(Bitmap.Config.ARGB_8888,true));
         qrCodeImageView.setImageBitmap(QrUtils.scaleBitmap(finallyBmp,mv.getXishu()));
-        ViewGroup.LayoutParams para=qrCodeImageView.getLayoutParams();
-        para.height=(int)(screenW/finallyBmp.getWidth()*finallyBmp.getHeight());
-        qrCodeImageView.setLayoutParams(para);
-
-//		scrollView.post(new Runnable() {
-//                @Override
-//                public void run(){
-//                    scrollView.fullScroll(View.FOCUS_DOWN);
-//                }
-//            });
-        // } catch (Exception e) {
-        //    log.e(getActivity(), e);
-        //    generating = false;
-        // }
     }
 
 

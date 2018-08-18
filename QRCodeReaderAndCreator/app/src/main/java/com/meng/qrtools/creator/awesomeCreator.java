@@ -68,7 +68,7 @@ public class awesomeCreator extends Fragment{
     public void onViewCreated(View view,Bundle savedInstanceState){
         // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
-        mColorBar=(mengColorBar)view.findViewById(R.id.awesomeqr_main_colorBar);
+        mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         scrollView=(ScrollView)view.findViewById(R.id.awesomeqr_main_scrollView);
         qrCodeImageView=(ImageView)view.findViewById(R.id.awesomeqr_main_qrcode);
         mengEtContents=(mengEdittext)view.findViewById(R.id.awesomeqr_main_content);

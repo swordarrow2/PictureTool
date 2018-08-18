@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">QRtools</string>
+    <string name="long_press_to_copy_result">长按复制结果</string>
+    <string name="input_text">输入文字</string>
+    <string name="contents">内容</string>
+    <string name="click_to_create">点击生成</string>
+    <string name="click_to_save">点击保存</string>
+    <string name="scan_failed">扫描失败</string>
+    <string name="open">打开</string>
+    <string name="close">关闭</string>
+    <string name="auto_color">自动选择颜色</string>
+    <string name="qr_size">大小(像素)</string>
+    <string name="margin_px">内边距(像素)</string>
+    <string name="data_dot_scale"><![CDATA[数据点缩放(0<数值<1.0f)]]></string>
+    <string name="colordark_true_dots_dddddd">暗点颜色(真值点, #rrggbb)</string>
+    <string name="colorlight_false_dots_dddddd">亮点颜色(假值点, #rrggbb)</string>
+    <string name="select_image">选择图片</string>
+    <string name="remove_image">移除图片</string>
+    <string name="white_margin_on_background_image">给图片添加白色边框</string>
+    <string name="binarize_background_image">背景图转换为黑白图片</string>
+    <string name="binNumber"><![CDATA[转换阀值(0<值<255)]]></string>
+    <string name="Background_image_removed">背景图移除成功</string>
+    <string name="Background_image_added">背景图添加成功</string>
+    <string name="qr_without_logo">未选择图片，将会生成普通二维码</string>
+</resources>

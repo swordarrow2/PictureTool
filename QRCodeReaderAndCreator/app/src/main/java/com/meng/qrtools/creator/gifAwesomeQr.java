@@ -71,18 +71,18 @@ public class gifAwesomeQr extends Fragment{
     public void onViewCreated(View view,Bundle savedInstanceState){
         // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
-        mColorBar=(mengColorBar)view.findViewById(R.id.awesomeqr_main_colorBar);
-        btnEncodeGif=(Button)view.findViewById(R.id.gif_qr_button_encode_gif);
-        btnSelectImage=(Button)view.findViewById(R.id.gif_qr_button_selectImg);
-        cbAutoColor=(CheckBox)view.findViewById(R.id.gif_qr_checkbox_autocolor);
-        cbLowMemoryMode=(CheckBox)view.findViewById(R.id.gif_qr_checkbox_low_memery);
-        cbUseDither=(CheckBox)view.findViewById(R.id.gif_qr_checkbox_dither);
-        mengEtDotScale=(mengEdittext)view.findViewById(R.id.gif_qr_mengEdittext_dotScale);
-        mengEtTextToEncode=(mengEdittext)view.findViewById(R.id.gif_qr_mainmengTextview_content);
+        mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
+        btnEncodeGif=(Button)view.findViewById(R.id.gif_arb_qr_button_encode_gif);
+        btnSelectImage=(Button)view.findViewById(R.id.gif_arb_qr_button_selectImg);
+        cbAutoColor=(CheckBox)view.findViewById(R.id.gif_arb_qr_checkbox_autocolor);
+        cbLowMemoryMode=(CheckBox)view.findViewById(R.id.gif_arb_qr_checkbox_low_memery);
+        cbUseDither=(CheckBox)view.findViewById(R.id.gif_arb_qr_checkbox_dither);
+        mengEtDotScale=(mengEdittext)view.findViewById(R.id.gif_arb_qr_mengEdittext_dotScale);
+        mengEtTextToEncode=(mengEdittext)view.findViewById(R.id.gif_arb_qr_mainmengTextview_content);
         mengEtSize=(mengEdittext)view.findViewById(R.id.gif_qr_mainEditText_size);
         cbAutoSize=(CheckBox)view.findViewById(R.id.gif_qr_mainCheckbox_size);
-        pbCodingProgress=(ProgressBar)view.findViewById(R.id.gif_qr_mainProgressBar);
-        tvImagePath=(TextView)view.findViewById(R.id.gif_qr_selected_path);
+        pbCodingProgress=(ProgressBar)view.findViewById(R.id.gif_arb_qr_mainProgressBar);
+        tvImagePath=(TextView)view.findViewById(R.id.gif_arb_qr_selected_path);
         cbAutoSize.setOnCheckedChangeListener(check);
         cbAutoColor.setOnCheckedChangeListener(check);
         btnSelectImage.setOnClickListener(listenerBtnClick);
@@ -96,7 +96,7 @@ public class gifAwesomeQr extends Fragment{
                 case R.id.gif_qr_mainCheckbox_size:
                     mengEtSize.setVisibility(isChecked?View.GONE:View.VISIBLE);
                     break;
-                case R.id.gif_qr_checkbox_autocolor:
+                case R.id.gif_arb_qr_checkbox_autocolor:
                     mColorBar.setVisibility(isChecked?View.GONE:View.VISIBLE);
                     break;
             }
@@ -106,11 +106,11 @@ public class gifAwesomeQr extends Fragment{
         @Override
         public void onClick(View v){
             switch(v.getId()){
-                case R.id.gif_qr_button_selectImg:
+                case R.id.gif_arb_qr_button_selectImg:
                     cbLowMemoryMode.setEnabled(false);
                     MainActivity2.selectImage(gifAwesomeQr.this);
                     break;
-                case R.id.gif_qr_button_encode_gif:
+                case R.id.gif_arb_qr_button_encode_gif:
                     if(coding){
                         log.t(getActivity(),"正在执行操作");
                     }else{
