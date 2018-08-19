@@ -54,9 +54,9 @@ public class cameraReader extends Fragment implements Callback{
     private Vector<BarcodeFormat> decodeFormats;
     private String characterSet;
     private InactivityTimer inactivityTimer;
-    private MediaPlayer mediaPlayer;
-    private boolean playBeep;
-    private static final float BEEP_VOLUME=0.10f;
+    //private MediaPlayer mediaPlayer;
+    //private boolean playBeep;
+    //private static final float BEEP_VOLUME=0.10f;
     private boolean vibrate;
     private boolean flashLightOpen=false;
 
@@ -117,12 +117,12 @@ public class cameraReader extends Fragment implements Callback{
         decodeFormats=null;
         characterSet=null;
 
-        playBeep=true;
-        final AudioManager audioService=(AudioManager)getActivity().getSystemService(getActivity().AUDIO_SERVICE);
-        if(audioService.getRingerMode()!=AudioManager.RINGER_MODE_NORMAL){
-            playBeep=false;
-        }
-        initBeepSound();
+    //    playBeep=true;
+    //    final AudioManager audioService=(AudioManager)getActivity().getSystemService(getActivity().AUDIO_SERVICE);
+   //     if(audioService.getRingerMode()!=AudioManager.RINGER_MODE_NORMAL){
+    //        playBeep=false;
+     //   }
+      //  initBeepSound();
         vibrate=true;
     }
 
@@ -320,7 +320,7 @@ public class cameraReader extends Fragment implements Callback{
         }
     }
 
-    private void initBeepSound(){
+  /*  private void initBeepSound(){
         if(playBeep&&mediaPlayer==null){
             // The volume on STREAM_SYSTEM is not adjustable, and users found it
             // too loud,
@@ -343,16 +343,15 @@ public class cameraReader extends Fragment implements Callback{
             }
         }
     }
-
-    private static final long VIBRATE_DURATION=200L;
+*/
 
     private void playBeepSoundAndVibrate(){
-        if(playBeep&&mediaPlayer!=null){
-            mediaPlayer.start();
-        }
+      //  if(playBeep&&mediaPlayer!=null){
+      //      mediaPlayer.start();
+     //   }
         if(vibrate){
             Vibrator vibrator=(Vibrator)getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
-            vibrator.vibrate(VIBRATE_DURATION);
+            vibrator.vibrate(200L);
         }
     }
 

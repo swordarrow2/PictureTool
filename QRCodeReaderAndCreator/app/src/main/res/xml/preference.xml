@@ -22,10 +22,13 @@
             android:title="从相册读取" />
         <CheckBoxPreference
             android:key="ldgif"
-            android:title="动态Awesome二维码" />
+            android:title="动态AwesomeQR" />
         <CheckBoxPreference
             android:key="ldaw2"
-            android:title="任意位置的Awesome二维码" />
+            android:title="自选位置的AwesomeQR" />
+        <CheckBoxPreference
+            android:key="ldaw3"
+            android:title="自选位置的动态AwesomeQR" />
         <CheckBoxPreference
             android:key="about"
             android:title="关于" />

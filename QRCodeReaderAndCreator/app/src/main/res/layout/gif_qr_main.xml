@@ -63,14 +63,14 @@
                 android:visibility="gone" />
         </LinearLayout>
 
-        <com.meng.qrtools.views.mengEdittext
+        <com.meng.qrtools.mengViews.mengEdittext
             android:id="@+id/gif_arb_qr_mainmengTextview_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             ran:edittextHint="@string/contents"
             ran:textviewText="@string/input_text" />
 
-        <com.meng.qrtools.views.mengEdittext
+        <com.meng.qrtools.mengViews.mengEdittext
             android:id="@+id/gif_arb_qr_mengEdittext_dotScale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
             android:checked="true"
             android:text="使用原始GIF宽度作为动态二维码的尺寸" />
 
-        <com.meng.qrtools.views.mengEdittext
+        <com.meng.qrtools.mengViews.mengEdittext
             android:id="@+id/gif_qr_mainEditText_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
             android:checked="true"
             android:text="@string/auto_color" />
 
-        <com.meng.qrtools.views.mengColorBar
+        <com.meng.qrtools.mengViews.mengColorBar
             android:id="@+id/gif_arb_qr_main_colorBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

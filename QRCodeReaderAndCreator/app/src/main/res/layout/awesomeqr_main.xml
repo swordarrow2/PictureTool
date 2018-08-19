@@ -22,28 +22,28 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <com.meng.qrtools.views.mengEdittext
+            <com.meng.qrtools.mengViews.mengEdittext
                 android:id="@+id/awesomeqr_main_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="@string/input_text"
                 ran:textviewText="@string/contents" />
 
-            <com.meng.qrtools.views.mengEdittext
+            <com.meng.qrtools.mengViews.mengEdittext
                 android:id="@+id/awesomeqr_main_mengEdittext_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="800"
                 ran:textviewText="@string/qr_size" />
 
-            <com.meng.qrtools.views.mengEdittext
+            <com.meng.qrtools.mengViews.mengEdittext
                 android:id="@+id/awesomeqr_main_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="20"
                 ran:textviewText="@string/margin_px" />
 
-            <com.meng.qrtools.views.mengEdittext
+            <com.meng.qrtools.mengViews.mengEdittext
                 android:id="@+id/awesomeqr_main_dotScale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                 android:checked="true"
                 android:text="@string/auto_color" />
 
-            <com.meng.qrtools.views.mengColorBar
+            <com.meng.qrtools.mengViews.mengColorBar
                 android:id="@+id/gif_arb_qr_main_colorBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/binarize_background_image" />
 
-            <com.meng.qrtools.views.mengEdittext
+            <com.meng.qrtools.mengViews.mengEdittext
                 android:id="@+id/awesomeqr_main_mengEdittext_binarizeThreshold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

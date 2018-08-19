@@ -1,4 +1,4 @@
-package com.meng.qrtools.views;
+package com.meng.qrtools.mengViews;
 
 import android.content.Context;
 import android.graphics.Color;

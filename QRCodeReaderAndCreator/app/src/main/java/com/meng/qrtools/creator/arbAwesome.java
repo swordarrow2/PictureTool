@@ -3,7 +3,6 @@ package com.meng.qrtools.creator;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,11 +18,9 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,9 +29,10 @@ import com.meng.MainActivity2;
 import com.meng.qrtools.R;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.qrtools.log;
-import com.meng.qrtools.views.mengColorBar;
-import com.meng.qrtools.views.mengEdittext;
-import com.meng.qrtools.views.selectRectView;
+import com.meng.qrtools.mengViews.mengColorBar;
+import com.meng.qrtools.mengViews.mengEdittext;
+import com.meng.qrtools.mengViews.mengSeekBar;
+import com.meng.qrtools.mengViews.selectRectView;
 
 import java.io.File;
 import java.io.IOException;
@@ -173,22 +171,23 @@ public class arbAwesome extends Fragment{
             final Bitmap selectedBmp=BitmapFactory.decodeFile(selectedBmpPath);
             selectedBmpWidth=selectedBmp.getWidth();
             selectedBmpHeight=selectedBmp.getHeight();
-            final EditText et=new EditText(getActivity());
-            et.setHint("0<大小<"+(Math.min(selectedBmpWidth,selectedBmpHeight)+1));
+            final mengSeekBar msb=new mengSeekBar(getActivity());
+            int maxProg=Math.min(selectedBmpWidth,selectedBmpHeight);
+            msb.setMax(maxProg);
+            msb.setProgress(maxProg/3);
             new AlertDialog.Builder(getActivity())
                     .setTitle("输入要添加的二维码大小(像素)")
-                    .setView(et)
+                    .setView(msb)
                     .setPositiveButton("确定",new DialogInterface.OnClickListener(){
                         @Override
                         public void onClick(DialogInterface p1,int p2){
-                            qrSize=Integer.parseInt(et.getText().toString());
+                            qrSize=msb.getProgress();
                             //ll.addView(new selectRectView(getActivity(),selectedBmp,screenW,screenH));
                             mv.setup(selectedBmp,screenW,screenH,qrSize);
                             ViewGroup.LayoutParams para=mv.getLayoutParams();
                             para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);
                             mv.setLayoutParams(para);
                             mv.setVisibility(View.VISIBLE);
-                            ((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(et.getWindowToken(),0);
                         }
                     }).show();
         }else if(resultCode==getActivity().RESULT_CANCELED){

@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public class galleryReader extends Fragment{
     Button btn, btnqr;
     TextView tv;
     public static final int PHOTO_REQUEST_GALLERY=1000;
+    private boolean vibrate;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -64,11 +66,13 @@ public class galleryReader extends Fragment{
             }
         });
 
+        vibrate=true;
     }
 
 
     public void handleDecode(Result result,Bitmap barcode){
         String resultString=result.getText();
+        playBeepSoundAndVibrate();
         handleResult(resultString);
     }
 
@@ -160,6 +164,14 @@ public class galleryReader extends Fragment{
                     REQUEST_PERMISSION_PHOTO);
         }else{
             selectImage();
+        }
+    }private void playBeepSoundAndVibrate(){
+        //  if(playBeep&&mediaPlayer!=null){
+        //      mediaPlayer.start();
+        //   }
+        if(vibrate){
+            Vibrator vibrator=(Vibrator)getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
+            vibrator.vibrate(200L);
         }
     }
 }

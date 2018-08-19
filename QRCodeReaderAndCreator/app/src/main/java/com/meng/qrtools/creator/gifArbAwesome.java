@@ -1,6 +1,8 @@
 package com.meng.qrtools.creator;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,9 +26,10 @@ import com.meng.MainActivity2;
 import com.meng.qrtools.R;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.qrtools.log;
-import com.meng.qrtools.views.mengColorBar;
-import com.meng.qrtools.views.mengEdittext;
-import com.meng.qrtools.views.selectRectView;
+import com.meng.qrtools.mengViews.mengColorBar;
+import com.meng.qrtools.mengViews.mengEdittext;
+import com.meng.qrtools.mengViews.mengSeekBar;
+import com.meng.qrtools.mengViews.selectRectView;
 import com.waynejo.androidndkgif.GifDecoder;
 import com.waynejo.androidndkgif.GifEncoder;
 import com.waynejo.androidndkgif.GifImage;
@@ -35,10 +38,6 @@ import com.waynejo.androidndkgif.GifImageIterator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import android.widget.*;
-import android.app.*;
-import android.content.*;
-import android.view.inputmethod.*;
 
 /**
  * Created by Administrator on 2018/8/18.
@@ -49,7 +48,7 @@ public class gifArbAwesome extends Fragment{
 
     private boolean coding=false;
     private String strTmpFolder=Environment.getExternalStorageDirectory().getAbsolutePath()+
-	"/Pictures/QRcode/tmp/";
+            "/Pictures/QRcode/tmp/";
     private int intGifFrameDelay;
     private int qrSize;
     private Bitmap[] bmpDecodedBitmaps;
@@ -68,9 +67,9 @@ public class gifArbAwesome extends Fragment{
     private selectRectView mv;
     private float screenW;
     private float screenH;
-	private int gifWidth;
-	private int gifHeight;
-	private int bmpCount;
+    private int gifWidth;
+    private int gifHeight;
+    private int bmpCount;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -134,139 +133,139 @@ public class gifArbAwesome extends Fragment{
 
     private void encodeGIF(){
         new Thread(new Runnable(){
-				@Override
-				public void run(){
-					try{
-						coding=true;
-						final String filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+
+            @Override
+            public void run(){
+                try{
+                    coding=true;
+                    final String filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+
                             "/Pictures/QRcode/GifAwesomeQR"+SystemClock.elapsedRealtime()+".gif";
-						GifEncoder gifEncoder=new GifEncoder();
-						gifEncoder.setDither(cbUseDither.isChecked());
-						if(cbLowMemoryMode.isChecked()){
-							gifEncoder.init(gifWidth,gifHeight,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
-							for(int t=0;t<bmpCount;t++){
-								gifEncoder.encodeFrame(
+                    GifEncoder gifEncoder=new GifEncoder();
+                    gifEncoder.setDither(cbUseDither.isChecked());
+                    if(cbLowMemoryMode.isChecked()){
+                        gifEncoder.init(gifWidth,gifHeight,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
+                        for(int t=0;t<bmpCount;t++){
+                            gifEncoder.encodeFrame(
                                     encodeAwesome(BitmapFactory.decodeFile(strTmpFolder+t+".png")),
                                     intGifFrameDelay);
-								setProgress((int)((t+1)*100.0f/bmpDecodedBitmaps.length),true);
-							}
-						}else{
-							gifEncoder.init(gifWidth,gifHeight,filePath,GifEncoder.EncodingType.ENCODING_TYPE_FAST);
-							for(int t=0;t<bmpCount;t++){
-								gifEncoder.encodeFrame(
+                            setProgress((int)((t+1)*100.0f/bmpDecodedBitmaps.length),true);
+                        }
+                    }else{
+                        gifEncoder.init(gifWidth,gifHeight,filePath,GifEncoder.EncodingType.ENCODING_TYPE_FAST);
+                        for(int t=0;t<bmpCount;t++){
+                            gifEncoder.encodeFrame(
                                     encodeAwesome(bmpDecodedBitmaps[t]),
                                     intGifFrameDelay);
-								setProgress((int)((t+1)*100.0f/bmpDecodedBitmaps.length),true);
-							}
-						}
-						gifEncoder.close();
-						getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
-						log.i(getActivity(),"done : "+filePath);
-					}catch(FileNotFoundException e){
-						log.e(getActivity(),e);
-					}
-					coding=false;
-					System.gc();
-					getActivity().runOnUiThread(new Runnable(){
-							@Override
-							public void run(){
-								cbLowMemoryMode.setEnabled(true);
-								btnSelectImage.setEnabled(true);
-							}
-						});
-				}
-			}).start();
+                            setProgress((int)((t+1)*100.0f/bmpDecodedBitmaps.length),true);
+                        }
+                    }
+                    gifEncoder.close();
+                    getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
+                    log.i(getActivity(),"done : "+filePath);
+                }catch(FileNotFoundException e){
+                    log.e(getActivity(),e);
+                }
+                coding=false;
+                System.gc();
+                getActivity().runOnUiThread(new Runnable(){
+                    @Override
+                    public void run(){
+                        cbLowMemoryMode.setEnabled(true);
+                        btnSelectImage.setEnabled(true);
+                    }
+                });
+            }
+        }).start();
     }
 
     private void decodeGif(final String path){
         if(cbLowMemoryMode.isChecked()){
             new Thread(new Runnable(){
-					@Override
-					public void run(){
-						GifDecoder gifDecoder=new GifDecoder();
-						GifImageIterator iterator=gifDecoder.loadUsingIterator(path);
-						int flag=0;
-						while(iterator.hasNext()){
-							GifImage next=iterator.next();
-							if(next!=null){
-								gifHeight=next.bitmap.getHeight();
-								gifWidth=next.bitmap.getWidth();
-								try{
-									QrUtils.saveMyBitmap(strTmpFolder+flag+++".png",next.bitmap);
-								}catch(IOException e){
-									log.e(getActivity(),e);
-								}
-								intGifFrameDelay=next.delayMs;
-							}else{
-								log.e(getActivity(),"解码失败，可能文件损坏");
-							}
-						}
-						iterator.close();
-						log.t(getActivity(),"共"+(flag-1)+"张,解码成功");
-						bmpCount=flag;
-			//			final Bitmap tmpbmp=BitmapFactory.decodeFile(strTmpFolder+"0.png");
-						createNomediaFile();
-						coding=false;
-						getActivity().runOnUiThread(new Runnable(){
-								@Override
-								public void run(){
-									btnEncodeGif.setVisibility(View.VISIBLE);
-									cbUseDither.setVisibility(View.VISIBLE);
-									tvImagePath.setVisibility(View.VISIBLE);
-									mv.setup(
-										BitmapFactory.decodeFile(strTmpFolder+"0.png"),
-										screenW,
-										screenH,
-										qrSize);
-									ViewGroup.LayoutParams para=mv.getLayoutParams();
-									para.height=(int)(screenW/gifWidth*gifHeight);
-								//	para.height=(int)(screenW/tmpbmp.getWidth()*tmpbmp.getHeight());
-									mv.setLayoutParams(para);
-									mv.setVisibility(View.VISIBLE);
-								}
-							});
-					}
-				}).start();
+                @Override
+                public void run(){
+                    GifDecoder gifDecoder=new GifDecoder();
+                    GifImageIterator iterator=gifDecoder.loadUsingIterator(path);
+                    int flag=0;
+                    while(iterator.hasNext()){
+                        GifImage next=iterator.next();
+                        if(next!=null){
+                            gifHeight=next.bitmap.getHeight();
+                            gifWidth=next.bitmap.getWidth();
+                            try{
+                                QrUtils.saveMyBitmap(strTmpFolder+flag+++".png",next.bitmap);
+                            }catch(IOException e){
+                                log.e(getActivity(),e);
+                            }
+                            intGifFrameDelay=next.delayMs;
+                        }else{
+                            log.e(getActivity(),"解码失败，可能文件损坏");
+                        }
+                    }
+                    iterator.close();
+                    log.t(getActivity(),"共"+(flag-1)+"张,解码成功");
+                    bmpCount=flag;
+                    //			final Bitmap tmpbmp=BitmapFactory.decodeFile(strTmpFolder+"0.png");
+                    createNomediaFile();
+                    coding=false;
+                    getActivity().runOnUiThread(new Runnable(){
+                        @Override
+                        public void run(){
+                            btnEncodeGif.setVisibility(View.VISIBLE);
+                            cbUseDither.setVisibility(View.VISIBLE);
+                            tvImagePath.setVisibility(View.VISIBLE);
+                            mv.setup(
+                                    BitmapFactory.decodeFile(strTmpFolder+"0.png"),
+                                    screenW,
+                                    screenH,
+                                    qrSize);
+                            ViewGroup.LayoutParams para=mv.getLayoutParams();
+                            para.height=(int)(screenW/gifWidth*gifHeight);
+                            //	para.height=(int)(screenW/tmpbmp.getWidth()*tmpbmp.getHeight());
+                            mv.setLayoutParams(para);
+                            mv.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+            }).start();
         }else{
             new Thread(new Runnable(){
-					@Override
-					public void run(){
-						final GifDecoder gifDecoder=new GifDecoder();
-						if(gifDecoder.load(path)){
-							bmpDecodedBitmaps=new Bitmap[gifDecoder.frameNum()];
-							intGifFrameDelay=gifDecoder.delay(1);
-							for(int i=0;i<gifDecoder.frameNum();i++){
-								bmpDecodedBitmaps[i]=gifDecoder.frame(i);
-								setProgress((int)((i+1)*100.0f/gifDecoder.frameNum()),false);
-							}
-							log.i(getActivity(),"共"+(bmpCount=gifDecoder.frameNum())+"张,解码成功");
-						}else{
-							log.e(getActivity(),"解码失败，可能不是GIF文件");
-						}
-						coding=false;
-						getActivity().runOnUiThread(new Runnable(){
-								@Override
-								public void run(){
-									btnEncodeGif.setVisibility(View.VISIBLE);
-									cbUseDither.setVisibility(View.VISIBLE);
-									tvImagePath.setVisibility(View.VISIBLE);
-									gifHeight=bmpDecodedBitmaps[0].getHeight();
-									gifWidth=bmpDecodedBitmaps[0].getWidth();
-									log.i(getActivity(),"setup");
-									mv.setup(
-										bmpDecodedBitmaps[0],
-										screenW,
-										screenH,
-										qrSize);
-									log.i(getActivity(),"setPara");
-									ViewGroup.LayoutParams para=mv.getLayoutParams();
-									para.height=(int)(screenW/gifWidth*gifHeight);
-									mv.setLayoutParams(para);
-									mv.setVisibility(View.VISIBLE);
-								}
-							});
-					}
-				}).start();
+                @Override
+                public void run(){
+                    final GifDecoder gifDecoder=new GifDecoder();
+                    if(gifDecoder.load(path)){
+                        bmpDecodedBitmaps=new Bitmap[gifDecoder.frameNum()];
+                        intGifFrameDelay=gifDecoder.delay(1);
+                        for(int i=0;i<gifDecoder.frameNum();i++){
+                            bmpDecodedBitmaps[i]=gifDecoder.frame(i);
+                            setProgress((int)((i+1)*100.0f/gifDecoder.frameNum()),false);
+                        }
+                        log.i(getActivity(),"共"+(bmpCount=gifDecoder.frameNum())+"张,解码成功");
+                    }else{
+                        log.e(getActivity(),"解码失败，可能不是GIF文件");
+                    }
+                    coding=false;
+                    getActivity().runOnUiThread(new Runnable(){
+                        @Override
+                        public void run(){
+                            btnEncodeGif.setVisibility(View.VISIBLE);
+                            cbUseDither.setVisibility(View.VISIBLE);
+                            tvImagePath.setVisibility(View.VISIBLE);
+                            gifHeight=bmpDecodedBitmaps[0].getHeight();
+                            gifWidth=bmpDecodedBitmaps[0].getWidth();
+                            log.i(getActivity(),"setup");
+                            mv.setup(
+                                    bmpDecodedBitmaps[0],
+                                    screenW,
+                                    screenH,
+                                    qrSize);
+                            log.i(getActivity(),"setPara");
+                            ViewGroup.LayoutParams para=mv.getLayoutParams();
+                            para.height=(int)(screenW/gifWidth*gifHeight);
+                            mv.setLayoutParams(para);
+                            mv.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+            }).start();
         }
     }
 
@@ -282,7 +281,7 @@ public class gifArbAwesome extends Fragment{
     }
 
     private Bitmap encodeAwesome(Bitmap bg){
-		/* return AwesomeQRCode.create(
+        /* return AwesomeQRCode.create(
 		 mengEtTextToEncode.getString(),
 		 cbAutoSize.isChecked()?size:Integer.parseInt(mengEtSize.getString()),
 		 (int)(size*0.025f),
@@ -294,17 +293,18 @@ public class gifArbAwesome extends Fragment{
 		 cbAutoColor.isChecked(),
 		 false,
 		 128);*/
-		return QrUtils.generate(
-			mengEtTextToEncode.getString(),
-			Float.parseFloat(mengEtDotScale.getString()),
-			cbAutoColor.isChecked()?Color.BLACK:mColorBar.getTrueColor(),
-			cbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
-			cbAutoColor.isChecked(),
-			between(mv.getSelectLeft()/mv.getXishu(),0,bg.getWidth()-qrSize),
-			between(mv.getSelectTop()/mv.getXishu(),0,bg.getHeight()-qrSize),
-			qrSize,
-			bg);
+        return QrUtils.generate(
+                mengEtTextToEncode.getString(),
+                Float.parseFloat(mengEtDotScale.getString()),
+                cbAutoColor.isChecked()?Color.BLACK:mColorBar.getTrueColor(),
+                cbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
+                cbAutoColor.isChecked(),
+                between(mv.getSelectLeft()/mv.getXishu(),0,bg.getWidth()-qrSize),
+                between(mv.getSelectTop()/mv.getXishu(),0,bg.getHeight()-qrSize),
+                qrSize,
+                bg);
     }
+
     private int between(float a,int min,int max){
         if(a<min){
             a=min;
@@ -317,23 +317,23 @@ public class gifArbAwesome extends Fragment{
 
     private void setProgress(final int p,final boolean encoing){
         getActivity().runOnUiThread(new Runnable(){
-				@Override
-				public void run(){
-					pbCodingProgress.setProgress(p);
-					if(p==100){
-						pbCodingProgress.setVisibility(View.GONE);
-						if(encoing){
-							log.t(getActivity(),"编码完成");
-						}else{
-							log.t(getActivity(),"解码完成");
-						}
-					}else{
-						if(pbCodingProgress.getVisibility()==View.GONE){
-							pbCodingProgress.setVisibility(View.VISIBLE);
-						}
-					}
-				}
-			});
+            @Override
+            public void run(){
+                pbCodingProgress.setProgress(p);
+                if(p==100){
+                    pbCodingProgress.setVisibility(View.GONE);
+                    if(encoing){
+                        log.t(getActivity(),"编码完成");
+                    }else{
+                        log.t(getActivity(),"解码完成");
+                    }
+                }else{
+                    if(pbCodingProgress.getVisibility()==View.GONE){
+                        pbCodingProgress.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -347,31 +347,30 @@ public class gifArbAwesome extends Fragment{
                     strSelectedGifPath=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),imageUri);
                     tvImagePath.setText(strSelectedGifPath);
 
-					final Bitmap selectedBmp=BitmapFactory.decodeFile(strSelectedGifPath);
-					final int selectedBmpWidth=selectedBmp.getWidth();
-					final int selectedBmpHeight=selectedBmp.getHeight();
-					final EditText et=new EditText(getActivity());
-					et.setHint("0<大小<"+(Math.min(selectedBmpWidth,selectedBmpHeight)+1));
-					new AlertDialog.Builder(getActivity())
-						.setTitle("输入要添加的二维码大小(像素)")
-						.setView(et)
-						.setPositiveButton("确定",new DialogInterface.OnClickListener(){
-							@Override
-							public void onClick(DialogInterface p1,int p2){
-								qrSize=Integer.parseInt(et.getText().toString());
-								//ll.addView(new selectRectView(getActivity(),selectedBmp,screenW,screenH));
-								mv.setup(selectedBmp,screenW,screenH,qrSize);
-								ViewGroup.LayoutParams para=mv.getLayoutParams();
-								para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);
-								mv.setLayoutParams(para);
-								mv.setVisibility(View.VISIBLE);
-								((InputMethodManager)getActivity().
-									getSystemService(Context.INPUT_METHOD_SERVICE))
-									.hideSoftInputFromWindow(et.getWindowToken(),0);
-								decodeGif(strSelectedGifPath);
-								coding=true;
-							}
-						}).show();				
+                    final Bitmap selectedBmp=BitmapFactory.decodeFile(strSelectedGifPath);
+                    final int selectedBmpWidth=selectedBmp.getWidth();
+                    final int selectedBmpHeight=selectedBmp.getHeight();
+                    final mengSeekBar msb=new mengSeekBar(getActivity());
+                    int maxProg=Math.min(selectedBmpWidth,selectedBmpHeight);
+                    msb.setMax(maxProg);
+                    msb.setProgress(maxProg/3);
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("输入要添加的二维码大小(像素)")
+                            .setView(msb)
+                            .setPositiveButton("确定",new DialogInterface.OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface p1,int p2){
+                                    qrSize=msb.getProgress();
+                                    //ll.addView(new selectRectView(getActivity(),selectedBmp,screenW,screenH));
+                                    mv.setup(selectedBmp,screenW,screenH,qrSize);
+                                    ViewGroup.LayoutParams para=mv.getLayoutParams();
+                                    para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);
+                                    mv.setLayoutParams(para);
+                                    mv.setVisibility(View.VISIBLE);
+                                    decodeGif(strSelectedGifPath);
+                                    coding=true;
+                                }
+                            }).show();
                 }
             }catch(Exception e){
                 log.e(getActivity(),e);

@@ -23,8 +23,8 @@ import android.widget.Toast;
 import com.meng.MainActivity2;
 import com.meng.qrtools.R;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
-import com.meng.qrtools.views.mengColorBar;
-import com.meng.qrtools.views.mengEdittext;
+import com.meng.qrtools.mengViews.mengColorBar;
+import com.meng.qrtools.mengViews.mengEdittext;
 
 import java.io.File;
 import java.io.IOException;

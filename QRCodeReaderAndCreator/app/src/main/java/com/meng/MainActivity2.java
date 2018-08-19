@@ -136,9 +136,9 @@ public class MainActivity2 extends Activity{
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,android.R.id.text1,new String[]{
-                "首页(?)","读取相册二维码","相机扫描二维码","创建二维码",
-                "创建Awesome二维码","创建动态Awesome二维码","任意位置的Awesome二维码",
-                "任意位置的动态Awesome二维码","关于","设置","退出"
+                "首页(大概)","读取相册二维码","相机扫描二维码","创建普通QR",
+                "创建AwesomeQR","创建动态AwesomeQR","自选位置的AwesomeQR",
+                "自选位置的动态AwesomeQR","关于","设置","退出"
         }));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -153,19 +153,19 @@ public class MainActivity2 extends Activity{
                     case "相机扫描二维码":
                         initCameraReaderFragment(true);
                         break;
-                    case "创建二维码":
+                    case "创建普通QR":
                         initLogoCreatorFragment(true);
                         break;
-                    case "创建Awesome二维码":
+                    case "创建AwesomeQR":
                         initAwesomeFragment(true);
                         break;
-                    case "创建动态Awesome二维码":
+                    case "创建动态AwesomeQR":
                         initGifAwesomeFragment(true);
                         break;
-                    case "任意位置的Awesome二维码":
+                    case "自选位置的AwesomeQR":
                         initArbFragmentFragment(true);
                         break;
-                    case "任意位置的动态Awesome二维码":
+                    case "自选位置的动态AwesomeQR":
                         initGifArbAwesomeFragment(true);
                         break;
                     case "关于":
@@ -214,7 +214,9 @@ public class MainActivity2 extends Activity{
         if(MainActivity.sharedPreference.getBoolean("ldaw2")){
             initArbFragmentFragment(false);
         }
-        initGifArbAwesomeFragment(false);
+        if(MainActivity.sharedPreference.getBoolean("ldaw3")){
+            initGifArbAwesomeFragment(false);
+        }
         if(MainActivity.sharedPreference.getBoolean("textFragment")){
             initAboutFragment(false);
         }
