@@ -68,6 +68,9 @@ public class gifArbAwesome extends Fragment{
     private selectRectView mv;
     private float screenW;
     private float screenH;
+	private int gifWidth;
+	private int gifHeight;
+	private int bmpCount;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -97,7 +100,6 @@ public class gifArbAwesome extends Fragment{
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         screenW=dm.widthPixels;
         screenH=dm.heightPixels;
-        qrSize=300;
     }
 
     CompoundButton.OnCheckedChangeListener check=new CompoundButton.OnCheckedChangeListener(){
@@ -141,17 +143,16 @@ public class gifArbAwesome extends Fragment{
 						GifEncoder gifEncoder=new GifEncoder();
 						gifEncoder.setDither(cbUseDither.isChecked());
 						if(cbLowMemoryMode.isChecked()){
-							final Bitmap tmpbmp=BitmapFactory.decodeFile(strTmpFolder+"0.png");
-							gifEncoder.init(tmpbmp.getWidth(),tmpbmp.getHeight(),filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
-							for(int t=0;t<bmpDecodedBitmaps.length;t++){
+							gifEncoder.init(gifWidth,gifHeight,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
+							for(int t=0;t<bmpCount;t++){
 								gifEncoder.encodeFrame(
                                     encodeAwesome(BitmapFactory.decodeFile(strTmpFolder+t+".png")),
                                     intGifFrameDelay);
 								setProgress((int)((t+1)*100.0f/bmpDecodedBitmaps.length),true);
 							}
 						}else{
-							gifEncoder.init(bmpDecodedBitmaps[0].getWidth(),bmpDecodedBitmaps[0].getHeight(),filePath,GifEncoder.EncodingType.ENCODING_TYPE_FAST);
-							for(int t=0;t<bmpDecodedBitmaps.length;t++){
+							gifEncoder.init(gifWidth,gifHeight,filePath,GifEncoder.EncodingType.ENCODING_TYPE_FAST);
+							for(int t=0;t<bmpCount;t++){
 								gifEncoder.encodeFrame(
                                     encodeAwesome(bmpDecodedBitmaps[t]),
                                     intGifFrameDelay);
@@ -188,6 +189,8 @@ public class gifArbAwesome extends Fragment{
 						while(iterator.hasNext()){
 							GifImage next=iterator.next();
 							if(next!=null){
+								gifHeight=next.bitmap.getHeight();
+								gifWidth=next.bitmap.getWidth();
 								try{
 									QrUtils.saveMyBitmap(strTmpFolder+flag+++".png",next.bitmap);
 								}catch(IOException e){
@@ -200,8 +203,8 @@ public class gifArbAwesome extends Fragment{
 						}
 						iterator.close();
 						log.t(getActivity(),"共"+(flag-1)+"张,解码成功");
-						bmpDecodedBitmaps=new Bitmap[flag];
-						final Bitmap tmpbmp=BitmapFactory.decodeFile(strTmpFolder+"0.png");
+						bmpCount=flag;
+			//			final Bitmap tmpbmp=BitmapFactory.decodeFile(strTmpFolder+"0.png");
 						createNomediaFile();
 						coding=false;
 						getActivity().runOnUiThread(new Runnable(){
@@ -216,7 +219,8 @@ public class gifArbAwesome extends Fragment{
 										screenH,
 										qrSize);
 									ViewGroup.LayoutParams para=mv.getLayoutParams();
-									para.height=(int)(screenW/tmpbmp.getWidth()*tmpbmp.getHeight());
+									para.height=(int)(screenW/gifWidth*gifHeight);
+								//	para.height=(int)(screenW/tmpbmp.getWidth()*tmpbmp.getHeight());
 									mv.setLayoutParams(para);
 									mv.setVisibility(View.VISIBLE);
 								}
@@ -235,7 +239,7 @@ public class gifArbAwesome extends Fragment{
 								bmpDecodedBitmaps[i]=gifDecoder.frame(i);
 								setProgress((int)((i+1)*100.0f/gifDecoder.frameNum()),false);
 							}
-							log.i(getActivity(),"共"+gifDecoder.frameNum()+"张,解码成功");
+							log.i(getActivity(),"共"+(bmpCount=gifDecoder.frameNum())+"张,解码成功");
 						}else{
 							log.e(getActivity(),"解码失败，可能不是GIF文件");
 						}
@@ -246,6 +250,8 @@ public class gifArbAwesome extends Fragment{
 									btnEncodeGif.setVisibility(View.VISIBLE);
 									cbUseDither.setVisibility(View.VISIBLE);
 									tvImagePath.setVisibility(View.VISIBLE);
+									gifHeight=bmpDecodedBitmaps[0].getHeight();
+									gifWidth=bmpDecodedBitmaps[0].getWidth();
 									log.i(getActivity(),"setup");
 									mv.setup(
 										bmpDecodedBitmaps[0],
@@ -254,7 +260,7 @@ public class gifArbAwesome extends Fragment{
 										qrSize);
 									log.i(getActivity(),"setPara");
 									ViewGroup.LayoutParams para=mv.getLayoutParams();
-									para.height=(int)(screenW/bmpDecodedBitmaps[0].getWidth()*bmpDecodedBitmaps[0].getHeight());
+									para.height=(int)(screenW/gifWidth*gifHeight);
 									mv.setLayoutParams(para);
 									mv.setVisibility(View.VISIBLE);
 								}

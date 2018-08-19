@@ -292,8 +292,7 @@ public class gifAwesomeQr extends Fragment{
                 if(coding){
                     log.t(getActivity(),"正在执行操作");
                 }else{
-                    Uri imageUri=data.getData();
-                    strSelectedGifPath=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),imageUri);
+                    strSelectedGifPath=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),data.getData());
                     tvImagePath.setText(strSelectedGifPath);
                     decodeGif(strSelectedGifPath);
                     coding=true;
