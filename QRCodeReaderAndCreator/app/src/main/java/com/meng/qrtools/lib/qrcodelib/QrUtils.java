@@ -419,6 +419,11 @@ public class QrUtils{
         float hScale = wScale;
         return flex(bitmap, wScale, hScale);
     }
+    public static Bitmap flex(Bitmap bitmap, int dstWidth,int dstHeight) {
+        float wScale = (float) dstWidth / bitmap.getWidth();
+        float hScale = (float) dstHeight / bitmap.getHeight();
+        return flex(bitmap, wScale, hScale);
+    }
 
     public static Bitmap flex(Bitmap bitmap, float wScale, float hScale) {
         if (wScale <= 0 || hScale <= 0){

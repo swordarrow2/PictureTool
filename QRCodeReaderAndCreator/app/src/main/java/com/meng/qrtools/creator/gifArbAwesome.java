@@ -39,6 +39,7 @@ import com.waynejo.androidndkgif.GifImageIterator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2018/8/18.
@@ -139,7 +140,7 @@ public class gifArbAwesome extends Fragment{
                 try{
                     coding=true;
                     final String filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+
-                            "/Pictures/QRcode/GifAwesomeQR"+SystemClock.elapsedRealtime()+".gif";
+                            "/Pictures/QRcode/gifAwesomeQR"+(new Date()).toString()+".gif";
                     GifEncoder gifEncoder=new GifEncoder();
                     gifEncoder.setDither(cbUseDither.isChecked());
                     if(cbLowMemoryMode.isChecked()){

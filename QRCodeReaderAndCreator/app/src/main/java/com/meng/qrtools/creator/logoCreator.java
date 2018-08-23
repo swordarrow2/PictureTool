@@ -137,7 +137,7 @@ public class logoCreator extends Fragment{
                                     cbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
                                     500,
                                     logoImage),
-                            Integer.parseInt(mengEtSize.getString()));
+                            mengEtSize.getInt());
                     scrollView.post(new Runnable(){
                         @Override
                         public void run(){

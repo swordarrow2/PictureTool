@@ -36,6 +36,7 @@ import com.waynejo.androidndkgif.GifImageIterator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
 
 public class gifAwesomeQr extends Fragment{
 
@@ -130,11 +131,11 @@ public class gifAwesomeQr extends Fragment{
                 try{
                     coding=true;
                     final String filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+
-                            "/Pictures/QRcode/GifAwesomeQR"+SystemClock.elapsedRealtime()+".gif";
+                            "/Pictures/QRcode/gifAwesomeQR"+(new Date()).toString()+".gif";
                     GifEncoder gifEncoder=new GifEncoder();
                     gifEncoder.setDither(cbUseDither.isChecked());
                     if(!cbAutoSize.isChecked()){
-                        intGifSize=Integer.parseInt(mengEtSize.getString());
+                        intGifSize=mengEtSize.getInt();
                     }
                     if(cbLowMemoryMode.isChecked()){
                         gifEncoder.init(intGifSize,intGifSize,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
@@ -253,7 +254,7 @@ public class gifAwesomeQr extends Fragment{
     private Bitmap encodeAwesome(int size,Bitmap bg){
         return AwesomeQRCode.create(
                 mengEtTextToEncode.getString(),
-                cbAutoSize.isChecked()?size:Integer.parseInt(mengEtSize.getString()),
+                cbAutoSize.isChecked()?size:mengEtSize.getInt(),
                 (int)(size*0.025f),
                 Float.parseFloat(mengEtDotScale.getString()),
                 mColorBar.getTrueColor(),

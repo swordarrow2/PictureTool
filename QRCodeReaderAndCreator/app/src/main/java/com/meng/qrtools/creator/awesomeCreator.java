@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +33,7 @@ import com.meng.qrtools.mengViews.mengEdittext;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 public class awesomeCreator extends Fragment{
 
@@ -124,8 +124,8 @@ public class awesomeCreator extends Fragment{
                     break;
                 case R.id.awesomeqr_main_generate:
                     generate(mengEtContents.getString(),
-                            Integer.parseInt(mengEtSize.getString()),
-                            Integer.parseInt(mengEtMargin.getString()),
+                            mengEtSize.getInt(),
+                            mengEtMargin.getInt(),
                             Float.parseFloat(mengEtDotScale.getString()),
                             mColorBar.getTrueColor(),
                             ckbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
@@ -133,13 +133,13 @@ public class awesomeCreator extends Fragment{
                             ckbWhiteMargin.isChecked(),
                             ckbAutoColor.isChecked(),
                             ckbBinarize.isChecked(),
-                            Integer.parseInt(mengEtBinarize.getString())
+                            mengEtBinarize.getInt()
                     );
                     btnSave.setVisibility(View.VISIBLE);
                     break;
                 case R.id.awesomeqr_mainButton_save:
                     try{
-                        String s=QrUtils.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/AwesomeQR"+SystemClock.elapsedRealtime()+".png",bmpQRcode);
+                        String s=QrUtils.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/AwesomeQR"+(new Date()).toString()+".png",bmpQRcode);
                         log.t(getActivity(),"已保存至"+s);
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
                     }catch(IOException e){

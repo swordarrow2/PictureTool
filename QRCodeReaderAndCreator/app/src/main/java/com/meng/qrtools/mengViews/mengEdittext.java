@@ -36,6 +36,10 @@ public class mengEdittext extends LinearLayout{
         return isEmpty()?et.getHint().toString():et.getText().toString();
     }
 
+    public int getInt(){
+        return Integer.parseInt(getString());
+    }
+
     public void setString(String s){
         et.setText(s);
     }

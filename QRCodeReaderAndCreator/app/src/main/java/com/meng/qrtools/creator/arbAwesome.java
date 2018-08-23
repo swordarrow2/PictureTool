@@ -37,6 +37,7 @@ import com.meng.qrtools.mengViews.mengSelectRectView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2018/7/19.
@@ -132,7 +133,7 @@ public class arbAwesome extends Fragment{
                     try{
                         String s=QrUtils.saveMyBitmap(
                                 Environment.getExternalStorageDirectory().getAbsolutePath()+
-                                        "/Pictures/QRcode/AwesomeQR"+SystemClock.elapsedRealtime()+".png",
+                                        "/Pictures/QRcode/AwesomeQR"+(new Date()).toString()+".png",
                                 finallyBmp);
                         log.t(getActivity(),"已保存至"+s);
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库

@@ -26,6 +26,7 @@ import com.meng.qrtools.creator.arbAwesome;
 import com.meng.qrtools.creator.awesomeCreator;
 import com.meng.qrtools.creator.gifArbAwesome;
 import com.meng.qrtools.creator.gifAwesomeQr;
+import com.meng.qrtools.creator.gifCreator;
 import com.meng.qrtools.creator.logoCreator;
 import com.meng.qrtools.lib.materialDesign.ActionBarDrawerToggle;
 import com.meng.qrtools.lib.materialDesign.DrawerArrowDrawable;
@@ -52,6 +53,7 @@ public class MainActivity2 extends Activity{
     private arbAwesome arbAwesome;
     private settings settingsFragment;
     private gifArbAwesome gifArbAwesomeFragment;
+    private gifCreator gifCreatorFragment;
     public TextView rightText;
 
     public FragmentManager manager;
@@ -139,7 +141,7 @@ public class MainActivity2 extends Activity{
         mDrawerToggle.syncState();
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,android.R.id.text1,new String[]{
                 "首页(大概)","读取相册二维码","相机扫描二维码","创建普通二维码",
-                "创建AwesomeQR","创建动态AwesomeQR","关于","设置","退出"
+                "创建AwesomeQR","创建动态AwesomeQR","生成gif","关于","设置","退出"
         }));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -187,6 +189,8 @@ public class MainActivity2 extends Activity{
                             }
                         }).show();
                         break;
+                    case "生成gif":
+
                     case "关于":
                         initAboutFragment(true);
                         break;
@@ -348,6 +352,18 @@ public class MainActivity2 extends Activity{
         transactionGifArbAwesomeFragment.commit();
     }
 
+    private void initGifFragment(boolean showNow){
+        FragmentTransaction transactionAboutFragment=manager.beginTransaction();
+        if(aboutFragment==null){
+            aboutFragment=new textFragment(1);
+            transactionAboutFragment.add(R.id.main_activityLinearLayout,aboutFragment);
+        }
+        hideFragment(transactionAboutFragment);
+        if(showNow){
+            transactionAboutFragment.show(aboutFragment);
+        }
+        transactionAboutFragment.commit();
+    }
     private void initAboutFragment(boolean showNow){
         FragmentTransaction transactionAboutFragment=manager.beginTransaction();
         if(aboutFragment==null){
