@@ -12,16 +12,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.BarcodeFormat;
 import com.meng.MainActivity2;
 import com.meng.qrtools.R;
+import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.qrtools.mengViews.mengColorBar;
 import com.meng.qrtools.mengViews.mengEdittext;
@@ -33,6 +37,7 @@ public class logoCreator extends Fragment{
     private ScrollView scrollView;
     private ImageView qrcodeImageView;
     private mengEdittext mengEtContent;
+    private mengEdittext mengEtSize;
     private Button btnSelectImg;
     private Button btnRemoveImg;
     private Button btnCreate;
@@ -42,13 +47,14 @@ public class logoCreator extends Fragment{
     private Bitmap logoImage=null;
     private CheckBox ckbAutoColor;
     private mengColorBar mColorBar;
-
-    private static final int CROP_REQUEST_CODE=3;
+    private Spinner spBarcodeFormat;
+    private final int CROP_REQUEST_CODE=3;
+    private String barcodeFormat;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
         // TODO: Implement this method
-        return inflater.inflate(R.layout.qr_main,container,false);
+        return inflater.inflate(R.layout.barcode_main,container,false);
     }
 
     @Override
@@ -57,7 +63,8 @@ public class logoCreator extends Fragment{
         super.onViewCreated(view,savedInstanceState);
         mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         qrcodeImageView=(ImageView)view.findViewById(R.id.qr_imageview);
-        mengEtContent=(mengEdittext)view.findViewById(R.id.qr_EditText);
+        mengEtContent=(mengEdittext)view.findViewById(R.id.qr_mengEditText_content);
+        mengEtSize=(mengEdittext)view.findViewById(R.id.qr_mengEditText_size);
         scrollView=(ScrollView)view.findViewById(R.id.qr_mainScrollView);
         ckbAutoColor=(CheckBox)view.findViewById(R.id.qr_main_autoColor);
         btnSelectImg=(Button)view.findViewById(R.id.qr_ButtonSelectImage);
@@ -73,6 +80,22 @@ public class logoCreator extends Fragment{
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
                 mColorBar.setVisibility(isChecked?View.GONE:View.VISIBLE);
+            }
+        });
+        spBarcodeFormat=(Spinner)view.findViewById(R.id.qr_main_spinner);
+     //   String[] mItems=getResources().getStringArray(R.array.barcode_format);
+     //   ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,mItems);
+     //   adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+     //   spBarcodeFormat.setAdapter(adapter);
+        spBarcodeFormat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent,View view,int pos,long id){
+               barcodeFormat=((TextView)view).getText().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent){
+                // Another interface callback
             }
         });
     }
@@ -101,12 +124,15 @@ public class logoCreator extends Fragment{
                     tvImgPath.setText("未选择图片，将会生成普通二维码");
                     break;
                 case R.id.qr_ButtonCreate:
-                    bmpQRcode=QrUtils.createQRCode(
-                            mengEtContent.getString(),
-                            ckbAutoColor.isChecked()?Color.BLACK:mColorBar.getTrueColor(),
-                            ckbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
-                            500,
-                            logoImage);
+                    bmpQRcode=QrUtils.flex(
+                            QrUtils.createBarcode(
+                                    mengEtContent.getString(),
+                                    switchFormat(barcodeFormat),
+                                    ckbAutoColor.isChecked()?Color.BLACK:mColorBar.getTrueColor(),
+                                    ckbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
+                                    500,
+                                    logoImage),
+                            Integer.parseInt(mengEtSize.getString()));
                     scrollView.post(new Runnable(){
                         @Override
                         public void run(){
@@ -142,6 +168,19 @@ public class logoCreator extends Fragment{
         intent.putExtra("return-data",true);
         startActivityForResult(intent,CROP_REQUEST_CODE);
         return uri;
+    }
+    private BarcodeFormat switchFormat(String s){
+        switch(s){
+            case "QRcode":
+                return BarcodeFormat.QR_CODE;
+            case "AZTEC":
+                return BarcodeFormat.AZTEC;
+            case "DataMatrix":
+                return BarcodeFormat.DATA_MATRIX;
+            case "PDF417":
+                return BarcodeFormat.PDF_417;
+        }
+        return BarcodeFormat.QR_CODE;
     }
 
     @Override

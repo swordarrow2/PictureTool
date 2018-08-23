@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="800"
-                ran:textviewText="@string/qr_size" />
+                ran:textviewText="@string/barcode_size" />
 
             <com.meng.qrtools.mengViews.mengEdittext
                 android:id="@+id/awesomeqr_main_margin"

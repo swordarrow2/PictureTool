@@ -1,4 +1,4 @@
-package com.meng.qrtools.creator;
+package com.meng.qrtools.lib;
 
 import android.annotation.TargetApi;
 import android.content.ContentUris;

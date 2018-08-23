@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import com.google.zxing.Result;
 import com.meng.MainActivity2;
-import com.meng.qrtools.creator.ContentHelper;
+import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
 
 public class galleryReader extends Fragment{

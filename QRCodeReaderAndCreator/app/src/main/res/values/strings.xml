@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QRtools</string>
+    <string name="app_name">Barcode</string>
     <string name="long_press_to_copy_result">长按复制结果</string>
     <string name="input_text">输入文字</string>
     <string name="contents">内容</string>
@@ -9,7 +9,7 @@
     <string name="open">打开</string>
     <string name="close">关闭</string>
     <string name="auto_color">自动选择颜色</string>
-    <string name="qr_size">大小(像素)</string>
+    <string name="barcode_size">大小(像素)</string>
     <string name="margin_px">内边距(像素)</string>
     <string name="data_dot_scale"><![CDATA[数据点缩放(0<数值<1.0f)]]></string>
     <string name="colordark_true_dots_dddddd">暗点颜色(真值点, #rrggbb)</string>
@@ -21,5 +21,7 @@
     <string name="binNumber"><![CDATA[转换阀值(0<值<255)]]></string>
     <string name="Background_image_removed">背景图移除成功</string>
     <string name="Background_image_added">背景图添加成功</string>
-    <string name="qr_without_logo">未选择图片，将会生成普通二维码</string>
+    <string name="qr_without_logo">未选择图片，将会生成普通QR二维码</string>
+    <string name="select_barcode_format">选择二维码类型</string>
+    <string name="only_for_qr">Logo二维码仅适用于QRcode 仅QRcode可以保存中文</string>
 </resources>

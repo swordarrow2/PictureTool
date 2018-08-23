@@ -11,10 +11,12 @@ import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatReader;
+import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.WriterException;
+import com.google.zxing.aztec.encoder.Encoder;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -252,7 +254,7 @@ public class QrUtils{
      * @return bitmap
      */
     public static Bitmap createQRCode(String text){
-        return createQRCode(text,0xff000000,0xffffffff,500,null);
+        return createBarcode(text,BarcodeFormat.QR_CODE,0xff000000,0xffffffff,500,null);
     }
 
     /**
@@ -262,27 +264,35 @@ public class QrUtils{
      * @param size 生成二维码的大小
      * @return bitmap
      */
-    public static Bitmap createQRCode(String text,int true_dot_argb,int false_dot_argb,int size,Bitmap b){
-        if(b!=null){
+    public static Bitmap createBarcode(String text,BarcodeFormat format,int true_dot_argb,int false_dot_argb,int size,Bitmap b){
+        if(b!=null&&format.equals(BarcodeFormat.QR_CODE)){
             return createLogoQR(text,true_dot_argb,false_dot_argb,size,b);
         }else{
             try{
-                Hashtable<EncodeHintType,String> hints=new Hashtable<>();
+                Hashtable<EncodeHintType,Object> hints=new Hashtable<>();
                 hints.put(EncodeHintType.CHARACTER_SET,"UTF-8");
-                BitMatrix bitMatrix=new QRCodeWriter().encode(text,BarcodeFormat.QR_CODE,size,size,hints);
-                int[] pixels=new int[bitMatrix.getWidth()*bitMatrix.getHeight()];
-                for(int y=0;y<size;y++){
-                    for(int x=0;x<size;x++){
+                if (format == BarcodeFormat.AZTEC) {//错误校正词的最小百分比
+                    hints.put(EncodeHintType.ERROR_CORRECTION, Encoder.DEFAULT_AZTEC_LAYERS);//默认，可以不设
+                } else if (format == BarcodeFormat.PDF_417) {
+                    hints.put(EncodeHintType.ERROR_CORRECTION, 2);//纠错级别，允许为0到8。默认2，可以不设
+                } else {
+                    hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
+                }
+                BitMatrix bitMatrix=new MultiFormatWriter().encode(text,format,size,size,hints);
+                int H=bitMatrix.getHeight();
+                int W=bitMatrix.getWidth();
+                int[] pixels=new int[H*W];
+                for(int y=0;y<H;y++){
+                    for(int x=0;x<W;x++){
                         if(bitMatrix.get(x,y)){
-                            pixels[y*size+x]=true_dot_argb;
+                            pixels[y*W+x]=true_dot_argb;
                         }else{
-                            pixels[y*size+x]=false_dot_argb;
+                            pixels[y*W+x]=false_dot_argb;
                         }
                     }
                 }
-                Bitmap bitmap=Bitmap.createBitmap(size,size,
-                        Bitmap.Config.ARGB_8888);
-                bitmap.setPixels(pixels,0,size,0,0,size,size);
+                Bitmap bitmap=Bitmap.createBitmap(W,H,Bitmap.Config.ARGB_8888);
+                bitmap.setPixels(pixels,0,W,0,0,W,H);
                 return bitmap;
             }catch(WriterException e){
                 e.printStackTrace();
@@ -403,5 +413,40 @@ public class QrUtils{
         // para.height=(int)(screenW/finallyBmp.getWidth()*finallyBmp.getHeight());
         //  qrCodeImageView.setLayoutParams(para);
         return finallyBmp;
+    }
+    public static Bitmap flex(Bitmap bitmap, int dstWidth) {
+        float wScale = (float) dstWidth / bitmap.getWidth();
+        float hScale = wScale;
+        return flex(bitmap, wScale, hScale);
+    }
+
+    public static Bitmap flex(Bitmap bitmap, float wScale, float hScale) {
+        if (wScale <= 0 || hScale <= 0){
+            return null;
+        }
+        float ii = 1 / wScale;    //采样的行间距
+        float jj = 1 / hScale; //采样的列间距
+
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int dstWidth = (int) (wScale * width);
+        int dstHeight = (int) (hScale * height);
+
+        int[] pixels = new int[width * height];
+        bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+
+        int[] dstPixels = new int[dstWidth * dstHeight];
+
+        for (int j = 0; j < dstHeight; j++) {
+            for (int i = 0; i < dstWidth; i++) {
+                dstPixels[j * dstWidth + i] = pixels[(int) (jj * j) * width + (int) (ii * i)];
+            }
+        }
+        System.out.println((int) ((dstWidth - 1) * ii));
+
+        Bitmap outBitmap = Bitmap.createBitmap(dstWidth, dstHeight, Bitmap.Config.ARGB_8888);
+        outBitmap.setPixels(dstPixels, 0, dstWidth, 0, 0, dstWidth, dstHeight);
+
+        return outBitmap;
     }
 }
