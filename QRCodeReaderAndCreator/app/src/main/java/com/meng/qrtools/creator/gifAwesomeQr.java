@@ -155,7 +155,7 @@ public class gifAwesomeQr extends Fragment{
                     }
                     gifEncoder.close();
                     getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
-                    log.i(getActivity(),"done : "+filePath);
+                    log.t(getActivity(),"完成 : "+filePath);
                 }catch(FileNotFoundException e){
                     log.e(getActivity(),e);
                 }
@@ -221,7 +221,7 @@ public class gifAwesomeQr extends Fragment{
                             bmpDecodedBitmaps[i]=gifDecoder.frame(i);
                             setProgress((int)((i+1)*100.0f/gifDecoder.frameNum()),false);
                         }
-                        log.i(getActivity(),"共"+gifDecoder.frameNum()+"张,解码成功");
+                        log.t(getActivity(),"共"+gifDecoder.frameNum()+"张,解码成功");
                         intGifSize=bmpDecodedBitmaps[0].getWidth();
                     }else{
                         log.e(getActivity(),"解码失败，可能不是GIF文件");

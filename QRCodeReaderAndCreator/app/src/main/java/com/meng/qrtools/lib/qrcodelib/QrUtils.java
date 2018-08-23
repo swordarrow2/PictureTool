@@ -447,8 +447,6 @@ public class QrUtils{
                 dstPixels[j * dstWidth + i] = pixels[(int) (jj * j) * width + (int) (ii * i)];
             }
         }
-        System.out.println((int) ((dstWidth - 1) * ii));
-
         Bitmap outBitmap = Bitmap.createBitmap(dstWidth, dstHeight, Bitmap.Config.ARGB_8888);
         outBitmap.setPixels(dstPixels, 0, dstWidth, 0, 0, dstWidth, dstHeight);
 

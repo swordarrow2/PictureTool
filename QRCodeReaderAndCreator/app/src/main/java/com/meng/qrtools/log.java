@@ -22,20 +22,6 @@ public class log{
         });
     }
 
-    public static void c(final Activity a,final Object o){
-
-        a.runOnUiThread(new Runnable(){
-
-            @Override
-            public void run(){
-                // TODO: Implement this method
-                MainActivity2.instence.rightText.setText(
-                        MainActivity2.instence.rightText.getText().toString()+
-                                "点击:"+o.toString()+"\n"
-                );
-            }
-        });
-    }
 
     public static void i(final Activity a,final Object o){
         a.runOnUiThread(new Runnable(){

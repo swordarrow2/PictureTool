@@ -23,7 +23,9 @@ import com.meng.qrtools.mengViews.mengEdittext;
 import com.waynejo.androidndkgif.GifEncoder;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by Administrator on 2018/8/23.
@@ -37,10 +39,10 @@ public class gifCreator extends Fragment{
     private mengEdittext mengEtFrameDelay;
     private Button btnAddFrame;
     private Button btnFinish;
-    private GifEncoder gifEncoder;
-    private boolean encoderInited=false;
     private String filePath;
-    private String strSelectedGifPath;
+    private String selectedPicturePath;
+    HashMap<Integer,String> dataMap;
+    private int bitmapFlag=0;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -60,7 +62,7 @@ public class gifCreator extends Fragment{
         btnFinish=(Button)view.findViewById(R.id.gif_creator_finish);
         btnAddFrame.setOnClickListener(listenerBtnClick);
         btnFinish.setOnClickListener(listenerBtnClick);
-        gifEncoder=new GifEncoder();
+        dataMap=new HashMap<Integer,String>();
         cbAutoSize.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
@@ -71,6 +73,8 @@ public class gifCreator extends Fragment{
     }
 
     View.OnClickListener listenerBtnClick=new View.OnClickListener(){
+        GifEncoder gifEncoder=new GifEncoder();
+
         @Override
         public void onClick(View v){
             switch(v.getId()){
@@ -78,9 +82,39 @@ public class gifCreator extends Fragment{
                     MainActivity2.selectImage(gifCreator.this);
                     break;
                 case R.id.gif_creator_finish:
+                    try{
+                        filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+
+                                "/Pictures/QRcode/gif"+(new Date()).toString()+".gif";
+                        gifEncoder.setDither(false);
+                        if(cbAutoSize.isChecked()){
+                            Bitmap bmp=BitmapFactory.decodeFile(selectedPicturePath);
+                            gifEncoder.init(
+                                    bmp.getWidth(),
+                                    bmp.getHeight(),
+                                    filePath,
+                                    GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
+                        }else{
+                            gifEncoder.init(
+                                    mengEtGifWidth.getInt(),
+                                    mengEtGifHeight.getInt(),
+                                    filePath,
+                                    GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
+                        }
+                    }catch(IOException e){
+                        log.e(getActivity(),e);
+                    }
+                    for(int i=0;i<bitmapFlag;i++){
+                        gifEncoder.encodeFrame(
+                                QrUtils.scale(
+                                        BitmapFactory.decodeFile(dataMap.get(i)),
+                                        mengEtGifWidth.getInt(),
+                                        mengEtGifHeight.getInt()),
+                                mengEtFrameDelay.getInt());
+                    }
                     gifEncoder.close();
-                    getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
-                    log.i(getActivity(),"done : "+filePath);
+                    getActivity().getApplicationContext().sendBroadcast(
+                            new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
+                    log.t(getActivity(),"完成 : "+filePath);
                     break;
             }
         }
@@ -89,40 +123,10 @@ public class gifCreator extends Fragment{
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         if(requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE&&resultCode==getActivity().RESULT_OK&&data.getData()!=null){
-            try{
-                strSelectedGifPath=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),data.getData());
-                if(!encoderInited){
-                    filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+
-                            "/Pictures/QRcode/gif"+(new Date()).toString()+".gif";
-                    GifEncoder gifEncoder=new GifEncoder();
-                    gifEncoder.setDither(false);
-                    if(cbAutoSize.isChecked()){
-                        Bitmap bmp=BitmapFactory.decodeFile(strSelectedGifPath);
-                        gifEncoder.init(
-                                bmp.getWidth(),
-                                bmp.getHeight(),
-                                filePath,
-                                GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
-                    }else{
-                        gifEncoder.init(
-                                mengEtGifWidth.getInt(),
-                                mengEtGifHeight.getInt(),
-                                filePath,
-                                GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
-                    }
-                    encoderInited=true;
-                }
-                gifEncoder.encodeFrame(
-                        QrUtils.scale(
-                                BitmapFactory.decodeFile(strSelectedGifPath),
-                                mengEtGifWidth.getInt(),
-                                mengEtGifHeight.getInt()),
-                        mengEtFrameDelay.getInt());
-            }catch(Exception e){
-                log.e(getActivity(),e);
-            }
+            selectedPicturePath=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),data.getData());
+            dataMap.put(bitmapFlag,selectedPicturePath);
+            bitmapFlag++;
             super.onActivityResult(requestCode,resultCode,data);
         }
     }
-
 }
