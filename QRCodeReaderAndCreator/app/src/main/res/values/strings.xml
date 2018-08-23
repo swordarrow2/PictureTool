@@ -23,5 +23,6 @@
     <string name="Background_image_added">背景图添加成功</string>
     <string name="qr_without_logo">未选择图片，将会生成普通QR二维码</string>
     <string name="select_barcode_format">选择二维码类型</string>
-    <string name="only_for_qr">Logo二维码仅适用于QRcode 仅QRcode可以保存中文</string>
+    <string name="format_tip">Logo二维码仅适用于QRcode 仅QRcode和PDF417可以保存中文</string>
+    <string name="crop_square">裁剪图片为正方形</string>
 </resources>

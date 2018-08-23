@@ -33,7 +33,7 @@ import com.meng.qrtools.log;
 import com.meng.qrtools.mengViews.mengColorBar;
 import com.meng.qrtools.mengViews.mengEdittext;
 import com.meng.qrtools.mengViews.mengSeekBar;
-import com.meng.qrtools.mengViews.selectRectView;
+import com.meng.qrtools.mengViews.mengSelectRectView;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,7 +59,7 @@ public class arbAwesome extends Fragment{
     private int selectedBmpHeight=0;
     private float screenW;
     private float screenH;
-    private selectRectView mv;
+    private mengSelectRectView mv;
 
     private String[] PERMISSIONS_STORAGE={
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -76,7 +76,7 @@ public class arbAwesome extends Fragment{
     public void onViewCreated(View view,Bundle savedInstanceState){
         // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
-        mv=(selectRectView)view.findViewById(R.id.arb_awesome_qrselectRectView);
+        mv=(mengSelectRectView)view.findViewById(R.id.arb_awesome_qrselectRectView);
         mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         qrCodeImageView=(ImageView)view.findViewById(R.id.awesomeqr_main_qrcode);
         mengEtContents=(mengEdittext)view.findViewById(R.id.awesomeqr_main_content);
@@ -183,7 +183,7 @@ public class arbAwesome extends Fragment{
                         @Override
                         public void onClick(DialogInterface p1,int p2){
                             qrSize=msb.getProgress();
-                            //ll.addView(new selectRectView(getActivity(),selectedBmp,screenW,screenH));
+                            //ll.addView(new mengSelectRectView(getActivity(),selectedBmp,screenW,screenH));
                             mv.setup(selectedBmp,screenW,screenH,qrSize);
                             ViewGroup.LayoutParams para=mv.getLayoutParams();
                             para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);

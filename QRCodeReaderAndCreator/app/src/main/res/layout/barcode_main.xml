@@ -48,7 +48,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/only_for_qr"/>
+                android:text="@string/format_tip"/>
 
             <TextView
                 android:id="@+id/qr_main_imgPathTextView"
@@ -76,12 +76,27 @@
                     android:text="@string/remove_image"/>
             </LinearLayout>
 
-            <CheckBox
-                android:id="@+id/qr_main_autoColor"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/auto_color"/>
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/qr_main_autoColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/auto_color"/>
+
+                <CheckBox
+                    android:id="@+id/qr_main_crop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/crop_square"/>
+            </LinearLayout>
 
             <com.meng.qrtools.mengViews.mengColorBar
                 android:id="@+id/gif_arb_qr_main_colorBar"
@@ -106,8 +121,8 @@
                 android:id="@+id/qr_imageview"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerInside"
-                android:contentDescription="s"/>
+                android:contentDescription="s"
+                android:scaleType="centerInside"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

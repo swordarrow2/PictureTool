@@ -30,7 +30,7 @@ import com.meng.qrtools.log;
 import com.meng.qrtools.mengViews.mengColorBar;
 import com.meng.qrtools.mengViews.mengEdittext;
 import com.meng.qrtools.mengViews.mengSeekBar;
-import com.meng.qrtools.mengViews.selectRectView;
+import com.meng.qrtools.mengViews.mengSelectRectView;
 import com.waynejo.androidndkgif.GifDecoder;
 import com.waynejo.androidndkgif.GifEncoder;
 import com.waynejo.androidndkgif.GifImage;
@@ -65,7 +65,7 @@ public class gifArbAwesome extends Fragment{
     private TextView tvImagePath;
     private mengColorBar mColorBar;
 
-    private selectRectView mv;
+    private mengSelectRectView mv;
     private float screenW;
     private float screenH;
     private int gifWidth;
@@ -82,7 +82,7 @@ public class gifArbAwesome extends Fragment{
     public void onViewCreated(View view,Bundle savedInstanceState){
         // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
-        mv=(selectRectView)view.findViewById(R.id.gif_arb_awesome_qrselectRectView);
+        mv=(mengSelectRectView)view.findViewById(R.id.gif_arb_awesome_qrselectRectView);
         mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         btnEncodeGif=(Button)view.findViewById(R.id.gif_arb_qr_button_encode_gif);
         btnSelectImage=(Button)view.findViewById(R.id.gif_arb_qr_button_selectImg);
@@ -362,7 +362,7 @@ public class gifArbAwesome extends Fragment{
                                 @Override
                                 public void onClick(DialogInterface p1,int p2){
                                     qrSize=msb.getProgress();
-                                    //ll.addView(new selectRectView(getActivity(),selectedBmp,screenW,screenH));
+                                    //ll.addView(new mengSelectRectView(getActivity(),selectedBmp,screenW,screenH));
                                     mv.setup(selectedBmp,screenW,screenH,qrSize);
                                     ViewGroup.LayoutParams para=mv.getLayoutParams();
                                     para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);

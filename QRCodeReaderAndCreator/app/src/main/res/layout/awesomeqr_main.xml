@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ran="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="top|center_horizontal"
-    android:orientation="vertical">
+                xmlns:ran="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top|center_horizontal"
+                android:orientation="vertical">
 
     <ScrollView
         android:id="@+id/awesomeqr_main_scrollView"
@@ -27,48 +27,63 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="@string/input_text"
-                ran:textviewText="@string/contents" />
+                ran:textviewText="@string/contents"/>
 
             <com.meng.qrtools.mengViews.mengEdittext
                 android:id="@+id/awesomeqr_main_mengEdittext_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="800"
-                ran:textviewText="@string/barcode_size" />
+                ran:textviewText="@string/barcode_size"/>
 
             <com.meng.qrtools.mengViews.mengEdittext
                 android:id="@+id/awesomeqr_main_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="20"
-                ran:textviewText="@string/margin_px" />
+                ran:textviewText="@string/margin_px"/>
 
             <com.meng.qrtools.mengViews.mengEdittext
                 android:id="@+id/awesomeqr_main_dotScale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="0.3"
-                ran:textviewText="@string/data_dot_scale" />
+                ran:textviewText="@string/data_dot_scale"/>
 
-            <CheckBox
-                android:id="@+id/awesomeqr_main_autoColor"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/auto_color" />
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/awesomeqr_main_autoColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/auto_color"/>
+
+                <CheckBox
+                    android:id="@+id/awesomeqr_main_crop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/crop_square"/>
+            </LinearLayout>
 
             <com.meng.qrtools.mengViews.mengColorBar
                 android:id="@+id/gif_arb_qr_main_colorBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/awesomeqr_main_imgPathTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="未选择背景图"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,27 +95,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/select_image" />
+                    android:text="@string/select_image"/>
 
                 <Button
                     android:id="@+id/awesomeqr_main_removeBackgroundImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/remove_image" />
+                    android:text="@string/remove_image"/>
             </LinearLayout>
 
             <CheckBox
                 android:id="@+id/awesomeqr_main_whiteMargin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/white_margin_on_background_image" />
+                android:text="@string/white_margin_on_background_image"/>
 
             <CheckBox
                 android:id="@+id/awesomeqr_main_binarize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/binarize_background_image" />
+                android:text="@string/binarize_background_image"/>
 
             <com.meng.qrtools.mengViews.mengEdittext
                 android:id="@+id/awesomeqr_main_mengEdittext_binarizeThreshold"
@@ -108,20 +123,20 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 ran:edittextHint="128"
-                ran:textviewText="@string/binNumber" />
+                ran:textviewText="@string/binNumber"/>
 
             <Button
                 android:id="@+id/awesomeqr_main_generate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/click_to_create" />
+                android:text="@string/click_to_create"/>
 
             <Button
                 android:id="@+id/awesomeqr_mainButton_save"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/click_to_save"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/awesomeqr_main_qrcode"
@@ -129,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"/>
 
         </LinearLayout>
     </ScrollView>

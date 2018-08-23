@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
 
-public class selectRectView extends View{
+public class mengSelectRectView extends View{
 
     private Bitmap imageViewBackground=null;
     private Bitmap bmpUseRect=null;
@@ -18,11 +18,11 @@ public class selectRectView extends View{
     private float mTop;
     private boolean seted=false;
 
-    public selectRectView(Context c,AttributeSet attr){
+    public mengSelectRectView(Context c,AttributeSet attr){
         super(c,attr);
     }
 
-   /* public selectRectView(Context context,Bitmap seleBmp,float screenW,float screenH,int qrSize){
+   /* public mengSelectRectView(Context context,Bitmap seleBmp,float screenW,float screenH,int qrSize){
         super(context);
         setup(seleBmp,screenW,screenH,qrSize);
         seted=true;

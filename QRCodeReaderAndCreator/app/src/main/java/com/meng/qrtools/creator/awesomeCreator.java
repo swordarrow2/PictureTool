@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class awesomeCreator extends Fragment{
     private CheckBox ckbAutoColor;
     private ScrollView scrollView;
     private CheckBox ckbBinarize;
+    private CheckBox cbCrop;
     private mengEdittext mengEtBinarize;
     private Button btnSave;
     private TextView imgPathTextView;
@@ -85,6 +87,7 @@ public class awesomeCreator extends Fragment{
         mengEtBinarize=(mengEdittext)view.findViewById(R.id.awesomeqr_main_mengEdittext_binarizeThreshold);
         btnSave=(Button)view.findViewById(R.id.awesomeqr_mainButton_save);
         imgPathTextView=(TextView)view.findViewById(R.id.awesomeqr_main_imgPathTextView);
+        cbCrop=(CheckBox)view.findViewById(R.id.awesomeqr_main_crop);
         ckbAutoColor.setOnCheckedChangeListener(check);
         ckbBinarize.setOnCheckedChangeListener(check);
         btSelectBG.setOnClickListener(click);
@@ -173,14 +176,18 @@ public class awesomeCreator extends Fragment{
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         if(requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE&&resultCode==getActivity().RESULT_OK&&data.getData()!=null){
             imgPathTextView.setVisibility(View.VISIBLE);
-            imgPathTextView.setText("当前文件："+ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),cropPhoto(data.getData())));
+            String path=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),cropPhoto(data.getData()));
+            imgPathTextView.setText("当前图片："+path);
+            if(!cbCrop.isChecked()){
+                backgroundImage=BitmapFactory.decodeFile(path);
+            }
         }else if(requestCode==CROP_REQUEST_CODE){
             Bundle bundle=data.getExtras();
             if(bundle!=null){
                 backgroundImage=bundle.getParcelable("data");
                 log.t(getActivity(),getResources().getString(R.string.Background_image_added));
             }else{
-                log.t(getActivity(),"裁剪失败");
+                log.t(getActivity(),"取消了添加图片");
             }
         }else if(resultCode==getActivity().RESULT_CANCELED){
             Toast.makeText(getActivity().getApplicationContext(),"取消选择图片",Toast.LENGTH_SHORT).show();
@@ -222,8 +229,10 @@ public class awesomeCreator extends Fragment{
         }).start();
     }
 
-
     private Uri cropPhoto(Uri uri){
+        if(!cbCrop.isChecked()){
+            return uri;
+        }
         Intent intent=new Intent("com.android.camera.action.CROP");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);

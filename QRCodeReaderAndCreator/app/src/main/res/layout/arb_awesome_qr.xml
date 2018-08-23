@@ -93,7 +93,7 @@
                 android:layout_marginTop="16dp"
                 android:scaleType="fitCenter" />
 
-            <com.meng.qrtools.mengViews.selectRectView
+            <com.meng.qrtools.mengViews.mengSelectRectView
                 android:id="@+id/arb_awesome_qrselectRectView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

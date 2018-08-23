@@ -2,9 +2,11 @@ package com.meng;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -136,9 +138,8 @@ public class MainActivity2 extends Activity{
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,android.R.id.text1,new String[]{
-                "首页(大概)","读取相册二维码","相机扫描二维码","创建普通QR",
-                "创建AwesomeQR","创建动态AwesomeQR","自选位置的AwesomeQR",
-                "自选位置的动态AwesomeQR","关于","设置","退出"
+                "首页(大概)","读取相册二维码","相机扫描二维码","创建普通二维码",
+                "创建AwesomeQR","创建动态AwesomeQR","关于","设置","退出"
         }));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -153,20 +154,38 @@ public class MainActivity2 extends Activity{
                     case "相机扫描二维码":
                         initCameraReaderFragment(true);
                         break;
-                    case "创建普通QR":
+                    case "创建普通二维码":
                         initLogoCreatorFragment(true);
                         break;
                     case "创建AwesomeQR":
-                        initAwesomeFragment(true);
+                        new AlertDialog.Builder(MainActivity2.this)
+                                .setTitle("选择添加二维码的方式")
+                                .setPositiveButton("普通方式",new DialogInterface.OnClickListener(){
+                                    @Override
+                                    public void onClick(DialogInterface p1,int p2){
+                                        initAwesomeFragment(true);
+                                    }
+                                }).setNegativeButton("自选位置",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog,int which){
+                                initArbFragmentFragment(true);
+                            }
+                        }).show();
                         break;
                     case "创建动态AwesomeQR":
-                        initGifAwesomeFragment(true);
-                        break;
-                    case "自选位置的AwesomeQR":
-                        initArbFragmentFragment(true);
-                        break;
-                    case "自选位置的动态AwesomeQR":
-                        initGifArbAwesomeFragment(true);
+                        new AlertDialog.Builder(MainActivity2.this)
+                                .setTitle("选择添加二维码的方式")
+                                .setPositiveButton("普通方式",new DialogInterface.OnClickListener(){
+                                    @Override
+                                    public void onClick(DialogInterface p1,int p2){
+                                        initGifAwesomeFragment(true);
+                                    }
+                                }).setNegativeButton("自选位置",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog,int which){
+                                initGifArbAwesomeFragment(true);
+                            }
+                        }).show();
                         break;
                     case "关于":
                         initAboutFragment(true);
@@ -328,6 +347,7 @@ public class MainActivity2 extends Activity{
         }
         transactionGifArbAwesomeFragment.commit();
     }
+
     private void initAboutFragment(boolean showNow){
         FragmentTransaction transactionAboutFragment=manager.beginTransaction();
         if(aboutFragment==null){

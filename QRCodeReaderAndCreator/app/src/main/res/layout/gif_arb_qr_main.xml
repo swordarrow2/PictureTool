@@ -94,7 +94,7 @@
                 android:max="100"
                 android:visibility="gone"/>
 
-            <com.meng.qrtools.mengViews.selectRectView
+            <com.meng.qrtools.mengViews.mengSelectRectView
                 android:id="@+id/gif_arb_awesome_qrselectRectView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

@@ -3,6 +3,7 @@ package com.meng.qrtools.creator;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,11 +28,13 @@ import com.meng.MainActivity2;
 import com.meng.qrtools.R;
 import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
+import com.meng.qrtools.log;
 import com.meng.qrtools.mengViews.mengColorBar;
 import com.meng.qrtools.mengViews.mengEdittext;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 public class logoCreator extends Fragment{
     private ScrollView scrollView;
@@ -45,7 +48,8 @@ public class logoCreator extends Fragment{
     private Button btnSave;
     private Bitmap bmpQRcode=null;
     private Bitmap logoImage=null;
-    private CheckBox ckbAutoColor;
+    private CheckBox cbAutoColor;
+    private CheckBox cbCrop;
     private mengColorBar mColorBar;
     private Spinner spBarcodeFormat;
     private final int CROP_REQUEST_CODE=3;
@@ -66,7 +70,8 @@ public class logoCreator extends Fragment{
         mengEtContent=(mengEdittext)view.findViewById(R.id.qr_mengEditText_content);
         mengEtSize=(mengEdittext)view.findViewById(R.id.qr_mengEditText_size);
         scrollView=(ScrollView)view.findViewById(R.id.qr_mainScrollView);
-        ckbAutoColor=(CheckBox)view.findViewById(R.id.qr_main_autoColor);
+        cbAutoColor=(CheckBox)view.findViewById(R.id.qr_main_autoColor);
+        cbCrop=(CheckBox)view.findViewById(R.id.qr_main_crop);
         btnSelectImg=(Button)view.findViewById(R.id.qr_ButtonSelectImage);
         btnRemoveImg=(Button)view.findViewById(R.id.qr_ButtonRemoveImage);
         btnCreate=(Button)view.findViewById(R.id.qr_ButtonCreate);
@@ -76,21 +81,21 @@ public class logoCreator extends Fragment{
         btnRemoveImg.setOnClickListener(click);
         btnCreate.setOnClickListener(click);
         btnSave.setOnClickListener(click);
-        ckbAutoColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+        cbAutoColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
                 mColorBar.setVisibility(isChecked?View.GONE:View.VISIBLE);
             }
         });
         spBarcodeFormat=(Spinner)view.findViewById(R.id.qr_main_spinner);
-     //   String[] mItems=getResources().getStringArray(R.array.barcode_format);
-     //   ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,mItems);
-     //   adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-     //   spBarcodeFormat.setAdapter(adapter);
+        //   String[] mItems=getResources().getStringArray(R.array.barcode_format);
+        //   ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,mItems);
+        //   adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //   spBarcodeFormat.setAdapter(adapter);
         spBarcodeFormat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parent,View view,int pos,long id){
-               barcodeFormat=((TextView)view).getText().toString();
+                barcodeFormat=((TextView)view).getText().toString();
             }
 
             @Override
@@ -128,8 +133,8 @@ public class logoCreator extends Fragment{
                             QrUtils.createBarcode(
                                     mengEtContent.getString(),
                                     switchFormat(barcodeFormat),
-                                    ckbAutoColor.isChecked()?Color.BLACK:mColorBar.getTrueColor(),
-                                    ckbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
+                                    cbAutoColor.isChecked()?Color.BLACK:mColorBar.getTrueColor(),
+                                    cbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
                                     500,
                                     logoImage),
                             Integer.parseInt(mengEtSize.getString()));
@@ -144,7 +149,7 @@ public class logoCreator extends Fragment{
                     break;
                 case R.id.qr_ButtonSave:
                     try{
-                        String s=QrUtils.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/LogoQR"+SystemClock.elapsedRealtime()+".png",bmpQRcode);
+                        String s=QrUtils.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/"+barcodeFormat+"/"+(new Date()).toString()+".png",bmpQRcode);
                         Toast.makeText(getActivity().getApplicationContext(),"已保存至"+s,Toast.LENGTH_LONG).show();
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
                     }catch(IOException e){
@@ -156,19 +161,21 @@ public class logoCreator extends Fragment{
     };
 
     private Uri cropPhoto(Uri uri){
+        if(!cbCrop.isChecked()){
+            return uri;
+        }
         Intent intent=new Intent("com.android.camera.action.CROP");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         intent.setDataAndType(uri,"image/*");
         intent.putExtra("crop","true");
-        intent.putExtra("aspectX",1);
-        intent.putExtra("aspectY",1);
-        intent.putExtra("outputX",300);
-        intent.putExtra("outputY",300);
+        intent.putExtra("aspectX",300);
+        intent.putExtra("aspectY",150);
         intent.putExtra("return-data",true);
         startActivityForResult(intent,CROP_REQUEST_CODE);
         return uri;
     }
+
     private BarcodeFormat switchFormat(String s){
         switch(s){
             case "QRcode":
@@ -186,12 +193,18 @@ public class logoCreator extends Fragment{
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         if(requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE&&resultCode==getActivity().RESULT_OK&&data.getData()!=null){
-            tvImgPath.setText("当前："+ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),cropPhoto(data.getData())));
+            String path=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),cropPhoto(data.getData()));
+            tvImgPath.setText("当前图片："+path);
+            if(!cbCrop.isChecked()){
+                logoImage=BitmapFactory.decodeFile(path);
+            }
         }else if(requestCode==CROP_REQUEST_CODE){
             Bundle bundle=data.getExtras();
             if(bundle!=null){
                 logoImage=bundle.getParcelable("data");
-                Toast.makeText(getActivity().getApplicationContext(),R.string.Background_image_added,Toast.LENGTH_SHORT).show();
+                log.t(getActivity(),"图片添加成功");
+            }else{
+                log.t(getActivity(),"取消了添加图片");
             }
         }else if(resultCode==getActivity().RESULT_CANCELED){
             Toast.makeText(getActivity().getApplicationContext(),"取消选择图片",Toast.LENGTH_SHORT).show();
