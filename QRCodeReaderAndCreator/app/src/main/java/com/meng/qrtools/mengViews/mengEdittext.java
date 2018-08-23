@@ -44,16 +44,8 @@ public class mengEdittext extends LinearLayout{
         et.setText(s);
     }
 
-    public void addTextChangedListener(TextWatcher twColor){
-        et.addTextChangedListener(twColor);
-    }
-
-    public void setTextColor(int textColor){
-        tv.setTextColor(textColor);
-    }
-
     private boolean isEmpty(){
-        if(et.getText().toString()==null||et.getText().toString().trim().length()==0){
+        if(et.getText().toString().trim().length()==0){
             return true;
         }else{
             return false;

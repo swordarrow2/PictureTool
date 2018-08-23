@@ -49,11 +49,11 @@ public class MainActivity2 extends Activity{
     public cameraReader cameraReaderFragment;
     public galleryReader galleryReaderFragment;
     private textFragment aboutFragment;
-    private gifAwesomeQr gifFragment;
+    private gifAwesomeQr gifAwesomeFragment;
     private arbAwesome arbAwesome;
+    private gifCreator gifCreatorFragment;
     private settings settingsFragment;
     private gifArbAwesome gifArbAwesomeFragment;
-    private gifCreator gifCreatorFragment;
     public TextView rightText;
 
     public FragmentManager manager;
@@ -147,7 +147,7 @@ public class MainActivity2 extends Activity{
             @Override
             public void onItemClick(AdapterView<?> parent,View view,int position,long id){
                 switch(((TextView)view).getText().toString()){
-                    case "首页(?)":
+                    case "首页(大概)":
                         initWelcome(true);
                         break;
                     case "读取相册二维码":
@@ -190,7 +190,8 @@ public class MainActivity2 extends Activity{
                         }).show();
                         break;
                     case "生成gif":
-
+                        initGifFragment(true);
+                        break;
                     case "关于":
                         initAboutFragment(true);
                         break;
@@ -239,6 +240,9 @@ public class MainActivity2 extends Activity{
         }
         if(MainActivity.sharedPreference.getBoolean("ldaw3")){
             initGifArbAwesomeFragment(false);
+        }
+        if(MainActivity.sharedPreference.getBoolean("ldgif")){
+            initGifFragment(false);
         }
         if(MainActivity.sharedPreference.getBoolean("textFragment")){
             initAboutFragment(false);
@@ -315,13 +319,13 @@ public class MainActivity2 extends Activity{
 
     private void initGifAwesomeFragment(boolean showNow){
         FragmentTransaction transactionGifAwesomeCreatorFragment=manager.beginTransaction();
-        if(gifFragment==null){
-            gifFragment=new gifAwesomeQr();
-            transactionGifAwesomeCreatorFragment.add(R.id.main_activityLinearLayout,gifFragment);
+        if(gifAwesomeFragment==null){
+            gifAwesomeFragment=new gifAwesomeQr();
+            transactionGifAwesomeCreatorFragment.add(R.id.main_activityLinearLayout,gifAwesomeFragment);
         }
         hideFragment(transactionGifAwesomeCreatorFragment);
         if(showNow){
-            transactionGifAwesomeCreatorFragment.show(gifFragment);
+            transactionGifAwesomeCreatorFragment.show(gifAwesomeFragment);
         }
         transactionGifAwesomeCreatorFragment.commit();
     }
@@ -353,16 +357,16 @@ public class MainActivity2 extends Activity{
     }
 
     private void initGifFragment(boolean showNow){
-        FragmentTransaction transactionAboutFragment=manager.beginTransaction();
-        if(aboutFragment==null){
-            aboutFragment=new textFragment(1);
-            transactionAboutFragment.add(R.id.main_activityLinearLayout,aboutFragment);
+        FragmentTransaction transactionGifFragment=manager.beginTransaction();
+        if(gifCreatorFragment==null){
+            gifCreatorFragment=new gifCreator();
+            transactionGifFragment.add(R.id.main_activityLinearLayout,gifCreatorFragment);
         }
-        hideFragment(transactionAboutFragment);
+        hideFragment(transactionGifFragment);
         if(showNow){
-            transactionAboutFragment.show(aboutFragment);
+            transactionGifFragment.show(gifCreatorFragment);
         }
-        transactionAboutFragment.commit();
+        transactionGifFragment.commit();
     }
     private void initAboutFragment(boolean showNow){
         FragmentTransaction transactionAboutFragment=manager.beginTransaction();
@@ -395,11 +399,12 @@ public class MainActivity2 extends Activity{
                 welcomeFragment,
                 logoCreatorFragment,
                 awesomeCreatorFragment,
-                gifFragment,
+                gifAwesomeFragment,
                 cameraReaderFragment,
                 galleryReaderFragment,
                 arbAwesome,
                 gifArbAwesomeFragment,
+                gifAwesomeFragment,
                 aboutFragment,
                 settingsFragment
         };

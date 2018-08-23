@@ -30,6 +30,9 @@
             android:key="ldaw3"
             android:title="自选位置的动态AwesomeQR" />
         <CheckBoxPreference
+            android:key="ldgif"
+            android:title="生成gif" />
+        <CheckBoxPreference
             android:key="about"
             android:title="关于" />
         <CheckBoxPreference

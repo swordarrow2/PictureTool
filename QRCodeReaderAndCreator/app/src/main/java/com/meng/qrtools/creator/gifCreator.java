@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.meng.MainActivity2;
 import com.meng.qrtools.R;
@@ -59,6 +60,14 @@ public class gifCreator extends Fragment{
         btnFinish=(Button)view.findViewById(R.id.gif_creator_finish);
         btnAddFrame.setOnClickListener(listenerBtnClick);
         btnFinish.setOnClickListener(listenerBtnClick);
+        gifEncoder=new GifEncoder();
+        cbAutoSize.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
+                mengEtGifHeight.setVisibility(isChecked?View.GONE:View.VISIBLE);
+                mengEtGifWidth.setVisibility(isChecked?View.GONE:View.VISIBLE);
+            }
+        });
     }
 
     View.OnClickListener listenerBtnClick=new View.OnClickListener(){
@@ -104,7 +113,7 @@ public class gifCreator extends Fragment{
                     encoderInited=true;
                 }
                 gifEncoder.encodeFrame(
-                        QrUtils.flex(
+                        QrUtils.scale(
                                 BitmapFactory.decodeFile(strSelectedGifPath),
                                 mengEtGifWidth.getInt(),
                                 mengEtGifHeight.getInt()),
