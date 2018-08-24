@@ -32,7 +32,6 @@ public class galleryReader extends Fragment{
     private Button btn, btnqr;
     private TextView tv;
     private boolean vibrate;
-	screenshotListener manager;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -74,7 +73,7 @@ public class galleryReader extends Fragment{
 
     public void handleDecode(Result result,Bitmap barcode){
         String resultString=result.getText();
-        playBeepSoundAndVibrate();
+        playBeepSoundAndVibrate(200L);
         handleResult(resultString);
     }
 
@@ -161,50 +160,19 @@ public class galleryReader extends Fragment{
             MainActivity2.selectImage(this);
         }
     }
-	private void playBeepSoundAndVibrate(){
-        //  if(playBeep&&mediaPlayer!=null){
-        //      mediaPlayer.start();
-        //   }
-        if(vibrate){
+	private void playBeepSoundAndVibrate(long ms){
             Vibrator vibrator=(Vibrator)getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
-            vibrator.vibrate(200L);
-        }
+            vibrator.vibrate(ms);
     }
 	private void init(){
-		manager=screenshotListener.newInstance(getActivity());
-		log.i(getActivity(),"监听器");
-		manager.setListener(new screenshotListener.OnScreenShotListener(){
-				@Override
-				public void onShot(String imagePath){
-					// TODO: Implement this method
-					log.i(getActivity(),"文件改变"+imagePath);
-					try{
-						Thread.sleep(2000);
-					}catch(InterruptedException e){}
-					if(!TextUtils.isEmpty(imagePath)){
-						Result result=QrUtils.decodeImage(imagePath);
-						if(result!=null){
-							handleDecode(result,null);
-						}else{
-							new AlertDialog.Builder(getActivity())
-								.setTitle("提示")
-								.setMessage("此图片无法识别")
-								.setPositiveButton("确定",null)
-								.show();
-						}
-					}else{
-						Toast.makeText(getActivity().getApplicationContext(),"图片路径未找到",Toast.LENGTH_SHORT).show();
-					}
-				}		  
-			});
-		manager.startListen();
-		log.i(getActivity(),"开始监听");
+        Intent startIntent = new Intent(getActivity(), MyService.class);
+        getActivity().startService(startIntent);
 	}
 	@Override
 	public void onStop(){
-		// TODO: Implement this method
-		super.onStop();
-		manager.stopListen();
+        Intent stopIntent = new Intent(getActivity(), MyService.class);
+        getActivity().stopService(stopIntent);
+        super.onStop();
 	}
 
 }

@@ -7,24 +7,24 @@ import com.meng.MainActivity2;
 
 public class log{
 
-    public static void e(final Activity a,final Object o){
+    public static void e(final Object o){
         if(o instanceof Exception){
             ((Exception)o).printStackTrace();
         }
-        a.runOnUiThread(new Runnable(){
+        MainActivity2.instence.runOnUiThread(new Runnable(){
 
             @Override
             public void run(){
                 // TODO: Implement this method
-                Toast.makeText(a,"发生错误:"+o.toString(),Toast.LENGTH_SHORT).show();
-                i(a,"发生错误:"+o.toString());
+                Toast.makeText(MainActivity2.instence,"发生错误:"+o.toString(),Toast.LENGTH_SHORT).show();
+                i("发生错误:"+o.toString());
             }
         });
     }
 
 
-    public static void i(final Activity a,final Object o){
-        a.runOnUiThread(new Runnable(){
+    public static void i(final Object o){
+        MainActivity2.instence.runOnUiThread(new Runnable(){
 
             @Override
             public void run(){
@@ -37,14 +37,14 @@ public class log{
         });
     }
 
-    public static void t(final Activity a,final Object o){
-        a.runOnUiThread(new Runnable(){
+    public static void t(final Object o){
+        MainActivity2.instence.runOnUiThread(new Runnable(){
 
             @Override
             public void run(){
                 // TODO: Implement this method
-                Toast.makeText(a,o.toString(),Toast.LENGTH_SHORT).show();
-                i(a,o.toString());
+                Toast.makeText(MainActivity2.instence,o.toString(),Toast.LENGTH_SHORT).show();
+                i(o.toString());
             }
         });
     }

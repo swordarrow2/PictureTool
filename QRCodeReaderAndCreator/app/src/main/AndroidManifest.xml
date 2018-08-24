@@ -29,6 +29,7 @@
             android:label="@string/app_name"
             android:theme="@style/AppThemeDark" />
 
+        <service android:name=".MyService" />
     </application>
 
 </manifest>
