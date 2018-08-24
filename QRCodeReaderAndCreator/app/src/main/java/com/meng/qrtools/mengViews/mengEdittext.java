@@ -51,4 +51,10 @@ public class mengEdittext extends LinearLayout{
             return false;
         }
     }
+
+    @Override
+    public void setEnabled(boolean enabled){
+        super.setEnabled(enabled);
+        setVisibility(enabled?VISIBLE:GONE);
+    }
 }

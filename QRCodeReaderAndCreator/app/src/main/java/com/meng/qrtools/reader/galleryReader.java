@@ -25,7 +25,7 @@ import com.meng.MainActivity2;
 import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.qrtools.*;
-import android.os.*;
+import com.meng.qrtools.lib.screenshotListener;
 
 public class galleryReader extends Fragment{
     private final int REQUEST_PERMISSION_PHOTO=1001;

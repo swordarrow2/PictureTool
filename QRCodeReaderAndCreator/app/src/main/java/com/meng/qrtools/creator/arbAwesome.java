@@ -12,7 +12,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -61,7 +60,7 @@ public class arbAwesome extends Fragment{
     private float screenW;
     private float screenH;
     private mengSelectRectView mv;
-
+    private Button btSelectBG;
     private String[] PERMISSIONS_STORAGE={
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -82,7 +81,7 @@ public class arbAwesome extends Fragment{
         qrCodeImageView=(ImageView)view.findViewById(R.id.awesomeqr_main_qrcode);
         mengEtContents=(mengEdittext)view.findViewById(R.id.awesomeqr_main_content);
         mengEtDotScale=(mengEdittext)view.findViewById(R.id.awesomeqr_main_dotScale);
-        Button btSelectBG=(Button)view.findViewById(R.id.awesomeqr_main_backgroundImage);
+        btSelectBG=(Button)view.findViewById(R.id.awesomeqr_main_backgroundImage);
         btGenerate=(Button)view.findViewById(R.id.awesomeqr_main_generate);
         ckbAutoColor=(CheckBox)view.findViewById(R.id.awesomeqr_main_autoColor);
         btnSave=(Button)view.findViewById(R.id.awesomeqr_mainButton_save);

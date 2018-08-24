@@ -1,4 +1,4 @@
-package com.meng.qrtools;
+package com.meng.qrtools.lib;
 
 
 import android.content.Context;

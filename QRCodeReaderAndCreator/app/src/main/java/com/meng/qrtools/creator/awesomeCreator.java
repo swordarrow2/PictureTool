@@ -104,7 +104,7 @@ public class awesomeCreator extends Fragment{
                     mColorBar.setVisibility(isChecked?View.GONE:View.VISIBLE);
                     break;
                 case R.id.awesomeqr_main_binarize:
-                    mengEtBinarize.setVisibility(isChecked?View.VISIBLE:View.GONE);
+                    mengEtBinarize.setEnabled(isChecked);
                     break;
             }
         }
