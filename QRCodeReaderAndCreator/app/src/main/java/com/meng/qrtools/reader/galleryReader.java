@@ -24,13 +24,15 @@ import com.google.zxing.Result;
 import com.meng.MainActivity2;
 import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
+import com.meng.qrtools.*;
+import android.os.*;
 
 public class galleryReader extends Fragment{
     private final int REQUEST_PERMISSION_PHOTO=1001;
-    Button btn, btnqr;
-    TextView tv;
-    public static final int PHOTO_REQUEST_GALLERY=1000;
+    private Button btn, btnqr;
+    private TextView tv;
     private boolean vibrate;
+	screenshotListener manager;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -45,27 +47,27 @@ public class galleryReader extends Fragment{
         btn=(Button)view.findViewById(com.meng.qrtools.R.id.read_galleryButton);
         tv=(TextView)view.findViewById(com.meng.qrtools.R.id.read_galleryTextView);
         btnqr=(Button)view.findViewById(com.meng.qrtools.R.id.read_galleryButtonQR);
+		init();
         btn.setOnClickListener(new OnClickListener(){
 
-            @Override
-            public void onClick(View p1){
-                // TODO: Implement this method
-                openGallery();
-            }
-        });
+				@Override
+				public void onClick(View p1){
+					// TODO: Implement this method
+					openGallery();
+				}
+			});
         btnqr.setOnClickListener(new OnClickListener(){
 
-            @Override
-            public void onClick(View p1){
-                // TODO: Implement this method
-                FragmentTransaction transaction=getActivity().getFragmentManager().beginTransaction();
-                MainActivity2.instence.awesomeCreatorFragment.setDataStr(tv.getText().toString());
-                transaction.hide(MainActivity2.instence.galleryReaderFragment);
-                transaction.show(MainActivity2.instence.awesomeCreatorFragment);
-                transaction.commit();
-            }
-        });
-
+				@Override
+				public void onClick(View p1){
+					// TODO: Implement this method
+					FragmentTransaction transaction=getActivity().getFragmentManager().beginTransaction();
+					MainActivity2.instence.awesomeCreatorFragment.setDataStr(tv.getText().toString());
+					transaction.hide(MainActivity2.instence.galleryReaderFragment);
+					transaction.show(MainActivity2.instence.awesomeCreatorFragment);
+					transaction.commit();
+				}
+			});
         vibrate=true;
     }
 
@@ -111,7 +113,7 @@ public class galleryReader extends Fragment{
 
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
-        if(resultCode==getActivity().RESULT_OK&&data!=null&&requestCode==PHOTO_REQUEST_GALLERY){
+        if(resultCode==getActivity().RESULT_OK&&data!=null&&requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE){
             Uri inputUri=data.getData();
             String path=null;
             path=ContentHelper.absolutePathFromUri(getActivity(),inputUri);
@@ -122,10 +124,10 @@ public class galleryReader extends Fragment{
                     handleDecode(result,null);
                 }else{
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("提示")
-                            .setMessage("此图片无法识别")
-                            .setPositiveButton("确定",null)
-                            .show();
+						.setTitle("提示")
+						.setMessage("此图片无法识别")
+						.setPositiveButton("确定",null)
+						.show();
                 }
             }else{
                 Toast.makeText(getActivity().getApplicationContext(),"图片路径未找到",Toast.LENGTH_SHORT).show();
@@ -139,33 +141,27 @@ public class galleryReader extends Fragment{
         if(grantResults.length>0&&requestCode==REQUEST_PERMISSION_PHOTO){
             if(grantResults[0]!=PackageManager.PERMISSION_GRANTED){
                 new AlertDialog.Builder(getActivity())
-                        .setTitle("提示")
-                        .setMessage("请在系统设置中为App中开启文件权限后重试")
-                        .setPositiveButton("确定",null)
-                        .show();
+					.setTitle("提示")
+					.setMessage("请在系统设置中为App中开启文件权限后重试")
+					.setPositiveButton("确定",null)
+					.show();
             }else{
-                selectImage();
+                MainActivity2.selectImage(this);
             }
         }
     }
 
-    private void selectImage(){
-        Intent intent=new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-        startActivityForResult(intent,PHOTO_REQUEST_GALLERY);
-    }
-
     public void openGallery(){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M
-                &&getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                !=PackageManager.PERMISSION_GRANTED){
+		   &&getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+		   !=PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_PERMISSION_PHOTO);
+							   REQUEST_PERMISSION_PHOTO);
         }else{
-            selectImage();
+            MainActivity2.selectImage(this);
         }
-    }private void playBeepSoundAndVibrate(){
+    }
+	private void playBeepSoundAndVibrate(){
         //  if(playBeep&&mediaPlayer!=null){
         //      mediaPlayer.start();
         //   }
@@ -174,4 +170,41 @@ public class galleryReader extends Fragment{
             vibrator.vibrate(200L);
         }
     }
+	private void init(){
+		manager=screenshotListener.newInstance(getActivity());
+		log.i(getActivity(),"监听器");
+		manager.setListener(new screenshotListener.OnScreenShotListener(){
+				@Override
+				public void onShot(String imagePath){
+					// TODO: Implement this method
+					log.i(getActivity(),"文件改变"+imagePath);
+					try{
+						Thread.sleep(2000);
+					}catch(InterruptedException e){}
+					if(!TextUtils.isEmpty(imagePath)){
+						Result result=QrUtils.decodeImage(imagePath);
+						if(result!=null){
+							handleDecode(result,null);
+						}else{
+							new AlertDialog.Builder(getActivity())
+								.setTitle("提示")
+								.setMessage("此图片无法识别")
+								.setPositiveButton("确定",null)
+								.show();
+						}
+					}else{
+						Toast.makeText(getActivity().getApplicationContext(),"图片路径未找到",Toast.LENGTH_SHORT).show();
+					}
+				}		  
+			});
+		manager.startListen();
+		log.i(getActivity(),"开始监听");
+	}
+	@Override
+	public void onStop(){
+		// TODO: Implement this method
+		super.onStop();
+		manager.stopListen();
+	}
+
 }

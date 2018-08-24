@@ -64,16 +64,16 @@ public class gifCreator extends Fragment{
         btnFinish.setOnClickListener(listenerBtnClick);
         dataMap=new HashMap<Integer,String>();
         cbAutoSize.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
-                mengEtGifHeight.setVisibility(isChecked?View.GONE:View.VISIBLE);
-                mengEtGifWidth.setVisibility(isChecked?View.GONE:View.VISIBLE);
-            }
-        });
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
+					mengEtGifHeight.setVisibility(isChecked?View.GONE:View.VISIBLE);
+					mengEtGifWidth.setVisibility(isChecked?View.GONE:View.VISIBLE);
+				}
+			});
     }
 
     View.OnClickListener listenerBtnClick=new View.OnClickListener(){
-        GifEncoder gifEncoder=new GifEncoder();
+
 
         @Override
         public void onClick(View v){
@@ -81,40 +81,44 @@ public class gifCreator extends Fragment{
                 case R.id.gif_creator_add:
                     MainActivity2.selectImage(gifCreator.this);
                     break;
-                case R.id.gif_creator_finish:
+                case R.id.gif_creator_finish:				
                     try{
+						GifEncoder gifEncoder=new GifEncoder();
                         filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+
-                                "/Pictures/QRcode/gif"+(new Date()).toString()+".gif";
+							"/Pictures/QRcode/gif"+(new Date()).toString()+".gif";
                         gifEncoder.setDither(false);
                         if(cbAutoSize.isChecked()){
                             Bitmap bmp=BitmapFactory.decodeFile(selectedPicturePath);
                             gifEncoder.init(
-                                    bmp.getWidth(),
-                                    bmp.getHeight(),
-                                    filePath,
-                                    GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
+								bmp.getWidth(),
+								bmp.getHeight(),
+								filePath,
+								GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
                         }else{
                             gifEncoder.init(
-                                    mengEtGifWidth.getInt(),
-                                    mengEtGifHeight.getInt(),
-                                    filePath,
-                                    GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
+								mengEtGifWidth.getInt(),
+								mengEtGifHeight.getInt(),
+								filePath,
+								GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
                         }
-                    }catch(IOException e){
+
+						for(int i=0;i<bitmapFlag;i++){
+							gifEncoder.encodeFrame(
+                                QrUtils.scale(
+									BitmapFactory.decodeFile(dataMap.get(i)),
+									mengEtGifWidth.getInt(),
+									mengEtGifHeight.getInt()),
+                                mengEtFrameDelay.getInt());
+						}
+						gifEncoder.close();
+						getActivity().getApplicationContext().sendBroadcast(
+                            new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
+						log.t(getActivity(),"完成 : "+filePath);
+						dataMap.clear();
+						bitmapFlag=0;
+					}catch(IOException e){
                         log.e(getActivity(),e);
                     }
-                    for(int i=0;i<bitmapFlag;i++){
-                        gifEncoder.encodeFrame(
-                                QrUtils.scale(
-                                        BitmapFactory.decodeFile(dataMap.get(i)),
-                                        mengEtGifWidth.getInt(),
-                                        mengEtGifHeight.getInt()),
-                                mengEtFrameDelay.getInt());
-                    }
-                    gifEncoder.close();
-                    getActivity().getApplicationContext().sendBroadcast(
-                            new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
-                    log.t(getActivity(),"完成 : "+filePath);
                     break;
             }
         }

@@ -44,11 +44,13 @@
                 android:layout_height="wrap_content"
                 ran:edittextHint="10"
                 ran:textviewText="帧延迟(ms)"/>
+			
             <Button
-                android:text="添加"
+                android:text="添加图片"
                 android:id="@+id/gif_creator_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+			
             <Button
                 android:text="添加完成"
                 android:id="@+id/gif_creator_finish"

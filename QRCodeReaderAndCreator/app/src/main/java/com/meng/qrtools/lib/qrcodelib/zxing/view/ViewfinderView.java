@@ -232,7 +232,8 @@ public final class ViewfinderView extends View{
     // 绘制扫描线
     // 如果允许绘制 `possible points`则显示居中的红线
     private void drawScanner(Canvas canvas,Rect frame){
-        if(showPossiblePoint){
+    //    if(showPossiblePoint){
+		if(true){
             // Draw a red "laser scanner" line through the middle to show decoding is active
             paint.setColor(laserColor);
             paint.setAlpha(SCANNER_ALPHA[scannerAlpha]);

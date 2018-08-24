@@ -403,7 +403,7 @@ public class MainActivity2 extends Activity{
                 cameraReaderFragment,
                 galleryReaderFragment,
                 arbAwesome,
-                gifArbAwesomeFragment,
+                gifCreatorFragment,
                 gifAwesomeFragment,
                 aboutFragment,
                 settingsFragment
