@@ -51,14 +51,10 @@ public class textFragment extends Fragment{
 
     private void about(){
         String[] s=new String[]{
-                //	"欢迎使用QRtools\n",
-                "    这是一个对二维码操作为主的软件。\n",
-                "    可以对二维码进行读取内容和生成二维码的软件。\n",
-                "    可以从相机扫描条形码与二维码也可以从相册中选择已有的图片进行识别。\n",
                 "    可以扫描的二维码类型:QRcode，DataMatrix，Aztec，PDF417。\n",
-                "    可以生成普通的二维码,带有logo的QR二维码以及AwesomeQR码。\n",
-                "    还可以将AwesomeQR码添加到GIF图片中。\n",
-                "    并带有简单的GIF生成功能\n",
+                "    可以生成QRcode，DataMatrix，Aztec，PDF417以及AwesomeQR。\n",
+                "    可以将AwesomeQR码添加到GIF图片中。\n",
+                "    带有简单的GIF生成功能\n",
                 "    使用的开源项目:\n",
                 "    https://github.com/keklikhasan/LDrawer/\n",
                 "    https://github.com/SumiMakito/AwesomeQRCode/\n",
