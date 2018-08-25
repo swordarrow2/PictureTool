@@ -271,12 +271,12 @@ public class QrUtils{
             try{
                 Hashtable<EncodeHintType,Object> hints=new Hashtable<>();
                 hints.put(EncodeHintType.CHARACTER_SET,"UTF-8");
-                if (format == BarcodeFormat.AZTEC) {//错误校正词的最小百分比
-                    hints.put(EncodeHintType.ERROR_CORRECTION, Encoder.DEFAULT_AZTEC_LAYERS);//默认，可以不设
-                } else if (format == BarcodeFormat.PDF_417) {
-                    hints.put(EncodeHintType.ERROR_CORRECTION, 2);//纠错级别，允许为0到8。默认2，可以不设
-                } else {
-                    hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
+                if(format==BarcodeFormat.AZTEC){//错误校正词的最小百分比
+                    hints.put(EncodeHintType.ERROR_CORRECTION,Encoder.DEFAULT_AZTEC_LAYERS);//默认，可以不设
+                }else if(format==BarcodeFormat.PDF_417){
+                    hints.put(EncodeHintType.ERROR_CORRECTION,2);//纠错级别，允许为0到8。默认2，可以不设
+                }else{
+                    hints.put(EncodeHintType.ERROR_CORRECTION,ErrorCorrectionLevel.M);
                 }
                 BitMatrix bitMatrix=new MultiFormatWriter().encode(text,format,size,size,hints);
                 int H=bitMatrix.getHeight();
@@ -291,8 +291,16 @@ public class QrUtils{
                         }
                     }
                 }
-                Bitmap bitmap=Bitmap.createBitmap(W,H,Bitmap.Config.ARGB_8888);
-                bitmap.setPixels(pixels,0,W,0,0,W,H);
+                Bitmap bitmap;
+                if(format.equals(BarcodeFormat.DATA_MATRIX)){
+                    bitmap=Bitmap.createBitmap(W+2,H+2,Bitmap.Config.ARGB_8888);
+                    Canvas c=new Canvas(bitmap);
+                    c.drawARGB(0xff,0xff,0xff,0xff);
+                    bitmap.setPixels(pixels,0,W,1,1,W,H);
+                }else{
+                    bitmap=Bitmap.createBitmap(W,H,Bitmap.Config.ARGB_8888);
+                    bitmap.setPixels(pixels,0,W,0,0,W,H);
+                }
                 return bitmap;
             }catch(WriterException e){
                 e.printStackTrace();
@@ -414,41 +422,43 @@ public class QrUtils{
         //  qrCodeImageView.setLayoutParams(para);
         return finallyBmp;
     }
-    public static Bitmap flex(Bitmap bitmap, int dstWidth) {
-        float wScale = (float) dstWidth / bitmap.getWidth();
-        float hScale = wScale;
-        return flex(bitmap, wScale, hScale);
-    }
-    public static Bitmap scale(Bitmap bitmap,int dstWidth,int dstHeight) {
-        float wScale = (float) dstWidth / bitmap.getWidth();
-        float hScale = (float) dstHeight / bitmap.getHeight();
-        return flex(bitmap, wScale, hScale);
+
+    public static Bitmap flex(Bitmap bitmap,int dstWidth){
+        float wScale=(float)dstWidth/bitmap.getWidth();
+        float hScale=wScale;
+        return flex(bitmap,wScale,hScale);
     }
 
-    public static Bitmap flex(Bitmap bitmap, float wScale, float hScale) {
-        if (wScale <= 0 || hScale <= 0){
+    public static Bitmap scale(Bitmap bitmap,int dstWidth,int dstHeight){
+        float wScale=(float)dstWidth/bitmap.getWidth();
+        float hScale=(float)dstHeight/bitmap.getHeight();
+        return flex(bitmap,wScale,hScale);
+    }
+
+    public static Bitmap flex(Bitmap bitmap,float wScale,float hScale){
+        if(wScale<=0||hScale<=0){
             return null;
         }
-        float ii = 1 / wScale;    //采样的行间距
-        float jj = 1 / hScale; //采样的列间距
+        float ii=1/wScale;    //采样的行间距
+        float jj=1/hScale; //采样的列间距
 
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int dstWidth = (int) (wScale * width);
-        int dstHeight = (int) (hScale * height);
+        int width=bitmap.getWidth();
+        int height=bitmap.getHeight();
+        int dstWidth=(int)(wScale*width);
+        int dstHeight=(int)(hScale*height);
 
-        int[] pixels = new int[width * height];
-        bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+        int[] pixels=new int[width*height];
+        bitmap.getPixels(pixels,0,width,0,0,width,height);
 
-        int[] dstPixels = new int[dstWidth * dstHeight];
+        int[] dstPixels=new int[dstWidth*dstHeight];
 
-        for (int j = 0; j < dstHeight; j++) {
-            for (int i = 0; i < dstWidth; i++) {
-                dstPixels[j * dstWidth + i] = pixels[(int) (jj * j) * width + (int) (ii * i)];
+        for(int j=0;j<dstHeight;j++){
+            for(int i=0;i<dstWidth;i++){
+                dstPixels[j*dstWidth+i]=pixels[(int)(jj*j)*width+(int)(ii*i)];
             }
         }
-        Bitmap outBitmap = Bitmap.createBitmap(dstWidth, dstHeight, Bitmap.Config.ARGB_8888);
-        outBitmap.setPixels(dstPixels, 0, dstWidth, 0, 0, dstWidth, dstHeight);
+        Bitmap outBitmap=Bitmap.createBitmap(dstWidth,dstHeight,Bitmap.Config.ARGB_8888);
+        outBitmap.setPixels(dstPixels,0,dstWidth,0,0,dstWidth,dstHeight);
 
         return outBitmap;
     }
