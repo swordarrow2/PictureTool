@@ -202,9 +202,9 @@ public class logoCreator extends Fragment{
             Bundle bundle=data.getExtras();
             if(bundle!=null){
                 logoImage=bundle.getParcelable("data");
-                log.t(getActivity(),"图片添加成功");
+                log.t("图片添加成功");
             }else{
-                log.t(getActivity(),"取消了添加图片");
+                log.t("取消了添加图片");
             }
         }else if(resultCode==getActivity().RESULT_CANCELED){
             Toast.makeText(getActivity().getApplicationContext(),"取消选择图片",Toast.LENGTH_SHORT).show();

@@ -123,7 +123,7 @@ public class gifArbAwesome extends Fragment{
                     break;
                 case R.id.gif_arb_qr_button_encode_gif:
                     if(coding){
-                        log.t(getActivity(),"正在执行操作");
+                        log.t("正在执行操作");
                     }else{
                         btnSelectImage.setEnabled(false);
                         encodeGIF();
@@ -162,9 +162,9 @@ public class gifArbAwesome extends Fragment{
                     }
                     gifEncoder.close();
                     getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
-                    log.t(getActivity(),"完成 : "+filePath);
+                    log.t("完成 : "+filePath);
                 }catch(FileNotFoundException e){
-                    log.e(getActivity(),e);
+                    log.e(e);
                 }
                 coding=false;
                 System.gc();
@@ -195,15 +195,15 @@ public class gifArbAwesome extends Fragment{
                             try{
                                 QrUtils.saveMyBitmap(strTmpFolder+flag+++".png",next.bitmap);
                             }catch(IOException e){
-                                log.e(getActivity(),e);
+                                log.e(e);
                             }
                             intGifFrameDelay=next.delayMs;
                         }else{
-                            log.e(getActivity(),"解码失败，可能文件损坏");
+                            log.e("解码失败，可能文件损坏");
                         }
                     }
                     iterator.close();
-                    log.t(getActivity(),"共"+(flag-1)+"张,解码成功");
+                    log.t("共"+(flag-1)+"张,解码成功");
                     bmpCount=flag;
                     //			final Bitmap tmpbmp=BitmapFactory.decodeFile(strTmpFolder+"0.png");
                     createNomediaFile();
@@ -240,9 +240,9 @@ public class gifArbAwesome extends Fragment{
                             bmpDecodedBitmaps[i]=gifDecoder.frame(i);
                             setProgress((int)((i+1)*100.0f/gifDecoder.frameNum()),false);
                         }
-                        log.t(getActivity(),"共"+(bmpCount=gifDecoder.frameNum())+"张,解码成功");
+                        log.t("共"+(bmpCount=gifDecoder.frameNum())+"张,解码成功");
                     }else{
-                        log.e(getActivity(),"解码失败，可能不是GIF文件");
+                        log.e("解码失败，可能不是GIF文件");
                     }
                     coding=false;
                     getActivity().runOnUiThread(new Runnable(){
@@ -253,13 +253,13 @@ public class gifArbAwesome extends Fragment{
                             tvImagePath.setVisibility(View.VISIBLE);
                             gifHeight=bmpDecodedBitmaps[0].getHeight();
                             gifWidth=bmpDecodedBitmaps[0].getWidth();
-                            log.i(getActivity(),"setup");
+                            log.i("setup");
                             mv.setup(
                                     bmpDecodedBitmaps[0],
                                     screenW,
                                     screenH,
                                     qrSize);
-                            log.i(getActivity(),"setPara");
+                            log.i("setPara");
                             ViewGroup.LayoutParams para=mv.getLayoutParams();
                             para.height=(int)(screenW/gifWidth*gifHeight);
                             mv.setLayoutParams(para);
@@ -277,7 +277,7 @@ public class gifArbAwesome extends Fragment{
             try{
                 f.createNewFile();
             }catch(IOException e){
-                log.e(getActivity(),e);
+                log.e(e);
             }
         }
     }
@@ -325,9 +325,9 @@ public class gifArbAwesome extends Fragment{
                 if(p==100){
                     pbCodingProgress.setVisibility(View.GONE);
                     if(encoing){
-                        log.t(getActivity(),"编码完成");
+                        log.t("编码完成");
                     }else{
-                        log.t(getActivity(),"解码完成");
+                        log.t("解码完成");
                     }
                 }else{
                     if(pbCodingProgress.getVisibility()==View.GONE){
@@ -343,7 +343,7 @@ public class gifArbAwesome extends Fragment{
         if(requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE&&resultCode==getActivity().RESULT_OK&&data.getData()!=null){
             try{
                 if(coding){
-                    log.t(getActivity(),"正在执行操作");
+                    log.t("正在执行操作");
                 }else{
                     Uri imageUri=data.getData();
                     strSelectedGifPath=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),imageUri);
@@ -375,7 +375,7 @@ public class gifArbAwesome extends Fragment{
                             }).show();
                 }
             }catch(Exception e){
-                log.e(getActivity(),e);
+                log.e(e);
             }
         }else if(resultCode==getActivity().RESULT_CANCELED){
             Toast.makeText(getActivity().getApplicationContext(),"用户取消了操作",Toast.LENGTH_SHORT).show();

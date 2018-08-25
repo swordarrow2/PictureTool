@@ -120,7 +120,7 @@ public class awesomeCreator extends Fragment{
                 case R.id.awesomeqr_main_removeBackgroundImage:
                     backgroundImage=null;
                     imgPathTextView.setVisibility(View.GONE);
-                    log.t(getActivity(),getResources().getString(R.string.Background_image_removed));
+                    log.t(getResources().getString(R.string.Background_image_removed));
                     break;
                 case R.id.awesomeqr_main_generate:
                     generate(mengEtContents.getString(),
@@ -140,10 +140,10 @@ public class awesomeCreator extends Fragment{
                 case R.id.awesomeqr_mainButton_save:
                     try{
                         String s=QrUtils.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/AwesomeQR"+(new Date()).toString()+".png",bmpQRcode);
-                        log.t(getActivity(),"已保存至"+s);
+                        log.t("已保存至"+s);
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
                     }catch(IOException e){
-                        log.e(getActivity(),e);
+                        log.e(e);
                     }
                     break;
             }
@@ -185,9 +185,9 @@ public class awesomeCreator extends Fragment{
             Bundle bundle=data.getExtras();
             if(bundle!=null){
                 backgroundImage=bundle.getParcelable("data");
-                log.t(getActivity(),getResources().getString(R.string.Background_image_added));
+                log.t(getResources().getString(R.string.Background_image_added));
             }else{
-                log.t(getActivity(),"取消了添加图片");
+                log.t("取消了添加图片");
             }
         }else if(resultCode==getActivity().RESULT_CANCELED){
             Toast.makeText(getActivity().getApplicationContext(),"取消选择图片",Toast.LENGTH_SHORT).show();
@@ -222,7 +222,7 @@ public class awesomeCreator extends Fragment{
                         }
                     });
                 }catch(Exception e){
-                    log.e(getActivity(),e);
+                    log.e(e);
                     generating=false;
                 }
             }

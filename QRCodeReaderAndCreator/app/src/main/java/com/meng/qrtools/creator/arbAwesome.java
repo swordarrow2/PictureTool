@@ -134,10 +134,10 @@ public class arbAwesome extends Fragment{
                                 Environment.getExternalStorageDirectory().getAbsolutePath()+
                                         "/Pictures/QRcode/AwesomeQR"+(new Date()).toString()+".png",
                                 finallyBmp);
-                        log.t(getActivity(),"已保存至"+s);
+                        log.t("已保存至"+s);
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
                     }catch(IOException e){
-                        log.e(getActivity(),e);
+                        log.e(e);
                     }
                     break;
             }

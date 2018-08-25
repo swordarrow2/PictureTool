@@ -168,11 +168,14 @@ public class galleryReader extends Fragment{
         Intent startIntent = new Intent(getActivity(), MyService.class);
         getActivity().startService(startIntent);
 	}
+
 	@Override
-	public void onStop(){
-        Intent stopIntent = new Intent(getActivity(), MyService.class);
+	public void onDestroy(){
+		// TODO: Implement this method
+		Intent stopIntent = new Intent(getActivity(), MyService.class);
         getActivity().stopService(stopIntent);
-        super.onStop();
+		super.onDestroy();
 	}
+	
 
 }

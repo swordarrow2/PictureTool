@@ -113,11 +113,11 @@ public class gifCreator extends Fragment{
 						gifEncoder.close();
 						getActivity().getApplicationContext().sendBroadcast(
                             new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
-						log.t(getActivity(),"完成 : "+filePath);
+						log.t("完成 : "+filePath);
 						dataMap.clear();
 						bitmapFlag=0;
 					}catch(IOException e){
-                        log.e(getActivity(),e);
+                        log.e(e);
                     }
                     break;
             }
