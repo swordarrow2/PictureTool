@@ -36,6 +36,7 @@ import com.meng.qrtools.lib.qrcodelib.zxing.camera.CameraManager;
 import com.meng.qrtools.lib.qrcodelib.zxing.decoding.CaptureActivityHandler;
 import com.meng.qrtools.lib.qrcodelib.zxing.decoding.InactivityTimer;
 import com.meng.qrtools.lib.qrcodelib.zxing.view.ViewfinderView;
+import com.meng.qrtools.log;
 
 import java.io.IOException;
 import java.util.Vector;
@@ -181,7 +182,7 @@ public class cameraReader extends Fragment implements Callback{
 
     public void handleResult(final String resultString){
         if(TextUtils.isEmpty(resultString)){
-            Toast.makeText(getActivity(),"string.scan_failed",Toast.LENGTH_SHORT).show();
+            log.t("scan_failed");
             restartPreview();
         }else{
             if(mDialog==null){
