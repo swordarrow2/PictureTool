@@ -15,10 +15,10 @@
             android:key="ldlgqr"
             android:title="logo二维码" />
         <CheckBoxPreference
-            android:key="ldgr"
+            android:key="ldcr"
             android:title="相机扫描" />
         <CheckBoxPreference
-            android:key="ldcr"
+            android:key="ldgr"
             android:title="从相册读取" />
         <CheckBoxPreference
             android:key="ldgif"
