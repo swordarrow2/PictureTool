@@ -25,10 +25,15 @@
             android:text="@string/select_image" />
 
         <Button
-            android:id="@+id/read_galleryButtonQR"
+            android:id="@+id/read_galleryButton_createAwesomeQR"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="生成AwesomeQR"
             android:visibility="gone" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自动读取屏幕截图中的二维码"
+            android:id="@+id/read_gallery_autoread"/>
     </LinearLayout>
 </RelativeLayout>
