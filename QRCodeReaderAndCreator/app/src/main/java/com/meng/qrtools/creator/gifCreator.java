@@ -41,8 +41,10 @@ public class gifCreator extends Fragment{
     private Button btnFinish;
     private String filePath;
     private String selectedPicturePath;
-    HashMap<Integer,String> dataMap;
+    private HashMap<Integer,String> dataMap;
     private int bitmapFlag=0;
+    private int bmpH;
+    private int bmpW;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -64,12 +66,12 @@ public class gifCreator extends Fragment{
         btnFinish.setOnClickListener(listenerBtnClick);
         dataMap=new HashMap<Integer,String>();
         cbAutoSize.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
-					mengEtGifHeight.setVisibility(isChecked?View.GONE:View.VISIBLE);
-					mengEtGifWidth.setVisibility(isChecked?View.GONE:View.VISIBLE);
-				}
-			});
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
+                mengEtGifHeight.setVisibility(isChecked?View.GONE:View.VISIBLE);
+                mengEtGifWidth.setVisibility(isChecked?View.GONE:View.VISIBLE);
+            }
+        });
     }
 
     View.OnClickListener listenerBtnClick=new View.OnClickListener(){
@@ -81,42 +83,46 @@ public class gifCreator extends Fragment{
                 case R.id.gif_creator_add:
                     MainActivity2.selectImage(gifCreator.this);
                     break;
-                case R.id.gif_creator_finish:				
+                case R.id.gif_creator_finish:
                     try{
-						GifEncoder gifEncoder=new GifEncoder();
+                        GifEncoder gifEncoder=new GifEncoder();
                         filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+
-							"/Pictures/QRcode/gif"+(new Date()).toString()+".gif";
+                                "/Pictures/QRcode/gif"+(new Date()).toString()+".gif";
                         gifEncoder.setDither(false);
                         if(cbAutoSize.isChecked()){
                             Bitmap bmp=BitmapFactory.decodeFile(selectedPicturePath);
+                            bmpW=bmp.getWidth();
+                            bmpH=bmp.getHeight();
                             gifEncoder.init(
-								bmp.getWidth(),
-								bmp.getHeight(),
-								filePath,
-								GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
+                                    bmpW,
+                                    bmpH,
+                                    filePath,
+                                    GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
                         }else{
+                            bmpW=mengEtGifWidth.getInt();
+                            bmpH=mengEtGifHeight.getInt();
                             gifEncoder.init(
-								mengEtGifWidth.getInt(),
-								mengEtGifHeight.getInt(),
-								filePath,
-								GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
+                                    bmpW,
+                                    bmpH,
+                                    filePath,
+                                    GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
                         }
 
-						for(int i=0;i<bitmapFlag;i++){
-							gifEncoder.encodeFrame(
-                                QrUtils.scale(
-									BitmapFactory.decodeFile(dataMap.get(i)),
-									mengEtGifWidth.getInt(),
-									mengEtGifHeight.getInt()),
-                                mengEtFrameDelay.getInt());
-						}
-						gifEncoder.close();
-						getActivity().getApplicationContext().sendBroadcast(
-                            new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
-						log.t("完成 : "+filePath);
-						dataMap.clear();
-						bitmapFlag=0;
-					}catch(IOException e){
+                        for(int i=0;i<bitmapFlag;i++){
+                            gifEncoder.encodeFrame(
+                                    QrUtils.scale(
+                                            BitmapFactory.decodeFile(dataMap.get(i)),
+                                            bmpW,
+                                            bmpH),
+                                    mengEtFrameDelay.getInt());
+                        }
+                        gifEncoder.close();
+                        getActivity().getApplicationContext().sendBroadcast(
+                                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
+                        log.t("完成 : "+filePath);
+                        dataMap.clear();
+                        bitmapFlag=0;
+                    }catch(IOException e){
                         log.e(e);
                     }
                     break;
