@@ -168,8 +168,10 @@ public class logoCreator extends Fragment{
         intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         intent.setDataAndType(uri,"image/*");
         intent.putExtra("crop","true");
-        intent.putExtra("aspectX",300);
-        intent.putExtra("aspectY",150);
+        intent.putExtra("aspectX",1);
+        intent.putExtra("aspectY",1);
+        intent.putExtra("outputX",300);
+        intent.putExtra("outputY",300);
         intent.putExtra("return-data",true);
         startActivityForResult(intent,CROP_REQUEST_CODE);
         return uri;
@@ -197,7 +199,7 @@ public class logoCreator extends Fragment{
             if(!cbCrop.isChecked()){
                 logoImage=BitmapFactory.decodeFile(path);
             }
-        }else if(requestCode==CROP_REQUEST_CODE){
+        }else if(requestCode==CROP_REQUEST_CODE&&resultCode==getActivity().RESULT_OK){
             Bundle bundle=data.getExtras();
             if(bundle!=null){
                 logoImage=bundle.getParcelable("data");

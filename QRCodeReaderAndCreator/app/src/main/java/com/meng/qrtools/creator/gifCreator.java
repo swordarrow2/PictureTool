@@ -7,12 +7,14 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.meng.MainActivity2;
 import com.meng.qrtools.R;
@@ -41,8 +43,9 @@ public class gifCreator extends Fragment{
     private Button btnFinish;
     private String filePath;
     private String selectedPicturePath;
-    private HashMap<Integer,String> dataMap;
+    private HashMap<Integer,Bitmap> dataMap;
     private int bitmapFlag=0;
+    private final int CROP_REQUEST_CODE=3;
     private int bmpH;
     private int bmpW;
 
@@ -64,7 +67,7 @@ public class gifCreator extends Fragment{
         btnFinish=(Button)view.findViewById(R.id.gif_creator_finish);
         btnAddFrame.setOnClickListener(listenerBtnClick);
         btnFinish.setOnClickListener(listenerBtnClick);
-        dataMap=new HashMap<Integer,String>();
+        dataMap=new HashMap<Integer,Bitmap>();
         cbAutoSize.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
@@ -85,9 +88,9 @@ public class gifCreator extends Fragment{
                     break;
                 case R.id.gif_creator_finish:
                     try{
-                        GifEncoder gifEncoder=new GifEncoder();
                         filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+
                                 "/Pictures/QRcode/gif"+(new Date()).toString()+".gif";
+                        GifEncoder gifEncoder=new GifEncoder();
                         gifEncoder.setDither(false);
                         if(cbAutoSize.isChecked()){
                             Bitmap bmp=BitmapFactory.decodeFile(selectedPicturePath);
@@ -111,7 +114,7 @@ public class gifCreator extends Fragment{
                         for(int i=0;i<bitmapFlag;i++){
                             gifEncoder.encodeFrame(
                                     QrUtils.scale(
-                                            BitmapFactory.decodeFile(dataMap.get(i)),
+                                            dataMap.get(i),
                                             bmpW,
                                             bmpH),
                                     mengEtFrameDelay.getInt());
@@ -133,10 +136,30 @@ public class gifCreator extends Fragment{
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         if(requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE&&resultCode==getActivity().RESULT_OK&&data.getData()!=null){
-            selectedPicturePath=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),data.getData());
-            dataMap.put(bitmapFlag,selectedPicturePath);
-            bitmapFlag++;
-            super.onActivityResult(requestCode,resultCode,data);
+            cropPhoto(data.getData());
+        }else if(requestCode==CROP_REQUEST_CODE&&resultCode==getActivity().RESULT_OK){
+            Bundle bundle=data.getExtras();
+            if(bundle!=null){
+                dataMap.put(bitmapFlag,(Bitmap)bundle.getParcelable("data"));
+                bitmapFlag++;
+                log.t("图片添加成功");
+            }else{
+                log.t("取消了添加图片");
+            }
+        }else if(resultCode==getActivity().RESULT_CANCELED){
+            log.t("取消选择图片");
         }
+        super.onActivityResult(requestCode,resultCode,data);
+    }
+
+    private Uri cropPhoto(Uri uri){
+        Intent intent=new Intent("com.android.camera.action.CROP");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.setDataAndType(uri,"image/*");
+        intent.putExtra("crop","true");
+        intent.putExtra("return-data",true);
+        startActivityForResult(intent,CROP_REQUEST_CODE);
+        return uri;
     }
 }
