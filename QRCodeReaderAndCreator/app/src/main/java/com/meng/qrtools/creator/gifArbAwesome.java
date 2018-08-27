@@ -10,8 +10,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.SystemClock;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +29,7 @@ import com.meng.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.qrtools.log;
 import com.meng.qrtools.mengViews.mengColorBar;
 import com.meng.qrtools.mengViews.mengEdittext;
+import com.meng.qrtools.mengViews.mengScrollView;
 import com.meng.qrtools.mengViews.mengSeekBar;
 import com.meng.qrtools.mengViews.mengSelectRectView;
 import com.waynejo.androidndkgif.GifDecoder;
@@ -66,12 +67,13 @@ public class gifArbAwesome extends Fragment{
     private TextView tvImagePath;
     private mengColorBar mColorBar;
 
-    private mengSelectRectView mv;
+    private mengSelectRectView mengSelectView;
     private float screenW;
     private float screenH;
     private int gifWidth;
     private int gifHeight;
     private int bmpCount;
+    private mengScrollView msv;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -83,7 +85,8 @@ public class gifArbAwesome extends Fragment{
     public void onViewCreated(View view,Bundle savedInstanceState){
         // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
-        mv=(mengSelectRectView)view.findViewById(R.id.gif_arb_awesome_qrselectRectView);
+        msv=(mengScrollView)view.findViewById(R.id.gif_arb_awesome_qrMengScrollView);
+        mengSelectView=(mengSelectRectView)view.findViewById(R.id.gif_arb_awesome_qrselectRectView);
         mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         btnEncodeGif=(Button)view.findViewById(R.id.gif_arb_qr_button_encode_gif);
         btnSelectImage=(Button)view.findViewById(R.id.gif_arb_qr_button_selectImg);
@@ -97,6 +100,7 @@ public class gifArbAwesome extends Fragment{
         cbAutoColor.setOnCheckedChangeListener(check);
         btnSelectImage.setOnClickListener(listenerBtnClick);
         btnEncodeGif.setOnClickListener(listenerBtnClick);
+        msv.setSelectView(mengSelectView);
         DisplayMetrics dm=new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         screenW=dm.widthPixels;
@@ -214,16 +218,16 @@ public class gifArbAwesome extends Fragment{
                             btnEncodeGif.setVisibility(View.VISIBLE);
                             cbUseDither.setVisibility(View.VISIBLE);
                             tvImagePath.setVisibility(View.VISIBLE);
-                            mv.setup(
+                            mengSelectView.setup(
                                     BitmapFactory.decodeFile(strTmpFolder+"0.png"),
                                     screenW,
                                     screenH,
                                     qrSize);
-                            ViewGroup.LayoutParams para=mv.getLayoutParams();
+                            ViewGroup.LayoutParams para=mengSelectView.getLayoutParams();
                             para.height=(int)(screenW/gifWidth*gifHeight);
                             //	para.height=(int)(screenW/tmpbmp.getWidth()*tmpbmp.getHeight());
-                            mv.setLayoutParams(para);
-                            mv.setVisibility(View.VISIBLE);
+                            mengSelectView.setLayoutParams(para);
+                            mengSelectView.setVisibility(View.VISIBLE);
                         }
                     });
                 }
@@ -254,16 +258,16 @@ public class gifArbAwesome extends Fragment{
                             gifHeight=bmpDecodedBitmaps[0].getHeight();
                             gifWidth=bmpDecodedBitmaps[0].getWidth();
                             log.i("setup");
-                            mv.setup(
+                            mengSelectView.setup(
                                     bmpDecodedBitmaps[0],
                                     screenW,
                                     screenH,
                                     qrSize);
                             log.i("setPara");
-                            ViewGroup.LayoutParams para=mv.getLayoutParams();
+                            ViewGroup.LayoutParams para=mengSelectView.getLayoutParams();
                             para.height=(int)(screenW/gifWidth*gifHeight);
-                            mv.setLayoutParams(para);
-                            mv.setVisibility(View.VISIBLE);
+                            mengSelectView.setLayoutParams(para);
+                            mengSelectView.setVisibility(View.VISIBLE);
                         }
                     });
                 }
@@ -284,7 +288,7 @@ public class gifArbAwesome extends Fragment{
 
     private Bitmap encodeAwesome(Bitmap bg){
         /* return AwesomeQRCode.create(
-		 mengEtTextToEncode.getString(),
+         mengEtTextToEncode.getString(),
 		 cbAutoSize.isChecked()?size:Integer.parseInt(mengEtSize.getString()),
 		 (int)(size*0.025f),
 		 Float.parseFloat(mengEtDotScale.getString()),
@@ -301,8 +305,8 @@ public class gifArbAwesome extends Fragment{
                 cbAutoColor.isChecked()?Color.BLACK:mColorBar.getTrueColor(),
                 cbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
                 cbAutoColor.isChecked(),
-                between(mv.getSelectLeft()/mv.getXishu(),0,bg.getWidth()-qrSize),
-                between(mv.getSelectTop()/mv.getXishu(),0,bg.getHeight()-qrSize),
+                between(mengSelectView.getSelectLeft()/mengSelectView.getXishu(),0,bg.getWidth()-qrSize),
+                between(mengSelectView.getSelectTop()/mengSelectView.getXishu(),0,bg.getHeight()-qrSize),
                 qrSize,
                 bg);
     }
@@ -348,7 +352,6 @@ public class gifArbAwesome extends Fragment{
                     Uri imageUri=data.getData();
                     strSelectedGifPath=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),imageUri);
                     tvImagePath.setText(strSelectedGifPath);
-
                     final Bitmap selectedBmp=BitmapFactory.decodeFile(strSelectedGifPath);
                     final int selectedBmpWidth=selectedBmp.getWidth();
                     final int selectedBmpHeight=selectedBmp.getHeight();
@@ -364,12 +367,20 @@ public class gifArbAwesome extends Fragment{
                                 public void onClick(DialogInterface p1,int p2){
                                     qrSize=msb.getProgress();
                                     //ll.addView(new mengSelectRectView(getActivity(),selectedBmp,screenW,screenH));
-                                    mv.setup(selectedBmp,screenW,screenH,qrSize);
-                                    ViewGroup.LayoutParams para=mv.getLayoutParams();
+                                    mengSelectView.setup(selectedBmp,screenW,screenH,qrSize);
+                                    ViewGroup.LayoutParams para=mengSelectView.getLayoutParams();
                                     para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);
-                                    mv.setLayoutParams(para);
-                                    mv.setVisibility(View.VISIBLE);
+                                    mengSelectView.setLayoutParams(para);
+                                    mengSelectView.setVisibility(View.VISIBLE);
                                     decodeGif(strSelectedGifPath);
+                                    if(para.height>screenH*2/3){
+                                        log.t("可使用音量键滚动界面");
+                                    }
+                                    msv.post(new Runnable(){
+                                        public void run(){
+                                            msv.fullScroll(View.FOCUS_DOWN);
+                                        }
+                                    });
                                     coding=true;
                                 }
                             }).show();
@@ -384,5 +395,21 @@ public class gifArbAwesome extends Fragment{
         }
         super.onActivityResult(requestCode,resultCode,data);
     }
+    public void onKeyDown(int keyCode,KeyEvent event){
 
+        if((keyCode==KeyEvent.KEYCODE_VOLUME_UP)){
+            msv.post(new Runnable(){
+                public void run(){
+                    msv.scrollBy(0,0xffffff9c);//(0xffffff9c)16=(-100)10
+                }
+            });
+        }
+        if((keyCode==KeyEvent.KEYCODE_VOLUME_DOWN)){
+            msv.post(new Runnable(){
+                public void run(){
+                    msv.scrollBy(0,100);
+                }
+            });
+        }
+    }
 }

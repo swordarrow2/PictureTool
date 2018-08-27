@@ -368,6 +368,7 @@ public class MainActivity2 extends Activity{
         }
         transactionGifFragment.commit();
     }
+
     private void initAboutFragment(boolean showNow){
         FragmentTransaction transactionAboutFragment=manager.beginTransaction();
         if(aboutFragment==null){
@@ -448,6 +449,14 @@ public class MainActivity2 extends Activity{
             }else{
                 mDrawerLayout.openDrawer(mDrawerList);
             }
+            return true;
+        }
+        if(arbAwesome!=null&&arbAwesome.isVisible()){
+            arbAwesome.onKeyDown(keyCode,event);
+            return true;
+        }
+        if(gifArbAwesomeFragment!=null&&gifArbAwesomeFragment.isVisible()){
+            gifArbAwesomeFragment.onKeyDown(keyCode,event);
             return true;
         }
         return super.onKeyDown(keyCode,event);

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import com.meng.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.qrtools.log;
 import com.meng.qrtools.mengViews.mengColorBar;
 import com.meng.qrtools.mengViews.mengEdittext;
+import com.meng.qrtools.mengViews.mengScrollView;
 import com.meng.qrtools.mengViews.mengSeekBar;
 import com.meng.qrtools.mengViews.mengSelectRectView;
 
@@ -51,6 +53,7 @@ public class arbAwesome extends Fragment{
     private Button btnSave;
     private TextView imgPathTextView;
     private mengColorBar mColorBar;
+    private mengScrollView sv;
 
     private Bitmap finallyBmp=null;
     private String selectedBmpPath="";
@@ -59,7 +62,7 @@ public class arbAwesome extends Fragment{
     private int selectedBmpHeight=0;
     private float screenW;
     private float screenH;
-    private mengSelectRectView mv;
+    private mengSelectRectView mengSelectView;
     private Button btSelectBG;
     private String[] PERMISSIONS_STORAGE={
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -76,7 +79,8 @@ public class arbAwesome extends Fragment{
     public void onViewCreated(View view,Bundle savedInstanceState){
         // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
-        mv=(mengSelectRectView)view.findViewById(R.id.arb_awesome_qrselectRectView);
+        sv=(mengScrollView)view.findViewById(R.id.awesomeqr_main_scrollView);
+        mengSelectView=(mengSelectRectView)view.findViewById(R.id.arb_awesome_qrselectRectView);
         mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         qrCodeImageView=(ImageView)view.findViewById(R.id.awesomeqr_main_qrcode);
         mengEtContents=(mengEdittext)view.findViewById(R.id.awesomeqr_main_content);
@@ -89,6 +93,7 @@ public class arbAwesome extends Fragment{
         btSelectBG.setOnClickListener(click);
         btGenerate.setOnClickListener(click);
         btnSave.setOnClickListener(click);
+        sv.setSelectView(mengSelectView);
         ckbAutoColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
@@ -126,13 +131,13 @@ public class arbAwesome extends Fragment{
                     generate();
                     btnSave.setVisibility(View.VISIBLE);
                     qrCodeImageView.setVisibility(View.VISIBLE);
-                    mv.setVisibility(View.GONE);
+                    mengSelectView.setVisibility(View.GONE);
                     break;
                 case R.id.awesomeqr_mainButton_save:
                     try{
                         String s=QrUtils.saveMyBitmap(
                                 Environment.getExternalStorageDirectory().getAbsolutePath()+
-                                        "/Pictures/QRcode/AwesomeQR"+(new Date()).toString()+".png",
+                                        "/Pictures/QRcode/AwesomeQR/"+(new Date()).toString()+".png",
                                 finallyBmp);
                         log.t("已保存至"+s);
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
@@ -184,11 +189,19 @@ public class arbAwesome extends Fragment{
                         public void onClick(DialogInterface p1,int p2){
                             qrSize=msb.getProgress();
                             //ll.addView(new mengSelectRectView(getActivity(),selectedBmp,screenW,screenH));
-                            mv.setup(selectedBmp,screenW,screenH,qrSize);
-                            ViewGroup.LayoutParams para=mv.getLayoutParams();
+                            mengSelectView.setup(selectedBmp,screenW,screenH,qrSize);
+                            ViewGroup.LayoutParams para=mengSelectView.getLayoutParams();
                             para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);
-                            mv.setLayoutParams(para);
-                            mv.setVisibility(View.VISIBLE);
+                            mengSelectView.setLayoutParams(para);
+                            mengSelectView.setVisibility(View.VISIBLE);
+                            if(para.height>screenH*2/3){
+                                log.t("可使用音量键滚动界面");
+                            }
+                            sv.post(new Runnable(){
+                                public void run(){
+                                    sv.fullScroll(View.FOCUS_DOWN);
+                                }
+                            });
                         }
                     }).show();
         }else if(resultCode==getActivity().RESULT_CANCELED){
@@ -206,13 +219,12 @@ public class arbAwesome extends Fragment{
                 ckbAutoColor.isChecked()?Color.BLACK:mColorBar.getTrueColor(),
                 ckbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
                 ckbAutoColor.isChecked(),
-                between(mv.getSelectLeft()/mv.getXishu(),0,selectedBmpWidth-qrSize),
-                between(mv.getSelectTop()/mv.getXishu(),0,selectedBmpHeight-qrSize),
+                between(mengSelectView.getSelectLeft()/mengSelectView.getXishu(),0,selectedBmpWidth-qrSize),
+                between(mengSelectView.getSelectTop()/mengSelectView.getXishu(),0,selectedBmpHeight-qrSize),
                 qrSize,
                 BitmapFactory.decodeFile(selectedBmpPath).copy(Bitmap.Config.ARGB_8888,true));
-        qrCodeImageView.setImageBitmap(QrUtils.scaleBitmap(finallyBmp,mv.getXishu()));
+        qrCodeImageView.setImageBitmap(QrUtils.scaleBitmap(finallyBmp,mengSelectView.getXishu()));
     }
-
 
     private int between(float a,int min,int max){
         if(a<min){
@@ -224,5 +236,23 @@ public class arbAwesome extends Fragment{
         return (int)a;
     }
 
+    public void onKeyDown(int keyCode,KeyEvent event){
+
+        if((keyCode==KeyEvent.KEYCODE_VOLUME_UP)){
+            sv.post(new Runnable(){
+                public void run(){
+                    sv.scrollBy(0,0xffffff9c);//(0xffffff9c)16=(-100)10
+                }
+            });
+        }
+        if((keyCode==KeyEvent.KEYCODE_VOLUME_DOWN)){
+            sv.post(new Runnable(){
+                public void run(){
+                    sv.scrollBy(0,100);
+                }
+            });
+        }
+
+    }
 
 }

@@ -6,7 +6,8 @@
                 android:gravity="top|center_horizontal"
                 android:orientation="vertical">
 
-    <ScrollView
+    <com.meng.qrtools.mengViews.mengScrollView
+        android:id="@+id/gif_arb_awesome_qrMengScrollView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
@@ -100,6 +101,6 @@
                 android:layout_height="match_parent"/>
 
         </LinearLayout>
-    </ScrollView>
+    </com.meng.qrtools.mengViews.mengScrollView>
 </RelativeLayout>
 
