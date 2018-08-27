@@ -50,7 +50,7 @@ public class MainActivity2 extends Activity{
     public galleryReader galleryReaderFragment;
     private textFragment aboutFragment;
     private gifAwesomeQr gifAwesomeFragment;
-    private arbAwesome arbAwesome;
+    private arbAwesome arbAwesomeFragment;
     private gifCreator gifCreatorFragment;
     private settings settingsFragment;
     private gifArbAwesome gifArbAwesomeFragment;
@@ -332,13 +332,13 @@ public class MainActivity2 extends Activity{
 
     private void initArbFragmentFragment(boolean showNow){
         FragmentTransaction transactionTestFragment=manager.beginTransaction();
-        if(arbAwesome==null){
-            arbAwesome=new arbAwesome();
-            transactionTestFragment.add(R.id.main_activityLinearLayout,arbAwesome);
+        if(arbAwesomeFragment==null){
+            arbAwesomeFragment=new arbAwesome();
+            transactionTestFragment.add(R.id.main_activityLinearLayout,arbAwesomeFragment);
         }
         hideFragment(transactionTestFragment);
         if(showNow){
-            transactionTestFragment.show(arbAwesome);
+            transactionTestFragment.show(arbAwesomeFragment);
         }
         transactionTestFragment.commit();
     }
@@ -403,7 +403,7 @@ public class MainActivity2 extends Activity{
                 gifAwesomeFragment,
                 cameraReaderFragment,
                 galleryReaderFragment,
-                arbAwesome,
+                arbAwesomeFragment,
                 gifCreatorFragment,
                 gifAwesomeFragment,
                 aboutFragment,
@@ -451,8 +451,8 @@ public class MainActivity2 extends Activity{
             }
             return true;
         }
-        if(arbAwesome!=null&&arbAwesome.isVisible()){
-            arbAwesome.onKeyDown(keyCode,event);
+        if(arbAwesomeFragment!=null&&arbAwesomeFragment.isVisible()){
+            arbAwesomeFragment.onKeyDown(keyCode,event);
             return true;
         }
         if(gifArbAwesomeFragment!=null&&gifArbAwesomeFragment.isVisible()){
