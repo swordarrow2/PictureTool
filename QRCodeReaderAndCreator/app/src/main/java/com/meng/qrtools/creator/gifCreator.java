@@ -42,7 +42,6 @@ public class gifCreator extends Fragment{
     private Button btnAddFrame;
     private Button btnFinish;
     private String filePath;
-    private String selectedPicturePath;
     private HashMap<Integer,Bitmap> dataMap;
     private int bitmapFlag=0;
     private final int CROP_REQUEST_CODE=3;
@@ -93,9 +92,9 @@ public class gifCreator extends Fragment{
                         GifEncoder gifEncoder=new GifEncoder();
                         gifEncoder.setDither(false);
                         if(cbAutoSize.isChecked()){
-                            Bitmap bmp=BitmapFactory.decodeFile(selectedPicturePath);
-                            bmpW=bmp.getWidth();
-                            bmpH=bmp.getHeight();
+                        //    Bitmap bmp=BitmapFactory.decodeFile(selectedPicturePath);
+							bmpW=dataMap.get(0).getWidth();
+                            bmpH=dataMap.get(0).getHeight();                
                             gifEncoder.init(
                                     bmpW,
                                     bmpH,
