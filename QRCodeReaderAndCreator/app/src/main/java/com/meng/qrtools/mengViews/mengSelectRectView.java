@@ -54,8 +54,8 @@ public class mengSelectRectView extends View{
     @Override
     public boolean onTouchEvent(MotionEvent event){
         if(!seted) return true;
-        final int x=(int)event.getX();
-        final int y=(int)event.getY();
+        int x=(int)event.getX();
+        int y=(int)event.getY();
         mLeft=between(x-bmpUseRect.getWidth()/2,0,imageViewBackground.getWidth()-bmpUseRect.getWidth());
         mTop=between(y-bmpUseRect.getHeight()/2,0,imageViewBackground.getHeight()-bmpUseRect.getHeight());
         //tv.setText("x:"+(mLeft/xishu)+"  y:"+(mTop/xishu));

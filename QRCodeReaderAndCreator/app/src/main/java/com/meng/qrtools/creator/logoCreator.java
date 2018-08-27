@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -214,4 +215,5 @@ public class logoCreator extends Fragment{
         }
         super.onActivityResult(requestCode,resultCode,data);
     }
+
 }

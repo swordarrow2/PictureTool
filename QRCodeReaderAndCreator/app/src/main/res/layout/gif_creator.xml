@@ -21,6 +21,12 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="第一帧尺寸作为gif尺寸"/>
+            <CheckBox
+                android:id="@+id/gif_creator_crop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="选择图片时裁剪"/>
 
             <com.meng.qrtools.mengViews.mengEdittext
                 android:id="@+id/gif_creator_height"
