@@ -78,6 +78,7 @@ public class screenshotListenerService extends Service{
                     @Override
                     public void onDismiss(DialogInterface d){
                         deleteDialog(imagePath);
+						dialog.setOnDismissListener(null);
                         dialog=null;
                     }
                 });

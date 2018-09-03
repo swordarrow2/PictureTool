@@ -405,7 +405,7 @@ public class MainActivity2 extends Activity{
                 galleryReaderFragment,
                 arbAwesomeFragment,
                 gifCreatorFragment,
-                gifAwesomeFragment,
+                gifArbAwesomeFragment,
                 aboutFragment,
                 settingsFragment
         };

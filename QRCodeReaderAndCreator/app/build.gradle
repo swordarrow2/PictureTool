@@ -9,7 +9,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 20180825
-        versionName "7.3.5"
+        versionName "7.4.5"
     }
     buildTypes {
         release {
