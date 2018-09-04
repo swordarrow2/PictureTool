@@ -6,9 +6,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
+		
+		<TextView
+			android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+			android:id="@+id/read_galleryTextView_format" />
+		
         <TextView
-            android:id="@+id/read_galleryTextView"
+            android:id="@+id/read_galleryTextView_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoLink="all"

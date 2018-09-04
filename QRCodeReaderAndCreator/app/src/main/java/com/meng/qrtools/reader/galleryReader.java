@@ -36,6 +36,7 @@ public class galleryReader extends Fragment{
     private Button btnOpenGallery, btnCreateAwesomeQR;
     private TextView tvResult;
     private CheckBox cbAutoRead;
+	private TextView tvFormat;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -48,7 +49,8 @@ public class galleryReader extends Fragment{
         // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
         btnOpenGallery=(Button)view.findViewById(R.id.read_galleryButton);
-        tvResult=(TextView)view.findViewById(R.id.read_galleryTextView);
+        tvResult=(TextView)view.findViewById(R.id.read_galleryTextView_result);
+		tvFormat=(TextView)view.findViewById(R.id.read_galleryTextView_format);
         btnCreateAwesomeQR=(Button)view.findViewById(R.id.read_galleryButton_createAwesomeQR);
         btnOpenGallery.setOnClickListener(click);
         btnCreateAwesomeQR.setOnClickListener(click);
@@ -94,13 +96,14 @@ public class galleryReader extends Fragment{
     public void handleDecode(Result result,Bitmap barcode){
         String resultString=result.getText();
         playBeepSoundAndVibrate(200L);
-        handleResult(resultString);
+        handleResult(resultString,result.getBarcodeFormat().toString());
     }
 
-    protected void handleResult(final String resultString){
+    protected void handleResult(final String resultString,String format){
         if(resultString.equals("")){
             Toast.makeText(getActivity(),com.meng.qrtools.R.string.scan_failed,Toast.LENGTH_SHORT).show();
         }else{
+			tvFormat.setText("二维码类型"+format);
             tvResult.setText(resultString);
             btnCreateAwesomeQR.setVisibility(View.VISIBLE);
             /*	if(mDialog==null){

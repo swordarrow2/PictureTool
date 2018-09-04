@@ -176,17 +176,17 @@ public class cameraReader extends Fragment implements Callback{
     public void handleDecode(Result result,Bitmap barcode){
         inactivityTimer.onActivity();
         playBeepSoundAndVibrate();
-        String resultString=result.getText();
-        handleResult(resultString);
+        handleResult(result.getText(),result.getBarcodeFormat().toString());
     }
 
-    public void handleResult(final String resultString){
+    public void handleResult(final String resultString,String format){
         if(TextUtils.isEmpty(resultString)){
             log.t("scan_failed");
             restartPreview();
         }else{
             if(mDialog==null){
                 mDialog=new AlertDialog.Builder(getActivity())
+				.setTitle("二维码类型:"+format)
                         .setMessage(resultString)
                         .setPositiveButton("确定",null)
                         .setNeutralButton("复制文本",new DialogInterface.OnClickListener(){
@@ -214,12 +214,13 @@ public class cameraReader extends Fragment implements Callback{
                 mDialog.setOnDismissListener(new DialogInterface.OnDismissListener(){
                     @Override
                     public void onDismiss(DialogInterface dialog){
+						mDialog=null;
                         restartPreview();
                     }
                 });
             }
             if(!mDialog.isShowing()){
-                mDialog.setMessage(resultString);
+                
                 mDialog.show();
             }
         }

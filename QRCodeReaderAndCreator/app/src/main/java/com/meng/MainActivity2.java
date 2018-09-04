@@ -413,6 +413,7 @@ public class MainActivity2 extends Activity{
             if(f!=null){
                 transaction.hide(f);
             }
+			
         }
     }
 
