@@ -11,6 +11,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -40,6 +42,22 @@ public class Autoreply extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
 	private Random random = new Random();
 	private JsonParser parser;
 	private JsonObject obj;
+	private Recoder recoder = new Recoder();
+	private String lastKey = "";
+	private liveCheck liveTaizhang;
+	private liveCheck liveSuiJinFang;
+	private liveCheck liveGuMingDiJue;
+	private liveCheck liveShuiZi;
+	private liveCheck liveLanShou;
+	private liveCheck liveTianHu;
+	private liveCheck liveShaLiZi;
+	private liveCheck liveWeiGuang;
+	private liveCheck liveKongGe;
+	private liveCheck liveJoXianRen;
+	private liveCheck liveXianZhe;
+	private liveCheck liveXingHaiTianXia;
+	private final String startLive = "直播开始啦大家快去奶";
+	private int repeaterCount=0;
 
 	/**
 	 * 用main方法调试可以最大化的加快开发效率，检测和定位错误位置<br/>
@@ -113,6 +131,70 @@ public class Autoreply extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
 			}
 		}
 		parser = new JsonParser();
+
+		liveTaizhang = new liveCheck("巫女折寿中", "https://live.bilibili.com/2409909");
+		liveTaizhang.start();
+		liveShuiZi = new liveCheck("幻镜水精灵", "https://live.bilibili.com/2803104");
+		liveShuiZi.start();
+		liveGuMingDiJue = new liveCheck("古明地决", "https://live.bilibili.com/952890");
+		liveGuMingDiJue.start();
+		liveSuiJinFang = new liveCheck("蕾米厨一号", "https://live.bilibili.com/4773795");
+		liveSuiJinFang.start();
+		liveLanShou = new liveCheck("当思念成奢望", "https://live.bilibili.com/2128637");
+		liveLanShou.start();
+		liveTianHu = new liveCheck("天狐Kitsune", "https://live.bilibili.com/936600");
+		liveTianHu.start();
+		liveShaLiZi = new liveCheck("砂砾籽", "https://live.bilibili.com/11928");
+		liveShaLiZi.start();
+		liveWeiGuang = new liveCheck("圣德の十七条威光", "https://live.bilibili.com/1318639");
+		liveWeiGuang.start();
+		liveKongGe = new liveCheck("六开幕死路一条", "https://live.bilibili.com/75404");
+		liveKongGe.start();
+		liveJoXianRen = new liveCheck("jokerlixin", "https://live.bilibili.com/2299954");
+		liveJoXianRen.start();
+		liveXianZhe = new liveCheck("八雲的妖怪闲者", "https://live.bilibili.com/1954885");
+		liveXianZhe.start();
+		liveXingHaiTianXia = new liveCheck("星海天下", "https://live.bilibili.com/359844");
+		liveXingHaiTianXia.start();
+
+		new Thread() {
+			public void run() {
+				while (true) {
+					try {
+						checkMethod(liveTaizhang);
+						sleep(250);
+						checkMethod(liveShuiZi);
+						sleep(250);
+						checkMethod(liveGuMingDiJue);
+						sleep(250);
+						checkMethod(liveSuiJinFang);
+						sleep(250);
+						checkMethod(liveLanShou);
+						sleep(250);
+						checkMethod(liveTianHu);
+						sleep(250);
+						checkMethod(liveShaLiZi);
+						sleep(250);
+						checkMethod(liveWeiGuang);
+						sleep(250);
+						checkMethod(liveKongGe);
+						sleep(250);
+						checkMethod(liveJoXianRen);
+						sleep(250);
+						checkMethod(liveXianZhe);
+						sleep(250);
+						checkMethod(liveXingHaiTianXia);
+						sleep(27250);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+			};
+		};
+	//	}.start();
+
 		// 返回如：D:\CoolQ\app\com.sobte.cqp.jcq\app\com.example.demo\
 		// 应用的所有数据、配置【必须】存放于此目录，避免给用户带来困扰。
 
@@ -180,7 +262,8 @@ public class Autoreply extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
 	 */
 	public int privateMsg(int subType, int msgId, long fromQQ, String msg, int font) {
 		// 这里处理消息
-		CQ.sendPrivateMsg(fromQQ, "你发送了这样的消息：" + msg );
+		CQ.sendPrivateMsg(fromQQ, "类型" + subType + "\n内容：" + msg + "\nID：" + msgId + "\n字体：" + font);
+
 		return MSG_IGNORE;
 	}
 
@@ -228,25 +311,95 @@ public class Autoreply extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
 
 		// JsonArray array = obj.getAsJsonArray(msg);
 
-		obj = parser.parse(readToString(dic.getAbsolutePath())).getAsJsonObject();
-		Iterator it = obj.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry entry = (Entry) it.next();
-			if (Pattern.matches(".*" + ((String) entry.getKey()) + ".*", msg)) {
-				JsonArray array2 = (JsonArray) entry.getValue();
-				int i = 0;
-				for (; i < array2.size(); i++) {
-					String string = removeCharAt(array2.get(i).toString(), 0);
-					replyPool.put(i, removeCharAt(string, string.length() - 1));
+		try {
+			if (fromQQ == 2856986197L||fromQQ==943486447L||fromQQ==183889179L
+					||fromQQ==350795616L) {
+				if (msg.equalsIgnoreCase("wholeban")) {
+					CQ.setGroupWholeBan(fromGroup, true);
+					return MSG_IGNORE;
 				}
-				if (replyPool.get(0) != null) {
-					CQ.sendGroupMsg(fromGroup, replyPool.get(random.nextInt(i)));
-					replyPool.clear();
+				if (msg.equalsIgnoreCase("wholerelease")) {
+					CQ.setGroupWholeBan(fromGroup, false);
+					return MSG_IGNORE;
+				}
+				String[] strings=msg.split("\\.");
+				if (strings[0].equalsIgnoreCase("ban")) {
+					CQ.setGroupBan(
+						fromGroup, 
+						Long.parseLong(strings[1]), 
+						Integer.parseInt(strings[2]));
 				}
 			}
-
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 
+		if (Pattern.matches(".*蓝椰叶.*", msg.replace(" ", "").trim())) {
+			CQ.sendGroupMsg(fromGroup, "打不过地灵殿Normal");
+			return MSG_IGNORE;
+		}
+		boolean qun=fromGroup==859561731L||fromGroup==312342896L;
+		boolean tmpb=recoder.lastMessage.equals(msg);
+		if (tmpb) {
+			if (repeaterCount==4&&qun) {
+				CQ.setGroupBan(fromGroup,fromQQ,10);
+				CQ.sendGroupMsg(fromGroup, CC.at(fromQQ)+"你因是第四台复读机被禁言10秒,手机需返回消息列表重新打开群聊界面");
+			}
+			if (repeaterCount==7&&qun) {
+				CQ.setGroupBan(fromGroup,fromQQ,30);
+				CQ.sendGroupMsg(fromGroup, CC.at(fromQQ)+"你因是第七台复读机被禁言30秒,手机需返回消息列表重新打开群聊界面");
+			}
+			repeaterCount++;
+		} else {
+			CQ.sendGroupMsg(fromGroup, "复读中断"+repeaterCount);
+			repeaterCount=0;
+			
+		}
+		if (tmpb && (!recoder.lastReply.equals(msg))) {
+			if (recoder.repeatCount < 3) {
+				CQ.sendGroupMsg(fromGroup, msg);
+				recoder.lastReply = msg;
+				recoder.repeatCount++;
+			} else {
+				CQ.sendGroupMsg(fromGroup, "你群天天复读");
+				recoder.repeatCount = 0;
+			}
+		}
+		if (!recoder.lastMessage.equals(msg)) {
+			recoder.lastReply = "";
+		}
+		recoder.lastMessage = msg;
+		if (fromGroup == 859561731L || fromGroup == 826536230L) {
+			// if (fromGroup != 210341365L) {
+			// if(true){
+			if ("大妖精".equals(msg.replace(" ", "").trim())) {
+				CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你已经是群萌新了，快打个绀LNN给群友们看看吧");
+			}
+			if (!lastKey.equals(msg)) {
+				obj = parser.parse(readToString(dic.getAbsolutePath())).getAsJsonObject();
+				Iterator it = obj.entrySet().iterator();
+				while (it.hasNext()) {
+					Entry entry = (Entry) it.next();
+					String key = (String) entry.getKey();
+					if (Pattern.matches(".*" + key + ".*", msg.replace(" ", "").trim())) {
+						JsonArray array = (JsonArray) entry.getValue();
+						int i = 0;
+						for (; i < array.size(); i++) {
+							String string = removeCharAt(array.get(i).toString(), 0);
+							replyPool.put(i, removeCharAt(string, string.length() - 1));
+						}
+						if (replyPool.get(0) != null) {
+							CQ.sendGroupMsg(fromGroup, replyPool.get(random.nextInt(i)));
+							replyPool.clear();
+							break;
+						}
+					}
+
+				}
+			}
+			lastKey = msg;
+
+		}
 		return MSG_IGNORE;
 	}
 
@@ -296,7 +449,7 @@ public class Autoreply extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
 			return MSG_IGNORE;
 		}
 		// 这里处理消息
-		CQ.sendGroupMsg(fromGroup, "不看不看 王八下蛋");
+		CQ.sendGroupMsg(fromGroup, "发点小电影啊");
 		return MSG_IGNORE;
 	}
 
@@ -316,7 +469,11 @@ public class Autoreply extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
 	 */
 	public int groupAdmin(int subtype, int sendTime, long fromGroup, long beingOperateQQ) {
 		// 这里处理消息
-
+		if (subtype == 1) {
+			CQ.sendGroupMsg(fromGroup, CC.at(beingOperateQQ) + "你绿帽子没莉");
+		} else if (subtype == 2) {
+			CQ.sendGroupMsg(fromGroup, CC.at(beingOperateQQ) + "群主给了你个绿帽子");
+		}
 		return MSG_IGNORE;
 	}
 
@@ -338,7 +495,11 @@ public class Autoreply extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
 	 */
 	public int groupMemberDecrease(int subtype, int sendTime, long fromGroup, long fromQQ, long beingOperateQQ) {
 		// 这里处理消息
-
+		if (subtype == 1) {
+			CQ.sendGroupMsg(fromGroup, beingOperateQQ + "跑莉");
+		} else if (subtype == 2) {
+			CQ.sendGroupMsg(fromGroup, beingOperateQQ + "被玩完扔莉");
+		}
 		return MSG_IGNORE;
 	}
 
@@ -360,7 +521,10 @@ public class Autoreply extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
 	 */
 	public int groupMemberIncrease(int subtype, int sendTime, long fromGroup, long fromQQ, long beingOperateQQ) {
 		// 这里处理消息
-		CQ.sendGroupMsg(fromGroup, CC.at(beingOperateQQ)+"你已经是群萌新了，快打个LNN给群友们看看吧");
+		String[] strings = new String[] { "封魔录", "梦时空", "幻想乡", "怪绮谈", "红", "妖", "永", "花", "风", "殿", "船", "庙", "城", "绀",
+				"璋", "大战争", };
+		CQ.sendGroupMsg(fromGroup,
+				CC.at(beingOperateQQ) + "你已经是群萌新了，快打个" + strings[random.nextInt(strings.length)] + "LNN给群友们看看吧");
 		return MSG_IGNORE;
 	}
 
@@ -439,9 +603,11 @@ public class Autoreply extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
 		/*
 		 * if(subtype == 1){ // 本号为群管理，判断是否为他人申请入群
 		 * CQ.setGroupAddRequest(responseFlag, REQUEST_GROUP_ADD, REQUEST_ADOPT,
-		 * null);// 同意入群 } if(subtype == 2){ CQ.setGroupAddRequest(responseFlag,
-		 * REQUEST_GROUP_INVITE, REQUEST_ADOPT, null);// 同意进受邀群 }
+		 * null);// 同意入群 }
 		 */
+		if (subtype == 2) {
+			CQ.setGroupAddRequest(responseFlag, REQUEST_GROUP_INVITE, REQUEST_ADOPT, null);// 同意进受邀群
+		}
 
 		return MSG_IGNORE;
 	}
@@ -492,4 +658,20 @@ public class Autoreply extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
 	public String removeCharAt(String s, int pos) {
 		return s.substring(0, pos) + s.substring(pos + 1);
 	}
+
+	private void checkMethod(liveCheck lc) {
+		if (lc.living) {
+			if (!lc.tipedMilk) {
+				String tmp = "\"" + lc.getUserName() + "\"" + startLive + lc.getUrl();
+				CQ.sendGroupMsg(210341365L, tmp);
+				CQ.sendGroupMsg(859561731L, tmp);
+				CQ.sendGroupMsg(826536230L, tmp);
+				lc.tipedMilk = true;
+			}
+			System.out.println(lc.getUserName() + "正在直播");
+		} else {
+			System.out.println(lc.getUserName() + "没有直播");
+		}
+	}
+
 }
