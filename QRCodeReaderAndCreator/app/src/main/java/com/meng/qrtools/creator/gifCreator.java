@@ -87,8 +87,11 @@ public class gifCreator extends Fragment{
                     break;
                 case R.id.gif_creator_finish:
                     try{
-                        filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+
-                                "/Pictures/QRcode/gif/"+(new Date()).toString()+".gif";
+                        File tm=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/gif/");
+                        if(!tm.exists()){
+                            tm.mkdirs();
+                        }
+                        filePath=tm.getAbsolutePath()+(new Date()).toString()+".gif";
                         GifEncoder gifEncoder=new GifEncoder();
                         gifEncoder.setDither(false);
                         if(cbAutoSize.isChecked()){
