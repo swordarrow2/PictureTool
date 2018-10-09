@@ -11,11 +11,10 @@ import com.meng.bilibiliDanmakuSender.lib.SharedPreferenceHelper;
 public class MainActivity extends Activity{
     public static SharedPreferenceHelper sharedPreference;
     public static Boolean lightTheme=true;
-    public static String avLink="";
-
+    
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        //ExceptionCatcher.getInstance().init(this);
+        ExceptionCatcher.getInstance().init(this);
         sharedPreference=new SharedPreferenceHelper(this,"main");
         lightTheme=sharedPreference.getBoolean("useLightTheme",true);
         startActivity(new Intent(MainActivity.this,MainActivity2.class).putExtra("setTheme",getIntent().getBooleanExtra("setTheme",false)));

@@ -1,37 +1,17 @@
 package com.meng.bilibiliDanmakuSender.creator;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.ClipData;
+import android.app.*;
+import android.content.*;
+import android.os.*;
+import android.text.*;
+import android.view.*;
+import android.widget.*;
+import com.meng.bilibiliDanmakuSender.*;
+import com.meng.bilibiliDanmakuSender.lib.*;
+import java.io.*;
+import java.net.*;
+
 import android.content.ClipboardManager;
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import com.meng.bilibiliDanmakuSender.R;
-import com.meng.bilibiliDanmakuSender.lib.XmlParser;
-import com.meng.bilibiliDanmakuSender.log;
-
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * Created by Administrator on 2018/8/18.
@@ -54,6 +34,7 @@ public class SecondStep extends Fragment{
     private Context context;
     private ArrayAdapter adapter;
     private TextView textView;
+	private String sourceCode="";
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -72,32 +53,47 @@ public class SecondStep extends Fragment{
         textView=(TextView)view.findViewById(R.id.mainText);
         et.addTextChangedListener(tw);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent,View view,int position,long id){
-                ClipboardManager clipboardManager = (ClipboardManager)getActivity(). getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("text",""+getUidFromArray(position));
-                clipboardManager.setPrimaryClip(clipData);
-                log.t(getUidFromArray(position)+"已经复制到剪贴板");
-            }
-        });
+				@Override
+				public void onItemClick(AdapterView<?> parent,View view,int position,long id){
+					ClipboardManager clipboardManager = (ClipboardManager)getActivity(). getSystemService(Context.CLIPBOARD_SERVICE);
+					ClipData clipData = ClipData.newPlainText("text",""+getUidFromArray(position));
+					clipboardManager.setPrimaryClip(clipData);
+					log.t(getUidFromArray(position)+"已经复制到剪贴板");
+				}
+			});
     }
 
     private void readXml(final String avUrl){
         new Thread(new Runnable(){
-            @Override
-            public void run(){
-                String htmlCode=readCode(avUrl);
-                save(htmlCode);
-                parser=new XmlParser(context);
-                Thread t=new checkParse();
-                t.start();
-                getActivity().runOnUiThread(new Runnable(){
-                    @Override
-                    public void run(){
-                    }
-                });
-            }
-        }).start();
+				@Override
+				public void run(){
+					sourceCode=readCode(avUrl.replace("http://","https://"));
+				//	log.i(sourceCode);
+					int index=sourceCode.trim().indexOf("\"cid\":")+6;
+					int end=sourceCode.indexOf(",",index);
+					String cid=sourceCode.substring(index,end);
+					log.i("cid:"+cid);
+					String xmlCode=readCode("http://comment.bilibili.com/"+cid+".xml");
+
+					try{
+						xmlCode=new String(xmlCode.getBytes("gbk"),"gb2312");
+					}catch(UnsupportedEncodingException e){
+						log.e(e);
+					}
+					
+					save(xmlCode);
+					log.i(xmlCode);
+					parser=new XmlParser(context);
+					Thread t=new checkParse();
+					t.start();
+					getActivity().runOnUiThread(new Runnable(){
+							@Override
+							public void run(){
+
+							}
+						});
+				}
+			}).start();
     }
 
     public Handler handler=new Handler(){
@@ -135,44 +131,42 @@ public class SecondStep extends Fragment{
         return Integer.parseInt(showItem[position][0]);
     }
 
-    private void save(String data) {
-        FileOutputStream out = null;
-        PrintStream ps = null;
-        try {
-            out =getActivity().openFileOutput("danmaku.xml", Activity.MODE_PRIVATE);
-            ps = new PrintStream(out);
-            ps.println(data);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                    ps.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-    public String readCode(String url) {
-        try {
+    private void save(String data){
+		String message=et.getText().toString();
+		try{
+			File f=new File(Environment.getExternalStorageDirectory()+"/danmaku.xml");
+			if(!f.exists()){
+				f.createNewFile();
+			}
+			log.i(f.getAbsolutePath());
+			FileOutputStream fout = new FileOutputStream(f);
+			byte[] bytes = message.getBytes(); 
+			fout.write(bytes); 
+			fout.close();
+		}catch(Exception e){
+			log.e(e);
+		} 
+	}
+	
+    public String readCode(String url){
+        try{
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(10000);
             connection.setReadTimeout(10000);
-          //  connection.setRequestProperty("cookie", MainActivity.instence.sharedPreference.getValue(Data.preferenceKey.cookieValue));
+			connection.setRequestProperty("Content-Type", "text/plain; charset=utf-8");
+			//  connection.setRequestProperty("cookie", MainActivity.instence.sharedPreference.getValue(Data.preferenceKey.cookieValue));
             connection.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0");
             InputStream in = connection.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             StringBuilder sb = new StringBuilder();
             String line = null;
-            while ((line = br.readLine()) != null) {
+            while((line=br.readLine())!=null){
                 sb.append(line);
             }
             return sb.toString();
 
-        } catch (Exception e) {
+        }catch(Exception e){
             return e.toString();
         }
     }

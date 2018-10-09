@@ -13,6 +13,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import android.os.*;
 
 
 /**
@@ -51,7 +52,7 @@ public class XmlParser{
         @Override
         public void run(){
             try{
-                inputStream=c.getResources().getAssets().open("danmaku.xml");
+                inputStream=c.getResources().getAssets().open(Environment.getExternalStorageDirectory()+"/danmaku.xml");
                 xmlParser.setInput(inputStream,"utf-8");
                 int evtType=xmlParser.getEventType();
                 int i=0;
@@ -70,10 +71,10 @@ public class XmlParser{
                     i++;
                 }
             }catch(XmlPullParserException e){
-                e.printStackTrace();
-            }catch(IOException e1){
-                e1.printStackTrace();
-            }
+				log.e(e);
+			}catch(IOException e1){
+				log.e(e1);
+			}
             parsered=true;
         }
     }
@@ -82,7 +83,7 @@ public class XmlParser{
         InputStream inputStream=null;
         XmlPullParser xmlParser=Xml.newPullParser();
         try{
-            inputStream=c.getResources().getAssets().open("danmaku.xml");
+            inputStream=c.getResources().getAssets().open(Environment.getExternalStorageDirectory()+"/danmaku.xml");
             xmlParser.setInput(inputStream,"utf-8");
             int evtType=xmlParser.getEventType();
             while(evtType!=XmlPullParser.END_DOCUMENT){
@@ -96,9 +97,9 @@ public class XmlParser{
                 evtType=xmlParser.next();
             }
         }catch(XmlPullParserException e){
-            e.printStackTrace();
+            log.e(e);
         }catch(IOException e1){
-            e1.printStackTrace();
+            log.e(e1);
         }
 
     }

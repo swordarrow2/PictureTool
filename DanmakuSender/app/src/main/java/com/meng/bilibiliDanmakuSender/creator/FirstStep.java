@@ -46,7 +46,6 @@ public class FirstStep extends Fragment{
 
                     break;
                 case R.id.first_step_button_start:
-                    MainActivity.avLink=mengEtLink.getString();
                     FragmentTransaction transaction=getActivity().getFragmentManager().beginTransaction();
                     MainActivity2.instence.secondStepFragment.setDataStr(mengEtLink.getString());
                     transaction.hide(MainActivity2.instence.firstStepFragment);

@@ -42,8 +42,11 @@ public class MainActivity2 extends Activity{
         setActionBar();
         findViews();
         initFragment();
+		log.i("initFragment");
         setListener();
+		log.i("setListener");
         changeTheme();
+		log.i("changeTheme");
     }
 
     private void changeTheme(){
