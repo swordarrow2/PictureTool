@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppThemeLight" parent="android:style/Theme.Material.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ActionBarLight</item>
+    </style>
+
+    <style name="AppThemeDark" parent="android:style/Theme.Material">
+        <item name="android:actionBarStyle">@style/ActionBarDark</item>
+    </style>
+
+    <style name="ActionBarLight" parent="android:Widget.ActionBar">
+        <item name="android:background">@color/actionBarLight</item>
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:titleTextStyle">@style/ActionBar.TitleText</item>
+    </style>
+
+    <style name="ActionBarDark" parent="android:Widget.ActionBar">
+        <item name="android:background">@color/actionBarDark</item>
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:titleTextStyle">@style/ActionBar.TitleText</item>
+    </style>
+
+    <style name="ActionBar.TitleText" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+</resources>
