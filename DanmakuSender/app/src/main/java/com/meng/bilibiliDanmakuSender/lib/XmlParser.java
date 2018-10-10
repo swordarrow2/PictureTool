@@ -11,6 +11,8 @@ import com.meng.bilibiliDanmakuSender.log;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import android.os.*;
@@ -52,7 +54,7 @@ public class XmlParser{
         @Override
         public void run(){
             try{
-                inputStream=c.getResources().getAssets().open(Environment.getExternalStorageDirectory()+"/danmaku.xml");
+                inputStream= new FileInputStream(new File(Environment.getExternalStorageDirectory()+"/danmaku.xml"));
                 xmlParser.setInput(inputStream,"utf-8");
                 int evtType=xmlParser.getEventType();
                 int i=0;
@@ -83,7 +85,7 @@ public class XmlParser{
         InputStream inputStream=null;
         XmlPullParser xmlParser=Xml.newPullParser();
         try{
-            inputStream=c.getResources().getAssets().open(Environment.getExternalStorageDirectory()+"/danmaku.xml");
+            inputStream=new FileInputStream(new File(Environment.getExternalStorageDirectory()+"/danmaku.xml"));
             xmlParser.setInput(inputStream,"utf-8");
             int evtType=xmlParser.getEventType();
             while(evtType!=XmlPullParser.END_DOCUMENT){

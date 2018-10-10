@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="opendraw"
-        android:title="启动时打开滑动菜单" />
-    <CheckBoxPreference
         android:key="exitsettings"
         android:title="使用System.exit(0)代替finish()" />
 
