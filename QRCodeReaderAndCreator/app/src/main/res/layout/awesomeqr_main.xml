@@ -82,7 +82,7 @@
                 android:id="@+id/awesomeqr_main_imgPathTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="未选择背景图"
+                android:text="@string/no_bg_img"
                 android:visibility="gone"/>
 
             <LinearLayout

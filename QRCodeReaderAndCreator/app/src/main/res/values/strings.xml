@@ -25,4 +25,21 @@
     <string name="select_barcode_format">选择二维码类型</string>
     <string name="format_tip">Logo二维码仅适用于QRcode 仅QRcode和PDF417可以保存中文</string>
     <string name="crop_square">裁剪图片为正方形</string>
+    <string name="use_first_frame_size">第一帧尺寸作为gif尺寸</string>
+    <string name="crop_pic">选择图片时裁剪</string>
+    <string name="add_pic">添加图片</string>
+    <string name="add_finish">添加完成</string>
+    <string name="height">高度</string>
+    <string name="width">宽度</string>
+    <string name="frame_delay">帧延迟(ms)</string>
+    <string name="no_bg_img">未选择背景图</string>
+    <string name="big_gif">大图片模式</string>
+    <string name="select_gif">选择gif</string>
+    <string name="use_dither">使用dither</string>
+    <string name="create_gif">生成gif</string>
+    <string name="size">大小(像素)</string>
+    <string name="no_camera_permission">请允许访问摄像头后重试</string>
+    <string name="scan_tip">将二维码置于框内即自动扫描</string>
+    <string name="create_awesomeqr">生成AwesomeQR</string>
+    <string name="read_screenshot">自动读取屏幕截图中的二维码</string>
 </resources>

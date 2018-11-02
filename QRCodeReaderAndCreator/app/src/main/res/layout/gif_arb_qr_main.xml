@@ -25,13 +25,13 @@
                     android:id="@+id/gif_arb_qr_checkbox_low_memery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="低配置模式"/>
+                    android:text="@string/big_gif"/>
 
                 <Button
                     android:id="@+id/gif_arb_qr_button_selectImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="选择gif"/>
+                    android:text="@string/select_gif"/>
             </LinearLayout>
 
             <TextView
@@ -49,14 +49,14 @@
                     android:id="@+id/gif_arb_qr_checkbox_dither"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="使用dither"
+                    android:text="@string/use_dither"
                     android:visibility="gone"/>
 
                 <Button
                     android:id="@+id/gif_arb_qr_button_encode_gif"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="生成gif"
+                    android:text="@string/create_gif"
                     android:visibility="gone"/>
             </LinearLayout>
 

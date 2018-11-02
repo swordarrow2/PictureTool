@@ -33,12 +33,12 @@
             android:id="@+id/read_galleryButton_createAwesomeQR"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="生成AwesomeQR"
+            android:text="@string/create_awesomeqr"
             android:visibility="gone" />
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="自动读取屏幕截图中的二维码"
+            android:text="@string/read_screenshot"
             android:id="@+id/read_gallery_autoread"/>
     </LinearLayout>
 </RelativeLayout>

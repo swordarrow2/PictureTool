@@ -20,13 +20,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="第一帧尺寸作为gif尺寸"/>
+                android:text="@string/use_first_frame_size"/>
             <CheckBox
                 android:id="@+id/gif_creator_crop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="选择图片时裁剪"/>
+                android:text="@string/crop_pic"/>
 
             <com.meng.qrtools.mengViews.mengEdittext
                 android:id="@+id/gif_creator_height"
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 ran:edittextHint="500"
-                ran:textviewText="高度"/>
+                ran:textviewText="@string/height"/>
 
             <com.meng.qrtools.mengViews.mengEdittext
                 android:id="@+id/gif_creator_width"
@@ -42,23 +42,23 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 ran:edittextHint="500"
-                ran:textviewText="宽度"/>
+                ran:textviewText="@string/width"/>
 
             <com.meng.qrtools.mengViews.mengEdittext
                 android:id="@+id/gif_creator_delay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="10"
-                ran:textviewText="帧延迟(ms)"/>
+                ran:textviewText="@string/frame_delay"/>
 			
             <Button
-                android:text="添加图片"
+                android:text="@string/add_pic"
                 android:id="@+id/gif_creator_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 			
             <Button
-                android:text="添加完成"
+                android:text="@string/add_finish"
                 android:id="@+id/gif_creator_finish"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

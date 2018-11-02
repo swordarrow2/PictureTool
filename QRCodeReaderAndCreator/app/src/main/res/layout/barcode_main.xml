@@ -121,7 +121,6 @@
                 android:id="@+id/qr_imageview"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="s"
                 android:scaleType="centerInside"/>
         </LinearLayout>
     </ScrollView>
