@@ -79,7 +79,7 @@ public class gifCreator extends Fragment{
                     break;
                 case R.id.gif_creator_finish:
                     try{
-                        String filePath=MainActivity.instence.getGifPath()+(new Date()).toString()+".gif";
+                        String filePath=MainActivity.instence.getGifPath();
                         GifEncoder gifEncoder=new GifEncoder();
                         gifEncoder.setDither(false);
                         if(cbAutoSize.isChecked()){
