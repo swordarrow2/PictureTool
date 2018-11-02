@@ -20,13 +20,13 @@ public class MainActivity extends Activity{
     public SharedPreferenceHelper sharedPreference;
     public static Boolean lightTheme=true;
     private final String exDir=Environment.getExternalStorageDirectory().getAbsolutePath();
-    private final String tmpFolder=exDir+"/Pictures/QRtools/tmp/";
-    private final String awesomeQRPath=exDir+"/Pictures/QRtools/AwesomeQR/";
-    private final String arbAwesomeQRPath=exDir+"/Pictures/QRtools/arbAwesomeQR/";
-    private final String gifArbAwesomeQRPath=exDir+"/Pictures/QRtools/gifArbAwesomeQR/";
-    private final String gifAwesomeQRPath=exDir+"/Pictures/QRtools/gifAwesomeQR/";
-    private final String gifPath=exDir+"/Pictures/QRtools/gif/";
-    private final String barcodePath=exDir+"/Pictures/QRtools/";
+    private final String tmpFolder=exDir+"/Pictures/QRcode/tmp/";
+    private final String awesomeQRPath=exDir+"/Pictures/QRcode/AwesomeQR/";
+    private final String arbAwesomeQRPath=exDir+"/Pictures/QRcode/arbAwesomeQR/";
+    private final String gifArbAwesomeQRPath=exDir+"/Pictures/QRcode/gifArbAwesomeQR/";
+    private final String gifAwesomeQRPath=exDir+"/Pictures/QRcode/gifAwesomeQR/";
+    private final String gifPath=exDir+"/Pictures/QRcode/gif/";
+    private final String barcodePath=exDir+"/Pictures/QRcode/";
     public final int CROP_REQUEST_CODE=3;
 
     protected void onCreate(Bundle savedInstanceState){
