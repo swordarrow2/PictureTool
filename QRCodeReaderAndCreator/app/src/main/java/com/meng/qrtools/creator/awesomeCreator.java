@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.meng.MainActivity2;
+import com.meng.qrtools.MainActivity;
 import com.meng.qrtools.R;
 import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.AwesomeQRCode;
@@ -35,11 +35,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
+/**
+ * 普通的Awesome QRcode
+ */
+
 public class awesomeCreator extends Fragment{
 
     private ImageView qrCodeImageView;
     private mengEdittext mengEtDotScale, mengEtContents, mengEtMargin, mengEtSize;
-    private Button btGenerate, btSelectBG, btRemoveBG;
     private CheckBox ckbWhiteMargin;
     private Bitmap backgroundImage=null;
 
@@ -53,7 +56,6 @@ public class awesomeCreator extends Fragment{
     private TextView imgPathTextView;
     private Bitmap bmpQRcode=null;
     private mengColorBar mColorBar;
-    private static final int CROP_REQUEST_CODE=3;
 
     private static final int REQUEST_EXTERNAL_STORAGE=1;
     private static String[] PERMISSIONS_STORAGE={
@@ -63,13 +65,11 @@ public class awesomeCreator extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        // TODO: Implement this method
         return inflater.inflate(R.layout.awesomeqr_main,container,false);
     }
 
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
-        // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
         mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         scrollView=(ScrollView)view.findViewById(R.id.awesomeqr_main_scrollView);
@@ -78,9 +78,6 @@ public class awesomeCreator extends Fragment{
         mengEtSize=(mengEdittext)view.findViewById(R.id.awesomeqr_main_mengEdittext_size);
         mengEtMargin=(mengEdittext)view.findViewById(R.id.awesomeqr_main_margin);
         mengEtDotScale=(mengEdittext)view.findViewById(R.id.awesomeqr_main_dotScale);
-        btSelectBG=(Button)view.findViewById(R.id.awesomeqr_main_backgroundImage);
-        btRemoveBG=(Button)view.findViewById(R.id.awesomeqr_main_removeBackgroundImage);
-        btGenerate=(Button)view.findViewById(R.id.awesomeqr_main_generate);
         ckbWhiteMargin=(CheckBox)view.findViewById(R.id.awesomeqr_main_whiteMargin);
         ckbAutoColor=(CheckBox)view.findViewById(R.id.awesomeqr_main_autoColor);
         ckbBinarize=(CheckBox)view.findViewById(R.id.awesomeqr_main_binarize);
@@ -90,9 +87,9 @@ public class awesomeCreator extends Fragment{
         cbCrop=(CheckBox)view.findViewById(R.id.awesomeqr_main_crop);
         ckbAutoColor.setOnCheckedChangeListener(check);
         ckbBinarize.setOnCheckedChangeListener(check);
-        btSelectBG.setOnClickListener(click);
-        btRemoveBG.setOnClickListener(click);
-        btGenerate.setOnClickListener(click);
+        ((Button)view.findViewById(R.id.awesomeqr_main_backgroundImage)).setOnClickListener(click);
+        ((Button)view.findViewById(R.id.awesomeqr_main_removeBackgroundImage)).setOnClickListener(click);
+        ((Button)view.findViewById(R.id.awesomeqr_main_generate)).setOnClickListener(click);
         btnSave.setOnClickListener(click);
     }
 
@@ -139,7 +136,7 @@ public class awesomeCreator extends Fragment{
                     break;
                 case R.id.awesomeqr_mainButton_save:
                     try{
-                        String s=QrUtils.saveMyBitmap(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/AwesomeQR"+(new Date()).toString()+".png",bmpQRcode);
+                        String s=QrUtils.saveMyBitmap(MainActivity.instence.getAwesomeQRPath(),bmpQRcode);
                         log.t("已保存至"+s);
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
                     }catch(IOException e){
@@ -176,12 +173,12 @@ public class awesomeCreator extends Fragment{
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         if(requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE&&resultCode==getActivity().RESULT_OK&&data.getData()!=null){
             imgPathTextView.setVisibility(View.VISIBLE);
-            String path=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),cropPhoto(data.getData()));
+            String path=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),MainActivity.instence.cropPhoto(data.getData(),cbCrop.isChecked()));
             imgPathTextView.setText("当前图片："+path);
             if(!cbCrop.isChecked()){
                 backgroundImage=BitmapFactory.decodeFile(path);
             }
-        }else if(requestCode==CROP_REQUEST_CODE){
+        }else if(requestCode==MainActivity.instence.CROP_REQUEST_CODE){
             Bundle bundle=data.getExtras();
             if(bundle!=null){
                 backgroundImage=bundle.getParcelable("data");
@@ -228,23 +225,4 @@ public class awesomeCreator extends Fragment{
             }
         }).start();
     }
-
-    private Uri cropPhoto(Uri uri){
-        if(!cbCrop.isChecked()){
-            return uri;
-        }
-        Intent intent=new Intent("com.android.camera.action.CROP");
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        intent.setDataAndType(uri,"image/*");
-        intent.putExtra("crop","true");
-        intent.putExtra("aspectX",1);
-        intent.putExtra("aspectY",1);
-        intent.putExtra("outputX",300);
-        intent.putExtra("outputY",300);
-        intent.putExtra("return-data",true);
-        startActivityForResult(intent,CROP_REQUEST_CODE);
-        return uri;
-    }
-
 }

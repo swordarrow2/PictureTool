@@ -77,9 +77,9 @@ public final class CaptureActivityHandler extends Handler{
 
             /***********************************************************************/
             Bitmap barcode=bundle==null?null:
-                    (Bitmap)bundle.getParcelable(DecodeThread.BARCODE_BITMAP);//���ñ����߳�
+                    (Bitmap)bundle.getParcelable(DecodeThread.BARCODE_BITMAP);
 
-            activity.handleDecode((Result)message.obj,barcode);//���ؽ��
+            activity.handleDecode((Result)message.obj,barcode);
             /***********************************************************************/
         }else if(message.what==R.id.decode_failed){
             // We're decoding as fast as possible, so when one decode fails, start another.
@@ -108,7 +108,6 @@ public final class CaptureActivityHandler extends Handler{
         }catch(InterruptedException e){
             // continue
         }
-
         // Be absolutely sure we don't send any queued up messages
         removeMessages(R.id.decode_succeeded);
         removeMessages(R.id.decode_failed);
@@ -122,7 +121,6 @@ public final class CaptureActivityHandler extends Handler{
             activity.drawViewfinder();
         }
     }
-
     private enum State{
         PREVIEW,
         SUCCESS,

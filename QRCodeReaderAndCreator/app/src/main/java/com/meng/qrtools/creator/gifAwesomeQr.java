@@ -7,8 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.meng.MainActivity2;
+import com.meng.qrtools.MainActivity;
 import com.meng.qrtools.R;
 import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.AwesomeQRCode;
@@ -40,10 +39,7 @@ import java.util.Date;
 
 public class gifAwesomeQr extends Fragment{
 
-
     private boolean coding=false;
-    private String strTmpFolder=Environment.getExternalStorageDirectory().getAbsolutePath()+
-            "/Pictures/QRcode/tmp/";
     private int intGifFrameDelay;
     private int intGifSize;
 
@@ -130,8 +126,7 @@ public class gifAwesomeQr extends Fragment{
             public void run(){
                 try{
                     coding=true;
-                    final String filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+
-                            "/Pictures/QRcode/gifAwesomeQR"+(new Date()).toString()+".gif";
+                    String filePath=MainActivity.instence.getGifAwesomeQRPath();
                     GifEncoder gifEncoder=new GifEncoder();
                     gifEncoder.setDither(cbUseDither.isChecked());
                     if(!cbAutoSize.isChecked()){
@@ -141,7 +136,7 @@ public class gifAwesomeQr extends Fragment{
                         gifEncoder.init(intGifSize,intGifSize,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
                         for(int t=0;t<bmpDecodedBitmaps.length;t++){
                             gifEncoder.encodeFrame(
-                                    encodeAwesome(intGifSize,BitmapFactory.decodeFile(strTmpFolder+t+".png")),
+                                    encodeAwesome(intGifSize,BitmapFactory.decodeFile(MainActivity.instence.getTmpFolder()+t+".png")),
                                     intGifFrameDelay);
                         }
                     }else{
@@ -184,7 +179,7 @@ public class gifAwesomeQr extends Fragment{
                         GifImage next=iterator.next();
                         if(next!=null){
                             try{
-                                QrUtils.saveMyBitmap(strTmpFolder+flag+++".png",next.bitmap);
+                                QrUtils.saveMyBitmap(MainActivity.instence.getTmpFolder()+flag+++".png",next.bitmap);
                             }catch(IOException e){
                                 log.e(e);
                             }
@@ -195,9 +190,8 @@ public class gifAwesomeQr extends Fragment{
                     }
                     iterator.close();
                     log.t("共"+(flag-1)+"张,解码成功");
-					bmpDecodedBitmaps=new Bitmap[flag];
-                    intGifSize=BitmapFactory.decodeFile(strTmpFolder+"0.png").getWidth();
-                    createNomediaFile();
+                    bmpDecodedBitmaps=new Bitmap[flag];
+                    intGifSize=BitmapFactory.decodeFile(MainActivity.instence.getTmpFolder()+"0.png").getWidth();
                     coding=false;
                     getActivity().runOnUiThread(new Runnable(){
                         @Override
@@ -237,17 +231,6 @@ public class gifAwesomeQr extends Fragment{
                     });
                 }
             }).start();
-        }
-    }
-
-    private void createNomediaFile(){
-        File f=new File(strTmpFolder+".nomedia");
-        if(!f.exists()){
-            try{
-                f.createNewFile();
-            }catch(IOException e){
-                log.e(e);
-            }
         }
     }
 

@@ -81,7 +81,7 @@ public class MainActivity2 extends Activity{
     }
 
     private void changeTheme(){
-        if(MainActivity.sharedPreference.getBoolean("useLightTheme",true)){
+        if(MainActivity.instence.sharedPreference.getBoolean("useLightTheme",true)){
             mDrawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
             rt.setBackgroundColor(getResources().getColor(android.R.color.background_light));
         }else{
@@ -92,7 +92,7 @@ public class MainActivity2 extends Activity{
             initSettingsFragment(true);
         }else{
             initWelcome(true);
-            if(MainActivity.sharedPreference.getBoolean("opendraw",true)){
+            if(MainActivity.instence.sharedPreference.getBoolean("opendraw",true)){
                 mDrawerLayout.openDrawer(mDrawerList);
             }
         }
@@ -199,7 +199,7 @@ public class MainActivity2 extends Activity{
                         initSettingsFragment(true);
                         break;
                     case "退出":
-                        if(MainActivity.sharedPreference.getBoolean("exitsettings")){
+                        if(MainActivity.instence.sharedPreference.getBoolean("exitsettings")){
                             System.exit(0);
                         }else{
                             finish();
@@ -222,32 +222,32 @@ public class MainActivity2 extends Activity{
 
     private void initFragment(){
         manager=getFragmentManager();
-        if(MainActivity.sharedPreference.getBoolean("ldgr")){
+        if(MainActivity.instence.sharedPreference.getBoolean("ldgr")){
             initGalleryReaderFragment(false);
         }
-        if(MainActivity.sharedPreference.getBoolean("ldcr")){
+        if(MainActivity.instence.sharedPreference.getBoolean("ldcr")){
             initCameraReaderFragment(false);
         }
-        if(MainActivity.sharedPreference.getBoolean("ldlgqr")){
+        if(MainActivity.instence.sharedPreference.getBoolean("ldlgqr")){
             initLogoCreatorFragment(false);
         }
         initAwesomeFragment(false);
-        if(MainActivity.sharedPreference.getBoolean("ldgif")){
+        if(MainActivity.instence.sharedPreference.getBoolean("ldgif")){
             initGifAwesomeFragment(false);
         }
-        if(MainActivity.sharedPreference.getBoolean("ldaw2")){
+        if(MainActivity.instence.sharedPreference.getBoolean("ldaw2")){
             initArbFragmentFragment(false);
         }
-        if(MainActivity.sharedPreference.getBoolean("ldaw3")){
+        if(MainActivity.instence.sharedPreference.getBoolean("ldaw3")){
             initGifArbAwesomeFragment(false);
         }
-        if(MainActivity.sharedPreference.getBoolean("ldgif")){
+        if(MainActivity.instence.sharedPreference.getBoolean("ldgif")){
             initGifFragment(false);
         }
-        if(MainActivity.sharedPreference.getBoolean("textFragment")){
+        if(MainActivity.instence.sharedPreference.getBoolean("textFragment")){
             initAboutFragment(false);
         }
-        if(MainActivity.sharedPreference.getBoolean("settings")){
+        if(MainActivity.instence.sharedPreference.getBoolean("settings")){
             initSettingsFragment(false);
         }
     }
@@ -413,7 +413,7 @@ public class MainActivity2 extends Activity{
             if(f!=null){
                 transaction.hide(f);
             }
-			
+
         }
     }
 
@@ -443,7 +443,6 @@ public class MainActivity2 extends Activity{
 
     @Override
     public boolean onKeyDown(int keyCode,KeyEvent event){
-        // TODO: Implement this method
         if(keyCode==KeyEvent.KEYCODE_BACK||keyCode==KeyEvent.KEYCODE_MENU){
             if(mDrawerLayout.isDrawerOpen(mDrawerList)){
                 mDrawerLayout.closeDrawer(mDrawerList);

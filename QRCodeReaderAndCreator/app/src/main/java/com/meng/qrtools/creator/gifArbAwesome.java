@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.meng.MainActivity2;
+import com.meng.qrtools.MainActivity;
 import com.meng.qrtools.R;
 import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
@@ -40,18 +40,14 @@ import com.waynejo.androidndkgif.GifImageIterator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Date;
 
 /**
- * Created by Administrator on 2018/8/18.
+ * gif二维码
  */
 
 public class gifArbAwesome extends Fragment{
 
-
     private boolean coding=false;
-    private String strTmpFolder=Environment.getExternalStorageDirectory().getAbsolutePath()+
-            "/Pictures/QRcode/tmp/";
     private int intGifFrameDelay;
     private int qrSize;
     private Bitmap[] bmpDecodedBitmaps;
@@ -77,13 +73,11 @@ public class gifArbAwesome extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        // TODO: Implement this method
         return inflater.inflate(R.layout.gif_arb_qr_main,container,false);
     }
 
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
-        // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
         msv=(mengScrollView)view.findViewById(R.id.gif_arb_awesome_qrMengScrollView);
         mengSelectView=(mengSelectRectView)view.findViewById(R.id.gif_arb_awesome_qrselectRectView);
@@ -143,15 +137,14 @@ public class gifArbAwesome extends Fragment{
             public void run(){
                 try{
                     coding=true;
-                    final String filePath=Environment.getExternalStorageDirectory().getAbsolutePath()+
-                            "/Pictures/QRcode/gifAwesomeQR"+(new Date()).toString()+".gif";
+                     String filePath=MainActivity.instence.getGifArbAwesomeQRPath();
                     GifEncoder gifEncoder=new GifEncoder();
                     gifEncoder.setDither(cbUseDither.isChecked());
                     if(cbLowMemoryMode.isChecked()){
                         gifEncoder.init(gifWidth,gifHeight,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
                         for(int t=0;t<bmpCount;t++){
                             gifEncoder.encodeFrame(
-                                    encodeAwesome(BitmapFactory.decodeFile(strTmpFolder+t+".png")),
+                                    encodeAwesome(BitmapFactory.decodeFile(MainActivity.instence.getTmpFolder()+t+".png")),
                                     intGifFrameDelay);
                             setProgress((int)((t+1)*100.0f/bmpDecodedBitmaps.length),true);
                         }
@@ -197,7 +190,7 @@ public class gifArbAwesome extends Fragment{
                             gifHeight=next.bitmap.getHeight();
                             gifWidth=next.bitmap.getWidth();
                             try{
-                                QrUtils.saveMyBitmap(strTmpFolder+flag+++".png",next.bitmap);
+                                QrUtils.saveMyBitmap(MainActivity.instence.getTmpFolder()+flag+++".png",next.bitmap);
                             }catch(IOException e){
                                 log.e(e);
                             }
@@ -209,8 +202,6 @@ public class gifArbAwesome extends Fragment{
                     iterator.close();
                     log.t("共"+(flag-1)+"张,解码成功");
                     bmpCount=flag;
-                    //			final Bitmap tmpbmp=BitmapFactory.decodeFile(strTmpFolder+"0.png");
-                    createNomediaFile();
                     coding=false;
                     getActivity().runOnUiThread(new Runnable(){
                         @Override
@@ -219,13 +210,12 @@ public class gifArbAwesome extends Fragment{
                             cbUseDither.setVisibility(View.VISIBLE);
                             tvImagePath.setVisibility(View.VISIBLE);
                             mengSelectView.setup(
-                                    BitmapFactory.decodeFile(strTmpFolder+"0.png"),
+                                    BitmapFactory.decodeFile(MainActivity.instence.getTmpFolder()+"0.png"),
                                     screenW,
                                     screenH,
                                     qrSize);
                             ViewGroup.LayoutParams para=mengSelectView.getLayoutParams();
                             para.height=(int)(screenW/gifWidth*gifHeight);
-                            //	para.height=(int)(screenW/tmpbmp.getWidth()*tmpbmp.getHeight());
                             mengSelectView.setLayoutParams(para);
                             mengSelectView.setVisibility(View.VISIBLE);
                         }
@@ -275,30 +265,7 @@ public class gifArbAwesome extends Fragment{
         }
     }
 
-    private void createNomediaFile(){
-        File f=new File(strTmpFolder+".nomedia");
-        if(!f.exists()){
-            try{
-                f.createNewFile();
-            }catch(IOException e){
-                log.e(e);
-            }
-        }
-    }
-
     private Bitmap encodeAwesome(Bitmap bg){
-        /* return AwesomeQRCode.create(
-         mengEtTextToEncode.getString(),
-		 cbAutoSize.isChecked()?size:Integer.parseInt(mengEtSize.getString()),
-		 (int)(size*0.025f),
-		 Float.parseFloat(mengEtDotScale.getString()),
-		 mColorBar.getTrueColor(),
-		 cbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
-		 bg,
-		 false,
-		 cbAutoColor.isChecked(),
-		 false,
-		 128);*/
         return QrUtils.generate(
                 mengEtTextToEncode.getString(),
                 Float.parseFloat(mengEtDotScale.getString()),
@@ -312,12 +279,8 @@ public class gifArbAwesome extends Fragment{
     }
 
     private int between(float a,int min,int max){
-        if(a<min){
-            a=min;
-        }
-        if(a>max){
-            a=max;
-        }
+        if(a<min) a=min;
+        if(a>max) a=max;
         return (int)a;
     }
 
@@ -328,11 +291,7 @@ public class gifArbAwesome extends Fragment{
                 pbCodingProgress.setProgress(p);
                 if(p==100){
                     pbCodingProgress.setVisibility(View.GONE);
-                    if(encoing){
-                        log.t("编码完成");
-                    }else{
-                        log.t("解码完成");
-                    }
+                    log.t(encoing?"编码完成":"解码完成");
                 }else{
                     if(pbCodingProgress.getVisibility()==View.GONE){
                         pbCodingProgress.setVisibility(View.VISIBLE);
@@ -395,6 +354,7 @@ public class gifArbAwesome extends Fragment{
         }
         super.onActivityResult(requestCode,resultCode,data);
     }
+
     public void onKeyDown(int keyCode,KeyEvent event){
 
         if((keyCode==KeyEvent.KEYCODE_VOLUME_UP)){

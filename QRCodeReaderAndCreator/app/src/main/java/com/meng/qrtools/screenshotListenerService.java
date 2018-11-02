@@ -50,14 +50,13 @@ public class screenshotListenerService extends Service{
                     Result result=QrUtils.decodeImage(imagePath);
                     if(result!=null){
                         final String resultString=result.getText();
-                        playBeepSoundAndVibrate(200);
+                        MainActivity.instence.doVibrate(200L);
                         dialog=new AlertDialog.Builder(screenshotListenerService.this)
                                 .setTitle("类型:"+result.getBarcodeFormat().toString()).setMessage(resultString)
                                 .setPositiveButton("复制文本到剪贴板",new DialogInterface.OnClickListener(){
 
                                     @Override
                                     public void onClick(DialogInterface p1,int p2){
-                                        // TODO: Implement this method
                                         ClipboardManager clipboardManager=(ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
                                         ClipData clipData=ClipData.newPlainText("text",resultString);
                                         clipboardManager.setPrimaryClip(clipData);
@@ -101,11 +100,6 @@ public class screenshotListenerService extends Service{
         return null;
     }
 
-    private void playBeepSoundAndVibrate(long ms){
-        Vibrator vibrator=(Vibrator)getSystemService(Activity.VIBRATOR_SERVICE);
-        vibrator.vibrate(ms);
-    }
-
     private void deleteDialog(final String path){
         AlertDialog dialog2=new AlertDialog.Builder(screenshotListenerService.this)
                 .setMessage("是否删除此屏幕截图？")
@@ -113,7 +107,6 @@ public class screenshotListenerService extends Service{
 
                     @Override
                     public void onClick(DialogInterface p1,int p2){
-                        // TODO: Implement this method
                         new File(path).delete();
                     }
                 })

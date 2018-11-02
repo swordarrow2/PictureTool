@@ -28,7 +28,6 @@ import com.meng.qrtools.MainActivity;
 import com.meng.qrtools.R;
 import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
-import com.meng.qrtools.log;
 import com.meng.qrtools.screenshotListenerService;
 
 public class galleryReader extends Fragment{
@@ -36,26 +35,24 @@ public class galleryReader extends Fragment{
     private Button btnOpenGallery, btnCreateAwesomeQR;
     private TextView tvResult;
     private CheckBox cbAutoRead;
-	private TextView tvFormat;
+    private TextView tvFormat;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        // TODO: Implement this method
         return inflater.inflate(com.meng.qrtools.R.layout.read_gallery,container,false);
     }
 
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
-        // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
         btnOpenGallery=(Button)view.findViewById(R.id.read_galleryButton);
         tvResult=(TextView)view.findViewById(R.id.read_galleryTextView_result);
-		tvFormat=(TextView)view.findViewById(R.id.read_galleryTextView_format);
+        tvFormat=(TextView)view.findViewById(R.id.read_galleryTextView_format);
         btnCreateAwesomeQR=(Button)view.findViewById(R.id.read_galleryButton_createAwesomeQR);
         btnOpenGallery.setOnClickListener(click);
         btnCreateAwesomeQR.setOnClickListener(click);
         cbAutoRead=(CheckBox)view.findViewById(R.id.read_gallery_autoread);
-        boolean b=MainActivity.sharedPreference.getBoolean("service",false);
+        boolean b=MainActivity.instence.sharedPreference.getBoolean("service",false);
         cbAutoRead.setChecked(b);
         if(b){
             startService();
@@ -65,7 +62,7 @@ public class galleryReader extends Fragment{
         cbAutoRead.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
-                MainActivity.sharedPreference.putBoolean("service",isChecked);
+                MainActivity.instence.sharedPreference.putBoolean("service",isChecked);
                 if(isChecked){
                     startService();
                 }else{
@@ -95,7 +92,7 @@ public class galleryReader extends Fragment{
 
     public void handleDecode(Result result,Bitmap barcode){
         String resultString=result.getText();
-        playBeepSoundAndVibrate(200L);
+        MainActivity.instence.doVibrate(200L);
         handleResult(resultString,result.getBarcodeFormat().toString());
     }
 
@@ -103,33 +100,9 @@ public class galleryReader extends Fragment{
         if(resultString.equals("")){
             Toast.makeText(getActivity(),com.meng.qrtools.R.string.scan_failed,Toast.LENGTH_SHORT).show();
         }else{
-			tvFormat.setText("二维码类型"+format);
+            tvFormat.setText("二维码类型"+format);
             tvResult.setText(resultString);
             btnCreateAwesomeQR.setVisibility(View.VISIBLE);
-            /*	if(mDialog==null){
-             mDialog=new AlertDialog.Builder(getActivity())
-			 .setMessage(resultString).setNegativeButton("确定",new DialogInterface.OnClickListener() {
-
-			 @Override
-			 public void onClick(DialogInterface p1,int p2){
-			 // TODO: Implement this method
-			 //		finish();
-			 }
-			 })
-			 .setNeutralButton("复制文本",new DialogInterface.OnClickListener() {
-
-			 @Override
-			 public void onClick(DialogInterface p1,int p2){
-			 // TODO: Implement this method
-			 android.content.ClipboardManager clipboardManager = (android.content.ClipboardManager)getActivity(). getSystemService(Context.CLIPBOARD_SERVICE);
-			 ClipData clipData = ClipData.newPlainText("text",resultString);
-			 clipboardManager.setPrimaryClip(clipData);
-			 //		finish();
-			 }
-			 }).create();
-			 }
-			 mDialog.show();
-			 */
         }
     }
 
@@ -143,11 +116,7 @@ public class galleryReader extends Fragment{
                 if(result!=null){
                     handleDecode(result,null);
                 }else{
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("提示")
-                            .setMessage("此图片无法识别")
-                            .setPositiveButton("确定",null)
-                            .show();
+                    new AlertDialog.Builder(getActivity()).setTitle("提示").setMessage("此图片无法识别").setPositiveButton("确定",null).show();
                 }
             }else{
                 Toast.makeText(getActivity().getApplicationContext(),"图片路径未找到",Toast.LENGTH_SHORT).show();
@@ -180,17 +149,6 @@ public class galleryReader extends Fragment{
         }else{
             MainActivity2.selectImage(this);
         }
-    }
-
-    private void playBeepSoundAndVibrate(long ms){
-        Vibrator vibrator=(Vibrator)getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
-        vibrator.vibrate(ms);
-    }
-
-    @Override
-    public void onDestroy(){
-        // TODO: Implement this method
-        super.onDestroy();
     }
 
     private void startService(){

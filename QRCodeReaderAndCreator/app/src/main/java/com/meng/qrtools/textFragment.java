@@ -7,10 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
- * Created by Administrator on 2018/7/19.
- */
-
 public class textFragment extends Fragment{
 
     private TextView tv;
@@ -21,18 +17,15 @@ public class textFragment extends Fragment{
     }
 
     public textFragment(){
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        // TODO: Implement this method
         return inflater.inflate(R.layout.text_fragment,container,false);
     }
 
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
-        // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
         tv=(TextView)view.findViewById(R.id.aboutTextView);
         switch(flag){

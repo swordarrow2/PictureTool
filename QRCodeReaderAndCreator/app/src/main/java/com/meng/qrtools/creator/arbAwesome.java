@@ -11,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
@@ -26,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.meng.MainActivity2;
+import com.meng.qrtools.MainActivity;
 import com.meng.qrtools.R;
 import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
@@ -41,7 +41,7 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * Created by Administrator on 2018/7/19.
+ * 自选二维码位置的Awesome QRcode
  */
 
 public class arbAwesome extends Fragment{
@@ -63,7 +63,6 @@ public class arbAwesome extends Fragment{
     private float screenW;
     private float screenH;
     private mengSelectRectView mengSelectView;
-    private Button btSelectBG;
     private String[] PERMISSIONS_STORAGE={
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -71,13 +70,11 @@ public class arbAwesome extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        // TODO: Implement this method
         return inflater.inflate(R.layout.arb_awesome_qr,container,false);
     }
 
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
-        // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
         sv=(mengScrollView)view.findViewById(R.id.awesomeqr_main_scrollView);
         mengSelectView=(mengSelectRectView)view.findViewById(R.id.arb_awesome_qrselectRectView);
@@ -85,12 +82,11 @@ public class arbAwesome extends Fragment{
         qrCodeImageView=(ImageView)view.findViewById(R.id.awesomeqr_main_qrcode);
         mengEtContents=(mengEdittext)view.findViewById(R.id.awesomeqr_main_content);
         mengEtDotScale=(mengEdittext)view.findViewById(R.id.awesomeqr_main_dotScale);
-        btSelectBG=(Button)view.findViewById(R.id.awesomeqr_main_backgroundImage);
         btGenerate=(Button)view.findViewById(R.id.awesomeqr_main_generate);
         ckbAutoColor=(CheckBox)view.findViewById(R.id.awesomeqr_main_autoColor);
         btnSave=(Button)view.findViewById(R.id.awesomeqr_mainButton_save);
         imgPathTextView=(TextView)view.findViewById(R.id.awesomeqr_main_imgPathTextView);
-        btSelectBG.setOnClickListener(click);
+        ((Button)view.findViewById(R.id.awesomeqr_main_backgroundImage)).setOnClickListener(click);
         btGenerate.setOnClickListener(click);
         btnSave.setOnClickListener(click);
         sv.setSelectView(mengSelectView);
@@ -106,17 +102,6 @@ public class arbAwesome extends Fragment{
         screenH=dm.heightPixels;
     }
 
-    /*  CompoundButton.OnCheckedChangeListener check = new CompoundButton.OnCheckedChangeListener() {
-          @Override
-          public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
-              switch(buttonView.getId()){
-                  case R.id.awesomeqr_main_autoColor:
-                      mColorBar.setVisibility(isChecked? View.GONE :View.VISIBLE);
-                      break;
-              }
-          }
-      };
-  */
     View.OnClickListener click=new View.OnClickListener(){
         @Override
         public void onClick(View v){
@@ -126,7 +111,6 @@ public class arbAwesome extends Fragment{
                     btGenerate.setEnabled(true);
                     MainActivity2.selectImage(arbAwesome.this);
                     break;
-
                 case R.id.awesomeqr_main_generate:
                     generate();
                     btnSave.setVisibility(View.VISIBLE);
@@ -135,10 +119,7 @@ public class arbAwesome extends Fragment{
                     break;
                 case R.id.awesomeqr_mainButton_save:
                     try{
-                        String s=QrUtils.saveMyBitmap(
-                                Environment.getExternalStorageDirectory().getAbsolutePath()+
-                                        "/Pictures/QRcode/AwesomeQR/"+(new Date()).toString()+".png",
-                                finallyBmp);
+                        String s=QrUtils.saveMyBitmap(MainActivity.instence.getArbAwesomeQRPath(),finallyBmp);
                         log.t("已保存至"+s);
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
                     }catch(IOException e){
@@ -188,7 +169,6 @@ public class arbAwesome extends Fragment{
                         @Override
                         public void onClick(DialogInterface p1,int p2){
                             qrSize=msb.getProgress();
-                            //ll.addView(new mengSelectRectView(getActivity(),selectedBmp,screenW,screenH));
                             mengSelectView.setup(selectedBmp,screenW,screenH,qrSize);
                             ViewGroup.LayoutParams para=mengSelectView.getLayoutParams();
                             para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);
@@ -227,12 +207,8 @@ public class arbAwesome extends Fragment{
     }
 
     private int between(float a,int min,int max){
-        if(a<min){
-            a=min;
-        }
-        if(a>max){
-            a=max;
-        }
+        if(a<min) a=min;
+        if(a>max) a=max;
         return (int)a;
     }
 

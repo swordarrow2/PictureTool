@@ -8,11 +8,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,11 +22,11 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.meng.MainActivity2;
+import com.meng.qrtools.MainActivity;
 import com.meng.qrtools.R;
 import com.meng.qrtools.lib.qrcodelib.zxing.camera.CameraManager;
 import com.meng.qrtools.lib.qrcodelib.zxing.decoding.CaptureActivityHandler;
@@ -55,10 +51,6 @@ public class cameraReader extends Fragment implements Callback{
     private Vector<BarcodeFormat> decodeFormats;
     private String characterSet;
     private InactivityTimer inactivityTimer;
-    //private MediaPlayer mediaPlayer;
-    //private boolean playBeep;
-    //private static final float BEEP_VOLUME=0.10f;
-    private boolean vibrate;
     private boolean flashLightOpen=false;
 
     private ImageButton flashIbtn;
@@ -117,14 +109,6 @@ public class cameraReader extends Fragment implements Callback{
         }
         decodeFormats=null;
         characterSet=null;
-
-    //    playBeep=true;
-    //    final AudioManager audioService=(AudioManager)getActivity().getSystemService(getActivity().AUDIO_SERVICE);
-   //     if(audioService.getRingerMode()!=AudioManager.RINGER_MODE_NORMAL){
-    //        playBeep=false;
-     //   }
-      //  initBeepSound();
-        vibrate=true;
     }
 
     @Override
@@ -146,7 +130,6 @@ public class cameraReader extends Fragment implements Callback{
         super.onDestroy();
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults){
         super.onRequestPermissionsResult(requestCode,permissions,grantResults);
@@ -161,21 +144,14 @@ public class cameraReader extends Fragment implements Callback{
                             public void onClick(DialogInterface dialog,int which){
                                 //       mActivity.finish();
                             }
-                        })
-                        .show();
+                        }).show();
             }
         }
     }
 
-    /**
-     * Handler scan result
-     *
-     * @param result
-     * @param barcode
-     */
     public void handleDecode(Result result,Bitmap barcode){
         inactivityTimer.onActivity();
-        playBeepSoundAndVibrate();
+        MainActivity.instence.doVibrate(200L);
         handleResult(result.getText(),result.getBarcodeFormat().toString());
     }
 
@@ -186,14 +162,13 @@ public class cameraReader extends Fragment implements Callback{
         }else{
             if(mDialog==null){
                 mDialog=new AlertDialog.Builder(getActivity())
-				.setTitle("二维码类型:"+format)
+                        .setTitle("二维码类型:"+format)
                         .setMessage(resultString)
                         .setPositiveButton("确定",null)
                         .setNeutralButton("复制文本",new DialogInterface.OnClickListener(){
 
                             @Override
                             public void onClick(DialogInterface p1,int p2){
-                                // TODO: Implement this method
                                 android.content.ClipboardManager clipboardManager=(android.content.ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                                 ClipData clipData=ClipData.newPlainText("text",resultString);
                                 clipboardManager.setPrimaryClip(clipData);
@@ -203,7 +178,6 @@ public class cameraReader extends Fragment implements Callback{
 
                             @Override
                             public void onClick(DialogInterface p1,int p2){
-                                // TODO: Implement this method
                                 FragmentTransaction transaction=getActivity().getFragmentManager().beginTransaction();
                                 MainActivity2.instence.awesomeCreatorFragment.setDataStr(resultString);
                                 transaction.hide(MainActivity2.instence.cameraReaderFragment);
@@ -214,13 +188,12 @@ public class cameraReader extends Fragment implements Callback{
                 mDialog.setOnDismissListener(new DialogInterface.OnDismissListener(){
                     @Override
                     public void onDismiss(DialogInterface dialog){
-						mDialog=null;
+                        mDialog=null;
                         restartPreview();
                     }
                 });
             }
             if(!mDialog.isShowing()){
-                
                 mDialog.show();
             }
         }
@@ -231,9 +204,6 @@ public class cameraReader extends Fragment implements Callback{
         viewfinderView=view;
     }
 
-    /**
-     * 切换散光灯状态
-     */
     public void toggleFlashLight(){
         if(flashLightOpen){
             setFlashLightOpen(false);
@@ -242,49 +212,29 @@ public class cameraReader extends Fragment implements Callback{
         }
     }
 
-    /**
-     * 设置闪光灯是否打开
-     *
-     * @param open
-     */
     public void setFlashLightOpen(boolean open){
         if(flashLightOpen==open) return;
-
         flashLightOpen=!flashLightOpen;
         CameraManager.get().setFlashLight(open);
     }
 
-    /**
-     * 当前散光灯是否打开
-     *
-     * @return
-     */
     public boolean isFlashLightOpen(){
         return flashLightOpen;
     }
 
-    /**
-     * 打开相册
-     */
-
-
     private void initCamera(SurfaceHolder surfaceHolder){
         try{
             CameraManager.get().openDriver(surfaceHolder);
-        }catch(IOException ioe){
-            return;
-        }catch(RuntimeException e){
+        }catch(Exception e){
             return;
         }
         if(handler==null){
-            handler=new CaptureActivityHandler(this,decodeFormats,
-                    characterSet);
+            handler=new CaptureActivityHandler(this,decodeFormats,characterSet);
         }
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder,int format,
-                               int width,int height){
+    public void surfaceChanged(SurfaceHolder holder,int format,int width,int height){
     }
 
     @Override
@@ -322,48 +272,5 @@ public class cameraReader extends Fragment implements Callback{
         }
     }
 
-  /*  private void initBeepSound(){
-        if(playBeep&&mediaPlayer==null){
-            // The volume on STREAM_SYSTEM is not adjustable, and users found it
-            // too loud,
-            // so we now play on the music stream.
-            getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
-            mediaPlayer=new MediaPlayer();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setOnCompletionListener(beepListener);
-
-            AssetFileDescriptor file=getResources().openRawResourceFd(
-                    R.raw.beep);
-            try{
-                mediaPlayer.setDataSource(file.getFileDescriptor(),
-                        file.getStartOffset(),file.getLength());
-                file.close();
-                mediaPlayer.setVolume(BEEP_VOLUME,BEEP_VOLUME);
-                mediaPlayer.prepare();
-            }catch(IOException e){
-                mediaPlayer=null;
-            }
-        }
-    }
-*/
-
-    private void playBeepSoundAndVibrate(){
-      //  if(playBeep&&mediaPlayer!=null){
-      //      mediaPlayer.start();
-     //   }
-        if(vibrate){
-            Vibrator vibrator=(Vibrator)getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
-            vibrator.vibrate(200L);
-        }
-    }
-
-    /**
-     * When the beep has finished playing, rewind to queue up another one.
-     */
-    private final OnCompletionListener beepListener=new OnCompletionListener(){
-        public void onCompletion(MediaPlayer mediaPlayer){
-            mediaPlayer.seekTo(0);
-        }
-    };
 
 }

@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.meng.MainActivity2;
+import com.meng.qrtools.MainActivity;
 import com.meng.qrtools.R;
 import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * Created by Administrator on 2018/8/23.
+ * gif生成
  */
 
 public class gifCreator extends Fragment{
@@ -38,10 +38,7 @@ public class gifCreator extends Fragment{
     private mengEdittext mengEtGifHeight;
     private mengEdittext mengEtGifWidth;
     private mengEdittext mengEtFrameDelay;
-    private Button btnAddFrame;
-    private Button btnFinish;
-    private String filePath;
-    private HashMap<Integer,Bitmap> dataMap;
+    private HashMap<Integer,Bitmap> dataMap=new HashMap<Integer,Bitmap>();
     private int bitmapFlag=0;
     private final int CROP_REQUEST_CODE=3;
     private int bmpH=0;
@@ -49,24 +46,19 @@ public class gifCreator extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        // TODO: Implement this method
         return inflater.inflate(R.layout.gif_creator,container,false);
     }
 
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
-        // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
         cbAutoSize=(CheckBox)view.findViewById(R.id.gif_creator_autosize);
         cbCrop=(CheckBox)view.findViewById(R.id.gif_creator_crop);
         mengEtGifHeight=(mengEdittext)view.findViewById(R.id.gif_creator_height);
         mengEtGifWidth=(mengEdittext)view.findViewById(R.id.gif_creator_width);
         mengEtFrameDelay=(mengEdittext)view.findViewById(R.id.gif_creator_delay);
-        btnAddFrame=(Button)view.findViewById(R.id.gif_creator_add);
-        btnFinish=(Button)view.findViewById(R.id.gif_creator_finish);
-        btnAddFrame.setOnClickListener(listenerBtnClick);
-        btnFinish.setOnClickListener(listenerBtnClick);
-        dataMap=new HashMap<Integer,Bitmap>();
+        ((Button)view.findViewById(R.id.gif_creator_add)).setOnClickListener(listenerBtnClick);
+        ((Button)view.findViewById(R.id.gif_creator_finish)).setOnClickListener(listenerBtnClick);
         cbAutoSize.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
@@ -87,43 +79,23 @@ public class gifCreator extends Fragment{
                     break;
                 case R.id.gif_creator_finish:
                     try{
-                        File tm=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/QRcode/gif/");
-                        if(!tm.exists()){
-                            tm.mkdirs();
-                        }
-                        filePath=tm.getAbsolutePath()+(new Date()).toString()+".gif";
+                        String filePath=MainActivity.instence.getGifPath()+(new Date()).toString()+".gif";
                         GifEncoder gifEncoder=new GifEncoder();
                         gifEncoder.setDither(false);
                         if(cbAutoSize.isChecked()){
-                            //    Bitmap bmp=BitmapFactory.decodeFile(selectedPicturePath);
                             bmpW=dataMap.get(0).getWidth();
                             bmpH=dataMap.get(0).getHeight();
-                            gifEncoder.init(
-                                    bmpW,
-                                    bmpH,
-                                    filePath,
-                                    GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
+                            gifEncoder.init(bmpW,bmpH,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
                         }else{
                             bmpW=mengEtGifWidth.getInt();
                             bmpH=mengEtGifHeight.getInt();
-                            gifEncoder.init(
-                                    bmpW,
-                                    bmpH,
-                                    filePath,
-                                    GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
+                            gifEncoder.init(bmpW,bmpH,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
                         }
-
                         for(int i=0;i<bitmapFlag;i++){
-                            gifEncoder.encodeFrame(
-                                    QrUtils.scale(
-                                            dataMap.get(i),
-                                            bmpW,
-                                            bmpH),
-                                    mengEtFrameDelay.getInt());
+                            gifEncoder.encodeFrame(QrUtils.scale(dataMap.get(i),bmpW,bmpH),mengEtFrameDelay.getInt());
                         }
                         gifEncoder.close();
-                        getActivity().getApplicationContext().sendBroadcast(
-                                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
+                        getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
                         log.t("完成 : "+filePath);
                         dataMap.clear();
                         bitmapFlag=0;
