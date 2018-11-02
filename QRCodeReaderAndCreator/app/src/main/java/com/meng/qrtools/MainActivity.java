@@ -55,37 +55,37 @@ public class MainActivity extends Activity{
     public String getAwesomeQRPath(){
         File f=new File(awesomeQRPath);
         if(!f.exists()) f.mkdirs();
-        return awesomeQRPath+(sharedPreference.getBoolean("useTimeStamp")?(System.currentTimeMillis()/1000):new Date().toString())+".png";
+        return awesomeQRPath+(sharedPreference.getBoolean("useTimeStamp")?String.valueOf(System.currentTimeMillis()/1000):new Date().toString())+".png";
     }
 
     public String getArbAwesomeQRPath(){
         File f=new File(arbAwesomeQRPath);
         if(!f.exists()) f.mkdirs();
-        return arbAwesomeQRPath+(sharedPreference.getBoolean("useTimeStamp")?(System.currentTimeMillis()/1000):new Date().toString())+".png";
+        return arbAwesomeQRPath+(sharedPreference.getBoolean("useTimeStamp")?String.valueOf(System.currentTimeMillis()/1000):new Date().toString())+".png";
     }
 
     public String getGifAwesomeQRPath(){
         File f=new File(gifAwesomeQRPath);
         if(!f.exists()) f.mkdirs();
-        return gifAwesomeQRPath+(sharedPreference.getBoolean("useTimeStamp")?(System.currentTimeMillis()/1000):new Date().toString())+".gif";
+        return gifAwesomeQRPath+(sharedPreference.getBoolean("useTimeStamp")?String.valueOf(System.currentTimeMillis()/1000):new Date().toString())+".gif";
     }
 
     public String getGifArbAwesomeQRPath(){
         File f=new File(gifArbAwesomeQRPath);
         if(!f.exists()) f.mkdirs();
-        return gifArbAwesomeQRPath+(sharedPreference.getBoolean("useTimeStamp")?(System.currentTimeMillis()/1000):new Date().toString())+".gif";
+        return gifArbAwesomeQRPath+(sharedPreference.getBoolean("useTimeStamp")?String.valueOf(System.currentTimeMillis()/1000):new Date().toString())+".gif";
     }
 
     public String getGifPath(){
         File f=new File(gifPath);
         if(!f.exists()) f.mkdirs();
-        return gifPath;
+        return gifPath+(sharedPreference.getBoolean("useTimeStamp")?String.valueOf(System.currentTimeMillis()/1000):new Date().toString())+".gif";
     }
 
     public String getBarcodePath(String barcodeFormat){
         File f=new File(barcodePath);
         if(!f.exists()) f.mkdirs();
-        return barcodePath+barcodeFormat+"/"+(sharedPreference.getBoolean("useTimeStamp")?(System.currentTimeMillis()/1000):new Date().toString())+".png";
+        return barcodePath+barcodeFormat+"/"+(sharedPreference.getBoolean("useTimeStamp")?String.valueOf(System.currentTimeMillis()/1000):new Date().toString())+".png";
     }
 
     public void doVibrate(long time){
