@@ -64,6 +64,6 @@ public class mengSeekBar extends LinearLayout{
     }
     public void setOnSeekBarChangeListener(SeekBar.OnSeekBarChangeListener listener){
         sb.setOnSeekBarChangeListener(listener);
-        tv.setVisibility(GONE);
+        tv.setText("二维码大小:");
     }
 }
