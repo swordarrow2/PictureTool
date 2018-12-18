@@ -1,6 +1,5 @@
-package com.meng.qrtools;
+package com.meng.qrtools.reader;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.ClipData;
@@ -9,12 +8,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.Vibrator;
 import android.view.WindowManager;
 
 import com.google.zxing.Result;
+import com.meng.qrtools.MainActivity;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.qrtools.lib.screenshotListener;
+import com.meng.qrtools.log;
 
 import java.io.File;
 

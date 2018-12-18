@@ -73,6 +73,7 @@ public class logoCreator extends Fragment{
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
                 mColorBar.setVisibility(isChecked?View.GONE:View.VISIBLE);
+                if(!isChecked) log.t("如果颜色搭配不合理,二维码将会难以识别");
             }
         });
         ((Spinner)view.findViewById(R.id.qr_main_spinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){

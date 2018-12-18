@@ -22,12 +22,18 @@ public class mengSelectRectView extends View{
         super(c,attr);
     }
 
-   /* public mengSelectRectView(Context context,Bitmap seleBmp,float screenW,float screenH,int qrSize){
-        super(context);
-        setup(seleBmp,screenW,screenH,qrSize);
-        seted=true;
+    /* public mengSelectRectView(Context context,Bitmap seleBmp,float screenW,float screenH,int qrSize){
+         super(context);
+         setup(seleBmp,screenW,screenH,qrSize);
+         seted=true;
+     }
+ */
+    public void setSize(int qrSize){
+        bmpUseRect=Bitmap.createBitmap((int)(qrSize*xishu),(int)(qrSize*xishu),Bitmap.Config.ARGB_8888);
+        Canvas c=new Canvas(bmpUseRect);
+        c.drawARGB(0x7f,0x7f,0xca,0x00);
+        invalidate();
     }
-*/
 
     public void setup(Bitmap seleBmp,float screenW,float screenH,int qrSize){
         float bmpW=seleBmp.getWidth();

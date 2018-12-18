@@ -31,6 +31,7 @@ public class mengSeekBar extends LinearLayout{
         sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
             @Override
             public void onProgressChanged(SeekBar seekBar,int progress,boolean fromUser){
+                progress=progress%2==1?progress-1:progress;
                 tv.setText("当前:"+progress);
             }
 
@@ -41,13 +42,15 @@ public class mengSeekBar extends LinearLayout{
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar){
-
             }
         });
     }
 
     public void setMax(int max){
         sb.setMax(max);
+    }
+    public int getMax(){
+        return sb.getMax();
     }
 
     public void setProgress(int progress){
@@ -56,5 +59,9 @@ public class mengSeekBar extends LinearLayout{
 
     public int getProgress(){
         return sb.getProgress();
+    }
+    public void setOnSeekBarChangeListener(SeekBar.OnSeekBarChangeListener listener){
+        sb.setOnSeekBarChangeListener(listener);
+        tv.setVisibility(GONE);
     }
 }

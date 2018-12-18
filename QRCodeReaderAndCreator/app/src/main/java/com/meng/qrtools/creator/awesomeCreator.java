@@ -99,6 +99,7 @@ public class awesomeCreator extends Fragment{
             switch(buttonView.getId()){
                 case R.id.awesomeqr_main_autoColor:
                     mColorBar.setVisibility(isChecked?View.GONE:View.VISIBLE);
+                    if(!isChecked) log.t("如果颜色搭配不合理,二维码将会难以识别");
                     break;
                 case R.id.awesomeqr_main_binarize:
                     mengEtBinarize.setEnabled(isChecked);

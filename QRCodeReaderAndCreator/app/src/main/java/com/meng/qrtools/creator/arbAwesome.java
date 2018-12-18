@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +39,6 @@ import com.meng.qrtools.mengViews.mengSelectRectView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 /**
  * 自选二维码位置的Awesome QRcode
@@ -55,6 +55,7 @@ public class arbAwesome extends Fragment{
     private mengColorBar mColorBar;
     private mengScrollView sv;
 
+    private mengSeekBar mengSeekBar;
     private Bitmap finallyBmp=null;
     private String selectedBmpPath="";
     private int qrSize;
@@ -86,6 +87,8 @@ public class arbAwesome extends Fragment{
         ckbAutoColor=(CheckBox)view.findViewById(R.id.awesomeqr_main_autoColor);
         btnSave=(Button)view.findViewById(R.id.awesomeqr_mainButton_save);
         imgPathTextView=(TextView)view.findViewById(R.id.awesomeqr_main_imgPathTextView);
+        mengSeekBar=(mengSeekBar)view.findViewById(R.id.awesomeqr_mainMengSeekBar);
+
         ((Button)view.findViewById(R.id.awesomeqr_main_backgroundImage)).setOnClickListener(click);
         btGenerate.setOnClickListener(click);
         btnSave.setOnClickListener(click);
@@ -94,6 +97,7 @@ public class arbAwesome extends Fragment{
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
                 mColorBar.setVisibility(isChecked?View.GONE:View.VISIBLE);
+                if(!isChecked) log.t("如果颜色搭配不合理,二维码将会难以识别");
             }
         });
         DisplayMetrics dm=new DisplayMetrics();
@@ -140,11 +144,7 @@ public class arbAwesome extends Fragment{
         int permission=ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if(permission!=PackageManager.PERMISSION_GRANTED){
             int REQUEST_EXTERNAL_STORAGE=1;
-            ActivityCompat.requestPermissions(
-                    getActivity(),
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
+            ActivityCompat.requestPermissions(getActivity(),PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
         }
     }
 
@@ -168,6 +168,24 @@ public class arbAwesome extends Fragment{
                     .setPositiveButton("确定",new DialogInterface.OnClickListener(){
                         @Override
                         public void onClick(DialogInterface p1,int p2){
+                            mengSeekBar.setMax(msb.getMax());
+                            mengSeekBar.setProgress(msb.getProgress());
+                            mengSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+                                @Override
+                                public void onProgressChanged(SeekBar seekBar,int progress,boolean fromUser){
+                                    mengSelectView.setSize(progress);
+                                }
+
+                                @Override
+                                public void onStartTrackingTouch(SeekBar seekBar){
+
+                                }
+
+                                @Override
+                                public void onStopTrackingTouch(SeekBar seekBar){
+
+                                }
+                            });
                             qrSize=msb.getProgress();
                             mengSelectView.setup(selectedBmp,screenW,screenH,qrSize);
                             ViewGroup.LayoutParams para=mengSelectView.getLayoutParams();
