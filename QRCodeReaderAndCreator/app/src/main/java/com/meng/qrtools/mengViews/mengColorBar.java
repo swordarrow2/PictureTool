@@ -1,8 +1,8 @@
 package com.meng.qrtools.mengViews;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class mengColorBar extends LinearLayout{
     private TextView tvFalse;
     private Button btnTrue;
     private Button btnFalse;
+    private ImageButton ib;
 
     public mengColorBar(Context c,AttributeSet a){
         super(c,a);
@@ -40,22 +42,28 @@ public class mengColorBar extends LinearLayout{
         etFalse=(EditText)findViewById(R.id.meng_colorbar_edittext_false);
         btnTrue=(Button)findViewById(R.id.meng_colorbar_button_select_true_color);
         btnFalse=(Button)findViewById(R.id.meng_colorbar_button_select_false_color);
+        ib=(ImageButton)findViewById(R.id.meng_colorbar_imagebutton);
         etTrue.addTextChangedListener(tw);
         etFalse.addTextChangedListener(tw);
         btnTrue.setOnClickListener(clickListener);
         btnFalse.setOnClickListener(clickListener);
+        ib.setOnClickListener(clickListener);
     }
+
     private OnClickListener clickListener=new OnClickListener(){
         @Override
         public void onClick(View v){
             switch(v.getId()){
                 case R.id.meng_colorbar_button_select_true_color:
-                    Dialog dialog = new mengColorPickerDialog(getContext(),etTrue);
+                    Dialog dialog=new mengColorPickerDialog(getContext(),etTrue);
                     dialog.show();
                     break;
                 case R.id.meng_colorbar_button_select_false_color:
-                    Dialog dialog2 = new mengColorPickerDialog(getContext(),etFalse);
+                    Dialog dialog2=new mengColorPickerDialog(getContext(),etFalse);
                     dialog2.show();
+                    break;
+                case R.id.meng_colorbar_imagebutton:
+                    new AlertDialog.Builder(c).setTitle("").setMessage("真值点就是普通二维码中的黑色部分,其余部分为假值点").setPositiveButton("我知道了",null).show();
                     break;
             }
         }
@@ -92,6 +100,7 @@ public class mengColorBar extends LinearLayout{
                 tvFalse.setTextColor(Color.BLACK);
             }
         }
+
         @Override
         public void afterTextChanged(Editable p1){
         }
