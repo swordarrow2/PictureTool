@@ -51,10 +51,7 @@ public class mengSelectRectView extends View{
         super.onDraw(canvas);
         if(!seted) return;
         canvas.drawBitmap(imageViewBackground,0,0,null); // 绘制背景图像
-        canvas.drawBitmap(bmpUseRect,
-                mLeft,
-                mTop,
-                null); // 绘制选择框
+        canvas.drawBitmap(bmpUseRect,mLeft,mTop,null); // 绘制选择框
     }
 
     @Override
@@ -70,12 +67,8 @@ public class mengSelectRectView extends View{
     }
 
     private int between(float a,int min,int max){
-        if(a<min){
-            a=min;
-        }
-        if(a>max){
-            a=max;
-        }
+        if(a<min) a=min;
+        if(a>max) a=max;
         return (int)a;
     }
 

@@ -87,6 +87,12 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"/>
 
+            <com.meng.qrtools.mengViews.mengSeekBar
+                android:id="@+id/gif_arb_qr_mainMengSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
             <ProgressBar
                 android:id="@+id/gif_arb_qr_mainProgressBar"
                 style="@android:style/Widget.Holo.ProgressBar.Horizontal"

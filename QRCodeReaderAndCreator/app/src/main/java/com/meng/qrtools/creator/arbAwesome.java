@@ -88,7 +88,6 @@ public class arbAwesome extends Fragment{
         btnSave=(Button)view.findViewById(R.id.awesomeqr_mainButton_save);
         imgPathTextView=(TextView)view.findViewById(R.id.awesomeqr_main_imgPathTextView);
         mengSeekBar=(mengSeekBar)view.findViewById(R.id.awesomeqr_mainMengSeekBar);
-
         ((Button)view.findViewById(R.id.awesomeqr_main_backgroundImage)).setOnClickListener(click);
         btGenerate.setOnClickListener(click);
         btnSave.setOnClickListener(click);
@@ -196,9 +195,7 @@ public class arbAwesome extends Fragment{
 						para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);
 						mengSelectView.setLayoutParams(para);
 						mengSelectView.setVisibility(View.VISIBLE);
-						if(para.height>screenH*2/3){
-							log.t("可使用音量键滚动界面");
-						}
+						if(para.height>screenH*2/3) log.t("可使用音量键滚动界面");
 						sv.post(new Runnable(){
                                 public void run(){
                                     sv.fullScroll(View.FOCUS_DOWN);

@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +71,7 @@ public class gifArbAwesome extends Fragment{
     private int gifHeight;
     private int bmpCount;
     private mengScrollView msv;
+    private mengSeekBar mengSeekBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -91,6 +93,7 @@ public class gifArbAwesome extends Fragment{
         mengEtTextToEncode=(mengEdittext)view.findViewById(R.id.gif_arb_qr_mainmengTextview_content);
         pbCodingProgress=(ProgressBar)view.findViewById(R.id.gif_arb_qr_mainProgressBar);
         tvImagePath=(TextView)view.findViewById(R.id.gif_arb_qr_selected_path);
+        mengSeekBar=(mengSeekBar)view.findViewById(R.id.gif_arb_qr_mainMengSeekBar);
         cbAutoColor.setOnCheckedChangeListener(check);
         btnSelectImage.setOnClickListener(listenerBtnClick);
         btnEncodeGif.setOnClickListener(listenerBtnClick);
@@ -327,6 +330,19 @@ public class gifArbAwesome extends Fragment{
                                 public void onClick(DialogInterface p1,int p2){
                                     qrSize=msb.getProgress();
                                     //ll.addView(new mengSelectRectView(getActivity(),selectedBmp,screenW,screenH));
+                                    mengSeekBar.setVisibility(View.VISIBLE);
+                                    mengSeekBar.setMax(msb.getMax());
+                                    mengSeekBar.setProgress(msb.getProgress());
+                                    mengSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+                                        @Override
+                                        public void onProgressChanged(SeekBar seekBar,int progress,boolean fromUser){
+                                            mengSelectView.setSize(qrSize=mengSeekBar.getProgress());
+                                        }
+                                        @Override
+                                        public void onStartTrackingTouch(SeekBar seekBar){    }
+                                        @Override
+                                        public void onStopTrackingTouch(SeekBar seekBar){    }
+                                    });
                                     mengSelectView.setup(selectedBmp,screenW,screenH,qrSize);
                                     ViewGroup.LayoutParams para=mengSelectView.getLayoutParams();
                                     para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);
