@@ -150,11 +150,25 @@ public class logoCreator extends Fragment{
         }
         return BarcodeFormat.QR_CODE;
     }
-
+	private Uri cropPhoto(Uri uri,boolean needCrop){
+        if(!needCrop) return uri;
+        Intent intent=new Intent("com.android.camera.action.CROP");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.setDataAndType(uri,"image/*");
+        intent.putExtra("crop","true");
+        intent.putExtra("aspectX",1);
+        intent.putExtra("aspectY",1);
+        intent.putExtra("outputX",300);
+        intent.putExtra("outputY",300);
+        intent.putExtra("return-data",true);
+        startActivityForResult(intent,MainActivity.instence.CROP_REQUEST_CODE);
+        return uri;
+    }
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         if(requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE&&resultCode==getActivity().RESULT_OK&&data.getData()!=null){
-            String path=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),MainActivity.instence.cropPhoto(data.getData(),cbCrop.isChecked()));
+            String path=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),cropPhoto(data.getData(),cbCrop.isChecked()));
             tvImgPath.setText("当前图片："+path);
             if(!cbCrop.isChecked()){
                 logoImage=BitmapFactory.decodeFile(path);

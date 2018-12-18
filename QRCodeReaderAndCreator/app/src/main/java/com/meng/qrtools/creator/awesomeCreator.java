@@ -168,18 +168,35 @@ public class awesomeCreator extends Fragment{
             );
         }
     }
-
+	private Uri cropPhoto(Uri uri,boolean needCrop){
+        if(!needCrop) return uri;
+        Intent intent=new Intent("com.android.camera.action.CROP");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.setDataAndType(uri,"image/*");
+        intent.putExtra("crop","true");
+        intent.putExtra("aspectX",1);
+        intent.putExtra("aspectY",1);
+        intent.putExtra("outputX",300);
+        intent.putExtra("outputY",300);
+        intent.putExtra("return-data",true);
+        startActivityForResult(intent,MainActivity.instence.CROP_REQUEST_CODE);
+        return uri;
+    }
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         if(requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE&&resultCode==getActivity().RESULT_OK&&data.getData()!=null){
             imgPathTextView.setVisibility(View.VISIBLE);
-            String path=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),MainActivity.instence.cropPhoto(data.getData(),cbCrop.isChecked()));
+            String path=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),cropPhoto(data.getData(),cbCrop.isChecked()));
             imgPathTextView.setText("当前图片："+path);
             if(!cbCrop.isChecked()){
                 backgroundImage=BitmapFactory.decodeFile(path);
             }
         }else if(requestCode==MainActivity.instence.CROP_REQUEST_CODE){
             Bundle bundle=data.getExtras();
+			if(bundle==null){
+				log.t("bundle is null");
+			}
             if(bundle!=null){
                 backgroundImage=bundle.getParcelable("data");
                 log.t(getResources().getString(R.string.Background_image_added));
