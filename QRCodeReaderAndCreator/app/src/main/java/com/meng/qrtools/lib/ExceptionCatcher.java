@@ -28,6 +28,7 @@ public class ExceptionCatcher implements Thread.UncaughtExceptionHandler{
     private SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
     private String TAG=this.getClass().getSimpleName();
     private static ExceptionCatcher mInstance;
+	private String fileName;
 
     private ExceptionCatcher(){
     }
@@ -51,7 +52,7 @@ public class ExceptionCatcher implements Thread.UncaughtExceptionHandler{
             mDefaultHandler.uncaughtException(thread,ex);
         }else{
             try{
-                Thread.sleep(3000);
+                Thread.sleep(5000);
             }catch(InterruptedException e){
             }
             System.exit(0);
@@ -64,15 +65,16 @@ public class ExceptionCatcher implements Thread.UncaughtExceptionHandler{
         }
         collectDeviceInfo(mContext);
         addCustomInfo();
-        new Thread(){
+        saveCrashInfo2File(ex);
+		new Thread(){
             @Override
             public void run(){
                 Looper.prepare();
                 Toast.makeText(mContext,"程序开小差了呢..",Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext,"崩溃记录已保存至"+fileName,Toast.LENGTH_LONG).show();
                 Looper.loop();
             }
         }.start();
-        saveCrashInfo2File(ex);
         return true;
     }
 
@@ -128,7 +130,7 @@ public class ExceptionCatcher implements Thread.UncaughtExceptionHandler{
         try{
             long timestamp=System.currentTimeMillis();
             String time=format.format(new Date());
-            String fileName="crash-"+time+"-"+timestamp+".log";
+             fileName="crash-"+time+"-"+timestamp+".log";
             if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
                 String path=Environment.getExternalStorageDirectory().getAbsolutePath()+"/crash/";
                 File dir=new File(path);

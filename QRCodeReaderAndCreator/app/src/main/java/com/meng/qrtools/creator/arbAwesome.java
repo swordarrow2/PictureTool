@@ -65,8 +65,8 @@ public class arbAwesome extends Fragment{
     private float screenH;
     private mengSelectRectView mengSelectView;
     private String[] PERMISSIONS_STORAGE={
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+		Manifest.permission.READ_EXTERNAL_STORAGE,
+		Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
     @Override
@@ -94,12 +94,12 @@ public class arbAwesome extends Fragment{
         btnSave.setOnClickListener(click);
         sv.setSelectView(mengSelectView);
         ckbAutoColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
-                mColorBar.setVisibility(isChecked?View.GONE:View.VISIBLE);
-                if(!isChecked) log.t("如果颜色搭配不合理,二维码将会难以识别");
-            }
-        });
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
+					mColorBar.setVisibility(isChecked?View.GONE:View.VISIBLE);
+					if(!isChecked) log.t("如果颜色搭配不合理,二维码将会难以识别");
+				}
+			});
         DisplayMetrics dm=new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         screenW=dm.widthPixels;
@@ -113,10 +113,12 @@ public class arbAwesome extends Fragment{
                 case R.id.awesomeqr_main_backgroundImage:
                     qrCodeImageView.setVisibility(View.GONE);
                     btGenerate.setEnabled(true);
+					btnSave.setVisibility(View.GONE);
                     MainActivity2.selectImage(arbAwesome.this);
                     break;
                 case R.id.awesomeqr_main_generate:
                     generate();
+					mengSeekBar.setVisibility(View.GONE);
                     btnSave.setVisibility(View.VISIBLE);
                     qrCodeImageView.setVisibility(View.VISIBLE);
                     mengSelectView.setVisibility(View.GONE);
@@ -126,6 +128,7 @@ public class arbAwesome extends Fragment{
                         String s=QrUtils.saveMyBitmap(MainActivity.instence.getArbAwesomeQRPath(),finallyBmp);
                         log.t("已保存至"+s);
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
+						btnSave.setVisibility(View.GONE);
                     }catch(IOException e){
                         log.e(e);
                     }
@@ -163,17 +166,18 @@ public class arbAwesome extends Fragment{
             msb.setMax(maxProg);
             msb.setProgress(maxProg/3);
             new AlertDialog.Builder(getActivity())
-                    .setTitle("输入要添加的二维码大小(像素)")
-                    .setView(msb)
-                    .setPositiveButton("确定",new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface p1,int p2){
-                            mengSeekBar.setMax(msb.getMax());
-                            mengSeekBar.setProgress(msb.getProgress());
-                            mengSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+				.setTitle("输入要添加的二维码大小(像素)")
+				.setView(msb)
+				.setPositiveButton("确定",new DialogInterface.OnClickListener(){
+					@Override
+					public void onClick(DialogInterface p1,int p2){
+						mengSeekBar.setVisibility(View.VISIBLE);
+						mengSeekBar.setMax(msb.getMax());
+						mengSeekBar.setProgress(msb.getProgress());
+						mengSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
                                 @Override
                                 public void onProgressChanged(SeekBar seekBar,int progress,boolean fromUser){
-                                    mengSelectView.setSize(progress);
+                                    mengSelectView.setSize(qrSize=mengSeekBar.getProgress());
                                 }
 
                                 @Override
@@ -186,22 +190,22 @@ public class arbAwesome extends Fragment{
 
                                 }
                             });
-                            qrSize=msb.getProgress();
-                            mengSelectView.setup(selectedBmp,screenW,screenH,qrSize);
-                            ViewGroup.LayoutParams para=mengSelectView.getLayoutParams();
-                            para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);
-                            mengSelectView.setLayoutParams(para);
-                            mengSelectView.setVisibility(View.VISIBLE);
-                            if(para.height>screenH*2/3){
-                                log.t("可使用音量键滚动界面");
-                            }
-                            sv.post(new Runnable(){
+						qrSize=msb.getProgress();
+						mengSelectView.setup(selectedBmp,screenW,screenH,qrSize);
+						ViewGroup.LayoutParams para=mengSelectView.getLayoutParams();
+						para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);
+						mengSelectView.setLayoutParams(para);
+						mengSelectView.setVisibility(View.VISIBLE);
+						if(para.height>screenH*2/3){
+							log.t("可使用音量键滚动界面");
+						}
+						sv.post(new Runnable(){
                                 public void run(){
                                     sv.fullScroll(View.FOCUS_DOWN);
                                 }
                             });
-                        }
-                    }).show();
+					}
+				}).show();
         }else if(resultCode==getActivity().RESULT_CANCELED){
             Toast.makeText(getActivity().getApplicationContext(),"取消选择图片",Toast.LENGTH_SHORT).show();
         }else{
@@ -212,15 +216,15 @@ public class arbAwesome extends Fragment{
 
     private void generate(){
         finallyBmp=QrUtils.generate(
-                mengEtContents.getString(),
-                Float.parseFloat(mengEtDotScale.getString()),
-                ckbAutoColor.isChecked()?Color.BLACK:mColorBar.getTrueColor(),
-                ckbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
-                ckbAutoColor.isChecked(),
-                between(mengSelectView.getSelectLeft()/mengSelectView.getXishu(),0,selectedBmpWidth-qrSize),
-                between(mengSelectView.getSelectTop()/mengSelectView.getXishu(),0,selectedBmpHeight-qrSize),
-                qrSize,
-                BitmapFactory.decodeFile(selectedBmpPath).copy(Bitmap.Config.ARGB_8888,true));
+			mengEtContents.getString(),
+			Float.parseFloat(mengEtDotScale.getString()),
+			ckbAutoColor.isChecked()?Color.BLACK:mColorBar.getTrueColor(),
+			ckbAutoColor.isChecked()?Color.WHITE:mColorBar.getFalseColor(),
+			ckbAutoColor.isChecked(),
+			between(mengSelectView.getSelectLeft()/mengSelectView.getXishu(),0,selectedBmpWidth-qrSize),
+			between(mengSelectView.getSelectTop()/mengSelectView.getXishu(),0,selectedBmpHeight-qrSize),
+			qrSize,
+			BitmapFactory.decodeFile(selectedBmpPath).copy(Bitmap.Config.ARGB_8888,true));
         qrCodeImageView.setImageBitmap(QrUtils.scaleBitmap(finallyBmp,mengSelectView.getXishu()));
     }
 
@@ -234,17 +238,17 @@ public class arbAwesome extends Fragment{
 
         if((keyCode==KeyEvent.KEYCODE_VOLUME_UP)){
             sv.post(new Runnable(){
-                public void run(){
-                    sv.scrollBy(0,0xffffff9c);//(0xffffff9c)16=(-100)10
-                }
-            });
+					public void run(){
+						sv.scrollBy(0,0xffffff9c);//(0xffffff9c)16=(-100)10
+					}
+				});
         }
         if((keyCode==KeyEvent.KEYCODE_VOLUME_DOWN)){
             sv.post(new Runnable(){
-                public void run(){
-                    sv.scrollBy(0,100);
-                }
-            });
+					public void run(){
+						sv.scrollBy(0,100);
+					}
+				});
         }
 
     }

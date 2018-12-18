@@ -79,6 +79,7 @@
             </LinearLayout>
 
             <com.meng.qrtools.mengViews.mengSeekBar
+				android:visibility="gone"
                 android:id="@+id/awesomeqr_mainMengSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

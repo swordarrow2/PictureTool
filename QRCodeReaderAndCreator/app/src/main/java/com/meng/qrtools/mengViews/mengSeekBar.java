@@ -32,7 +32,9 @@ public class mengSeekBar extends LinearLayout{
             @Override
             public void onProgressChanged(SeekBar seekBar,int progress,boolean fromUser){
                 progress=progress%2==1?progress-1:progress;
+				progress=progress<1?2:progress;
                 tv.setText("当前:"+progress);
+				sb.setProgress(-1);
             }
 
             @Override
