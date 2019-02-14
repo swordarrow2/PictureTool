@@ -405,7 +405,7 @@ public class MainActivity2 extends Activity {
         FragmentTransaction transactionBusR = manager.beginTransaction();
         if (busReaderFragment == null) {
             busReaderFragment = new BusReader();
-            transactionBusR.add(R.id.main_activityLinearLayout, busFragment);
+            transactionBusR.add(R.id.main_activityLinearLayout, busReaderFragment);
         }
         hideFragment(transactionBusR);
         if (showNow) {

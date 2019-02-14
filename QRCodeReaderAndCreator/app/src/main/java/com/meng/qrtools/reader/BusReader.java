@@ -73,7 +73,7 @@ public class BusReader extends Fragment {
             Uri inputUri = data.getData();
             String path = ContentHelper.absolutePathFromUri(getActivity(), inputUri);
             if (!TextUtils.isEmpty(path)) {
-                Result result = QrUtils.decodeImage(path);
+                Result result = QrUtils.decodeImage(QrUtils.decryBitmap(path));
                 if (result != null) {
                     handleDecode(result, null);
                 } else {

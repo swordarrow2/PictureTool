@@ -1,43 +1,33 @@
 package com.meng.qrtools.lib;
 
-import android.graphics.Bitmap;
+import android.graphics.*;
+import android.util.*;
+import java.util.*;
 
-import java.util.HashSet;
-import java.util.Random;
 
+public class MyRandom{
 
-public class MyRandom {
-
-    private Random random = new Random(9961);
+    public Random random = new Random(9961);
     private HashSet<Integer> hashSet = new HashSet<Integer>();
-    private int height = 1;
-    private int width = 1;
+    private int flag = 1;
+	private int num = 0;
+    public MyRandom(int b){
+        flag=b;
+	  }
 
-    public MyRandom(Bitmap b) {
-        height = b.getHeight();
-        width = b.getWidth();
-    }
-
-    public int nextW() {
-        int num = 0;
-        while (true) {
-            num = random.nextInt(width);
-            if (!hashSet.contains(num)) {
+    public int next(){
+		while(true){
+			num=random.nextInt(flag);
+            if(!hashSet.contains(num)){
                 hashSet.add(num);
-                return num;
-            }
-        }
-    }
+				break;
+			  }  
+		  }
+		return num; 
+	  }
+	
+	public void cle(){
+		hashSet.clear();
+	  }
 
-    public int nextH() {
-        int num = 0;
-        while (true) {
-            num = random.nextInt(height);
-            if (!hashSet.contains(num)) {
-                hashSet.add(num);
-                return num;
-            }
-        }
-    }
-
-}
+  }
