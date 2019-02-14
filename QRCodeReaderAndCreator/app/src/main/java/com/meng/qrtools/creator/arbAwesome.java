@@ -1,44 +1,25 @@
 package com.meng.qrtools.creator;
 
-import android.Manifest;
-import android.app.AlertDialog;
+import android.*;
+import android.app.*;
+import android.content.*;
+import android.content.pm.*;
+import android.graphics.*;
+import android.net.*;
+import android.os.*;
+import android.support.v4.app.*;
+import android.util.*;
+import android.view.*;
+import android.widget.*;
+import com.meng.*;
+import com.meng.qrtools.*;
+import com.meng.qrtools.lib.*;
+import com.meng.qrtools.lib.qrcodelib.*;
+import com.meng.qrtools.mengViews.*;
+import java.io.*;
+
 import android.app.Fragment;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.util.DisplayMetrics;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.meng.MainActivity2;
-import com.meng.qrtools.MainActivity;
 import com.meng.qrtools.R;
-import com.meng.qrtools.lib.ContentHelper;
-import com.meng.qrtools.lib.qrcodelib.QrUtils;
-import com.meng.qrtools.log;
-import com.meng.qrtools.mengViews.mengColorBar;
-import com.meng.qrtools.mengViews.mengEdittext;
-import com.meng.qrtools.mengViews.mengScrollView;
-import com.meng.qrtools.mengViews.mengSeekBar;
-import com.meng.qrtools.mengViews.mengSelectRectView;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * 自选二维码位置的Awesome QRcode
