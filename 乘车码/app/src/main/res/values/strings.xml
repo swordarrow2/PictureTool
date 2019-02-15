@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">乘车码,</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="click_to_create">点击生成</string>
+    <string name="click_to_save">点击保存</string>
+    
+</resources>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="opendraw"
+        android:title="启动时打开滑动菜单"/>
+    <CheckBoxPreference
+        android:key="exitsettings"
+        android:summary="System.exit(0)可以彻底关闭软件"
+        android:title="使用System.exit(0)代替finish()"/>
+    <PreferenceScreen
+        android:summary="可以避免第一次点击标签页时的卡顿"
+        android:title="启动时要加载的项目">
+        <CheckBoxPreference
+            android:key="ldlgqr"
+            android:title="logo二维码"/>
+        <CheckBoxPreference
+            android:key="ldcr"
+            android:title="相机扫描"/>
+        <CheckBoxPreference
+            android:key="ldgr"
+            android:title="从相册读取"/>
+        <CheckBoxPreference
+            android:key="ldgif"
+            android:title="动态AwesomeQR"/>
+        <CheckBoxPreference
+            android:key="ldaw2"
+            android:title="自选位置的AwesomeQR"/>
+        <CheckBoxPreference
+            android:key="ldaw3"
+            android:title="自选位置的动态AwesomeQR"/>
+        <CheckBoxPreference
+            android:key="ldgif"
+            android:title="生成gif"/>
+        <CheckBoxPreference
+            android:key="about"
+            android:title="关于"/>
+        <CheckBoxPreference
+            android:key="settings"
+            android:title="设置"/>
+    </PreferenceScreen>
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="useTimeStamp"
+        android:summaryOff="使用具体时间"
+        android:summaryOn="使用时间戳"
+        android:title="使用时间戳为二维码命名"/>
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="useLightTheme"
+        android:summaryOff="晚上迫害不瞎眼"
+        android:summaryOn="白天迫害有精神"
+        android:title="使用亮主题"/>
+</PreferenceScreen>
