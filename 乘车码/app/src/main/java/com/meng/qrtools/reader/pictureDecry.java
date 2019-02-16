@@ -30,7 +30,7 @@ public class pictureDecry extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        return inflater.inflate(R.layout.bus_read_gallery,container,false);
+        return inflater.inflate(R.layout.picture_encry_decry,container,false);
 	  }
 
     @Override

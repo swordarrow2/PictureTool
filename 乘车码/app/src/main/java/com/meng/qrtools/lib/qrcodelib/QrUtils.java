@@ -6,17 +6,23 @@ import java.io.*;
 
 
 public class QrUtils{
-    
+
 	public static Bitmap encryBitmap(Bitmap bitmap){
-		Bitmap encryedBitmap=Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(),Bitmap.Config.ARGB_8888);
-		MyRandom myRandom=new MyRandom(bitmap.getWidth());
-		for(int y=0;y<bitmap.getHeight();y++){	
+
+		int[] tmp=new int[bitmap.getWidth()*bitmap.getHeight()];
+		bitmap.getPixels(tmp,0,bitmap.getWidth(),0,0,bitmap.getWidth(),bitmap.getHeight());
+		int[][] bitPix=convert(tmp,bitmap.getWidth());
+		MyRandom myRandom=new MyRandom(bitmap.getWidth());	
+		int[][] bitPix2=new int[bitmap.getWidth()][bitmap.getHeight()];
+		for(int y=0;y<bitmap.getHeight();y++){	  
 			myRandom.random.setSeed(y);
 			for(int x=0;x<bitmap.getWidth();x++){
-				encryedBitmap.setPixel(x,y,bitmap.getPixel(myRandom.next(),y));
+				bitPix2[x][y]=bitPix[myRandom.next()][y];
 			  }
-			myRandom.clean();
-		  }
+			myRandom.clean();  
+		  }	  
+		Bitmap encryedBitmap=Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(),Bitmap.Config.ARGB_8888);
+		encryedBitmap.setPixels(convert(bitPix2,bitmap.getWidth(),bitmap.getHeight()),0,bitmap.getWidth(),0,0,bitmap.getWidth(),bitmap.getHeight());
 		return encryedBitmap;
 	  }
 
@@ -27,16 +33,21 @@ public class QrUtils{
 	  }
 
     public static Bitmap decryBitmap(Bitmap bitmap){
-        Bitmap decryedBitmap=Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(),Bitmap.Config.ARGB_8888);
 		MyRandom myRandom=new MyRandom(bitmap.getWidth());
-        for(int y=0;y<bitmap.getHeight();y++){
+		int[] tmp=new int[bitmap.getWidth()*bitmap.getHeight()];
+		bitmap.getPixels(tmp,0,bitmap.getWidth(),0,0,bitmap.getWidth(),bitmap.getHeight());
+		int[][] bitPix=convert(tmp,bitmap.getWidth());	
+		int[][] bitPix2=new int[bitmap.getWidth()][bitmap.getHeight()];
+		for(int y=0;y<bitmap.getHeight();y++){	
 			myRandom.random.setSeed(y);
 			for(int x=0;x<bitmap.getWidth();x++){
-				decryedBitmap.setPixel(myRandom.next(),y,bitmap.getPixel(x,y));
+				bitPix2[myRandom.next()][y]=bitPix[x][y];
 			  }
 			myRandom.clean();
-		  }
-        return decryedBitmap;
+		  }	  
+		Bitmap decryedBitmap=Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(),Bitmap.Config.ARGB_8888);
+		decryedBitmap.setPixels(convert(bitPix2,bitmap.getWidth(),bitmap.getHeight()),0,bitmap.getWidth(),0,0,bitmap.getWidth(),bitmap.getHeight());
+		return decryedBitmap;
 	  }
 
     public static String saveMyBitmap(String bitName,Bitmap mBitmap) throws IOException{
@@ -51,6 +62,31 @@ public class QrUtils{
         fOut.flush();
         fOut.close();
         return f.getAbsolutePath();
+	  }
+
+	public static int[][] convert(int [] bitPixs,int width){
+		int height=bitPixs.length/width;
+		int [][] pixels=new int[width] [height];
+		int flag=0;
+		for(int y=0;y<height;y++){
+			for(int x=0;x<width;x++){
+				pixels[x][y]=bitPixs[flag];
+				++flag;
+			  }
+		  }
+		return pixels;
+	  }
+
+	public static int[] convert(int[][] bitPixs,int width,int height){
+		int [] pixels=new int[width*height];
+		int flag=0;
+		for(int y=0;y<height;y++){
+			for(int x=0;x<width;x++){
+				pixels[flag]=bitPixs[x][y];
+				++flag;
+			  }
+		  }
+		return pixels;
 	  }
 
   }

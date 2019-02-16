@@ -26,7 +26,7 @@ public class MyRandom{
 		return num; 
 	  }
 	
-	public void cle(){
+	public void clear(){
 		hashSet.clear();
 	  }
 

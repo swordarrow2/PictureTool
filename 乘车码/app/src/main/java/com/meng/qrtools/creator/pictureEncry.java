@@ -26,10 +26,10 @@ public class pictureEncry extends Fragment{
 	private ImageView imageView;
 	private Bitmap encryBitmap;
 	private Button btnSave;
-
+	
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        return inflater.inflate(R.layout.bus_read_gallery,container,false);
+        return inflater.inflate(R.layout.picture_encry_decry,container,false);
 	  }
 
     @Override
@@ -59,7 +59,7 @@ public class pictureEncry extends Fragment{
 	  }
 
 	private void createBitmap(String path){
-        encryBitmap=QrUtils.encryBitmap(BitmapFactory.decodeFile(path));      
+        encryBitmap=QrUtils.encryBitmap(BitmapFactory.decodeFile(path));  
         imageView.setImageBitmap(encryBitmap);
 		btnSave.setVisibility(View.VISIBLE);
 
@@ -70,7 +70,7 @@ public class pictureEncry extends Fragment{
         if(resultCode==getActivity().RESULT_OK&&data!=null&&requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE){
             Uri inputUri = data.getData();
             String path = ContentHelper.absolutePathFromUri(getActivity(),inputUri);
-            if(!TextUtils.isEmpty(path)){     
+            if(!TextUtils.isEmpty(path)){  
 				createBitmap(path);
 			  }else{
                 Toast.makeText(getActivity().getApplicationContext(),"图片路径未找到",Toast.LENGTH_SHORT).show();
