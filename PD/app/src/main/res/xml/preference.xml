@@ -64,8 +64,8 @@
         <Preference
             android:title="更新内容" >
             <intent
-                android:targetPackage="com.meng.pixivdownloader"
-                android:targetClass="com.meng.pixivdownloader.newVersion" />
+                android:targetPackage="com.meng.pixivGifDownloader"
+                android:targetClass="com.meng.pixivGifDownloader.newVersion" />
         </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
