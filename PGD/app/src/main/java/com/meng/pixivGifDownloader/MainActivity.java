@@ -140,14 +140,18 @@ public class MainActivity extends Activity {
                 while ((line = br.readLine()) != null) {
                     sb.append(line);
                 }
-                String htmlText = sb.toString();
+                final String htmlText = sb.toString();
                 sendToast(htmlText);
-                int startIndex = sp.getBoolean(Data.preferenceKeys.downloadBigPicture) ?
-                        htmlText.lastIndexOf("pixiv.context.ugokuIllustFullscreenData  = {\"src\":\"")
-                                + "pixiv.context.ugokuIllustFullscreenData  = {\"src\":\"".length()
-                        : htmlText.lastIndexOf("pixiv.context.ugokuIllustData            = {\"src\":\"")
-                        + "pixiv.context.ugokuIllustData            = {\"src\":\"".length();
-                int endIndex = htmlText.indexOf("\",\"mime_type\":\"image\\/jpeg\",\"frames\"", startIndex);
+				runOnUiThread(new Runnable(){
+
+					  @Override
+					  public void run(){
+						  etUrl.setText(htmlText);
+						}
+					});
+                int startIndex =  htmlText.lastIndexOf("{\"mini\":\"https:\\/\\/i.pximg.net\\/c\\/48x48\\/img-master\\/img\\/")
+				  + "{\"mini\":\"https:\\/\\/i.pximg.net\\/c\\/48x48\\/img-master\\/img\\/".length();
+                int endIndex = htmlText.indexOf("\",\"thumb\"", startIndex);
                 String subedStr = htmlText.substring(startIndex, endIndex);
                 String deletedUrl = "";
                 for (int i = 0; i < subedStr.length(); i++) {
