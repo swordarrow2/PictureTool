@@ -140,19 +140,19 @@ public class MainActivity extends Activity {
                 while ((line = br.readLine()) != null) {
                     sb.append(line);
                 }
-                final String htmlText = sb.toString();
-                sendToast(htmlText);
-				runOnUiThread(new Runnable(){
-
-					  @Override
-					  public void run(){
-						  etUrl.setText(htmlText);
-						}
-					});
-                int startIndex =  htmlText.lastIndexOf("{\"mini\":\"https:\\/\\/i.pximg.net\\/c\\/48x48\\/img-master\\/img\\/")
-				  + "{\"mini\":\"https:\\/\\/i.pximg.net\\/c\\/48x48\\/img-master\\/img\\/".length();
-                int endIndex = htmlText.indexOf("\",\"thumb\"", startIndex);
+                  String htmlText = sb.toString();
+                htmlText.replace("\\/","/");
+                int startIndex = 0;
+                int endIndex =0;
+                if(!sp.getBoolean(Data.preferenceKeys.downloadBigPicture)){
+                    startIndex=htmlText.indexOf("\"body\":{\"src\":\"")+"\"body\":{\"src\":\"".length();
+                    endIndex=htmlText.indexOf("\",\"originalSrc\":\"");
+                }else {
+                    startIndex=htmlText.indexOf("\",\"originalSrc\":\"")+"\",\"originalSrc\":\"".length();
+                    endIndex=htmlText.indexOf("\",\"mime_type\":\"");
+                }
                 String subedStr = htmlText.substring(startIndex, endIndex);
+                Log.i("ddd", subedStr);
                 String deletedUrl = "";
                 for (int i = 0; i < subedStr.length(); i++) {
                     if (subedStr.charAt(i) != '\\') {
@@ -194,7 +194,7 @@ public class MainActivity extends Activity {
                     HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
                     urlConn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
                     urlConn.setRequestProperty("cookie", sp.getValue(keyCookieValue));
-                    urlConn.setRequestProperty("Referer", toLink(etUrl.getText().toString()));
+                    urlConn.setRequestProperty("Referer", "https://www.pixiv.net/member_illust.php?mode=medium&illust_id="+etUrl.getText().toString());
                     fileData[fileDataFlag][0] = file.getAbsolutePath();
                     fileData[fileDataFlag][1] = String.valueOf(urlConn.getContentLength());
                     if (listViewDownloadList.getAdapter() == null) {
@@ -254,7 +254,7 @@ public class MainActivity extends Activity {
         switch (item.getItemId()) {
             case 0:
                 Intent in = new Intent(this, login.class);
-                in.putExtra(Data.intentKeys.url, toLink(etUrl.getText().toString()));
+                in.putExtra(Data.intentKeys.url, "https://www.pixiv.net/member_illust.php?mode=medium&illust_id="+etUrl.getText().toString());
                 startActivity(in);
                 break;
             case 1:
@@ -359,23 +359,8 @@ public class MainActivity extends Activity {
         }
     }
 
-    private String toLink(String urlOrId) {
-        if (urlOrId != null) {
-            try {
-                int pixivID = Integer.parseInt(urlOrId);
-                return "https://www.pixiv.net/member_illust.php?mode=medium&illust_id=" + pixivID;
-            } catch (NumberFormatException e) {
-                int length = urlOrId.length() > 62 ? 62 : urlOrId.length();
-                if (urlOrId.substring(0, length).equalsIgnoreCase("https://www.pixiv.net/member_illust.php?mode=medium&illust_id=")) {
-                    return urlOrId;
-                } else {
-                    return "";
-                }
-            }
-        } else {
-            sendToast("链接不能为空");
-            return "";
-        }
+    private String toLink(String id) {
+       return "https://www.pixiv.net/ajax/illust/"+id+"/ugoira_meta";
     }
 
     @Override
