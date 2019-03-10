@@ -122,9 +122,9 @@ public class MainActivity2 extends Activity{
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,android.R.id.text1,new String[]{
-															"首页(大概)", "读取二维码", "创建二维码",
-															 "乘车码", 
-															"图片加密解密","生成gif", "关于", "设置", "退出"
+															"首页(大概)", "读取相册二维码", "相机扫描二维码", "创建普通二维码",
+															"创建AwesomeQR", "创建动态AwesomeQR", "乘车码", "乘车码读取", 
+															"图片加密(测试)","图片解密(测试)","生成gif", "关于", "设置", "退出"
 														  }));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			  @Override
@@ -133,101 +133,56 @@ public class MainActivity2 extends Activity{
 					  case "首页(大概)":
                         initWelcome(true);
                         break;
-					  case "读取二维码":				
-						new AlertDialog.Builder(MainActivity2.this)
-						  .setTitle("读取方式")
-						  .setPositiveButton("从相册",new DialogInterface.OnClickListener() {
-							  @Override
-							  public void onClick(DialogInterface p1,int p2){
-								  initGalleryReaderFragment(true);
-								}
-							}).setNegativeButton("从相机",new DialogInterface.OnClickListener() {
-							  @Override
-							  public void onClick(DialogInterface dialog,int which){
-								  initCameraReaderFragment(true);
-								}
-							}).show();				
+					  case "读取相册二维码":
+                        initGalleryReaderFragment(true);
                         break;
-					  case "创建二维码":	
-						new AlertDialog.Builder(MainActivity2.this)
-						  .setTitle("要创建的二维码类型")
-						  .setPositiveButton("普通二维码",new DialogInterface.OnClickListener() {
-							  @Override
-							  public void onClick(DialogInterface p1,int p2){
-								  initLogoCreatorFragment(true);
-								}
-							}).setNegativeButton("Awesome二维码",new DialogInterface.OnClickListener() {
-							  @Override
-							  public void onClick(DialogInterface dialog,int which){
-								  new AlertDialog.Builder(MainActivity2.this)
-									.setTitle("选择类型")
-									.setPositiveButton("静态",new DialogInterface.OnClickListener() {
-										@Override
-										public void onClick(DialogInterface p1,int p2){
-											new AlertDialog.Builder(MainActivity2.this)
-											  .setTitle("选择添加二维码的方式")
-											  .setPositiveButton("普通方式",new DialogInterface.OnClickListener() {
-												  @Override
-												  public void onClick(DialogInterface p1,int p2){
-													  initAwesomeFragment(true);
-													}
-												}).setNegativeButton("自选位置",new DialogInterface.OnClickListener() {
-												  @Override
-												  public void onClick(DialogInterface dialog,int which){
-													  initArbFragmentFragment(true);
-													}
-												}).show();
-										  }
-									  }).setNegativeButton("动态",new DialogInterface.OnClickListener() {
-										@Override
-										public void onClick(DialogInterface dialog,int which){
-											new AlertDialog.Builder(MainActivity2.this)
-											  .setTitle("选择添加二维码的方式")
-											  .setPositiveButton("普通方式",new DialogInterface.OnClickListener() {
-												  @Override
-												  public void onClick(DialogInterface p1,int p2){
-													  initGifAwesomeFragment(true);
-													}
-												}).setNegativeButton("自选位置",new DialogInterface.OnClickListener() {
-												  @Override
-												  public void onClick(DialogInterface dialog,int which){
-													  initGifArbAwesomeFragment(true);
-													}
-												}).show();
-										  }
-									  }).show();
-								}
-							}).show();				
+					  case "相机扫描二维码":
+                        initCameraReaderFragment(true);
                         break;
-					  case "乘车码":                   
-						new AlertDialog.Builder(MainActivity2.this)
-						  .setTitle("选择功能")
-						  .setPositiveButton("生成",new DialogInterface.OnClickListener() {
+					  case "创建普通二维码":
+                        initLogoCreatorFragment(true);
+                        break;
+					  case "创建AwesomeQR":
+                        new AlertDialog.Builder(MainActivity2.this)
+						  .setTitle("选择添加二维码的方式")
+						  .setPositiveButton("普通方式",new DialogInterface.OnClickListener() {
 							  @Override
 							  public void onClick(DialogInterface p1,int p2){
-								  initBusFragment(true);
+								  initAwesomeFragment(true);
 								}
-							}).setNegativeButton("读取",new DialogInterface.OnClickListener() {
+							}).setNegativeButton("自选位置",new DialogInterface.OnClickListener() {
 							  @Override
 							  public void onClick(DialogInterface dialog,int which){
-								  initBusRFragment(true);
+								  initArbFragmentFragment(true);
 								}
 							}).show();
-                        break;				  
-					  case "图片加密解密":		
-						new AlertDialog.Builder(MainActivity2.this)
-						  .setTitle("图片加密解密")
-						  .setPositiveButton("加密",new DialogInterface.OnClickListener() {
+                        break;
+					  case "创建动态AwesomeQR":
+                        new AlertDialog.Builder(MainActivity2.this)
+						  .setTitle("选择添加二维码的方式")
+						  .setPositiveButton("普通方式",new DialogInterface.OnClickListener() {
 							  @Override
 							  public void onClick(DialogInterface p1,int p2){
-								  initPicEncryFragment(true);
+								  initGifAwesomeFragment(true);
 								}
-							}).setNegativeButton("解密",new DialogInterface.OnClickListener() {
+							}).setNegativeButton("自选位置",new DialogInterface.OnClickListener() {
 							  @Override
 							  public void onClick(DialogInterface dialog,int which){
-								  initPicDecryFragment(true);
+								  initGifArbAwesomeFragment(true);
 								}
 							}).show();
+                        break;
+					  case "乘车码":
+                        initBusFragment(true);
+                        break;
+					  case "乘车码读取":
+                        initBusRFragment(true);
+                        break;
+					  case "图片加密(测试)":
+						initPicEncryFragment(true);
+						break;
+					  case "图片解密(测试)":
+						initPicDecryFragment(true);
 						break;
 					  case "生成gif":
                         initGifFragment(true);

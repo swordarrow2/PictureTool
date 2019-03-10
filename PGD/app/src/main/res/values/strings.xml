@@ -1,5 +1,5 @@
 <resources>
-    <string name="link">输入Pixiv动态图的链接或ID</string>
+    <string name="link">输入动图ID</string>
     <string name="download">下载</string>
     <string name="download_success">下载完成</string>
     <string name="downloading">正在下载</string>

@@ -17,6 +17,7 @@ import java.io.*;
 import java.util.zip.*;
 
 import android.app.AlertDialog;
+import java.util.*;
 
 public class playLayout extends Activity {
 
@@ -284,6 +285,7 @@ public class playLayout extends Activity {
                 }
                 messageUnzipSuccess();
                 filesName = frameFileFolder.list();
+				Arrays.sort(filesName);
                 bms = new Bitmap[filesName.length];
                 loadBitmap();
             } catch (Exception e) {
