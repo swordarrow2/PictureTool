@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.meng.qrtools.R;
+import com.meng.pictools.R;
 
 /**
  * Created by Administrator on 2018/8/13.

@@ -10,6 +10,7 @@ import android.view.View.*;
 import android.widget.*;
 
 import com.google.zxing.*;
+import com.meng.pictools.R;
 import com.meng.qrtools.*;
 import com.meng.qrtools.lib.qrcodelib.*;
 import com.meng.qrtools.mengViews.*;

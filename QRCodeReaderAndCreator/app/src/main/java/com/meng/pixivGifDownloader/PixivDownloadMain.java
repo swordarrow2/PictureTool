@@ -7,11 +7,12 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 import com.google.gson.*;
-import com.meng.qrtools.*;
+import com.meng.MainActivity2;
+import com.meng.pictools.*;
 import java.io.*;
 import java.net.*;
 
-public class MainActivity extends Fragment{
+public class PixivDownloadMain extends Fragment{
 
     public static sharedPreferenceHelper sp;
     public static String zipFolder;
@@ -35,8 +36,6 @@ public class MainActivity extends Fragment{
 		super.onViewCreated(view,savedInstanceState);
 		init(view);
 	  }
-
-   
 	  
 	@Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -253,10 +252,6 @@ public class MainActivity extends Fragment{
             case 1:
 			  Intent in1 = new Intent(getActivity(),savedFiles.class);
 			  startActivity(in1);
-			  break;
-            case 2:
-			  Intent in2 = new Intent(getActivity(),preferenceActivity.class);
-			  startActivity(in2);
 			  break;
             case 3:
 			  Intent i3 = new Intent(getActivity(),newVersion.class);

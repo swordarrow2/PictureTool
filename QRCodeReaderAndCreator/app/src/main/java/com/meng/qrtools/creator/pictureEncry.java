@@ -17,7 +17,7 @@ import com.meng.qrtools.lib.*;
 import com.meng.qrtools.lib.qrcodelib.*;
 import java.io.*;
 
-import com.meng.qrtools.R;
+import com.meng.pictools.R;
 
 public class pictureEncry extends Fragment{
     private final int REQUEST_PERMISSION_PHOTO = 1001;

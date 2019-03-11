@@ -27,7 +27,7 @@ import android.util.Log;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-import com.meng.qrtools.R;
+import com.meng.pictools.R;
 import com.meng.qrtools.lib.qrcodelib.zxing.camera.CameraManager;
 import com.meng.qrtools.lib.qrcodelib.zxing.view.ViewfinderResultPointCallback;
 import com.meng.qrtools.reader.cameraReader;
@@ -35,9 +35,6 @@ import com.meng.qrtools.reader.cameraReader;
 import java.util.Vector;
 
 
-/**
- * This class handles all the messaging which comprises the state machine for capture.
- */
 public final class CaptureActivityHandler extends Handler{
 
     private static final String TAG=CaptureActivityHandler.class.getSimpleName();
@@ -60,7 +57,7 @@ public final class CaptureActivityHandler extends Handler{
 
     @Override
     public void handleMessage(Message message){
-        if(message.what==R.id.auto_focus){
+        if(message.what== R.id.auto_focus){
             //Log.d(TAG, "Got auto-focus message");
             // When one auto focus pass finishes, start another. This is the closest thing to
             // continuous AF. It does seem to hunt a bit, but I'm not sure what else to do.

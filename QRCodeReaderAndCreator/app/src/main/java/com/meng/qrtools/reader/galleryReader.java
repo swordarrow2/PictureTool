@@ -23,8 +23,8 @@ import android.widget.Toast;
 
 import com.google.zxing.Result;
 import com.meng.MainActivity2;
+import com.meng.pictools.R;
 import com.meng.qrtools.MainActivity;
-import com.meng.qrtools.R;
 import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
 
@@ -37,7 +37,7 @@ public class galleryReader extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        return inflater.inflate(com.meng.qrtools.R.layout.read_gallery,container,false);
+        return inflater.inflate(R.layout.read_gallery,container,false);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class galleryReader extends Fragment{
 
     protected void handleResult(final String resultString,String format){
         if(resultString.equals("")){
-            Toast.makeText(getActivity(),com.meng.qrtools.R.string.scan_failed,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.scan_failed,Toast.LENGTH_SHORT).show();
         }else{
             tvFormat.setText("二维码类型"+format);
             tvResult.setText(resultString);

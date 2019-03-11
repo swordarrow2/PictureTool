@@ -19,7 +19,7 @@ import com.meng.qrtools.mengViews.*;
 import java.io.*;
 
 import android.app.Fragment;
-import com.meng.qrtools.R;
+import com.meng.pictools.R;
 
 /**
  * 自选二维码位置的Awesome QRcode

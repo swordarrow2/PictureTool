@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.meng.pictools.R;
+
 public class textFragment extends Fragment{
 
     private TextView tv;

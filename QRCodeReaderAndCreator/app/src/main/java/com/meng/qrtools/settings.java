@@ -2,11 +2,19 @@ package com.meng.qrtools;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
+import com.meng.pictools.R;
+import com.meng.pixivGifDownloader.Data;
+
+import java.io.File;
+
 public class settings extends PreferenceFragment{
+
+    Preference clean;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -17,7 +25,7 @@ public class settings extends PreferenceFragment{
         cb.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
             @Override
             public boolean onPreferenceChange(Preference preference,Object newValue){
-                //     Intent i = new Intent(getActivity().getApplicationContext(), MainActivity.class);
+                //     Intent i = new Intent(getActivity().getApplicationContext(), PixivDownloadMain.class);
                 //     i.putExtra("setTheme", true);
                 //     getActivity().startActivity(i);
                 getActivity().startActivity(new Intent(getActivity().getApplicationContext(),MainActivity.class).putExtra("setTheme",true));
@@ -26,6 +34,26 @@ public class settings extends PreferenceFragment{
                 return true;
             }
         });
+        clean=findPreference(Data.preferenceKeys.cleanTmpFilesNow);
+        clean.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference){
+                File frameFileFolder = new File(Environment.getExternalStorageDirectory().getPath()+File.separator+"tmp");
+                deleteFiles(frameFileFolder);
+                return true;
+            }
+        });
     }
+    private void deleteFiles(File folder){
+        File[] fs=folder.listFiles();
+        for(File f:fs){
+            if(f.isDirectory()){
+                deleteFiles(f);
+                f.delete();
+            }else{
+                f.delete();
+            }
 
+        }
+    }
 }

@@ -11,7 +11,7 @@ import android.view.*;
 import android.widget.*;
 import android.widget.SeekBar.*;
 import com.lchad.gifflen.*;
-import com.meng.qrtools.*;
+import com.meng.pictools.*;
 import java.io.*;
 import java.util.*;
 import java.util.zip.*;
@@ -169,10 +169,10 @@ public class playLayout extends Activity {
         public void run() {
             try {
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                if (MainActivity.sp.getValue(Data.preferenceKeys.gifScale) == null || MainActivity.sp.getValue(Data.preferenceKeys.gifScale).equals("")) {
-                    MainActivity.sp.putValue(Data.preferenceKeys.gifScale, "1");
+                if (PixivDownloadMain.sp.getValue(Data.preferenceKeys.gifScale) == null || PixivDownloadMain.sp.getValue(Data.preferenceKeys.gifScale).equals("")) {
+                    PixivDownloadMain.sp.putValue(Data.preferenceKeys.gifScale, "1");
                 }
-                options.inSampleSize = Integer.parseInt(MainActivity.sp.getValue(Data.preferenceKeys.gifScale));
+                options.inSampleSize = Integer.parseInt(PixivDownloadMain.sp.getValue(Data.preferenceKeys.gifScale));
                 messageLoading(0);
                 bms[0] = BitmapFactory.decodeFile(frameFileFolder + File.separator + filesName[0], options);
                 gifHeight = bms[0].getHeight();
@@ -196,7 +196,7 @@ public class playLayout extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 0:
-                File fff = new File(MainActivity.gifFolder);
+                File fff = new File(PixivDownloadMain.gifFolder);
                 if (!fff.exists()) {
                     fff.mkdirs();
                 }
@@ -248,7 +248,7 @@ public class playLayout extends Activity {
         public void run() {
             try {
                 byte[] buffer = new byte[1024];
-                frameFileFolder = new File(MainActivity.tmpFolder + zipName);
+                frameFileFolder = new File(PixivDownloadMain.tmpFolder + zipName);
                 if (!frameFileFolder.exists()) {
                     frameFileFolder.mkdirs();
                 }
@@ -362,7 +362,7 @@ public class playLayout extends Activity {
 
         @Override
         public void run() {
-            if (MainActivity.sp.getBoolean(Data.preferenceKeys.useJava)) {
+            if (PixivDownloadMain.sp.getBoolean(Data.preferenceKeys.useJava)) {
                 createGifJava(fileName, d);
             } else {
                 createGifNative(fileName, w, h, d, q);
@@ -399,7 +399,7 @@ public class playLayout extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (MainActivity.sp.getBoolean(Data.preferenceKeys.cleanTmpOnStopWatch)) {
+        if (PixivDownloadMain.sp.getBoolean(Data.preferenceKeys.cleanTmpOnStopWatch)) {
             File[] fs = frameFileFolder.listFiles();
             for (File f : fs) {
                 f.delete();
@@ -421,9 +421,9 @@ public class playLayout extends Activity {
             playLayout.gifProgress.setProgress(i * 100 / count);
         }
         localAnimatedGifEncoder.finish();
-        File file = new File(MainActivity.gifFolder);
+        File file = new File(PixivDownloadMain.gifFolder);
         if (!file.exists()) file.mkdir();
-        final String path = MainActivity.gifFolder + file_name + ".gif";
+        final String path = PixivDownloadMain.gifFolder + file_name + ".gif";
         try {
             FileOutputStream fos = new FileOutputStream(path);
             baos.writeTo(fos);
@@ -453,7 +453,7 @@ public class playLayout extends Activity {
                     public void onEncodeFinish(String path) {
                         messageMakeGifSuccess();
                         makingGIf = false;
-                        if (MainActivity.sp.getBoolean(Data.preferenceKeys.deleteZipAfterMakeGif)) {
+                        if (PixivDownloadMain.sp.getBoolean(Data.preferenceKeys.deleteZipAfterMakeGif)) {
                             new File(zipAbsolutePath).delete();
                         }
                         registImage(path);
@@ -461,7 +461,7 @@ public class playLayout extends Activity {
                     }
                 })
                 .build();
-        gifflen.encode(MainActivity.gifFolder + File.separator + file_name + ".gif", bms);
+        gifflen.encode(PixivDownloadMain.gifFolder + File.separator + file_name + ".gif", bms);
     }
 
     private void registImage(String path) {

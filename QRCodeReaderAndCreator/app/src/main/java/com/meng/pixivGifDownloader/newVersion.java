@@ -3,7 +3,7 @@ package com.meng.pixivGifDownloader;
 import android.app.*;
 import android.os.*;
 import android.widget.*;
-import com.meng.qrtools.*;
+import com.meng.pictools.*;
 
 public class newVersion extends Activity {
     TextView tv;

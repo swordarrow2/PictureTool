@@ -4,7 +4,7 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.webkit.*;
-import com.meng.qrtools.*;
+import com.meng.pictools.*;
 
 public class login extends Activity {
 
@@ -35,7 +35,7 @@ public class login extends Activity {
                 super.onPageFinished(view, url);
                 CookieManager cookieManager = CookieManager.getInstance();
                 String CookieStr = cookieManager.getCookie(url) == null ? "null" : cookieManager.getCookie(url);
-                MainActivity.sp.putValue(Data.preferenceKeys.cookievalue, CookieStr);
+                PixivDownloadMain.sp.putValue(Data.preferenceKeys.cookievalue, CookieStr);
                 if (loginUrl.equalsIgnoreCase(url) && !isFirst) {
                     Intent i = new Intent();
                     i.putExtra(Data.intentKeys.result, Data.status.success);

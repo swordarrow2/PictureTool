@@ -9,11 +9,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.meng.qrtools.R;
+import com.meng.pictools.R;
 
-/**
- * Created by Administrator on 2018/8/9.
- */
 public class mengEdittext extends LinearLayout{
     Context c;
 

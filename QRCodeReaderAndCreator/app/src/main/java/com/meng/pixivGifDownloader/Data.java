@@ -1,7 +1,7 @@
 package com.meng.pixivGifDownloader;
 
 public class Data {
-    static class preferenceKeys {
+    public static class preferenceKeys {
         public static String mainPreferenceName = "pre";
         public static String downloadBigPicture = "bigpicture";
         public static String autoInput = "autoInput";
@@ -14,6 +14,9 @@ public class Data {
         public static String cleanTmpOnStopWatch = "cleantemp";
         public static String cleanTmpFilesNow = "cleannow";
         public static String cookievalue = "cookievalue";
+        public static String loadGalleryReader = "loadGalleryReader";
+        public static String loadCameraReader = "loadCameraReader";
+        public static String loadPixivDownload = "loadPixivDownload";
     }
 
     static class intentKeys {

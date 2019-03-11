@@ -30,7 +30,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
-import com.meng.qrtools.R;
+import com.meng.pictools.R;
 import com.meng.qrtools.lib.qrcodelib.zxing.camera.CameraManager;
 
 import java.util.Collection;

@@ -7,11 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.meng.qrtools.R;
-
-/**
- * Created by Administrator on 2018/8/19.
- */
+import com.meng.pictools.R;
 
 public class mengSeekBar extends LinearLayout{
     private TextView tv;

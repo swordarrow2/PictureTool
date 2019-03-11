@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.meng.MainActivity2;
 import com.meng.qrtools.MainActivity;
-import com.meng.qrtools.R;
+import com.meng.pictools.R;
 import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.qrtools.log;

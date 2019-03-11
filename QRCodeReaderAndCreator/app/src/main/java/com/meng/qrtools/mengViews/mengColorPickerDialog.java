@@ -9,7 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.meng.qrtools.R;
+import com.meng.pictools.R;
+
 
 /**
  * Created by Administrator on 2018/12/18.
