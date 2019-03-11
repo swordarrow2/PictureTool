@@ -2,7 +2,7 @@ package com.meng.qrtools;
 
 import android.widget.Toast;
 
-import com.meng.MainActivity2;
+import com.meng.picTools.MainActivity2;
 
 public class log{
 

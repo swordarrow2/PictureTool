@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Vibrator;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -25,16 +24,15 @@ import android.widget.ImageButton;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-import com.meng.MainActivity2;
-import com.meng.pictools.R;
-import com.meng.qrtools.MainActivity;
+import com.meng.picTools.MainActivity2;
+import com.meng.picTools.R;
+import com.meng.picTools.MainActivity;
 import com.meng.qrtools.lib.qrcodelib.zxing.camera.CameraManager;
 import com.meng.qrtools.lib.qrcodelib.zxing.decoding.CaptureActivityHandler;
 import com.meng.qrtools.lib.qrcodelib.zxing.decoding.InactivityTimer;
 import com.meng.qrtools.lib.qrcodelib.zxing.view.ViewfinderView;
 import com.meng.qrtools.log;
 
-import java.io.IOException;
 import java.util.Vector;
 
 /**

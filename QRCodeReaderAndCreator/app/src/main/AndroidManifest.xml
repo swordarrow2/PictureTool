@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.meng.pictools">
+          package="com.meng.picTools">
 
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
@@ -14,9 +14,9 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo">
+        android:theme="@android:style/Theme.Material">
         <activity
-            android:name="com.meng.qrtools.MainActivity"
+            android:name="com.meng.picTools.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -26,14 +26,13 @@
         </activity>
 
         <activity
-            android:name="com.meng.MainActivity2"
+            android:name="com.meng.picTools.MainActivity2"
             android:label="@string/app_name"
             android:theme="@style/AppThemeDark"/>
         <service android:name="com.meng.qrtools.reader.screenshotListenerService"/>
         <activity android:name="com.meng.pixivGifDownloader.login"/>
         <activity android:name="com.meng.pixivGifDownloader.savedFiles"/>
         <activity android:name="com.meng.pixivGifDownloader.playLayout"/>
-        <activity android:name="com.meng.pixivGifDownloader.newVersion" android:theme="@android:style/Theme.Holo.Dialog"/>
     </application>
 
 </manifest>

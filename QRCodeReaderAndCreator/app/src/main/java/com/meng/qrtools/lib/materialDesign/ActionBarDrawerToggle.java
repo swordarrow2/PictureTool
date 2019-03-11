@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 
-import com.meng.pictools.R;
+import com.meng.picTools.R;
 
 import java.lang.reflect.Method;
 

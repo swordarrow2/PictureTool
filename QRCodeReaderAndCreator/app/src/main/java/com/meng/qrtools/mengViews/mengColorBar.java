@@ -15,11 +15,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.meng.pictools.R;
-
-/**
- * Created by Administrator on 2018/8/13.
- */
+import com.meng.picTools.R;
 
 public class mengColorBar extends LinearLayout{
     Context c;

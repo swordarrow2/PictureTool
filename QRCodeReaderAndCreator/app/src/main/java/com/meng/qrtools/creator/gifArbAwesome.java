@@ -22,9 +22,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.meng.MainActivity2;
-import com.meng.qrtools.MainActivity;
-import com.meng.pictools.R;
+import com.meng.picTools.MainActivity2;
+import com.meng.picTools.MainActivity;
+import com.meng.picTools.R;
 import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.qrtools.log;

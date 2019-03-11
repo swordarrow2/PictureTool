@@ -11,7 +11,7 @@ import android.view.*;
 import android.widget.*;
 import android.widget.SeekBar.*;
 import com.lchad.gifflen.*;
-import com.meng.pictools.*;
+import com.meng.picTools.*;
 import java.io.*;
 import java.util.*;
 import java.util.zip.*;

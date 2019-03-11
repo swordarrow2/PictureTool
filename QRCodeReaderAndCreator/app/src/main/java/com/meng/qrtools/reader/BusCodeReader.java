@@ -3,7 +3,6 @@ package com.meng.qrtools.reader;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -16,19 +15,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
-import com.meng.MainActivity2;
-import com.meng.qrtools.MainActivity;
-import com.meng.pictools.R;
+import com.meng.picTools.MainActivity2;
+import com.meng.picTools.MainActivity;
+import com.meng.picTools.R;
 import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
 
-public class BusReader extends Fragment {
+public class BusCodeReader extends Fragment {
     private final int REQUEST_PERMISSION_PHOTO = 1001;
     private Button btnOpenGallery;
     private TextView tvResult;

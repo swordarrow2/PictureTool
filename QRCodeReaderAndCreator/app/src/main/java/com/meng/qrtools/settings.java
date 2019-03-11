@@ -7,7 +7,8 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
-import com.meng.pictools.R;
+import com.meng.picTools.MainActivity;
+import com.meng.picTools.R;
 import com.meng.pixivGifDownloader.Data;
 
 import java.io.File;

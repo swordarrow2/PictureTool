@@ -10,14 +10,14 @@ import android.view.View.*;
 import android.widget.*;
 
 import com.google.zxing.*;
-import com.meng.pictools.R;
-import com.meng.qrtools.*;
+import com.meng.picTools.MainActivity;
+import com.meng.picTools.R;
 import com.meng.qrtools.lib.qrcodelib.*;
 import com.meng.qrtools.mengViews.*;
 
 import java.io.*;
 
-public class BusBarCode extends Fragment{
+public class BusCodeCreator extends Fragment{
     private ScrollView scrollView;
     private ImageView qrcodeImageView;
     private mengEdittext mengEtContent;

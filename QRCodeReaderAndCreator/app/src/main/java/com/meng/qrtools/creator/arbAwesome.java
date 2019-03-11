@@ -11,7 +11,9 @@ import android.support.v4.app.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
-import com.meng.*;
+
+import com.meng.picTools.MainActivity;
+import com.meng.picTools.MainActivity2;
 import com.meng.qrtools.*;
 import com.meng.qrtools.lib.*;
 import com.meng.qrtools.lib.qrcodelib.*;
@@ -19,7 +21,7 @@ import com.meng.qrtools.mengViews.*;
 import java.io.*;
 
 import android.app.Fragment;
-import com.meng.pictools.R;
+import com.meng.picTools.R;
 
 /**
  * 自选二维码位置的Awesome QRcode

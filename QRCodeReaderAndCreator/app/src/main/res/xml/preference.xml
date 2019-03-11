@@ -3,128 +3,126 @@
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="opendraw"
-        android:title="启动时打开滑动菜单"/>
+        android:title="启动时打开滑动菜单" />
     <CheckBoxPreference
         android:key="exitsettings"
         android:summary="System.exit(0)可以彻底关闭软件"
-        android:title="使用System.exit(0)代替finish()"/>
+        android:title="使用System.exit(0)代替finish()" />
     <PreferenceScreen
         android:summary="可以避免第一次点击标签页时的卡顿"
         android:title="启动时要加载的项目">
         <CheckBoxPreference
             android:key="ldlgqr"
-            android:title="logo二维码"/>
+            android:title="logo二维码" />
         <CheckBoxPreference
             android:key="loadCameraReader"
-            android:title="相机扫描"/>
+            android:title="相机扫描" />
         <CheckBoxPreference
             android:key="loadGalleryReader"
-            android:title="从相册读取"/>
+            android:title="从相册读取" />
         <CheckBoxPreference
             android:key="ldgif"
-            android:title="动态AwesomeQR"/>
+            android:title="动态AwesomeQR" />
         <CheckBoxPreference
             android:key="ldaw2"
-            android:title="自选位置的AwesomeQR"/>
+            android:title="自选位置的AwesomeQR" />
         <CheckBoxPreference
             android:key="ldaw3"
-            android:title="自选位置的动态AwesomeQR"/>
+            android:title="自选位置的动态AwesomeQR" />
         <CheckBoxPreference
             android:key="ldgif"
-            android:title="生成gif"/>
-		<CheckBoxPreference
-			android:key="loadPixivDownload"
-			android:title="P图下载" />
+            android:title="生成gif" />
+        <CheckBoxPreference
+            android:key="loadPixivDownload"
+            android:title="P图下载" />
         <CheckBoxPreference
             android:key="about"
-            android:title="关于"/>
+            android:title="关于" />
         <CheckBoxPreference
             android:key="settings"
-            android:title="设置"/>
+            android:title="设置" />
     </PreferenceScreen>
 
-	<PreferenceScreen >
-		<PreferenceCategory android:title="下载">
-			<CheckBoxPreference
-				android:defaultValue="false"
-				android:key="bigpicture"
-				android:summaryOff="否"
-				android:summaryOn="是"
-				android:title="下载原图" />
-			<CheckBoxPreference
-				android:defaultValue="false"
-				android:key="autoInput"
-				android:summaryOff="否"
-				android:summaryOn="是"
-				android:title="自动读取剪贴板中的链接" />
-			<EditTextPreference
-				android:key="zipFolder"
-				android:hint="如果清空，则会在重启时恢复默认路径"
-				android:summary="重启软件时该项设置生效"
-				android:title="文件保存路径" />
-			<CheckBoxPreference
-				android:defaultValue="false"
-				android:key="deleteZipAfterMakeGif"
-				android:summaryOff="否"
-				android:summaryOn="是"
-				android:title="生成GIF后删除zip压缩包" />
-		</PreferenceCategory>
+    <PreferenceScreen android:title="Pixiv动图下载设置">
+        <Preference android:title="登录Pixiv">
+            <intent
+                android:targetClass="com.meng.pixivGifDownloader.login"
+                android:targetPackage="com.meng.pictools" />
+        </Preference>
 
-		<PreferenceCategory android:title="GIF">
-			<EditTextPreference
-				android:dialogTitle="1为原图，数字越大，图片越小"
-				android:key="option"
-				android:title="预览及生成GIF缩放比例" />
-			<EditTextPreference
-				android:key="gifPath"
-				android:hint="如果清空，则会在重启时恢复默认路径"
-				android:summary="重启软件时该项设置生效"
-				android:title="GIF存放路径" />
-			<CheckBoxPreference
-				android:defaultValue="false"
-				android:key="useJava"
-				android:summary="如果生成GIF时程序崩溃可开启此选项"
-				android:title="兼容模式" />
-		</PreferenceCategory>
+        <PreferenceCategory android:title="下载">
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="bigpicture"
+                android:summaryOff="否"
+                android:summaryOn="是"
+                android:title="下载原图" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="autoInput"
+                android:summaryOff="否"
+                android:summaryOn="是"
+                android:title="自动读取剪贴板中的链接" />
+            <EditTextPreference
+                android:hint="如果清空，则会在重启时恢复默认路径"
+                android:key="zipFolder"
+                android:summary="重启软件时该项设置生效"
+                android:title="文件保存路径" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="deleteZipAfterMakeGif"
+                android:summaryOff="否"
+                android:summaryOn="是"
+                android:title="生成GIF后删除zip压缩包" />
+        </PreferenceCategory>
 
-		<PreferenceCategory android:title="临时文件">
-			<EditTextPreference
-				android:key="tmpPath"
-				android:hint="如果清空，则会在重启时恢复默认路径"
-				android:summary="重启软件时该项设置生效"
-				android:title="临时文件存放位置" />
-			<CheckBoxPreference
-				android:defaultValue="false"
-				android:key="cleantemp"
-				android:summaryOff="否"
-				android:summaryOn="是"
-				android:title="停止预览时立刻时清除临时文件" />
-			<Preference
-				android:key="cleannow"
-				android:title="立即清除所有临时文件" />
-		</PreferenceCategory>
+        <PreferenceCategory android:title="GIF">
+            <EditTextPreference
+                android:dialogTitle="1为原图，数字越大，图片越小"
+                android:key="option"
+                android:title="预览及生成GIF缩放比例" />
+            <EditTextPreference
+                android:hint="如果清空，则会在重启时恢复默认路径"
+                android:key="gifPath"
+                android:summary="重启软件时该项设置生效"
+                android:title="GIF存放路径" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="useJava"
+                android:summary="如果生成GIF时程序崩溃可开启此选项"
+                android:title="兼容模式" />
+        </PreferenceCategory>
 
-		<PreferenceCategory android:title="其他">
-			<Preference
-				android:title="更新内容" >
-				<intent
-					android:targetPackage="com.meng.pixivGifDownloader"
-					android:targetClass="com.meng.pixivGifDownloader.newVersion" />
-			</Preference>
-		</PreferenceCategory>
-	</PreferenceScreen>
-	
+        <PreferenceCategory android:title="临时文件">
+            <EditTextPreference
+                android:hint="如果清空，则会在重启时恢复默认路径"
+                android:key="tmpPath"
+                android:summary="重启软件时该项设置生效"
+                android:title="临时文件存放位置" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="cleantemp"
+                android:summaryOff="否"
+                android:summaryOn="是"
+                android:title="停止预览时立刻时清除临时文件" />
+            <Preference
+                android:key="cleannow"
+                android:title="立即清除所有临时文件" />
+        </PreferenceCategory>
+
+    </PreferenceScreen>
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="useTimeStamp"
         android:summaryOff="使用具体时间"
         android:summaryOn="使用时间戳"
-        android:title="使用时间戳为二维码命名"/>
+        android:title="使用时间戳为二维码命名" />
 
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="useLightTheme"
         android:summaryOff="晚上迫害不瞎眼"
         android:summaryOn="白天迫害有精神"
-        android:title="使用亮主题"/>
+        android:title="使用亮主题" />
 </PreferenceScreen>

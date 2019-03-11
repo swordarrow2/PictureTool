@@ -11,7 +11,7 @@ import android.os.IBinder;
 import android.view.WindowManager;
 
 import com.google.zxing.Result;
-import com.meng.qrtools.MainActivity;
+import com.meng.picTools.MainActivity;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.qrtools.lib.screenshotListener;
 import com.meng.qrtools.log;

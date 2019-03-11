@@ -18,9 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.meng.MainActivity2;
-import com.meng.qrtools.MainActivity;
-import com.meng.pictools.R;
+import com.meng.picTools.MainActivity2;
+import com.meng.picTools.MainActivity;
+import com.meng.picTools.R;
 import com.meng.qrtools.lib.ContentHelper;
 import com.meng.qrtools.lib.qrcodelib.AwesomeQRCode;
 import com.meng.qrtools.lib.qrcodelib.QrUtils;
@@ -35,7 +35,6 @@ import com.waynejo.androidndkgif.GifImageIterator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Date;
 
 public class gifAwesomeQr extends Fragment{
 

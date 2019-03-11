@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.meng.pictools.R;
+import com.meng.picTools.R;
 
 public class mengEdittext extends LinearLayout{
     Context c;

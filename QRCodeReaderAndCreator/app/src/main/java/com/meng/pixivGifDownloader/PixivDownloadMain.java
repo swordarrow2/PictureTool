@@ -7,8 +7,7 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 import com.google.gson.*;
-import com.meng.MainActivity2;
-import com.meng.pictools.*;
+import com.meng.picTools.*;
 import java.io.*;
 import java.net.*;
 
@@ -232,33 +231,6 @@ public class PixivDownloadMain extends Fragment{
                 Log.e(getString(R.string.app_name),e.toString());
 			  }
 		  }
-	  }
-
-    public boolean onCreateOptionsMenu(Menu menu){
-        menu.add(0,0,0,R.string.look_as_web);
-        menu.add(1,1,1,R.string.look_downloaded);
-        menu.add(2,2,2,R.string.settings);
-        menu.add(3,3,3,R.string.update_content);
-        return getActivity().onCreateOptionsMenu(menu);
-	  }
-
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case 0:
-			  Intent in = new Intent(getActivity(),login.class);
-			  in.putExtra(Data.intentKeys.url,"https://www.pixiv.net/member_illust.php?mode=medium&illust_id="+etUrl.getText().toString());
-			  startActivity(in);
-			  break;
-            case 1:
-			  Intent in1 = new Intent(getActivity(),savedFiles.class);
-			  startActivity(in1);
-			  break;
-            case 3:
-			  Intent i3 = new Intent(getActivity(),newVersion.class);
-			  startActivity(i3);
-		  }
-
-        return false;
 	  }
 
     private void sendToast(String message){

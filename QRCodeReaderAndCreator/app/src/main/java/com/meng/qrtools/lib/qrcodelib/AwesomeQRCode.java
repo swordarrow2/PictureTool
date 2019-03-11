@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class AwesomeQRCode {
     /**
-     * For more information textFragment QR code, refer to: https://en.wikipedia.org/wiki/QR_code
+     * For more information Welcome QR code, refer to: https://en.wikipedia.org/wiki/QR_code
      * BYTE_EPT: Empty block
      * BYTE_DTA: Data block
      * BYTE_POS: Position block

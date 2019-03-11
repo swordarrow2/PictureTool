@@ -9,12 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.meng.pictools.R;
+import com.meng.picTools.R;
 
-
-/**
- * Created by Administrator on 2018/12/18.
- */
 
 public class mengColorPickerDialog extends Dialog{
     Context context;

@@ -1,15 +1,14 @@
-package com.meng.qrtools;
+package com.meng.picTools;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Vibrator;
 
-import com.meng.MainActivity2;
 import com.meng.qrtools.lib.ExceptionCatcher;
 import com.meng.qrtools.lib.SharedPreferenceHelper;
+import com.meng.qrtools.log;
 
 import java.io.File;
 import java.io.IOException;

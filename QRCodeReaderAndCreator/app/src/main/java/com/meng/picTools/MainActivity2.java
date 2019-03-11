@@ -1,4 +1,4 @@
-package com.meng;
+package com.meng.picTools;
 
 import android.app.*;
 import android.content.*;
@@ -8,7 +8,6 @@ import android.support.v4.widget.*;
 import android.view.*;
 import android.widget.*;
 
-import com.meng.pictools.R;
 import com.meng.pixivGifDownloader.Data;
 import com.meng.pixivGifDownloader.PixivDownloadMain;
 import com.meng.qrtools.*;
@@ -24,19 +23,18 @@ public class MainActivity2 extends Activity {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
 
-    private textFragment welcomeFragment;
+    private Welcome welcomeFragment;
     private logoCreator logoCreatorFragment;
     public awesomeCreator awesomeCreatorFragment;
     public cameraReader cameraReaderFragment;
     public galleryReader galleryReaderFragment;
-    private textFragment aboutFragment;
     private gifAwesomeQr gifAwesomeFragment;
     private arbAwesome arbAwesomeFragment;
     private gifCreator gifCreatorFragment;
     private settings settingsFragment;
     private gifArbAwesome gifArbAwesomeFragment;
-    private BusBarCode busFragment;
-    private BusReader busReaderFragment;
+    private BusCodeCreator busCodeCreatorFragment;
+    private BusCodeReader busCodeReaderFragment;
     private pictureEncry pictureEncryFragment;
     private pictureDecry pictureDecryFragment;
     private PixivDownloadMain pixivDownloadMainFragment;
@@ -51,9 +49,9 @@ public class MainActivity2 extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         instence = this;
-        setActionBar();
         findViews();
         initFragment();
+        setActionBar();
         setListener();
         changeTheme();
 
@@ -84,6 +82,12 @@ public class MainActivity2 extends Activity {
         }
     }
 
+    private void setActionBar(){
+        ActionBar ab = getActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setHomeButtonEnabled(true);
+    }
+
     @Override
     public void setTheme(int resid) {
         if (MainActivity.lightTheme) {
@@ -91,12 +95,6 @@ public class MainActivity2 extends Activity {
         } else {
             super.setTheme(R.style.AppThemeDark);
         }
-    }
-
-    private void setActionBar() {
-        ActionBar ab = getActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setHomeButtonEnabled(true);
     }
 
     private void setListener() {
@@ -127,8 +125,8 @@ public class MainActivity2 extends Activity {
         mDrawerToggle.syncState();
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, new String[]{
                 "首页(大概)", "读取二维码", "创建二维码",
-                "乘车码", "图片加密解密", "生成gif", "关于",
-                "P","设置", "退出"
+                "乘车码", "图片加密解密", "生成gif",
+                "Pixiv动图下载", "设置", "退出"
         }));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -236,13 +234,10 @@ public class MainActivity2 extends Activity {
                     case "生成gif":
                         initGifFragment(true);
                         break;
-                    case "关于":
-                        initAboutFragment(true);
-                        break;
                     case "设置":
                         initSettingsFragment(true);
                         break;
-                    case "P":
+                    case "Pixiv动图下载":
                         initPixivDownloadFragment(true);
                         break;
                     case "退出":
@@ -291,16 +286,13 @@ public class MainActivity2 extends Activity {
         if (MainActivity.instence.sharedPreference.getBoolean("ldgif")) {
             initGifFragment(false);
         }
-        if (MainActivity.instence.sharedPreference.getBoolean("textFragment")) {
-            initAboutFragment(false);
-        }
         if (MainActivity.instence.sharedPreference.getBoolean("settings")) {
             initSettingsFragment(false);
         }
-        if (MainActivity.instence.sharedPreference.getBoolean("BusBarCode")) {
+        if (MainActivity.instence.sharedPreference.getBoolean("BusCodeCreator")) {
             initBusFragment(false);
         }
-        if (MainActivity.instence.sharedPreference.getBoolean("BusReader")) {
+        if (MainActivity.instence.sharedPreference.getBoolean("BusCodeReader")) {
             initBusRFragment(false);
         }
         if (MainActivity.instence.sharedPreference.getBoolean("pice")) {
@@ -317,7 +309,7 @@ public class MainActivity2 extends Activity {
     private void initWelcome(boolean showNow) {
         FragmentTransaction transactionWelcome = manager.beginTransaction();
         if (welcomeFragment == null) {
-            welcomeFragment = new textFragment(0);
+            welcomeFragment = new Welcome();
             transactionWelcome.add(R.id.main_activityLinearLayout, welcomeFragment);
         }
         hideFragment(transactionWelcome);
@@ -431,19 +423,6 @@ public class MainActivity2 extends Activity {
         transactionGifFragment.commit();
     }
 
-    private void initAboutFragment(boolean showNow) {
-        FragmentTransaction transactionAboutFragment = manager.beginTransaction();
-        if (aboutFragment == null) {
-            aboutFragment = new textFragment(1);
-            transactionAboutFragment.add(R.id.main_activityLinearLayout, aboutFragment);
-        }
-        hideFragment(transactionAboutFragment);
-        if (showNow) {
-            transactionAboutFragment.show(aboutFragment);
-        }
-        transactionAboutFragment.commit();
-    }
-
     private void initSettingsFragment(boolean showNow) {
         FragmentTransaction transactionsettings = manager.beginTransaction();
         if (settingsFragment == null) {
@@ -460,26 +439,26 @@ public class MainActivity2 extends Activity {
 
     private void initBusFragment(boolean showNow) {
         FragmentTransaction transactionBus = manager.beginTransaction();
-        if (busFragment == null) {
-            busFragment = new BusBarCode();
-            transactionBus.add(R.id.main_activityLinearLayout, busFragment);
+        if (busCodeCreatorFragment == null) {
+            busCodeCreatorFragment = new BusCodeCreator();
+            transactionBus.add(R.id.main_activityLinearLayout, busCodeCreatorFragment);
         }
         hideFragment(transactionBus);
         if (showNow) {
-            transactionBus.show(busFragment);
+            transactionBus.show(busCodeCreatorFragment);
         }
         transactionBus.commit();
     }
 
     private void initBusRFragment(boolean showNow) {
         FragmentTransaction transactionBusR = manager.beginTransaction();
-        if (busReaderFragment == null) {
-            busReaderFragment = new BusReader();
-            transactionBusR.add(R.id.main_activityLinearLayout, busReaderFragment);
+        if (busCodeReaderFragment == null) {
+            busCodeReaderFragment = new BusCodeReader();
+            transactionBusR.add(R.id.main_activityLinearLayout, busCodeReaderFragment);
         }
         hideFragment(transactionBusR);
         if (showNow) {
-            transactionBusR.show(busReaderFragment);
+            transactionBusR.show(busCodeReaderFragment);
         }
         transactionBusR.commit();
     }
@@ -535,10 +514,9 @@ public class MainActivity2 extends Activity {
                 arbAwesomeFragment,
                 gifCreatorFragment,
                 gifArbAwesomeFragment,
-                aboutFragment,
                 settingsFragment,
-                busFragment,
-                busReaderFragment,
+                busCodeCreatorFragment,
+                busCodeReaderFragment,
                 pictureEncryFragment,
                 pictureDecryFragment,
                 pixivDownloadMainFragment
@@ -547,7 +525,6 @@ public class MainActivity2 extends Activity {
             if (f != null) {
                 transaction.hide(f);
             }
-
         }
     }
 

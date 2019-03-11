@@ -5,8 +5,8 @@ android {
     buildToolsVersion "27.0.3"
 
     defaultConfig {
-        applicationId "com.meng.pictools"
-        minSdkVersion 14
+        applicationId "com.meng.picTools"
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 20190216
         versionName "7.6.1"

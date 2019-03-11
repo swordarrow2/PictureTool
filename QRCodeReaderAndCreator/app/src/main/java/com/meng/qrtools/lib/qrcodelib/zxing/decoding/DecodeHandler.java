@@ -28,7 +28,7 @@ import com.google.zxing.MultiFormatReader;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
-import com.meng.pictools.R;
+import com.meng.picTools.R;
 import com.meng.qrtools.lib.qrcodelib.zxing.camera.CameraManager;
 import com.meng.qrtools.lib.qrcodelib.zxing.camera.PlanarYUVLuminanceSource;
 import com.meng.qrtools.reader.cameraReader;

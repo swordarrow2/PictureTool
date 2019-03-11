@@ -11,13 +11,15 @@ import android.text.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
-import com.meng.*;
+
+import com.meng.picTools.MainActivity;
+import com.meng.picTools.MainActivity2;
 import com.meng.qrtools.*;
 import com.meng.qrtools.lib.*;
 import com.meng.qrtools.lib.qrcodelib.*;
 import java.io.*;
 
-import com.meng.pictools.R;
+import com.meng.picTools.R;
 
 
 public class pictureDecry extends Fragment{
@@ -66,7 +68,7 @@ public class pictureDecry extends Fragment{
 
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
-        if(resultCode==getActivity().RESULT_OK&&data!=null&&requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE){
+        if(resultCode==getActivity().RESULT_OK&&data!=null&&requestCode== MainActivity2.SELECT_FILE_REQUEST_CODE){
             Uri inputUri = data.getData();
             String path = ContentHelper.absolutePathFromUri(getActivity(),inputUri);
             if(!TextUtils.isEmpty(path)){     
