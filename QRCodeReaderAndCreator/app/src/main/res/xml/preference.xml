@@ -46,8 +46,8 @@
     <PreferenceScreen android:title="Pixiv动图下载设置">
         <Preference android:title="登录Pixiv">
             <intent
-                android:targetClass="com.meng.pixivGifDownloader.login"
-                android:targetPackage="com.meng.pictools" />
+				android:targetPackage="com.meng.picTools" 
+                android:targetClass="com.meng.pixivGifDownloader.login" />
         </Preference>
 
         <PreferenceCategory android:title="下载">

@@ -16,8 +16,7 @@ public class login extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        Intent i = getIntent();
-        loginUrl = i.getStringExtra(Data.intentKeys.url);
+        loginUrl = "https://www.pixiv.net";
 
         webView = (WebView) findViewById(R.id.loginWebview);
         webView.getSettings().setJavaScriptEnabled(true);
