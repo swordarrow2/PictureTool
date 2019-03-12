@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Vibrator;
 
-import com.meng.qrtools.lib.ExceptionCatcher;
-import com.meng.qrtools.lib.SharedPreferenceHelper;
-import com.meng.qrtools.log;
+import com.meng.picTools.qrtools.lib.ExceptionCatcher;
+import com.meng.picTools.qrtools.lib.SharedPreferenceHelper;
+import com.meng.picTools.qrtools.log;
 
 import java.io.File;
 import java.io.IOException;

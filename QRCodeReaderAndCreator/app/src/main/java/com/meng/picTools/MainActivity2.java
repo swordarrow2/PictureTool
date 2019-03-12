@@ -8,12 +8,12 @@ import android.support.v4.widget.*;
 import android.view.*;
 import android.widget.*;
 
-import com.meng.pixivGifDownloader.Data;
-import com.meng.pixivGifDownloader.PixivDownloadMain;
-import com.meng.qrtools.*;
-import com.meng.qrtools.creator.*;
-import com.meng.qrtools.lib.materialDesign.*;
-import com.meng.qrtools.reader.*;
+import com.meng.picTools.pixivGifDownloader.Data;
+import com.meng.picTools.pixivGifDownloader.PixivDownloadMain;
+import com.meng.picTools.qrtools.*;
+import com.meng.picTools.qrtools.creator.*;
+import com.meng.picTools.qrtools.lib.materialDesign.*;
+import com.meng.picTools.qrtools.reader.*;
 
 public class MainActivity2 extends Activity {
     public static MainActivity2 instence;

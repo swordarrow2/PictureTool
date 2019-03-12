@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.meng.qrtools.mengViews.mengColorPicker
+        <com.meng.picTools.qrtools.mengViews.mengColorPicker
             android:id="@+id/meng_color_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
