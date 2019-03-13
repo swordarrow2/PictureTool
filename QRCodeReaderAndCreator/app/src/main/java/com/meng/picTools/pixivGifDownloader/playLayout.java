@@ -453,9 +453,12 @@ public class playLayout extends Activity {
             e.printStackTrace();
             return;
         }
-        for (Bitmap bmp : bms) {
-            gifEncoder.encodeFrame(bmp, d);
-        }
+		
+		for(int i=0;i<bms.length;i++){
+			gifEncoder.encodeFrame(bms[i], d);
+			playLayout.gifProgress.setProgress(i * 100 / bms.length);
+			
+		}
         gifEncoder.close();
     }
 
