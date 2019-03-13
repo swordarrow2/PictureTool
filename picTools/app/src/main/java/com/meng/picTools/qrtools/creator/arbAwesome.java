@@ -17,7 +17,7 @@ import com.meng.picTools.MainActivity2;
 import com.meng.picTools.qrtools.*;
 import com.meng.picTools.qrtools.lib.*;
 import com.meng.picTools.qrtools.lib.qrcodelib.*;
-import com.meng.picTools.qrtools.mengViews.*;
+import com.meng.picTools.mengViews.*;
 import java.io.*;
 
 import android.app.Fragment;
@@ -30,7 +30,7 @@ import com.meng.picTools.R;
 public class arbAwesome extends Fragment{
 
     private ImageView qrCodeImageView;
-    private mengEdittext mengEtDotScale, mengEtContents;
+    private mengEditText mengEtDotScale, mengEtContents;
     private Button btGenerate;
     private CheckBox ckbAutoColor;
     private Button btnSave;
@@ -64,8 +64,8 @@ public class arbAwesome extends Fragment{
         mengSelectView=(mengSelectRectView)view.findViewById(R.id.arb_awesome_qrselectRectView);
         mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         qrCodeImageView=(ImageView)view.findViewById(R.id.awesomeqr_main_qrcode);
-        mengEtContents=(mengEdittext)view.findViewById(R.id.awesomeqr_main_content);
-        mengEtDotScale=(mengEdittext)view.findViewById(R.id.awesomeqr_main_dotScale);
+        mengEtContents=(mengEditText)view.findViewById(R.id.awesomeqr_main_content);
+        mengEtDotScale=(mengEditText)view.findViewById(R.id.awesomeqr_main_dotScale);
         btGenerate=(Button)view.findViewById(R.id.awesomeqr_main_generate);
         ckbAutoColor=(CheckBox)view.findViewById(R.id.awesomeqr_main_autoColor);
         btnSave=(Button)view.findViewById(R.id.awesomeqr_mainButton_save);

@@ -82,7 +82,7 @@ public class MainActivity2 extends Activity {
         }
     }
 
-    private void setActionBar(){
+    private void setActionBar() {
         ActionBar ab = getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setHomeButtonEnabled(true);
@@ -238,7 +238,6 @@ public class MainActivity2 extends Activity {
                         initSettingsFragment(true);
                         break;
                     case "Pixiv动图下载":
-					  log.t("虽然叫p站动图下载…但是只测试了r18动图");
                         initPixivDownloadFragment(true);
                         break;
                     case "退出":

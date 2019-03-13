@@ -43,7 +43,7 @@
     <string name="create_awesomeqr">生成AwesomeQR</string>
     <string name="read_screenshot">自动读取屏幕截图中的二维码</string>
 
-    <string name="link">输入动图ID</string>
+    <string name="link">输入动图ID或链接</string>
     <string name="download">下载</string>
     <string name="download_success">下载完成</string>
     <string name="downloading">正在下载</string>

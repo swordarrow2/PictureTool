@@ -244,7 +244,7 @@ public class playLayout extends Activity{
         public void run(){
             try{
                 byte[] buffer = new byte[1024];
-                frameFileFolder=new File(PixivDownloadMain.tmpFolder+zipName);
+                frameFileFolder=new File(MainActivity.instence.getTmpFolder()+zipName);
                 if(!frameFileFolder.exists()){
                     frameFileFolder.mkdirs();
 				  }
@@ -417,7 +417,7 @@ public class playLayout extends Activity{
             playLayout.gifProgress.setProgress(i*100/count);
 		  }
         localAnimatedGifEncoder.finish(); 
-        final String path = MainActivity.instence.getPixivGifPath(file_name);
+        final String path = MainActivity.instence.getGifPath(file_name);
         try{
             FileOutputStream fos = new FileOutputStream(path);
             baos.writeTo(fos);
@@ -435,7 +435,7 @@ public class playLayout extends Activity{
 	  }
 
     private void createGifNative(String file_name,int w,int h,int d,int q){
-        String filePath = MainActivity.instence.getGifPath();
+        String filePath = MainActivity.instence.getGifPath(file_name);
         GifEncoder gifEncoder = new GifEncoder();
         gifEncoder.setDither(false);
         try{

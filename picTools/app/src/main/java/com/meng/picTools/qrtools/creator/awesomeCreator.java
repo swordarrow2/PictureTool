@@ -28,8 +28,8 @@ import com.meng.picTools.qrtools.lib.ContentHelper;
 import com.meng.picTools.qrtools.lib.qrcodelib.AwesomeQRCode;
 import com.meng.picTools.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.picTools.qrtools.log;
-import com.meng.picTools.qrtools.mengViews.mengColorBar;
-import com.meng.picTools.qrtools.mengViews.mengEdittext;
+import com.meng.picTools.mengViews.mengColorBar;
+import com.meng.picTools.mengViews.mengEditText;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,7 +41,7 @@ import java.io.IOException;
 public class awesomeCreator extends Fragment{
 
     private ImageView qrCodeImageView;
-    private mengEdittext mengEtDotScale, mengEtContents, mengEtMargin, mengEtSize;
+    private mengEditText mengEtDotScale, mengEtContents, mengEtMargin, mengEtSize;
     private CheckBox ckbWhiteMargin;
     private Bitmap backgroundImage=null;
 
@@ -50,7 +50,7 @@ public class awesomeCreator extends Fragment{
     private ScrollView scrollView;
     private CheckBox ckbBinarize;
     private CheckBox cbCrop;
-    private mengEdittext mengEtBinarize;
+    private mengEditText mengEtBinarize;
     private Button btnSave;
     private TextView imgPathTextView;
     private Bitmap bmpQRcode=null;
@@ -73,14 +73,14 @@ public class awesomeCreator extends Fragment{
         mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         scrollView=(ScrollView)view.findViewById(R.id.awesomeqr_main_scrollView);
         qrCodeImageView=(ImageView)view.findViewById(R.id.awesomeqr_main_qrcode);
-        mengEtContents=(mengEdittext)view.findViewById(R.id.awesomeqr_main_content);
-        mengEtSize=(mengEdittext)view.findViewById(R.id.awesomeqr_main_mengEdittext_size);
-        mengEtMargin=(mengEdittext)view.findViewById(R.id.awesomeqr_main_margin);
-        mengEtDotScale=(mengEdittext)view.findViewById(R.id.awesomeqr_main_dotScale);
+        mengEtContents=(mengEditText)view.findViewById(R.id.awesomeqr_main_content);
+        mengEtSize=(mengEditText)view.findViewById(R.id.awesomeqr_main_mengEdittext_size);
+        mengEtMargin=(mengEditText)view.findViewById(R.id.awesomeqr_main_margin);
+        mengEtDotScale=(mengEditText)view.findViewById(R.id.awesomeqr_main_dotScale);
         ckbWhiteMargin=(CheckBox)view.findViewById(R.id.awesomeqr_main_whiteMargin);
         ckbAutoColor=(CheckBox)view.findViewById(R.id.awesomeqr_main_autoColor);
         ckbBinarize=(CheckBox)view.findViewById(R.id.awesomeqr_main_binarize);
-        mengEtBinarize=(mengEdittext)view.findViewById(R.id.awesomeqr_main_mengEdittext_binarizeThreshold);
+        mengEtBinarize=(mengEditText)view.findViewById(R.id.awesomeqr_main_mengEdittext_binarizeThreshold);
         btnSave=(Button)view.findViewById(R.id.awesomeqr_mainButton_save);
         imgPathTextView=(TextView)view.findViewById(R.id.awesomeqr_main_imgPathTextView);
         cbCrop=(CheckBox)view.findViewById(R.id.awesomeqr_main_crop);

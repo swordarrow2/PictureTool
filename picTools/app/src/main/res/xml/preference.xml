@@ -65,11 +65,6 @@
                 android:summaryOff="否"
                 android:summaryOn="是"
                 android:title="下载原图" />
-            <EditTextPreference
-                android:hint="如果清空，则会在重启时恢复默认路径"
-                android:key="zipFolder"
-                android:summary="重启软件时该项设置生效"
-                android:title="文件保存路径" />
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="deleteZipAfterMakeGif"
@@ -83,11 +78,6 @@
                 android:dialogTitle="1为原图，数字越大，图片越小"
                 android:key="option"
                 android:title="预览及生成GIF缩放比例" />
-            <EditTextPreference
-                android:hint="如果清空，则会在重启时恢复默认路径"
-                android:key="gifPath"
-                android:summary="重启软件时该项设置生效"
-                android:title="GIF存放路径" />
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="useJava"
@@ -96,11 +86,6 @@
         </PreferenceCategory>
 
         <PreferenceCategory android:title="临时文件">
-            <EditTextPreference
-                android:hint="如果清空，则会在重启时恢复默认路径"
-                android:key="tmpPath"
-                android:summary="重启软件时该项设置生效"
-                android:title="临时文件存放位置" />
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="cleantemp"

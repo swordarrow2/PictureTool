@@ -28,7 +28,7 @@
                 android:checked="true"
                 android:text="@string/crop_pic"/>
 
-            <com.meng.picTools.qrtools.mengViews.mengEdittext
+            <com.meng.picTools.mengViews.mengEditText
                 android:id="@+id/gif_creator_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
                 ran:edittextHint="500"
                 ran:textviewText="@string/height"/>
 
-            <com.meng.picTools.qrtools.mengViews.mengEdittext
+            <com.meng.picTools.mengViews.mengEditText
                 android:id="@+id/gif_creator_width"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 ran:edittextHint="500"
                 ran:textviewText="@string/width"/>
 
-            <com.meng.picTools.qrtools.mengViews.mengEdittext
+            <com.meng.picTools.mengViews.mengEditText
                 android:id="@+id/gif_creator_delay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

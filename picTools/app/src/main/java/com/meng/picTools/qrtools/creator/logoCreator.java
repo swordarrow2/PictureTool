@@ -15,14 +15,14 @@ import com.meng.picTools.R;
 import com.meng.picTools.qrtools.*;
 import com.meng.picTools.qrtools.lib.*;
 import com.meng.picTools.qrtools.lib.qrcodelib.*;
-import com.meng.picTools.qrtools.mengViews.*;
+import com.meng.picTools.mengViews.*;
 import java.io.*;
 
 public class logoCreator extends Fragment{
     private ScrollView scrollView;
     private ImageView qrcodeImageView;
-    private mengEdittext mengEtContent;
-    private mengEdittext mengEtSize;
+    private mengEditText mengEtContent;
+    private mengEditText mengEtSize;
     private TextView tvImgPath;
     private Button btnSave;
     private Bitmap bmpQRcode=null;
@@ -42,8 +42,8 @@ public class logoCreator extends Fragment{
         super.onViewCreated(view,savedInstanceState);
         mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         qrcodeImageView=(ImageView)view.findViewById(R.id.qr_imageview);
-        mengEtContent=(mengEdittext)view.findViewById(R.id.qr_mengEditText_content);
-        mengEtSize=(mengEdittext)view.findViewById(R.id.qr_mengEditText_size);
+        mengEtContent=(mengEditText)view.findViewById(R.id.qr_mengEditText_content);
+        mengEtSize=(mengEditText)view.findViewById(R.id.qr_mengEditText_size);
         scrollView=(ScrollView)view.findViewById(R.id.qr_mainScrollView);
         cbAutoColor=(CheckBox)view.findViewById(R.id.qr_main_autoColor);
         cbCrop=(CheckBox)view.findViewById(R.id.qr_main_crop);

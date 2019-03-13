@@ -26,17 +26,16 @@
                 android:layout_weight="1">
 
                 <LinearLayout
-                    android:id="@+id/pixiv_download_main_downloadlist"
+                    android:id="@+id/pixiv_download_main_downloading"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <ListView
-                        android:id="@+id/main_listview"
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/pixiv_download_main_downloadlist_task"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="8"
-                        android:visibility="visible" />
+                        android:layout_height="wrap_content" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -46,16 +45,16 @@
                         android:orientation="horizontal">
 
                         <EditText
-                            android:id="@+id/et"
+                            android:id="@+id/pixiv_download_main_edittext_url"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="@string/link" />
 
                         <Button
-                            android:id="@+id/start"
+                            android:id="@+id/pixiv_download_main_button_start"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_weight="4"
                             android:text="@string/download" />
                     </LinearLayout>

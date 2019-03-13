@@ -13,14 +13,14 @@ import com.google.zxing.*;
 import com.meng.picTools.MainActivity;
 import com.meng.picTools.R;
 import com.meng.picTools.qrtools.lib.qrcodelib.*;
-import com.meng.picTools.qrtools.mengViews.*;
+import com.meng.picTools.mengViews.*;
 
 import java.io.*;
 
 public class BusCodeCreator extends Fragment{
     private ScrollView scrollView;
     private ImageView qrcodeImageView;
-    private mengEdittext mengEtContent;
+    private mengEditText mengEtContent;
     private Button btnSave;
     private Bitmap bmpQRcode = null;
 
@@ -34,7 +34,7 @@ public class BusCodeCreator extends Fragment{
         super.onViewCreated(view,savedInstanceState);
 
         qrcodeImageView=(ImageView) view.findViewById(R.id.qr_imageview);
-        mengEtContent=(mengEdittext) view.findViewById(R.id.qr_mengEditText_content);
+        mengEtContent=(mengEditText) view.findViewById(R.id.qr_mengEditText_content);
         scrollView=(ScrollView) view.findViewById(R.id.qr_mainScrollView);
 
         btnSave=(Button) view.findViewById(R.id.qr_ButtonSave);
