@@ -21,7 +21,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
+	<TextView
+		android:gravity="right"
+		android:id="@+id/main_list_item_textview_statu_byte"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
 
     <ProgressBar
         android:layout_gravity="center"

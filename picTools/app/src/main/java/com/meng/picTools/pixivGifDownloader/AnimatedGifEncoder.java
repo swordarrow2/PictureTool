@@ -1,12 +1,8 @@
 package com.meng.picTools.pixivGifDownloader;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.graphics.*;
+import android.graphics.Bitmap.*;
+import java.io.*;
 
 public class AnimatedGifEncoder {
 
