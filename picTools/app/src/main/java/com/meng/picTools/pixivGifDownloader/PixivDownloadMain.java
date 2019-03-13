@@ -16,7 +16,7 @@ import java.util.*;
 public class PixivDownloadMain extends Fragment{
 
     public static String tmpFolder;
-    private String[][] fileData = new String[512][2];
+    private String[][] fileData = new String[256][2];
     private String[] filesName;
     private int fileDataFlag = 0;
     private EditText etUrl;
