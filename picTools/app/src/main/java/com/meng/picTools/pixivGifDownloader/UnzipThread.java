@@ -17,7 +17,7 @@ import java.util.zip.ZipInputStream;
 
 public class UnzipThread extends Thread {
     private File zipFile;
-    private String zipName;
+    public String zipName;
     private int filesCountNow = 0;
     private int filesCount = 0;
     public boolean isUnzipSuccess = false;

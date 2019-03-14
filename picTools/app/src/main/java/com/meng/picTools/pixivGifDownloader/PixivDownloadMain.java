@@ -45,7 +45,7 @@ public class PixivDownloadMain extends Fragment{
 			  public void onItemClick(AdapterView<?> adapterView,View view,int i,long l){
 				  Intent intent = new Intent(getActivity(),playLayout.class);
 				  intent.putExtra(Data.intentKeys.fileName,MainActivity.instence.getPixivZipPath(adapterView.getItemAtPosition(i).toString()));
-				  startActivity(intent);
+				//  startActivity(intent);
 				}
 			});
 

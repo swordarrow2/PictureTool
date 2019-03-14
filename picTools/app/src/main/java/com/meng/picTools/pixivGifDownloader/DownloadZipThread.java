@@ -8,6 +8,7 @@ import com.meng.picTools.*;
 import com.meng.picTools.qrtools.*;
 import java.io.*;
 import java.net.*;
+import com.meng.picTools.mengViews.*;
 
 public class DownloadZipThread extends Thread{
     private String id = "";
@@ -16,9 +17,11 @@ public class DownloadZipThread extends Thread{
     private long zipSize = 0;
     private long downloadedZipSize = 0;
     private String fileName = "";
+	MengProgressBar mpb;
 
-    public DownloadZipThread(Context c,String pixivId){
+    public DownloadZipThread(Context c,MengProgressBar mengp,String pixivId){
         context=c;
+		mpb=mengp;
         id=pixivId;
 	  }
 
@@ -43,12 +46,12 @@ public class DownloadZipThread extends Thread{
         try{
             URL u = new URL(getPicInfoJsonAddress(picId));
             HttpURLConnection connection = (HttpURLConnection) u.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setConnectTimeout(10000);
-            connection.setReadTimeout(10000);
-            connection.setRequestProperty("cookie",MainActivity.instence.sharedPreference.getValue(Data.preferenceKeys.keyCookieValue));
-            connection.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
-            InputStream in = connection.getInputStream();
+			connection.setRequestMethod("GET");
+			connection.setConnectTimeout(10000);
+			connection.setReadTimeout(10000);
+			connection.setRequestProperty("cookie",MainActivity.instence.sharedPreference.getValue(Data.preferenceKeys.keyCookieValue));
+			connection.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
+			InputStream in = connection.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             StringBuilder sb = new StringBuilder();
             String line;
@@ -56,7 +59,8 @@ public class DownloadZipThread extends Thread{
                 sb.append(line);
 			  }
             Gson gson = new Gson();
-            zipJavaBean zjb = gson.fromJson(sb.toString(),zipJavaBean.class);
+			zipJavaBean zjb = gson.fromJson(sb.toString(),zipJavaBean.class);
+			mpb.zjb=zjb;
             return MainActivity.instence.sharedPreference.getBoolean(Data.preferenceKeys.downloadBigPicture)? zjb.body.originalSrc :zjb.body.src;
 		  }catch(FileNotFoundException e){
             log.t(context.getString(R.string.maybe_need_login));
@@ -69,12 +73,13 @@ public class DownloadZipThread extends Thread{
 
     private void download(String zipUrl){
         try{
-            URL url = new URL(zipUrl);
-            HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
-            urlConn.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
-            urlConn.setRequestProperty("cookie",MainActivity.instence.sharedPreference.getValue(Data.preferenceKeys.keyCookieValue));
-            urlConn.setRequestProperty("Referer","https://www.pixiv.net/member_illust.php?mode=medium&illust_id="+id.replace("https://www.pixiv.net/member_illust.php?mode=medium&illust_id=",""));
-            zipSize=urlConn.getContentLength();
+            URL u = new URL(zipUrl);
+            HttpURLConnection connection = (HttpURLConnection) u.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("Referer","https://www.pixiv.net/member_illust.php?mode=medium&illust_id="+id.replace("https://www.pixiv.net/member_illust.php?mode=medium&illust_id=",""));	
+			connection.setRequestProperty("cookie",MainActivity.instence.sharedPreference.getValue(Data.preferenceKeys.keyCookieValue));
+			connection.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
+			zipSize=connection.getContentLength();
             String expandName = zipUrl.substring(zipUrl.lastIndexOf(".")+1,zipUrl.length()).toLowerCase();
             String fileName = zipUrl.substring(zipUrl.lastIndexOf("/")+1,zipUrl.lastIndexOf("."));
             File file = new File(MainActivity.instence.getPixivZipPath(fileName+"."+expandName));
@@ -84,7 +89,7 @@ public class DownloadZipThread extends Thread{
                     log.t(context.getString(R.string.file_exist)+file.getName());
 				  }else{
                     log.t(context.getString(R.string.file_exist)+"但似乎并不完整，正在重新下载");
-                    InputStream is = urlConn.getInputStream();
+                    InputStream is = connection.getInputStream();
                     if(is!=null){
                         FileOutputStream fos = new FileOutputStream(file);
                         byte buf[] = new byte[4096];
@@ -97,7 +102,7 @@ public class DownloadZipThread extends Thread{
                     is.close();
 				  }
 			  }else{
-                InputStream is = urlConn.getInputStream();
+                InputStream is = connection.getInputStream();
                 if(is!=null){
                     FileOutputStream fos = new FileOutputStream(file);
                     byte buf[] = new byte[4096];
@@ -109,13 +114,13 @@ public class DownloadZipThread extends Thread{
 				  }
                 is.close();
 			  }
-            urlConn.disconnect();
+            connection.disconnect();
             isDownloaded=true;
 		  }catch(IOException e){
 		  }
 	  }
 
-    private String getPicInfoJsonAddress(String id){
+    public static String getPicInfoJsonAddress(String id){
         String pix = "https://www.pixiv.net/member_illust.php?mode=medium&illust_id=";
         String picJsonAddress = "https://www.pixiv.net/ajax/illust/";
         String picJsonAddress2 = "/ugoira_meta";

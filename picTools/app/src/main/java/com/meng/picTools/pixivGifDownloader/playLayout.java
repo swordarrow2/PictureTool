@@ -42,6 +42,7 @@ public class playLayout extends Activity {
     private final int LOADED = 3;
     private final int NEXTFRAME = 4;
     private boolean makingGIf = false;
+	private String frameFileFolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,10 @@ public class playLayout extends Activity {
 
         Intent i = getIntent();
         zipAbsolutePath = i.getStringExtra(Data.intentKeys.fileName);
+		
+		frameFileFolder = zipAbsolutePath.substring(zipAbsolutePath.lastIndexOf("/") + 1, zipAbsolutePath.lastIndexOf("."));
+		
+		
         loadfinish = false;
         gifDelay = seekBar.getProgress();
         seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -193,7 +198,7 @@ public class playLayout extends Activity {
                 return true;
             }
             try {
-                unzip.interrupt();
+       //         unzip.interrupt();
                 playimg.interrupt();
                 loadImg.interrupt();
                 Bitmap b = null;
@@ -212,11 +217,11 @@ public class playLayout extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         if (MainActivity.instence.sharedPreference.getBoolean(Data.preferenceKeys.cleanTmpOnStopWatch)) {
-            File[] fs = frameFileFolder.listFiles();
+            File[] fs =null;//= frameFileFolder.listFiles();
             for (File f : fs) {
                 f.delete();
             }
-            frameFileFolder.delete();
+      //      frameFileFolder.delete();
         }
     }
 
