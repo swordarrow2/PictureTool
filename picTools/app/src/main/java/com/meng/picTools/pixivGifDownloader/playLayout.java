@@ -20,7 +20,6 @@ import java.util.zip.*;
 
 public class playLayout extends Activity {
 
-    public static ProgressBar gifProgress;
     private LinearLayout seekbarlinearLayout;
     private LinearLayout gifLinearLayout;
     private ProgressBar loadProgress;
@@ -34,22 +33,14 @@ public class playLayout extends Activity {
     private String[] filesName;
     private Bitmap[] bms;
     private int i = 0;
-    private File frameFileFolder;
-    private Thread unzip;
     private Thread loadImg;
     private Thread playimg;
     private boolean loadfinish = false;
     private int gifDelay = 20;
-    private String fileName;
     private final int LOADIMAGEPROGRESS = 1;
     private final int LOADING = 2;
     private final int LOADED = 3;
     private final int NEXTFRAME = 4;
-    private final int STARTMAKEGIF = 5;
-    private final int GIFSUCCESS = 6;
-    private final int UNZIPIMAGEPROGRESS = 7;
-    private final int UNZIPSUCCESS = 8;
-    private final int UNZIP = 9;
     private boolean makingGIf = false;
 
     @Override
@@ -59,7 +50,6 @@ public class playLayout extends Activity {
         imageView = (ImageView) findViewById(R.id.play_image);
         seekBar = (SeekBar) findViewById(R.id.play_seekbar);
         tv = (TextView) findViewById(R.id.play_text);
-        gifProgress = (ProgressBar) findViewById(R.id.make_gif_progressbar);
         seekbarlinearLayout = (LinearLayout) findViewById(R.id.play_layout_seekbar_linearlayout);
         gifLinearLayout = (LinearLayout) findViewById(R.id.gif_linearlayout);
         loadLinearLayout = (LinearLayout) findViewById(R.id.load_linearlayout);
@@ -69,9 +59,6 @@ public class playLayout extends Activity {
 
         Intent i = getIntent();
         zipAbsolutePath = i.getStringExtra(Data.intentKeys.fileName);
-        fileName = zipAbsolutePath.substring(zipAbsolutePath.lastIndexOf("/") + 1, zipAbsolutePath.lastIndexOf("."));
-        unzip = new UnzipThread(new File(zipAbsolutePath));
-        unzip.start();
         loadfinish = false;
         gifDelay = seekBar.getProgress();
         seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -99,15 +86,6 @@ public class playLayout extends Activity {
                 case NEXTFRAME:
                     imageView.setImageBitmap(bms[i]);
                     break;
-                case UNZIP:
-                    unzipLinearLayout.setVisibility(View.VISIBLE);
-                    break;
-                case UNZIPIMAGEPROGRESS:
-                    unzipProgress.setProgress(msg.arg1);
-                    break;
-                case UNZIPSUCCESS:
-                    unzipLinearLayout.setVisibility(View.GONE);
-                    break;
                 case LOADING:
                     loadLinearLayout.setVisibility(View.VISIBLE);
                     break;
@@ -118,14 +96,6 @@ public class playLayout extends Activity {
                     loadLinearLayout.setVisibility(View.GONE);
                     imageView.setVisibility(View.VISIBLE);
                     seekbarlinearLayout.setVisibility(View.VISIBLE);
-                    break;
-                case STARTMAKEGIF:
-                    gifLinearLayout.setVisibility(View.VISIBLE);
-                    imageView.setVisibility(View.GONE);
-                    seekbarlinearLayout.setVisibility(View.GONE);
-                    break;
-                case GIFSUCCESS:
-                    gifLinearLayout.setVisibility(View.GONE);
                     break;
             }
         }
@@ -201,37 +171,6 @@ public class playLayout extends Activity {
     private void messageNextFrame() {
         Message m = new Message();
         m.what = NEXTFRAME;
-        handler.sendMessage(m);
-    }
-
-    private void messageStartMakeGif() {
-        Message m = new Message();
-        m.what = STARTMAKEGIF;
-        handler.sendMessage(m);
-    }
-
-    private void messageMakeGifSuccess() {
-        Message m = new Message();
-        m.what = GIFSUCCESS;
-        handler.sendMessage(m);
-    }
-
-    private void messageUnzipStart() {
-        Message m = new Message();
-        m.what = UNZIP;
-        handler.sendMessage(m);
-    }
-
-    private void messageUnzipSuccess() {
-        Message m = new Message();
-        m.what = UNZIPSUCCESS;
-        handler.sendMessage(m);
-    }
-
-    private void messageUnzipping(int progress) {
-        Message m = new Message();
-        m.what = UNZIPIMAGEPROGRESS;
-        m.arg1 = progress;
         handler.sendMessage(m);
     }
 

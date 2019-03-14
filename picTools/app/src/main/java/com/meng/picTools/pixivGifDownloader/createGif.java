@@ -21,6 +21,7 @@ public class createGif extends Thread {
     public boolean isCreated = false;
     private int nowFile = 0;
     private String gifName;
+    private int allFrameFile = 0;
 
     public createGif(Context context, String folder, int delay) {
         this.delay = delay;
@@ -35,6 +36,10 @@ public class createGif extends Thread {
 
     public int getNowFile() {
         return nowFile;
+    }
+
+    public int getAllFrameFile() {
+        return allFrameFile;
     }
 
     @Override
@@ -56,8 +61,8 @@ public class createGif extends Thread {
         localAnimatedGifEncoder.setDelay(delay);
         File[] images = new File(folder).listFiles();
         Arrays.sort(images);
-        int count = images.length;
-        for (int i = 0; i < count; i++) {
+        allFrameFile = images.length;
+        for (int i = 0; i < allFrameFile; i++) {
             localAnimatedGifEncoder.addFrame(BitmapFactory.decodeFile(images[i].getAbsolutePath()));
             nowFile = i;
         }
@@ -89,8 +94,8 @@ public class createGif extends Thread {
             e.printStackTrace();
             return;
         }
-        //	log.t(filePath+" "+file_name+" "+images.length+" "+folder);
-        for (int i = 0; i < images.length; i++) {
+        allFrameFile = images.length;
+        for (int i = 0; i < allFrameFile; i++) {
             try {
                 gifEncoder.encodeFrame(BitmapFactory.decodeFile(images[i].getAbsolutePath()), d);
                 nowFile = i;
