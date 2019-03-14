@@ -214,7 +214,10 @@ public class playLayout extends Activity{
 					@Override
 					public void onClick(DialogInterface p1,int p2){
 						messageStartMakeGif();
-						Thread makeGif = new gifThread(
+						Thread makeGif = new createGif(
+						  playLayout.this,
+						frameFileFolder.getAbsolutePath() ,
+						  fileName,
 						  Integer.parseInt(h.getText().toString()),
 						  Integer.parseInt(w.getText().toString()),
 						  Integer.parseInt(d.getText().toString()),
@@ -343,28 +346,6 @@ public class playLayout extends Activity{
         handler.sendMessage(m);
 	  }
 
-    private class gifThread extends Thread{
-        int h;
-        int w;
-        int d;
-        int q;
-
-        public gifThread(int h,int w,int d,int q){
-            this.h=h;
-            this.w=w;
-            this.d=d;
-            this.q=q;
-		  }
-
-        @Override
-        public void run(){
-            if(MainActivity.instence.sharedPreference.getBoolean(Data.preferenceKeys.useJava)){
-                createGifJava(fileName,d);
-			  }else{
-                createGifNative(fileName,w,h,d,q);
-			  }
-		  }
-	  }
 
     @Override
     public boolean onKeyDown(int keyCode,KeyEvent event){
@@ -404,65 +385,7 @@ public class playLayout extends Activity{
 		  }
 	  }
 
-    private void createGifJava(String file_name,int delay){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        AnimatedGifEncoder localAnimatedGifEncoder = new AnimatedGifEncoder();
-        localAnimatedGifEncoder.start(baos);//start
-        localAnimatedGifEncoder.setRepeat(0);//设置生成gif的开始播放时间。0为立即开始播放
-        localAnimatedGifEncoder.setDelay(delay);
 
-        int count = bms.length;
-        for(int i = 0; i<count; i++){
-            localAnimatedGifEncoder.addFrame(bms[i]);
-            playLayout.gifProgress.setProgress(i*100/count);
-		  }
-        localAnimatedGifEncoder.finish(); 
-        final String path = MainActivity.instence.getGifPath(file_name);
-        try{
-            FileOutputStream fos = new FileOutputStream(path);
-            baos.writeTo(fos);
-            baos.flush();
-            fos.flush();
-            baos.close();
-            fos.close();
-		  }catch(IOException e){
-            e.printStackTrace();
-		  }
-        registImage(path);
-        loadBitmap();
-        makingGIf=false;
-        messageMakeGifSuccess();
-	  }
-
-    private void createGifNative(String file_name,int w,int h,int d,int q){
-        String filePath = MainActivity.instence.getGifPath(file_name);
-        GifEncoder gifEncoder = new GifEncoder();
-        gifEncoder.setDither(false);
-        try{
-            gifEncoder.init(w,h,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
-		  }catch(FileNotFoundException e){
-            e.printStackTrace();
-            return;
-		  }
-
-		for(int i=0;i<bms.length;i++){
-			gifEncoder.encodeFrame(bms[i],d);
-			playLayout.gifProgress.setProgress(i*100/bms.length);
-
-		  }
-        gifEncoder.close();
-	  }
-
-    private void registImage(String path){
-        try{
-            File f = new File(path);
-            MediaStore.Images.Media.insertImage(playLayout.this.getContentResolver(),f.getAbsolutePath(),f.getName(),null);
-		  }catch(FileNotFoundException e){
-            e.printStackTrace();
-		  }
-        // 最后通知图库更新
-        playLayout.this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.parse("file://"+path)));
-	  }
 
     private int countFilesInZip(File zipFile){
         int filesCount = 0;

@@ -81,8 +81,9 @@
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="useJava"
-                android:summary="如果生成GIF时程序崩溃可开启此选项"
-                android:title="兼容模式" />
+                android:summaryOn="使用java"
+				android:summaryOff="使用jni"
+                android:title="使用java代码生成gif" />
         </PreferenceCategory>
 
         <PreferenceCategory android:title="临时文件">

@@ -29,7 +29,7 @@ public class GifEncoder{
     private native boolean nativeEncodeFrame(long handle,Bitmap bitmap,int delayMs);
 
     private long instance=0;
-    private int threadCount=1;
+    private int threadCount=8;
 
     private int width;
     private int height;
