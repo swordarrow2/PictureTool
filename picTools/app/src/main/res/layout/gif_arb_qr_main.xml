@@ -6,7 +6,7 @@
                 android:gravity="top|center_horizontal"
                 android:orientation="vertical">
 
-    <com.meng.picTools.mengViews.mengScrollView
+    <com.meng.picTools.mengViews.MengScrollView
         android:id="@+id/gif_arb_awesome_qrMengScrollView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
@@ -60,14 +60,14 @@
                     android:visibility="gone"/>
             </LinearLayout>
 
-            <com.meng.picTools.mengViews.mengEditText
+            <com.meng.picTools.mengViews.MengEditText
                 android:id="@+id/gif_arb_qr_mainmengTextview_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="@string/contents"
                 ran:textviewText="@string/input_text"/>
 
-            <com.meng.picTools.mengViews.mengEditText
+            <com.meng.picTools.mengViews.MengEditText
                 android:id="@+id/gif_arb_qr_mengEdittext_dotScale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,13 +81,13 @@
                 android:checked="true"
                 android:text="@string/auto_color"/>
 
-            <com.meng.picTools.mengViews.mengColorBar
+            <com.meng.picTools.mengViews.MengColorBar
                 android:id="@+id/gif_arb_qr_main_colorBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"/>
 
-            <com.meng.picTools.mengViews.mengSeekBar
+            <com.meng.picTools.mengViews.MengSeekBar
                 android:id="@+id/gif_arb_qr_mainMengSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -101,12 +101,12 @@
                 android:max="100"
                 android:visibility="gone"/>
 
-            <com.meng.picTools.mengViews.mengSelectRectView
+            <com.meng.picTools.mengViews.MengSelectRectView
                 android:id="@+id/gif_arb_awesome_qrselectRectView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
         </LinearLayout>
-    </com.meng.picTools.mengViews.mengScrollView>
+    </com.meng.picTools.mengViews.MengScrollView>
 </RelativeLayout>
 

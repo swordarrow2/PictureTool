@@ -10,26 +10,26 @@ import android.widget.TextView;
 
 import com.meng.picTools.R;
 
-public class mengEditText extends LinearLayout{
-    Context c;
+public class MengEditText extends LinearLayout{
+    Context context;
 
-    private EditText et;
-    private TextView tv;
+    private EditText editText;
+    private TextView textView;
 
-    public mengEditText(Context c, AttributeSet a){
-        super(c,a);
-        this.c=c;
-        LayoutInflater.from(c).inflate(R.layout.meng_textview,this);
-        tv=(TextView)findViewById(R.id.test_view_textview);
-        et=(EditText)findViewById(R.id.test_view_edittext);
-        TypedArray typedArray=c.obtainStyledAttributes(a,R.styleable.mengViews);
-        tv.setText(typedArray.getString(R.styleable.mengViews_textviewText));
-        et.setHint(typedArray.getString(R.styleable.mengViews_edittextHint));
+    public MengEditText(Context context, AttributeSet attributeSet){
+        super(context,attributeSet);
+        this.context =context;
+        LayoutInflater.from(context).inflate(R.layout.meng_textview,this);
+        textView =(TextView)findViewById(R.id.test_view_textview);
+        editText =(EditText)findViewById(R.id.test_view_edittext);
+        TypedArray typedArray=context.obtainStyledAttributes(attributeSet,R.styleable.mengViews);
+        textView.setText(typedArray.getString(R.styleable.mengViews_textviewText));
+        editText.setHint(typedArray.getString(R.styleable.mengViews_edittextHint));
         typedArray.recycle();
     }
 
     public String getString(){
-        return isEmpty()?et.getHint().toString():et.getText().toString();
+        return isEmpty()? editText.getHint().toString(): editText.getText().toString();
     }
 
     public int getInt(){
@@ -37,11 +37,11 @@ public class mengEditText extends LinearLayout{
     }
 
     public void setString(String s){
-        et.setText(s);
+        editText.setText(s);
     }
 
     private boolean isEmpty(){
-        if(et.getText().toString().trim().length()==0){
+        if(editText.getText().toString().trim().length()==0){
             return true;
         }else{
             return false;

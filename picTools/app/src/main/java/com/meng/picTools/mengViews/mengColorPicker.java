@@ -12,12 +12,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**
- * ColorPicker
- */
-
-public class mengColorPicker extends View{
-    private static final float PI=(float)Math.PI;
+public class MengColorPicker extends View{
+    private  final float PI=(float)Math.PI;
 
     private Paint paintCirclePhantom;
     private Paint paintCircle;
@@ -39,15 +35,15 @@ public class mengColorPicker extends View{
 
     private OnColorBackListener l;
 
-    public mengColorPicker(Context c,AttributeSet a){
-        super(c,a);
+    public MengColorPicker(Context context, AttributeSet attributeSet){
+        super(context,attributeSet);
         float density=getContext().getResources().getDisplayMetrics().density;
         double Zoom=(double)(density/2.0+0.5);
         int color=Color.parseColor("#FFFFFF");
         init(color,Zoom);
     }
 
-    public mengColorPicker(Context context){
+    public MengColorPicker(Context context){
         super(context);
         float density=getContext().getResources().getDisplayMetrics().density;
         double Zoom=(double)(density/2.0+0.5);
@@ -55,7 +51,7 @@ public class mengColorPicker extends View{
         init(color,Zoom);
     }
 
-    public mengColorPicker(Context context,int color,double Zoom){
+    public MengColorPicker(Context context, int color, double Zoom){
         super(context);
         init(color,Zoom);
     }

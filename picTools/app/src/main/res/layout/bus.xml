@@ -13,14 +13,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.meng.picTools.mengViews.mengEditText
+            <com.meng.picTools.mengViews.MengEditText
                 android:id="@+id/qr_mengEditText_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="@string/input_text"
                 ran:textviewText="@string/contents" />
 
-            <com.meng.picTools.mengViews.mengEditText
+            <com.meng.picTools.mengViews.MengEditText
                 android:id="@+id/qr_mengEditText_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

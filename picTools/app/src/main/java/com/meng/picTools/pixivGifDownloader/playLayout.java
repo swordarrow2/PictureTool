@@ -10,13 +10,15 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 import android.widget.SeekBar.*;
+
 import com.meng.picTools.*;
 import com.waynejo.androidndkgif.*;
+
 import java.io.*;
 import java.util.*;
 import java.util.zip.*;
 
-public class playLayout extends Activity{
+public class playLayout extends Activity {
 
     public static ProgressBar gifProgress;
     private LinearLayout seekbarlinearLayout;
@@ -37,10 +39,7 @@ public class playLayout extends Activity{
     private Thread loadImg;
     private Thread playimg;
     private boolean loadfinish = false;
-    private int gifHeight = 1;
-    private int gifWidth = 1;
-    private int gifDelay = 1;
-    private int gifQuality = 10;
+    private int gifDelay = 20;
     private String fileName;
     private final int LOADIMAGEPROGRESS = 1;
     private final int LOADING = 2;
@@ -54,351 +53,339 @@ public class playLayout extends Activity{
     private boolean makingGIf = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_layout);
-        imageView=(ImageView) findViewById(R.id.play_image);
-        seekBar=(SeekBar) findViewById(R.id.play_seekbar);
-        tv=(TextView) findViewById(R.id.play_text);
-        gifProgress=(ProgressBar) findViewById(R.id.make_gif_progressbar);
-        seekbarlinearLayout=(LinearLayout) findViewById(R.id.play_layout_seekbar_linearlayout);
-        gifLinearLayout=(LinearLayout) findViewById(R.id.gif_linearlayout);
-        loadLinearLayout=(LinearLayout) findViewById(R.id.load_linearlayout);
-        loadProgress=(ProgressBar) findViewById(R.id.load_progressbar);
-        unzipLinearLayout=(LinearLayout) findViewById(R.id.unzip_linearlayout);
-        unzipProgress=(ProgressBar) findViewById(R.id.unzip_progressbar);
+        imageView = (ImageView) findViewById(R.id.play_image);
+        seekBar = (SeekBar) findViewById(R.id.play_seekbar);
+        tv = (TextView) findViewById(R.id.play_text);
+        gifProgress = (ProgressBar) findViewById(R.id.make_gif_progressbar);
+        seekbarlinearLayout = (LinearLayout) findViewById(R.id.play_layout_seekbar_linearlayout);
+        gifLinearLayout = (LinearLayout) findViewById(R.id.gif_linearlayout);
+        loadLinearLayout = (LinearLayout) findViewById(R.id.load_linearlayout);
+        loadProgress = (ProgressBar) findViewById(R.id.load_progressbar);
+        unzipLinearLayout = (LinearLayout) findViewById(R.id.unzip_linearlayout);
+        unzipProgress = (ProgressBar) findViewById(R.id.unzip_progressbar);
 
         Intent i = getIntent();
-        zipAbsolutePath=i.getStringExtra(Data.intentKeys.fileName);
-        fileName=zipAbsolutePath.substring(zipAbsolutePath.lastIndexOf("/")+1,zipAbsolutePath.lastIndexOf("."));
-        unzip=new unzipThread(new File(zipAbsolutePath),fileName);
+        zipAbsolutePath = i.getStringExtra(Data.intentKeys.fileName);
+        fileName = zipAbsolutePath.substring(zipAbsolutePath.lastIndexOf("/") + 1, zipAbsolutePath.lastIndexOf("."));
+        unzip = new unzipThread(new File(zipAbsolutePath), fileName);
         unzip.start();
-        loadfinish=false;
-        gifDelay=seekBar.getProgress();
+        loadfinish = false;
+        gifDelay = seekBar.getProgress();
         seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
-			  @Override
-			  public void onProgressChanged(SeekBar p1,int p2,boolean p3){
-				  gifDelay=p2;
-				  tv.setText(String.format("帧延迟%d",gifDelay));
-				}
+            @Override
+            public void onProgressChanged(SeekBar p1, int p2, boolean p3) {
+                gifDelay = p2;
+                tv.setText(String.format("帧延迟%d", gifDelay));
+            }
 
-			  @Override
-			  public void onStartTrackingTouch(SeekBar p1){
-				}
+            @Override
+            public void onStartTrackingTouch(SeekBar p1) {
+            }
 
-			  @Override
-			  public void onStopTrackingTouch(SeekBar p1){
-				}
-			});
-	  }
+            @Override
+            public void onStopTrackingTouch(SeekBar p1) {
+            }
+        });
+    }
 
     public Handler handler = new Handler() {
         @Override
-        public void handleMessage(Message msg){
-            switch(msg.what){
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
                 case NEXTFRAME:
-				  imageView.setImageBitmap(bms[i]);
-				  break;
-                case UNZIP:
-				  unzipLinearLayout.setVisibility(View.VISIBLE);
-				  break;
-                case UNZIPIMAGEPROGRESS:
-				  unzipProgress.setProgress(msg.arg1);
-				  break;
-                case UNZIPSUCCESS:
-				  unzipLinearLayout.setVisibility(View.GONE);
-				  break;
-                case LOADING:
-				  loadLinearLayout.setVisibility(View.VISIBLE);
-				  break;
-                case LOADIMAGEPROGRESS:
-				  loadProgress.setProgress(msg.arg1);
-				  break;
-                case LOADED:
-				  loadLinearLayout.setVisibility(View.GONE);
-				  imageView.setVisibility(View.VISIBLE);
-				  seekbarlinearLayout.setVisibility(View.VISIBLE);
-				  break;
-                case STARTMAKEGIF:
-				  gifLinearLayout.setVisibility(View.VISIBLE);
-				  imageView.setVisibility(View.GONE);
-				  seekbarlinearLayout.setVisibility(View.GONE);
-				  break;
-                case GIFSUCCESS:
-				  gifLinearLayout.setVisibility(View.GONE);
-				  break;
-			  }
-		  }
-	  };
-
-    private void loadBitmap(){
-        messageLoading();
-        loadImg=new threadLoadBitmap();
-        loadImg.start();
-	  }
-
-    private void playBitmap(){
-        messageLoaded();
-        playimg=new threadPlayImage();
-        playimg.start();
-	  }
-
-    private class threadPlayImage extends Thread{
-        public void run(){
-            while(true){
-                if(makingGIf){
+                    imageView.setImageBitmap(bms[i]);
                     break;
-				  }
+                case UNZIP:
+                    unzipLinearLayout.setVisibility(View.VISIBLE);
+                    break;
+                case UNZIPIMAGEPROGRESS:
+                    unzipProgress.setProgress(msg.arg1);
+                    break;
+                case UNZIPSUCCESS:
+                    unzipLinearLayout.setVisibility(View.GONE);
+                    break;
+                case LOADING:
+                    loadLinearLayout.setVisibility(View.VISIBLE);
+                    break;
+                case LOADIMAGEPROGRESS:
+                    loadProgress.setProgress(msg.arg1);
+                    break;
+                case LOADED:
+                    loadLinearLayout.setVisibility(View.GONE);
+                    imageView.setVisibility(View.VISIBLE);
+                    seekbarlinearLayout.setVisibility(View.VISIBLE);
+                    break;
+                case STARTMAKEGIF:
+                    gifLinearLayout.setVisibility(View.VISIBLE);
+                    imageView.setVisibility(View.GONE);
+                    seekbarlinearLayout.setVisibility(View.GONE);
+                    break;
+                case GIFSUCCESS:
+                    gifLinearLayout.setVisibility(View.GONE);
+                    break;
+            }
+        }
+    };
+
+    private void loadBitmap() {
+        messageLoading();
+        loadImg = new threadLoadBitmap();
+        loadImg.start();
+    }
+
+    private void playBitmap() {
+        messageLoaded();
+        playimg = new threadPlayImage();
+        playimg.start();
+    }
+
+    private class threadPlayImage extends Thread {
+        public void run() {
+            while (true) {
+                if (makingGIf) {
+                    break;
+                }
                 messageNextFrame();
-                try{
+                try {
                     Thread.sleep(seekBar.getProgress());
-				  }catch(InterruptedException e){
-				  }
-                if(i==bms.length-1){
-                    i=0;
-				  }else{
+                } catch (InterruptedException e) {
+                }
+                if (i == bms.length - 1) {
+                    i = 0;
+                } else {
                     i++;
-				  }
-			  }
-		  }
-	  }
+                }
+            }
+        }
+    }
 
-    private class threadLoadBitmap extends Thread{
+    private class threadLoadBitmap extends Thread {
         @Override
-        public void run(){
-            try{
+        public void run() {
+            try {
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                if(MainActivity.instence.sharedPreference.getValue(Data.preferenceKeys.gifScale)==null||MainActivity.instence.sharedPreference.getValue(Data.preferenceKeys.gifScale).equals("")){
-                    MainActivity.instence.sharedPreference.putValue(Data.preferenceKeys.gifScale,"1");
-				  }
-                options.inSampleSize=Integer.parseInt(MainActivity.instence.sharedPreference.getValue(Data.preferenceKeys.gifScale));
+                if (MainActivity.instence.sharedPreference.getValue(Data.preferenceKeys.gifScale) == null || MainActivity.instence.sharedPreference.getValue(Data.preferenceKeys.gifScale).equals("")) {
+                    MainActivity.instence.sharedPreference.putValue(Data.preferenceKeys.gifScale, "1");
+                }
+                options.inSampleSize = Integer.parseInt(MainActivity.instence.sharedPreference.getValue(Data.preferenceKeys.gifScale));
                 messageLoading(0);
-                bms[0]=BitmapFactory.decodeFile(frameFileFolder+File.separator+filesName[0],options);
-                gifHeight=bms[0].getHeight();
-                gifWidth=bms[0].getWidth();
-                for(int j = 1; j<filesName.length; j++){
+                bms[0] = BitmapFactory.decodeFile(frameFileFolder + File.separator + filesName[0], options);
+                for (int j = 1; j < filesName.length; j++) {
                     messageLoading(j);
-                    bms[j]=BitmapFactory.decodeFile(frameFileFolder+File.separator+filesName[j],options);
-				  }
-			  }catch(OutOfMemoryError e){
-			  }
-            loadfinish=true;
+                    bms[j] = BitmapFactory.decodeFile(frameFileFolder + File.separator + filesName[j], options);
+                }
+            } catch (OutOfMemoryError e) {
+            }
+            loadfinish = true;
             playBitmap();
-		  }
-	  }
+        }
+    }
 
-    public boolean onCreateOptionsMenu(Menu menu){
-        menu.add(0,0,0,"生成GIF");
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, 0, 0, "生成GIF");
         return super.onCreateOptionsMenu(menu);
-	  }
+    }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case 0: 
-			  LayoutInflater inflater = LayoutInflater.from(playLayout.this);
-			  LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.set_gif,null);
-			  final EditText h = (EditText) ll.findViewById(R.id.set_gif_edittext_height);
-			  final EditText w = (EditText) ll.findViewById(R.id.set_gif_edittext_width);
-			  final EditText d = (EditText) ll.findViewById(R.id.set_gif_edittext_delay);
-			  final EditText q = (EditText) ll.findViewById(R.id.set_gif_edittext_quality);
-			  h.setText(String.valueOf(gifHeight));
-			  w.setText(String.valueOf(gifWidth));
-			  d.setText(String.valueOf(gifDelay));
-			  q.setText(String.valueOf(gifQuality));
-			  new AlertDialog.Builder(playLayout.this)
-				.setTitle("输入参数")
-				.setIcon(android.R.drawable.ic_dialog_info)
-				.setView(ll)
-				.setPositiveButton("确定",new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface p1,int p2){
-						messageStartMakeGif();
-						Thread makeGif = new createGif(
-						  playLayout.this,
-						frameFileFolder.getAbsolutePath() ,
-						  fileName,
-						  Integer.parseInt(h.getText().toString()),
-						  Integer.parseInt(w.getText().toString()),
-						  Integer.parseInt(d.getText().toString()),
-						  Integer.parseInt(q.getText().toString()));
-						makeGif.start();
-						makingGIf=true;
-					  }
-				  }).setNegativeButton("取消",null).show();
-			  break;
-		  }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 0:
+                LayoutInflater inflater = LayoutInflater.from(playLayout.this);
+                LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.set_gif, null);
+                final EditText d = (EditText) ll.findViewById(R.id.set_gif_edittext_delay);
+                d.setText(String.valueOf(gifDelay));
+                new AlertDialog.Builder(playLayout.this)
+                        .setTitle("输入参数")
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setView(ll)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface p1, int p2) {
+                                messageStartMakeGif();
+                                Thread makeGif = new createGif(
+                                        playLayout.this,
+                                        frameFileFolder.getAbsolutePath(),
+                                        fileName,
+                                        Integer.parseInt(d.getText().toString()));
+                                makeGif.start();
+                                makingGIf = true;
+                            }
+                        }).setNegativeButton("取消", null).show();
+                break;
+        }
 
         return false;
-	  }
+    }
 
-    private class unzipThread extends Thread{
+    private class unzipThread extends Thread {
         File zipFile;
         String zipName;
         int filesCountNow = 0;
         int filesCount = 0;
 
-        public unzipThread(File zipFile,String zipName){
-            this.zipFile=zipFile;
-            this.zipName=zipName;
-		  }
+        public unzipThread(File zipFile, String zipName) {
+            this.zipFile = zipFile;
+            this.zipName = zipName;
+        }
 
         @Override
-        public void run(){
-            try{
+        public void run() {
+            try {
                 byte[] buffer = new byte[1024];
-                frameFileFolder=new File(MainActivity.instence.getTmpFolder()+zipName);
-                if(!frameFileFolder.exists()){
+                frameFileFolder = new File(MainActivity.instence.getTmpFolder() + zipName);
+                if (!frameFileFolder.exists()) {
                     frameFileFolder.mkdirs();
-				  }
-                File nomedia = new File(frameFileFolder.getParent()+File.separator+".nomedia");
-                if(!nomedia.exists()){
-                    try{
+                }
+                File nomedia = new File(frameFileFolder.getParent() + File.separator + ".nomedia");
+                if (!nomedia.exists()) {
+                    try {
                         nomedia.createNewFile();
-					  }catch(IOException e){
+                    } catch (IOException e) {
                         e.printStackTrace();
-					  }
-				  }
+                    }
+                }
                 messageUnzipStart();
-                filesCount=countFilesInZip(zipFile);
+                filesCount = countFilesInZip(zipFile);
                 ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
                 ZipEntry ze = zis.getNextEntry();
-                while(ze!=null){
-                    messageUnzipping(filesCountNow*100/filesCount);
+                while (ze != null) {
+                    messageUnzipping(filesCountNow * 100 / filesCount);
                     filesCountNow++;
                     String fileName = ze.getName();
-                    File frameFile = new File(frameFileFolder.getAbsolutePath()+File.separator+fileName);
-                    if(frameFile.exists()){
-                        ze=zis.getNextEntry();
-					  }
+                    File frameFile = new File(frameFileFolder.getAbsolutePath() + File.separator + fileName);
+                    if (frameFile.exists()) {
+                        ze = zis.getNextEntry();
+                    }
                     FileOutputStream nfos = new FileOutputStream(frameFile);
                     int len;
-                    while((len=zis.read(buffer))>0){
-                        nfos.write(buffer,0,len);
-					  }
+                    while ((len = zis.read(buffer)) > 0) {
+                        nfos.write(buffer, 0, len);
+                    }
                     nfos.close();
-                    ze=zis.getNextEntry();
-				  }
+                    ze = zis.getNextEntry();
+                }
                 messageUnzipSuccess();
-                filesName=frameFileFolder.list();
+                filesName = frameFileFolder.list();
                 Arrays.sort(filesName);
-                bms=new Bitmap[filesName.length];
+                bms = new Bitmap[filesName.length];
                 loadBitmap();
-			  }catch(Exception e){
-                Log.e(getString(R.string.app_name),e.toString());
-			  }
-		  }
-	  }
+            } catch (Exception e) {
+                Log.e(getString(R.string.app_name), e.toString());
+            }
+        }
+    }
 
-    private void messageLoaded(){
+    private void messageLoaded() {
         Message m = new Message();
-        m.what=LOADED;
+        m.what = LOADED;
         handler.sendMessage(m);
-	  }
+    }
 
-    private void messageLoading(){
+    private void messageLoading() {
         Message m = new Message();
-        m.what=LOADING;
+        m.what = LOADING;
         handler.sendMessage(m);
-	  }
+    }
 
-    private void messageNextFrame(){
+    private void messageNextFrame() {
         Message m = new Message();
-        m.what=NEXTFRAME;
+        m.what = NEXTFRAME;
         handler.sendMessage(m);
-	  }
+    }
 
-    private void messageStartMakeGif(){
+    private void messageStartMakeGif() {
         Message m = new Message();
-        m.what=STARTMAKEGIF;
+        m.what = STARTMAKEGIF;
         handler.sendMessage(m);
-	  }
+    }
 
-    private void messageMakeGifSuccess(){
+    private void messageMakeGifSuccess() {
         Message m = new Message();
-        m.what=GIFSUCCESS;
+        m.what = GIFSUCCESS;
         handler.sendMessage(m);
-	  }
+    }
 
-    private void messageUnzipStart(){
+    private void messageUnzipStart() {
         Message m = new Message();
-        m.what=UNZIP;
+        m.what = UNZIP;
         handler.sendMessage(m);
-	  }
+    }
 
-    private void messageUnzipSuccess(){
+    private void messageUnzipSuccess() {
         Message m = new Message();
-        m.what=UNZIPSUCCESS;
+        m.what = UNZIPSUCCESS;
         handler.sendMessage(m);
-	  }
+    }
 
-    private void messageUnzipping(int progress){
+    private void messageUnzipping(int progress) {
         Message m = new Message();
-        m.what=UNZIPIMAGEPROGRESS;
-        m.arg1=progress;
+        m.what = UNZIPIMAGEPROGRESS;
+        m.arg1 = progress;
         handler.sendMessage(m);
-	  }
+    }
 
-    private void messageLoading(int progress){
+    private void messageLoading(int progress) {
         Message m = new Message();
-        m.what=LOADIMAGEPROGRESS;
-        m.arg1=progress;
+        m.what = LOADIMAGEPROGRESS;
+        m.arg1 = progress;
         handler.sendMessage(m);
-	  }
+    }
 
 
     @Override
-    public boolean onKeyDown(int keyCode,KeyEvent event){
-        if(keyCode==KeyEvent.KEYCODE_BACK){
-            if(makingGIf){
-                Toast.makeText(this,"请等待gif制作完成",Toast.LENGTH_SHORT).show();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (makingGIf) {
+                Toast.makeText(this, "请等待gif制作完成", Toast.LENGTH_SHORT).show();
                 return true;
-			  }
-            if(!loadfinish){
+            }
+            if (!loadfinish) {
                 return true;
-			  }
-            try{
+            }
+            try {
                 unzip.interrupt();
                 playimg.interrupt();
                 loadImg.interrupt();
                 Bitmap b = null;
-                for(int j = 0; j<filesName.length; j++){
-                    bms[j]=b;
-				  }
+                for (int j = 0; j < filesName.length; j++) {
+                    bms[j] = b;
+                }
                 System.gc();
-			  }catch(Exception e){
+            } catch (Exception e) {
 
-			  }
-		  }
-        return super.onKeyDown(keyCode,event);
-	  }
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
-        if(MainActivity.instence.sharedPreference.getBoolean(Data.preferenceKeys.cleanTmpOnStopWatch)){
+        if (MainActivity.instence.sharedPreference.getBoolean(Data.preferenceKeys.cleanTmpOnStopWatch)) {
             File[] fs = frameFileFolder.listFiles();
-            for(File f : fs){
+            for (File f : fs) {
                 f.delete();
-			  }
+            }
             frameFileFolder.delete();
-		  }
-	  }
+        }
+    }
 
 
-
-    private int countFilesInZip(File zipFile){
+    private int countFilesInZip(File zipFile) {
         int filesCount = 0;
-        try{
+        try {
             ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
             ZipEntry ze = zis.getNextEntry();
-            while(ze!=null){
+            while (ze != null) {
                 filesCount++;
-                ze=zis.getNextEntry();
-			  }
-		  }catch(IOException e){
+                ze = zis.getNextEntry();
+            }
+        } catch (IOException e) {
             e.printStackTrace();
-		  }
+        }
         return filesCount;
-	  }
-  }
+    }
+}

@@ -30,15 +30,15 @@ import com.meng.picTools.R;
 public class arbAwesome extends Fragment{
 
     private ImageView qrCodeImageView;
-    private mengEditText mengEtDotScale, mengEtContents;
+    private MengEditText mengEtDotScale, mengEtContents;
     private Button btGenerate;
     private CheckBox ckbAutoColor;
     private Button btnSave;
     private TextView imgPathTextView;
-    private mengColorBar mColorBar;
-    private mengScrollView sv;
+    private MengColorBar mColorBar;
+    private MengScrollView sv;
 
-    private mengSeekBar mengSeekBar;
+    private MengSeekBar mengSeekBar;
     private Bitmap finallyBmp=null;
     private String selectedBmpPath="";
     private int qrSize;
@@ -46,7 +46,7 @@ public class arbAwesome extends Fragment{
     private int selectedBmpHeight=0;
     private float screenW;
     private float screenH;
-    private mengSelectRectView mengSelectView;
+    private MengSelectRectView mengSelectView;
     private String[] PERMISSIONS_STORAGE={
 		Manifest.permission.READ_EXTERNAL_STORAGE,
 		Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -60,17 +60,17 @@ public class arbAwesome extends Fragment{
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
         super.onViewCreated(view,savedInstanceState);
-        sv=(mengScrollView)view.findViewById(R.id.awesomeqr_main_scrollView);
-        mengSelectView=(mengSelectRectView)view.findViewById(R.id.arb_awesome_qrselectRectView);
-        mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
+        sv=(MengScrollView)view.findViewById(R.id.awesomeqr_main_scrollView);
+        mengSelectView=(MengSelectRectView)view.findViewById(R.id.arb_awesome_qrselectRectView);
+        mColorBar=(MengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         qrCodeImageView=(ImageView)view.findViewById(R.id.awesomeqr_main_qrcode);
-        mengEtContents=(mengEditText)view.findViewById(R.id.awesomeqr_main_content);
-        mengEtDotScale=(mengEditText)view.findViewById(R.id.awesomeqr_main_dotScale);
+        mengEtContents=(MengEditText)view.findViewById(R.id.awesomeqr_main_content);
+        mengEtDotScale=(MengEditText)view.findViewById(R.id.awesomeqr_main_dotScale);
         btGenerate=(Button)view.findViewById(R.id.awesomeqr_main_generate);
         ckbAutoColor=(CheckBox)view.findViewById(R.id.awesomeqr_main_autoColor);
         btnSave=(Button)view.findViewById(R.id.awesomeqr_mainButton_save);
         imgPathTextView=(TextView)view.findViewById(R.id.awesomeqr_main_imgPathTextView);
-        mengSeekBar=(mengSeekBar)view.findViewById(R.id.awesomeqr_mainMengSeekBar);
+        mengSeekBar=(MengSeekBar)view.findViewById(R.id.awesomeqr_mainMengSeekBar);
         ((Button)view.findViewById(R.id.awesomeqr_main_backgroundImage)).setOnClickListener(click);
         btGenerate.setOnClickListener(click);
         btnSave.setOnClickListener(click);
@@ -143,7 +143,7 @@ public class arbAwesome extends Fragment{
             final Bitmap selectedBmp=BitmapFactory.decodeFile(selectedBmpPath);
             selectedBmpWidth=selectedBmp.getWidth();
             selectedBmpHeight=selectedBmp.getHeight();
-            final mengSeekBar msb=new mengSeekBar(getActivity());
+            final MengSeekBar msb=new MengSeekBar(getActivity());
             int maxProg=Math.min(selectedBmpWidth,selectedBmpHeight);
             msb.setMax(maxProg);
             msb.setProgress(maxProg/3);

@@ -63,14 +63,14 @@
                 android:visibility="gone" />
         </LinearLayout>
 
-        <com.meng.picTools.mengViews.mengEditText
+        <com.meng.picTools.mengViews.MengEditText
             android:id="@+id/gif_arb_qr_mainmengTextview_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             ran:edittextHint="@string/contents"
             ran:textviewText="@string/input_text" />
 
-        <com.meng.picTools.mengViews.mengEditText
+        <com.meng.picTools.mengViews.MengEditText
             android:id="@+id/gif_arb_qr_mengEdittext_dotScale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
             android:checked="true"
             android:text="@string/use_first_frame_size" />
 
-        <com.meng.picTools.mengViews.mengEditText
+        <com.meng.picTools.mengViews.MengEditText
             android:id="@+id/gif_qr_mainEditText_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
             android:checked="true"
             android:text="@string/auto_color" />
 
-        <com.meng.picTools.mengViews.mengColorBar
+        <com.meng.picTools.mengViews.MengColorBar
             android:id="@+id/gif_arb_qr_main_colorBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

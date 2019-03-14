@@ -19,7 +19,7 @@ import com.meng.picTools.R;
 import com.meng.picTools.qrtools.lib.ContentHelper;
 import com.meng.picTools.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.picTools.qrtools.log;
-import com.meng.picTools.mengViews.mengEditText;
+import com.meng.picTools.mengViews.MengEditText;
 import com.waynejo.androidndkgif.GifEncoder;
 
 import java.io.File;
@@ -34,9 +34,9 @@ public class gifCreator extends Fragment{
 
     private CheckBox cbAutoSize;
     private CheckBox cbCrop;
-    private mengEditText mengEtGifHeight;
-    private mengEditText mengEtGifWidth;
-    private mengEditText mengEtFrameDelay;
+    private MengEditText mengEtGifHeight;
+    private MengEditText mengEtGifWidth;
+    private MengEditText mengEtFrameDelay;
     private HashMap<Integer,Bitmap> dataMap=new HashMap<Integer,Bitmap>();
     private int bitmapFlag=0;
     private final int CROP_REQUEST_CODE=3;
@@ -53,9 +53,9 @@ public class gifCreator extends Fragment{
         super.onViewCreated(view,savedInstanceState);
         cbAutoSize=(CheckBox)view.findViewById(R.id.gif_creator_autosize);
         cbCrop=(CheckBox)view.findViewById(R.id.gif_creator_crop);
-        mengEtGifHeight=(mengEditText)view.findViewById(R.id.gif_creator_height);
-        mengEtGifWidth=(mengEditText)view.findViewById(R.id.gif_creator_width);
-        mengEtFrameDelay=(mengEditText)view.findViewById(R.id.gif_creator_delay);
+        mengEtGifHeight=(MengEditText)view.findViewById(R.id.gif_creator_height);
+        mengEtGifWidth=(MengEditText)view.findViewById(R.id.gif_creator_width);
+        mengEtFrameDelay=(MengEditText)view.findViewById(R.id.gif_creator_delay);
         ((Button)view.findViewById(R.id.gif_creator_add)).setOnClickListener(listenerBtnClick);
         ((Button)view.findViewById(R.id.gif_creator_finish)).setOnClickListener(listenerBtnClick);
         cbAutoSize.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){

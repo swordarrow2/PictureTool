@@ -9,28 +9,28 @@ import android.widget.TextView;
 
 import com.meng.picTools.R;
 
-public class mengSeekBar extends LinearLayout{
-    private TextView tv;
-    private SeekBar sb;
-    public mengSeekBar(Context context){
+public class MengSeekBar extends LinearLayout{
+    private TextView textView;
+    private SeekBar seekBar;
+    public MengSeekBar(Context context){
         super(context);
         afterCreate(context);
     }
-    public mengSeekBar(Context c,AttributeSet a){
-        super(c,a);
-        afterCreate(c);
+    public MengSeekBar(Context context, AttributeSet attributeSet){
+        super(context,attributeSet);
+        afterCreate(context);
     }
     private void afterCreate(Context context){
         LayoutInflater.from(context).inflate(R.layout.meng_seekbar_view,this);
-        tv=(TextView)findViewById(R.id.progress_view_tv);
-        sb=(SeekBar)findViewById(R.id.progress_view_sb);
-        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+        textView =(TextView)findViewById(R.id.progress_view_tv);
+        seekBar =(SeekBar)findViewById(R.id.progress_view_sb);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
             @Override
             public void onProgressChanged(SeekBar seekBar,int progress,boolean fromUser){
                 progress=progress%2==1?progress-1:progress;
 				progress=progress<1?2:progress;
-                tv.setText("当前:"+progress);
-				sb.setProgress(progress);
+                textView.setText("当前:"+progress);
+				MengSeekBar.this.seekBar.setProgress(progress);
             }
 
             @Override
@@ -45,21 +45,21 @@ public class mengSeekBar extends LinearLayout{
     }
 
     public void setMax(int max){
-        sb.setMax(max);
+        seekBar.setMax(max);
     }
     public int getMax(){
-        return sb.getMax();
+        return seekBar.getMax();
     }
 
     public void setProgress(int progress){
-        sb.setProgress(progress);
+        seekBar.setProgress(progress);
     }
 
     public int getProgress(){
-        return sb.getProgress();
+        return seekBar.getProgress();
     }
     public void setOnSeekBarChangeListener(SeekBar.OnSeekBarChangeListener listener){
-        sb.setOnSeekBarChangeListener(listener);
-        tv.setText("二维码大小:");
+        seekBar.setOnSeekBarChangeListener(listener);
+        textView.setText("二维码大小:");
     }
 }

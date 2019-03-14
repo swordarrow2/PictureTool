@@ -28,11 +28,11 @@ import com.meng.picTools.R;
 import com.meng.picTools.qrtools.lib.ContentHelper;
 import com.meng.picTools.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.picTools.qrtools.log;
-import com.meng.picTools.mengViews.mengColorBar;
-import com.meng.picTools.mengViews.mengEditText;
-import com.meng.picTools.mengViews.mengScrollView;
-import com.meng.picTools.mengViews.mengSeekBar;
-import com.meng.picTools.mengViews.mengSelectRectView;
+import com.meng.picTools.mengViews.MengColorBar;
+import com.meng.picTools.mengViews.MengEditText;
+import com.meng.picTools.mengViews.MengScrollView;
+import com.meng.picTools.mengViews.MengSeekBar;
+import com.meng.picTools.mengViews.MengSelectRectView;
 import com.waynejo.androidndkgif.GifDecoder;
 import com.waynejo.androidndkgif.GifEncoder;
 import com.waynejo.androidndkgif.GifImage;
@@ -57,21 +57,21 @@ public class gifArbAwesome extends Fragment{
     private CheckBox cbAutoColor;
     private CheckBox cbLowMemoryMode;
     private CheckBox cbUseDither;
-    private mengEditText mengEtDotScale;
-    private mengEditText mengEtTextToEncode;
+    private MengEditText mengEtDotScale;
+    private MengEditText mengEtTextToEncode;
     private ProgressBar pbCodingProgress;
     private String strSelectedGifPath="";
     private TextView tvImagePath;
-    private mengColorBar mColorBar;
+    private MengColorBar mColorBar;
 
-    private mengSelectRectView mengSelectView;
+    private MengSelectRectView mengSelectView;
     private float screenW;
     private float screenH;
     private int gifWidth;
     private int gifHeight;
     private int bmpCount;
-    private mengScrollView msv;
-    private mengSeekBar mengSeekBar;
+    private MengScrollView msv;
+    private MengSeekBar mengSeekBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -81,19 +81,19 @@ public class gifArbAwesome extends Fragment{
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
         super.onViewCreated(view,savedInstanceState);
-        msv=(mengScrollView)view.findViewById(R.id.gif_arb_awesome_qrMengScrollView);
-        mengSelectView=(mengSelectRectView)view.findViewById(R.id.gif_arb_awesome_qrselectRectView);
-        mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
+        msv=(MengScrollView)view.findViewById(R.id.gif_arb_awesome_qrMengScrollView);
+        mengSelectView=(MengSelectRectView)view.findViewById(R.id.gif_arb_awesome_qrselectRectView);
+        mColorBar=(MengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         btnEncodeGif=(Button)view.findViewById(R.id.gif_arb_qr_button_encode_gif);
         btnSelectImage=(Button)view.findViewById(R.id.gif_arb_qr_button_selectImg);
         cbAutoColor=(CheckBox)view.findViewById(R.id.gif_arb_qr_checkbox_autocolor);
         cbLowMemoryMode=(CheckBox)view.findViewById(R.id.gif_arb_qr_checkbox_low_memery);
         cbUseDither=(CheckBox)view.findViewById(R.id.gif_arb_qr_checkbox_dither);
-        mengEtDotScale=(mengEditText)view.findViewById(R.id.gif_arb_qr_mengEdittext_dotScale);
-        mengEtTextToEncode=(mengEditText)view.findViewById(R.id.gif_arb_qr_mainmengTextview_content);
+        mengEtDotScale=(MengEditText)view.findViewById(R.id.gif_arb_qr_mengEdittext_dotScale);
+        mengEtTextToEncode=(MengEditText)view.findViewById(R.id.gif_arb_qr_mainmengTextview_content);
         pbCodingProgress=(ProgressBar)view.findViewById(R.id.gif_arb_qr_mainProgressBar);
         tvImagePath=(TextView)view.findViewById(R.id.gif_arb_qr_selected_path);
-        mengSeekBar=(mengSeekBar)view.findViewById(R.id.gif_arb_qr_mainMengSeekBar);
+        mengSeekBar=(MengSeekBar)view.findViewById(R.id.gif_arb_qr_mainMengSeekBar);
         cbAutoColor.setOnCheckedChangeListener(check);
         btnSelectImage.setOnClickListener(listenerBtnClick);
         btnEncodeGif.setOnClickListener(listenerBtnClick);
@@ -318,7 +318,7 @@ public class gifArbAwesome extends Fragment{
                     final Bitmap selectedBmp=BitmapFactory.decodeFile(strSelectedGifPath);
                     final int selectedBmpWidth=selectedBmp.getWidth();
                     final int selectedBmpHeight=selectedBmp.getHeight();
-                    final mengSeekBar msb=new mengSeekBar(getActivity());
+                    final MengSeekBar msb=new MengSeekBar(getActivity());
                     int maxProg=Math.min(selectedBmpWidth,selectedBmpHeight);
                     msb.setMax(maxProg);
                     msb.setProgress(maxProg/3);

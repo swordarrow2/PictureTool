@@ -12,15 +12,15 @@ import android.widget.TextView;
 import com.meng.picTools.R;
 
 
-public class mengColorPickerDialog extends Dialog{
+public class MengColorPickerDialog extends Dialog{
     Context context;
-    EditText et;
-    mengColorPicker mcp;
+    EditText editText;
+    MengColorPicker mengColorPicker;
 
-    public mengColorPickerDialog(Context context,EditText cs){
+    public MengColorPickerDialog(Context context, EditText editText){
         super(context);
         this.context=context;
-        et=cs;
+        this.editText =editText;
     }
 
     @Override
@@ -30,11 +30,11 @@ public class mengColorPickerDialog extends Dialog{
         final TextView tv=(TextView)findViewById(R.id.meng_color_textview);
         Button btnOK=(Button)findViewById(R.id.meng_color_picker_ok);
         Button btnCancal=(Button)findViewById(R.id.meng_color_picker_cancal);
-        mcp=(mengColorPicker)findViewById(R.id.meng_color_picker);
-        mcp.setOnColorBackListener(new mengColorPicker.OnColorBackListener(){
+        mengColorPicker =(MengColorPicker)findViewById(R.id.meng_color_picker);
+        mengColorPicker.setOnColorBackListener(new MengColorPicker.OnColorBackListener(){
             @Override
             public void onColorBack(int a,int r,int g,int b){
-                tv.setText("R："+r+"\nG："+g+"\nB："+b+"\n"+mcp.getStrColor());
+                tv.setText("R："+r+"\nG："+g+"\nB："+b+"\n"+ mengColorPicker.getStrColor());
                 tv.setTextColor(Color.argb(a,r,g,b));
             }
         });
@@ -47,7 +47,7 @@ public class mengColorPickerDialog extends Dialog{
         public void onClick(View v){
             switch(v.getId()){
                 case R.id.meng_color_picker_ok:
-                    et.setText(mcp.getStrColor());
+                    editText.setText(mengColorPicker.getStrColor());
                 case R.id.meng_color_picker_cancal:
                     hide();
             }

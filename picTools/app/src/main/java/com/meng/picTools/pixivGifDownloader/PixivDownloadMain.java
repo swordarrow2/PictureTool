@@ -52,7 +52,7 @@ public class PixivDownloadMain extends Fragment{
         btnStart.setOnClickListener(new View.OnClickListener() {
 			  @Override
 			  public void onClick(View view){
-				  mengProgressBar mpb = new mengProgressBar(getActivity(),downloadedList);
+				  MengProgressBar mpb = new MengProgressBar(getActivity(),downloadedList);
 				  taskLinearLayout.addView(mpb);
 				  mpb.startDownload(editTextURL.getText().toString());
 				}

@@ -20,7 +20,7 @@ import java.io.*;
 public class BusCodeCreator extends Fragment{
     private ScrollView scrollView;
     private ImageView qrcodeImageView;
-    private mengEditText mengEtContent;
+    private MengEditText mengEtContent;
     private Button btnSave;
     private Bitmap bmpQRcode = null;
 
@@ -34,7 +34,7 @@ public class BusCodeCreator extends Fragment{
         super.onViewCreated(view,savedInstanceState);
 
         qrcodeImageView=(ImageView) view.findViewById(R.id.qr_imageview);
-        mengEtContent=(mengEditText) view.findViewById(R.id.qr_mengEditText_content);
+        mengEtContent=(MengEditText) view.findViewById(R.id.qr_mengEditText_content);
         scrollView=(ScrollView) view.findViewById(R.id.qr_mainScrollView);
 
         btnSave=(Button) view.findViewById(R.id.qr_ButtonSave);

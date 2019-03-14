@@ -9,7 +9,7 @@ import com.meng.picTools.pixivGifDownloader.*;
 import java.io.*;
 import java.util.*;
 
-public class mengProgressBar extends LinearLayout{
+public class MengProgressBar extends LinearLayout{
     Context context;
 
     TextView fileNameTextView;
@@ -19,7 +19,7 @@ public class mengProgressBar extends LinearLayout{
     DownloadZipThread downloadZipThread;
     ListView listView;
 
-    public mengProgressBar(final Context context,ListView listView){
+    public MengProgressBar(final Context context, ListView listView){
         super(context);
         this.listView=listView;
         this.context=context;
@@ -82,7 +82,7 @@ public class mengProgressBar extends LinearLayout{
 					  Arrays.sort(downloadedFilesName);
 					  listView.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1,downloadedFilesName));
 					  LinearLayout ll = (LinearLayout) getParent();
-					  ll.removeView(mengProgressBar.this);
+					  ll.removeView(MengProgressBar.this);
 					}
 				});
 		  }

@@ -21,15 +21,15 @@ import java.io.*;
 public class logoCreator extends Fragment{
     private ScrollView scrollView;
     private ImageView qrcodeImageView;
-    private mengEditText mengEtContent;
-    private mengEditText mengEtSize;
+    private MengEditText mengEtContent;
+    private MengEditText mengEtSize;
     private TextView tvImgPath;
     private Button btnSave;
     private Bitmap bmpQRcode=null;
     private Bitmap logoImage=null;
     private CheckBox cbAutoColor;
     private CheckBox cbCrop;
-    private mengColorBar mColorBar;
+    private MengColorBar mColorBar;
     private String barcodeFormat;
 
     @Override
@@ -40,10 +40,10 @@ public class logoCreator extends Fragment{
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
         super.onViewCreated(view,savedInstanceState);
-        mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
+        mColorBar=(MengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         qrcodeImageView=(ImageView)view.findViewById(R.id.qr_imageview);
-        mengEtContent=(mengEditText)view.findViewById(R.id.qr_mengEditText_content);
-        mengEtSize=(mengEditText)view.findViewById(R.id.qr_mengEditText_size);
+        mengEtContent=(MengEditText)view.findViewById(R.id.qr_mengEditText_content);
+        mengEtSize=(MengEditText)view.findViewById(R.id.qr_mengEditText_size);
         scrollView=(ScrollView)view.findViewById(R.id.qr_mainScrollView);
         cbAutoColor=(CheckBox)view.findViewById(R.id.qr_main_autoColor);
         cbCrop=(CheckBox)view.findViewById(R.id.qr_main_crop);

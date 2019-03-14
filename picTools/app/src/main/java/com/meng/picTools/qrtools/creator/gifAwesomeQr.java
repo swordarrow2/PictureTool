@@ -25,8 +25,8 @@ import com.meng.picTools.qrtools.lib.ContentHelper;
 import com.meng.picTools.qrtools.lib.qrcodelib.AwesomeQRCode;
 import com.meng.picTools.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.picTools.qrtools.log;
-import com.meng.picTools.mengViews.mengColorBar;
-import com.meng.picTools.mengViews.mengEditText;
+import com.meng.picTools.mengViews.MengColorBar;
+import com.meng.picTools.mengViews.MengEditText;
 import com.waynejo.androidndkgif.GifDecoder;
 import com.waynejo.androidndkgif.GifEncoder;
 import com.waynejo.androidndkgif.GifImage;
@@ -48,14 +48,14 @@ public class gifAwesomeQr extends Fragment{
     private CheckBox cbAutoColor;
     private CheckBox cbLowMemoryMode;
     private CheckBox cbUseDither;
-    private mengEditText mengEtDotScale;
-    private mengEditText mengEtTextToEncode;
+    private MengEditText mengEtDotScale;
+    private MengEditText mengEtTextToEncode;
     private CheckBox cbAutoSize;
-    private mengEditText mengEtSize;
+    private MengEditText mengEtSize;
     private ProgressBar pbCodingProgress;
     private String strSelectedGifPath="";
     private TextView tvImagePath;
-    private mengColorBar mColorBar;
+    private MengColorBar mColorBar;
 
 
     @Override
@@ -68,15 +68,15 @@ public class gifAwesomeQr extends Fragment{
     public void onViewCreated(View view,Bundle savedInstanceState){
         // TODO: Implement this method
         super.onViewCreated(view,savedInstanceState);
-        mColorBar=(mengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
+        mColorBar=(MengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
         btnEncodeGif=(Button)view.findViewById(R.id.gif_arb_qr_button_encode_gif);
         btnSelectImage=(Button)view.findViewById(R.id.gif_arb_qr_button_selectImg);
         cbAutoColor=(CheckBox)view.findViewById(R.id.gif_arb_qr_checkbox_autocolor);
         cbLowMemoryMode=(CheckBox)view.findViewById(R.id.gif_arb_qr_checkbox_low_memery);
         cbUseDither=(CheckBox)view.findViewById(R.id.gif_arb_qr_checkbox_dither);
-        mengEtDotScale=(mengEditText)view.findViewById(R.id.gif_arb_qr_mengEdittext_dotScale);
-        mengEtTextToEncode=(mengEditText)view.findViewById(R.id.gif_arb_qr_mainmengTextview_content);
-        mengEtSize=(mengEditText)view.findViewById(R.id.gif_qr_mainEditText_size);
+        mengEtDotScale=(MengEditText)view.findViewById(R.id.gif_arb_qr_mengEdittext_dotScale);
+        mengEtTextToEncode=(MengEditText)view.findViewById(R.id.gif_arb_qr_mainmengTextview_content);
+        mengEtSize=(MengEditText)view.findViewById(R.id.gif_qr_mainEditText_size);
         cbAutoSize=(CheckBox)view.findViewById(R.id.gif_qr_mainCheckbox_size);
         pbCodingProgress=(ProgressBar)view.findViewById(R.id.gif_arb_qr_mainProgressBar);
         tvImagePath=(TextView)view.findViewById(R.id.gif_arb_qr_selected_path);

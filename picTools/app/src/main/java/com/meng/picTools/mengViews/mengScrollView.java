@@ -6,14 +6,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ScrollView;
 
-/**
- * Created by Administrator on 2018/8/27.
- */
-public class mengScrollView extends ScrollView {
+public class MengScrollView extends ScrollView {
 
-    private mengSelectRectView v;
+    private MengSelectRectView mengSelectRectView;
 
-    public mengScrollView(Context context,AttributeSet attrs) {
+    public MengScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -22,30 +19,29 @@ public class mengScrollView extends ScrollView {
      * 返回false让ScrollView的onTouchEvent接收不到MotionEvent，而是把Event传到下一级的控件中
      */
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        // TODO Auto-generated method stub
-        if (v != null && checkArea(v, ev)) {
+    public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+        if (mengSelectRectView != null && checkArea(mengSelectRectView, motionEvent)) {
             return false;
         }
-        return super.onInterceptTouchEvent(ev);
+        return super.onInterceptTouchEvent(motionEvent);
     }
 
-    private boolean checkArea(View v,MotionEvent event){
+    private boolean checkArea(View view,MotionEvent event){
         float x = event.getRawX();
         float y = event.getRawY();
         int[] locate = new int[2];
-        v.getLocationOnScreen(locate);
+        view.getLocationOnScreen(locate);
         int l = locate[0];
-        int r = l + v.getWidth();
+        int r = l + view.getWidth();
         int t = locate[1];
-        int b = t + v.getHeight();
+        int b = t + view.getHeight();
         if (l < x && x < r && t < y && y < b) {
             return true;
         }
         return false;
     }
 
-    public void setSelectView(mengSelectRectView v) {
-        this.v = v;
+    public void setSelectView(MengSelectRectView mengSelectRectView) {
+        this.mengSelectRectView = mengSelectRectView;
     }
 }
