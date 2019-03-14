@@ -96,8 +96,7 @@ public class MengProgressBar extends LinearLayout{
 			  }
 			  makeGif=  new createGif(
 			  context,
-			  MainActivity.instence.getTmpFolder()+downloadZipThread.getFileName(),
-			  MainActivity.instence.getPixivZipPath(downloadZipThread.getFileName()),
+			  unzipThread.getFrameFileFolder().getAbsolutePath(),
 			  30);
 			makeGif.start();
 			  
@@ -107,7 +106,7 @@ public class MengProgressBar extends LinearLayout{
 					  @Override
 					  public void run(){
 						  //  fileNameTextView.setText(downloadZipThread.getFileName());
-						  setProgress((int) (((float) makeGif.nowFile)/unzipThread.getFilesCount()*100));
+						  setProgress((int) (((float) makeGif.getNowFile())/unzipThread.getFilesCount()*100));
 						}
 					});
                 try{

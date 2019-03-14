@@ -21,6 +21,7 @@ public class UnzipThread extends Thread {
     private int filesCountNow = 0;
     private int filesCount = 0;
     public boolean isUnzipSuccess = false;
+    private File frameFileFolder;
 
     public UnzipThread(File zipFile) {
         this.zipFile = zipFile;
@@ -35,11 +36,15 @@ public class UnzipThread extends Thread {
         return filesCountNow;
     }
 
+    public File getFrameFileFolder() {
+        return frameFileFolder;
+    }
+
     @Override
     public void run() {
         try {
             byte[] buffer = new byte[1024];
-            File frameFileFolder = new File(MainActivity.instence.getTmpFolder() + zipName);
+            frameFileFolder = new File(MainActivity.instence.getTmpFolder() + zipName);
             if (!frameFileFolder.exists()) {
                 frameFileFolder.mkdirs();
             }

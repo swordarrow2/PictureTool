@@ -185,42 +185,6 @@ public class playLayout extends Activity {
         }
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, 0, 0, "生成GIF");
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case 0:
-                LayoutInflater inflater = LayoutInflater.from(playLayout.this);
-                LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.set_gif, null);
-                final EditText d = (EditText) ll.findViewById(R.id.set_gif_edittext_delay);
-                d.setText(String.valueOf(gifDelay));
-                new AlertDialog.Builder(playLayout.this)
-                        .setTitle("输入参数")
-                        .setIcon(android.R.drawable.ic_dialog_info)
-                        .setView(ll)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface p1, int p2) {
-                                messageStartMakeGif();
-                                Thread makeGif = new createGif(
-                                        playLayout.this,
-                                        frameFileFolder.getAbsolutePath(),
-                                        fileName,
-                                        Integer.parseInt(d.getText().toString()));
-                                makeGif.start();
-                                makingGIf = true;
-                            }
-                        }).setNegativeButton("取消", null).show();
-                break;
-        }
-
-        return false;
-    }
-
-    
 
     private void messageLoaded() {
         Message m = new Message();

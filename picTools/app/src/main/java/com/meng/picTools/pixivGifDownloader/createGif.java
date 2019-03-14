@@ -16,27 +16,35 @@ import com.meng.picTools.qrtools.*;
 
 public class createGif extends Thread {
     private int delay;
-    private String pid = "";
     private Context context;
     private String picsFolder = "";
-	public boolean isCreated=false;
-	public int nowFile=0;
+    public boolean isCreated = false;
+    private int nowFile = 0;
+    private String gifName;
 
-    public createGif(Context context, String folder, String pid, int delay) {
+    public createGif(Context context, String folder, int delay) {
         this.delay = delay;
-        this.pid = pid;
         picsFolder = folder;
         this.context = context;
+        gifName = folder.substring(folder.lastIndexOf("/") + 1, folder.length()).replace("/", "");
+    }
+
+    public String getGifName() {
+        return gifName;
+    }
+
+    public int getNowFile() {
+        return nowFile;
     }
 
     @Override
     public void run() {
         if (MainActivity.instence.sharedPreference.getBoolean(Data.preferenceKeys.useJava)) {
-            createGifJava(picsFolder, pid, delay);
+            createGifJava(picsFolder, gifName, delay);
         } else {
-            createGifNative(picsFolder, pid, delay);
+            createGifNative(picsFolder, gifName, delay);
         }
-		isCreated=true;
+        isCreated = true;
 
     }
 
@@ -51,7 +59,7 @@ public class createGif extends Thread {
         int count = images.length;
         for (int i = 0; i < count; i++) {
             localAnimatedGifEncoder.addFrame(BitmapFactory.decodeFile(images[i].getAbsolutePath()));
-            nowFile=i;
+            nowFile = i;
         }
         localAnimatedGifEncoder.finish();
         String path = MainActivity.instence.getGifPath(file_name);
@@ -85,7 +93,7 @@ public class createGif extends Thread {
         for (int i = 0; i < images.length; i++) {
             try {
                 gifEncoder.encodeFrame(BitmapFactory.decodeFile(images[i].getAbsolutePath()), d);
-				nowFile=i;
+                nowFile = i;
             } catch (Exception e) {
                 log.t(e.toString());
             }
