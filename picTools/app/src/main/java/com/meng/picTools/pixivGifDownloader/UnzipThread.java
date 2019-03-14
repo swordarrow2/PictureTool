@@ -22,9 +22,9 @@ public class UnzipThread extends Thread {
     private int filesCount = 0;
     public boolean isUnzipSuccess = false;
 
-    public UnzipThread(File zipFile, String zipName) {
+    public UnzipThread(File zipFile) {
         this.zipFile = zipFile;
-        this.zipName = zipName;
+        zipName = zipFile.getAbsolutePath().substring(zipFile.getAbsolutePath().lastIndexOf("/") + 1, zipFile.getAbsolutePath().lastIndexOf("."));	
     }
 
     public int getFilesCount() {

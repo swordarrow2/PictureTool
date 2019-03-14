@@ -17,6 +17,8 @@ public class MengProgressBar extends LinearLayout{
 	TextView statusTextViewBytes;
     ProgressBar progressBar;
     DownloadZipThread downloadZipThread;
+	UnzipThread unzipThread;
+	createGif makeGif;
     ListView listView;
 
     public MengProgressBar(final Context context, ListView listView){
@@ -75,6 +77,46 @@ public class MengProgressBar extends LinearLayout{
                     e.printStackTrace();
 				  }
 			  }
+			  
+			unzipThread=new UnzipThread(new File(MainActivity.instence.getPixivZipPath(downloadZipThread.getFileName())));
+			unzipThread.start();
+			while(!unzipThread.isUnzipSuccess){
+                ((Activity) context).runOnUiThread(new Runnable() {
+					  @Override
+					  public void run(){
+						//  fileNameTextView.setText(downloadZipThread.getFileName());
+						  setProgress((int) (((float) unzipThread.getFilesCountNow())/unzipThread.getFilesCount()*100));
+						}
+					});
+                try{
+                    sleep(100);
+				  }catch(InterruptedException e){
+                    e.printStackTrace();
+				  }
+			  }
+			  makeGif=  new createGif(
+			  context,
+			  MainActivity.instence.getTmpFolder()+downloadZipThread.getFileName(),
+			  MainActivity.instence.getPixivZipPath(downloadZipThread.getFileName()),
+			  30);
+			makeGif.start();
+			  
+			  
+			while(!makeGif.isCreated){
+                ((Activity) context).runOnUiThread(new Runnable() {
+					  @Override
+					  public void run(){
+						  //  fileNameTextView.setText(downloadZipThread.getFileName());
+						  setProgress((int) (((float) makeGif.nowFile)/unzipThread.getFilesCount()*100));
+						}
+					});
+                try{
+                    sleep(100);
+				  }catch(InterruptedException e){
+                    e.printStackTrace();
+				  }
+			  }
+			
             ((Activity) context).runOnUiThread(new Runnable() {
 				  @Override
 				  public void run(){

@@ -19,6 +19,8 @@ public class createGif extends Thread {
     private String pid = "";
     private Context context;
     private String picsFolder = "";
+	public boolean isCreated=false;
+	public int nowFile=0;
 
     public createGif(Context context, String folder, String pid, int delay) {
         this.delay = delay;
@@ -34,6 +36,7 @@ public class createGif extends Thread {
         } else {
             createGifNative(picsFolder, pid, delay);
         }
+		isCreated=true;
 
     }
 
@@ -48,7 +51,7 @@ public class createGif extends Thread {
         int count = images.length;
         for (int i = 0; i < count; i++) {
             localAnimatedGifEncoder.addFrame(BitmapFactory.decodeFile(images[i].getAbsolutePath()));
-            playLayout.gifProgress.setProgress(i * 100 / count);
+            nowFile=i;
         }
         localAnimatedGifEncoder.finish();
         String path = MainActivity.instence.getGifPath(file_name);
@@ -82,6 +85,7 @@ public class createGif extends Thread {
         for (int i = 0; i < images.length; i++) {
             try {
                 gifEncoder.encodeFrame(BitmapFactory.decodeFile(images[i].getAbsolutePath()), d);
+				nowFile=i;
             } catch (Exception e) {
                 log.t(e.toString());
             }

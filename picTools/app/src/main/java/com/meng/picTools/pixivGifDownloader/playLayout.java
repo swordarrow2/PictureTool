@@ -70,7 +70,7 @@ public class playLayout extends Activity {
         Intent i = getIntent();
         zipAbsolutePath = i.getStringExtra(Data.intentKeys.fileName);
         fileName = zipAbsolutePath.substring(zipAbsolutePath.lastIndexOf("/") + 1, zipAbsolutePath.lastIndexOf("."));
-        unzip = new unzipThread(new File(zipAbsolutePath), fileName);
+        unzip = new UnzipThread(new File(zipAbsolutePath));
         unzip.start();
         loadfinish = false;
         gifDelay = seekBar.getProgress();
@@ -220,63 +220,7 @@ public class playLayout extends Activity {
         return false;
     }
 
-    private class unzipThread extends Thread {
-        File zipFile;
-        String zipName;
-        int filesCountNow = 0;
-        int filesCount = 0;
-
-        public unzipThread(File zipFile, String zipName) {
-            this.zipFile = zipFile;
-            this.zipName = zipName;
-        }
-
-        @Override
-        public void run() {
-            try {
-                byte[] buffer = new byte[1024];
-                frameFileFolder = new File(MainActivity.instence.getTmpFolder() + zipName);
-                if (!frameFileFolder.exists()) {
-                    frameFileFolder.mkdirs();
-                }
-                File nomedia = new File(frameFileFolder.getParent() + File.separator + ".nomedia");
-                if (!nomedia.exists()) {
-                    try {
-                        nomedia.createNewFile();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                messageUnzipStart();
-                filesCount = countFilesInZip(zipFile);
-                ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
-                ZipEntry ze = zis.getNextEntry();
-                while (ze != null) {
-                    messageUnzipping(filesCountNow * 100 / filesCount);
-                    filesCountNow++;
-                    String fileName = ze.getName();
-                    File frameFile = new File(frameFileFolder.getAbsolutePath() + File.separator + fileName);
-                    if (frameFile.exists()) {
-                        ze = zis.getNextEntry();
-                    }
-                    FileOutputStream nfos = new FileOutputStream(frameFile);
-                    int len;
-                    while ((len = zis.read(buffer)) > 0) {
-                        nfos.write(buffer, 0, len);
-                    }
-                    nfos.close();
-                    ze = zis.getNextEntry();
-                }
-                messageUnzipSuccess();
-                filesName = frameFileFolder.list();
-                Arrays.sort(filesName);
-                bms = new Bitmap[filesName.length];
-                loadBitmap();
-            } catch (Exception e) {
-                Log.e(getString(R.string.app_name), e.toString());
-            }
-        }
-    }
+    
 
     private void messageLoaded() {
         Message m = new Message();
@@ -374,18 +318,5 @@ public class playLayout extends Activity {
     }
 
 
-    private int countFilesInZip(File zipFile) {
-        int filesCount = 0;
-        try {
-            ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
-            ZipEntry ze = zis.getNextEntry();
-            while (ze != null) {
-                filesCount++;
-                ze = zis.getNextEntry();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return filesCount;
-    }
+    
 }
