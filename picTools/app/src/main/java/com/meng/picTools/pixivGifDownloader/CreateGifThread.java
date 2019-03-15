@@ -9,7 +9,7 @@ import com.waynejo.androidndkgif.*;
 import java.io.*;
 import java.util.*;
 
-public class createGif extends Thread{
+public class CreateGifThread extends Thread{
     private Context context;
     private String picsFolder = "";
     public boolean isCreated = false;
@@ -18,7 +18,7 @@ public class createGif extends Thread{
     private int allFrameFile = 0;
 	MengProgressBar mpb;
 
-    public createGif(Context context,MengProgressBar mm,String folder){
+    public CreateGifThread(Context context, MengProgressBar mm, String folder){
         picsFolder=folder;
 		picsFolder+=File.separator;
 		mpb=mm;
@@ -50,7 +50,7 @@ public class createGif extends Thread{
 	  }
 
     private void createGifJava(String folder,String file_name){
-		List<zipJavaBean.Body.Frames> lf=mpb.zjb.body.frames;
+		List<PixivZipJavaBean.Body.Frames> lf=mpb.zjb.body.frames;
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         AnimatedGifEncoder localAnimatedGifEncoder = new AnimatedGifEncoder();
@@ -82,7 +82,7 @@ public class createGif extends Thread{
 
     private void createGifNative(String folder,String file_name){
         String filePath = MainActivity.instence.getGifPath(file_name);
-        List<zipJavaBean.Body.Frames> lf=mpb.zjb.body.frames;
+        List<PixivZipJavaBean.Body.Frames> lf=mpb.zjb.body.frames;
         Bitmap bmp = BitmapFactory.decodeFile(folder+lf.get(0).file);
         GifEncoder gifEncoder = new GifEncoder();
         gifEncoder.setDither(false);

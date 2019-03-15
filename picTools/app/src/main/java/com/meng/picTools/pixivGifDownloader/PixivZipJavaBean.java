@@ -1,7 +1,7 @@
 package com.meng.picTools.pixivGifDownloader;
 import java.util.*;
 
-public class zipJavaBean{
+public class PixivZipJavaBean {
 	public String error;
 	public String message;
 	public Body body;

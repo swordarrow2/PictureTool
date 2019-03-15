@@ -63,6 +63,13 @@ public class MainActivity extends Activity {
         return pixivZipPath + zipName;
     }
 
+    public String getPixivImagePath(String imgName) {
+        String pixivImagePath = exDir + "/Pictures/pixivZip/";
+        File f = new File(pixivImagePath);
+        if (!f.exists()) f.mkdirs();
+        return pixivImagePath + imgName;
+    }
+
     public String getArbAwesomeQRPath() {
         String arbAwesomeQRPath = exDir + "/Pictures/picTool/arbAwesomeQR/";
         File f = new File(arbAwesomeQRPath);
