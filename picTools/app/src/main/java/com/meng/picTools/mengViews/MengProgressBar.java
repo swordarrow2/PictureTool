@@ -93,7 +93,7 @@ public class MengProgressBar extends LinearLayout {
                     e.printStackTrace();
                 }
             }
-            if (zjb.error.equals("false")) {
+            if (zjb!=null&&zjb.error.equals("false")) {
                 unzipThread = new UnzipThread(new File(MainActivity.instence.getPixivZipPath(downloadImageThread.getFileName())));
                 unzipThread.start();
                 while (!unzipThread.isUnzipSuccess) {

@@ -126,7 +126,7 @@ public class MainActivity2 extends Activity {
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, new String[]{
                 "首页(大概)", "读取二维码", "创建二维码",
                 "乘车码", "图片加密解密", "生成gif",
-                "Pixiv动图下载", "设置", "退出"
+                "Pixiv图片下载", "设置", "退出"
         }));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -237,7 +237,7 @@ public class MainActivity2 extends Activity {
                     case "设置":
                         initSettingsFragment(true);
                         break;
-                    case "Pixiv动图下载":
+                    case "Pixiv图片下载":
                         initPixivDownloadFragment(true);
                         break;
                     case "退出":

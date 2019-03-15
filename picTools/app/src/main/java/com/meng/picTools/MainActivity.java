@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
     }
 
     public String getPixivImagePath(String imgName) {
-        String pixivImagePath = exDir + "/Pictures/pixivZip/";
+        String pixivImagePath = exDir + "/Pictures/pixivImage/";
         File f = new File(pixivImagePath);
         if (!f.exists()) f.mkdirs();
         return pixivImagePath + imgName;
