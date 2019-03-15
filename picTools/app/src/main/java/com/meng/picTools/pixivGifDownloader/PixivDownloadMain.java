@@ -83,6 +83,7 @@ public class PixivDownloadMain extends Fragment{
 				  likeJavaBean.info.add(editTextURL.getText().toString());
 				  stringTxt(gson.toJson(likeJavaBean));
 				  likeList.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,likeJavaBean.info));  
+				  editTextURL.setText("");
 				}
 			});
 
@@ -103,10 +104,7 @@ public class PixivDownloadMain extends Fragment{
 							taskLinearLayout.addView(mpb);
 							mpb.startDownload(editTextURL.getText().toString());
 							editTextURL.setText("");
-							
-							likeJavaBean.info.remove(p3);
-							stringTxt(gson.toJson(likeJavaBean));
-							likeList.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,likeJavaBean.info));  
+
 						  }
 					  }).setNegativeButton("取消",null).show();
 

@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
     }
 	
 	public String getPreDownloadJsonPath(){
-	  return exDir+"/preDownload.json";
+	  return exDir+"/pixivLike.json";
 	}
 
     public String getAwesomeQRPath() {
