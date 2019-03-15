@@ -44,6 +44,10 @@ public class MainActivity extends Activity {
         }
         return tmpFolder;
     }
+	
+	public String getPreDownloadJsonPath(){
+	  return exDir+"/preDownload.json";
+	}
 
     public String getAwesomeQRPath() {
         String awesomeQRPath = exDir + "/Pictures/picTool/AwesomeQR/";
