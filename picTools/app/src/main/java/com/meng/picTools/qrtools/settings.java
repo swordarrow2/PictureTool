@@ -39,7 +39,7 @@ public class settings extends PreferenceFragment{
         clean.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference){
-                File frameFileFolder = new File(Environment.getExternalStorageDirectory().getPath()+File.separator+"tmp");
+                File frameFileFolder = new File(Environment.getExternalStorageDirectory().getPath()+File.separator+"Pictures/picTool/tmp");
                 deleteFiles(frameFileFolder);
                 return true;
             }
