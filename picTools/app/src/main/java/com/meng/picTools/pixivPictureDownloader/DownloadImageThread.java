@@ -1,17 +1,15 @@
-package com.meng.picTools.pixivGifDownloader;
+package com.meng.picTools.pixivPictureDownloader;
 
 import android.app.*;
 import android.content.*;
 import android.net.*;
-import android.widget.*;
-import com.google.gson.*;
+
 import com.meng.picTools.*;
-import com.meng.picTools.mengViews.*;
 import com.meng.picTools.qrtools.*;
+import com.meng.picTools.qrtools.lib.SharedPreferenceHelper;
+
 import java.io.*;
 import java.net.*;
-import java.util.*;
-import java.util.regex.*;
 
 public class DownloadImageThread extends Thread{
     private String picUrl = "";
@@ -20,11 +18,9 @@ public class DownloadImageThread extends Thread{
     private long imageSize = 0;
     private long downloadedFileSize = 0;
     private String fileName = "";
-    private MengProgressBar mengProgressBar;
 
-    public DownloadImageThread(Context c,MengProgressBar mengp,String picUrl){
+    public DownloadImageThread(Context c, String picUrl){
         context=c;
-        mengProgressBar=mengp;
         this.picUrl=picUrl;
 	  }
 
@@ -49,7 +45,7 @@ public class DownloadImageThread extends Thread{
         HttpURLConnection connection = (HttpURLConnection) u.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Referer",picUrl);
-        connection.setRequestProperty("cookie",MainActivity.instence.sharedPreference.getValue(Data.preferenceKeys.keyCookieValue));
+        connection.setRequestProperty("cookie", SharedPreferenceHelper.getValue(Data.preferenceKeys.keyCookieValue));
         connection.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
         return connection;
 	  }
@@ -65,9 +61,9 @@ public class DownloadImageThread extends Thread{
             this.fileName=fileName+"."+expandName;
             if(file.exists()){
                 if(file.length()==imageSize){
-                    log.t(context.getString(R.string.file_exist)+file.getName());
+                    LogTool.t(context.getString(R.string.file_exist)+file.getName());
 				  }else{
-                    log.t(context.getString(R.string.file_exist)+"但似乎并不完整，正在重新下载");
+                    LogTool.t(context.getString(R.string.file_exist)+"但似乎并不完整，正在重新下载");
                     InputStream is = connection.getInputStream();
                     if(is!=null){
                         FileOutputStream fos = new FileOutputStream(file);
@@ -99,8 +95,6 @@ public class DownloadImageThread extends Thread{
 		  }
 	  }
 
-
-
     //使用系统下载器下载
     private void systemDownload(String zipUrl){
         String expandName = zipUrl.substring(zipUrl.lastIndexOf(".")+1,zipUrl.length()).toLowerCase();
@@ -108,11 +102,11 @@ public class DownloadImageThread extends Thread{
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(zipUrl));
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
         request.setVisibleInDownloadsUi(true);
-        request.setTitle("Pixiv动图下载");
+        request.setTitle("Pixiv图片下载");
         request.setDescription(fileName+"."+expandName);
         request.setDestinationInExternalPublicDir(MainActivity.instence.getPixivZipPath(""),fileName+"."+expandName);
         request.addRequestHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
-        request.addRequestHeader("cookie",MainActivity.instence.sharedPreference.getValue(Data.preferenceKeys.keyCookieValue));
+        request.addRequestHeader("cookie",SharedPreferenceHelper.getValue(Data.preferenceKeys.keyCookieValue));
         request.addRequestHeader("Referer",picUrl);
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         downloadManager.enqueue(request);

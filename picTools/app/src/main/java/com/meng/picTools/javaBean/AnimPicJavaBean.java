@@ -1,7 +1,7 @@
-package com.meng.picTools.pixivGifDownloader;
+package com.meng.picTools.javaBean;
 import java.util.*;
 
-public class DynamicPicJavaBean {
+public class AnimPicJavaBean {
 	public String error="true";
 	public String message="";
 	public Body body=new Body();
@@ -11,7 +11,7 @@ public class DynamicPicJavaBean {
 		public String src="";
 		public String originalSrc="";
 		public String mime_type="";
-		public List<Frames> frames=new ArrayList<Frames>();
+		public ArrayList<Frames> frames=new ArrayList<Frames>();
 
 		public class Frames{
 			public String file="";

@@ -25,9 +25,9 @@ import android.widget.Toast;
 import com.meng.picTools.MainActivity2;
 import com.meng.picTools.MainActivity;
 import com.meng.picTools.R;
+import com.meng.picTools.qrtools.LogTool;
 import com.meng.picTools.qrtools.lib.ContentHelper;
 import com.meng.picTools.qrtools.lib.qrcodelib.QrUtils;
-import com.meng.picTools.qrtools.log;
 import com.meng.picTools.mengViews.MengColorBar;
 import com.meng.picTools.mengViews.MengEditText;
 import com.meng.picTools.mengViews.MengScrollView;
@@ -110,7 +110,7 @@ public class gifArbAwesome extends Fragment{
             switch(buttonView.getId()){
                 case R.id.gif_arb_qr_checkbox_autocolor:
                     mColorBar.setVisibility(isChecked?View.GONE:View.VISIBLE);
-                    if(!isChecked) log.t("如果颜色搭配不合理,二维码将会难以识别");
+                    if(!isChecked) LogTool.t("如果颜色搭配不合理,二维码将会难以识别");
                     break;
             }
         }
@@ -125,7 +125,7 @@ public class gifArbAwesome extends Fragment{
                     break;
                 case R.id.gif_arb_qr_button_encode_gif:
                     if(coding){
-                        log.t("正在执行操作");
+                        LogTool.t("正在执行操作");
                     }else{
                         btnSelectImage.setEnabled(false);
                         encodeGIF();
@@ -163,9 +163,9 @@ public class gifArbAwesome extends Fragment{
                     }
                     gifEncoder.close();
                     getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
-                    log.t("完成 : "+filePath);
+                    LogTool.t("完成 : "+filePath);
                 }catch(FileNotFoundException e){
-                    log.e(e);
+                    LogTool.e(e);
                 }
                 coding=false;
                 System.gc();
@@ -196,15 +196,15 @@ public class gifArbAwesome extends Fragment{
                             try{
                                 QrUtils.saveMyBitmap(MainActivity.instence.getTmpFolder()+flag+++".png",next.bitmap);
                             }catch(IOException e){
-                                log.e(e);
+                                LogTool.e(e);
                             }
                             intGifFrameDelay=next.delayMs;
                         }else{
-                            log.e("解码失败，可能文件损坏");
+                            LogTool.e("解码失败，可能文件损坏");
                         }
                     }
                     iterator.close();
-                    log.t("共"+(flag-1)+"张,解码成功");
+                    LogTool.t("共"+(flag-1)+"张,解码成功");
                     bmpCount=flag;
                     coding=false;
                     getActivity().runOnUiThread(new Runnable(){
@@ -238,9 +238,9 @@ public class gifArbAwesome extends Fragment{
                             bmpDecodedBitmaps[i]=gifDecoder.frame(i);
                             setProgress((int)((i+1)*100.0f/gifDecoder.frameNum()),false);
                         }
-                        log.t("共"+(bmpCount=gifDecoder.frameNum())+"张,解码成功");
+                        LogTool.t("共"+(bmpCount=gifDecoder.frameNum())+"张,解码成功");
                     }else{
-                        log.e("解码失败，可能不是GIF文件");
+                        LogTool.e("解码失败，可能不是GIF文件");
                     }
                     coding=false;
                     getActivity().runOnUiThread(new Runnable(){
@@ -251,13 +251,13 @@ public class gifArbAwesome extends Fragment{
                             tvImagePath.setVisibility(View.VISIBLE);
                             gifHeight=bmpDecodedBitmaps[0].getHeight();
                             gifWidth=bmpDecodedBitmaps[0].getWidth();
-                            log.i("setup");
+                            LogTool.i("setup");
                             mengSelectView.setup(
                                     bmpDecodedBitmaps[0],
                                     screenW,
                                     screenH,
                                     qrSize);
-                            log.i("setPara");
+                            LogTool.i("setPara");
                             ViewGroup.LayoutParams para=mengSelectView.getLayoutParams();
                             para.height=(int)(screenW/gifWidth*gifHeight);
                             mengSelectView.setLayoutParams(para);
@@ -295,7 +295,7 @@ public class gifArbAwesome extends Fragment{
                 pbCodingProgress.setProgress(p);
                 if(p==100){
                     pbCodingProgress.setVisibility(View.GONE);
-                    log.t(encoing?"编码完成":"解码完成");
+                    LogTool.t(encoing?"编码完成":"解码完成");
                 }else{
                     if(pbCodingProgress.getVisibility()==View.GONE){
                         pbCodingProgress.setVisibility(View.VISIBLE);
@@ -310,7 +310,7 @@ public class gifArbAwesome extends Fragment{
         if(requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE&&resultCode==getActivity().RESULT_OK&&data.getData()!=null){
             try{
                 if(coding){
-                    log.t("正在执行操作");
+                    LogTool.t("正在执行操作");
                 }else{
                     Uri imageUri=data.getData();
                     strSelectedGifPath=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),imageUri);
@@ -350,7 +350,7 @@ public class gifArbAwesome extends Fragment{
                                     mengSelectView.setVisibility(View.VISIBLE);
                                     decodeGif(strSelectedGifPath);
                                     if(para.height>screenH*2/3){
-                                        log.t("可使用音量键滚动界面");
+                                        LogTool.t("可使用音量键滚动界面");
                                     }
                                     msv.post(new Runnable(){
                                         public void run(){
@@ -362,7 +362,7 @@ public class gifArbAwesome extends Fragment{
                             }).show();
                 }
             }catch(Exception e){
-                log.e(e);
+                LogTool.e(e);
             }
         }else if(resultCode==getActivity().RESULT_CANCELED){
             Toast.makeText(getActivity().getApplicationContext(),"用户取消了操作",Toast.LENGTH_SHORT).show();

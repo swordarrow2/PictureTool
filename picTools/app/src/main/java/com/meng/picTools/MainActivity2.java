@@ -8,10 +8,11 @@ import android.support.v4.widget.*;
 import android.view.*;
 import android.widget.*;
 
-import com.meng.picTools.pixivGifDownloader.Data;
-import com.meng.picTools.pixivGifDownloader.PixivDownloadMain;
+import com.meng.picTools.pixivPictureDownloader.Data;
+import com.meng.picTools.pixivPictureDownloader.PixivDownloadMain;
 import com.meng.picTools.qrtools.*;
 import com.meng.picTools.qrtools.creator.*;
+import com.meng.picTools.qrtools.lib.SharedPreferenceHelper;
 import com.meng.picTools.qrtools.lib.materialDesign.*;
 import com.meng.picTools.qrtools.reader.*;
 
@@ -31,7 +32,7 @@ public class MainActivity2 extends Activity {
     private gifAwesomeQr gifAwesomeFragment;
     private arbAwesome arbAwesomeFragment;
     private gifCreator gifCreatorFragment;
-    private settings settingsFragment;
+    private SettingsPreference settingsFragment;
     private gifArbAwesome gifArbAwesomeFragment;
     private BusCodeCreator busCodeCreatorFragment;
     private BusCodeReader busCodeReaderFragment;
@@ -65,7 +66,7 @@ public class MainActivity2 extends Activity {
     }
 
     private void changeTheme() {
-        if (MainActivity.instence.sharedPreference.getBoolean("useLightTheme", true)) {
+        if (SharedPreferenceHelper.getBoolean("useLightTheme", true)) {
             mDrawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
             rt.setBackgroundColor(getResources().getColor(android.R.color.background_light));
         } else {
@@ -73,10 +74,10 @@ public class MainActivity2 extends Activity {
             rt.setBackgroundColor(getResources().getColor(android.R.color.background_dark));
         }
         if (getIntent().getBooleanExtra("setTheme", false)) {
-            initSettingsFragment(true);
+            showSettingsFragment(true);
         } else {
             initWelcome(true);
-            if (MainActivity.instence.sharedPreference.getBoolean("opendraw", true)) {
+            if (SharedPreferenceHelper.getBoolean("opendraw", true)) {
                 mDrawerLayout.openDrawer(mDrawerList);
             }
         }
@@ -141,12 +142,12 @@ public class MainActivity2 extends Activity {
                                 .setPositiveButton("从相册", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface p1, int p2) {
-                                        initGalleryReaderFragment(true);
+                                        showGalleryReaderFragment(true);
                                     }
                                 }).setNegativeButton("从相机", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                initCameraReaderFragment(true);
+                                showCameraReaderFragment(true);
                             }
                         }).show();
                         break;
@@ -156,7 +157,7 @@ public class MainActivity2 extends Activity {
                                 .setPositiveButton("普通二维码", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface p1, int p2) {
-                                        initLogoCreatorFragment(true);
+                                        showLogoCreatorFragment(true);
                                     }
                                 }).setNegativeButton("Awesome二维码", new DialogInterface.OnClickListener() {
                             @Override
@@ -171,12 +172,12 @@ public class MainActivity2 extends Activity {
                                                         .setPositiveButton("普通方式", new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface p1, int p2) {
-                                                                initAwesomeFragment(true);
+                                                                showAwesomeFragment(true);
                                                             }
                                                         }).setNegativeButton("自选位置", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
-                                                        initArbFragmentFragment(true);
+                                                        showArbFragmentFragment(true);
                                                     }
                                                 }).show();
                                             }
@@ -188,12 +189,12 @@ public class MainActivity2 extends Activity {
                                                 .setPositiveButton("普通方式", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface p1, int p2) {
-                                                        initGifAwesomeFragment(true);
+                                                        showGifAwesomeFragment(true);
                                                     }
                                                 }).setNegativeButton("自选位置", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                initGifArbAwesomeFragment(true);
+                                                showGifArbAwesomeFragment(true);
                                             }
                                         }).show();
                                     }
@@ -207,12 +208,12 @@ public class MainActivity2 extends Activity {
                                 .setPositiveButton("生成", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface p1, int p2) {
-                                        initBusFragment(true);
+                                        showBusFragment(true);
                                     }
                                 }).setNegativeButton("读取", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                initBusRFragment(true);
+                                showBusRFragment(true);
                             }
                         }).show();
                         break;
@@ -222,26 +223,26 @@ public class MainActivity2 extends Activity {
                                 .setPositiveButton("加密", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface p1, int p2) {
-                                        initPicEncryFragment(true);
+                                        showPicEncryFragment(true);
                                     }
                                 }).setNegativeButton("解密", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                initPicDecryFragment(true);
+                                showPicDecryFragment(true);
                             }
                         }).show();
                         break;
                     case "生成gif":
-                        initGifFragment(true);
+                        showGifFragment(true);
                         break;
                     case "设置":
-                        initSettingsFragment(true);
+                        showSettingsFragment(true);
                         break;
                     case "Pixiv图片下载":
-                        initPixivDownloadFragment(true);
+                        showPixivDownloadFragment(true);
                         break;
                     case "退出":
-                        if (MainActivity.instence.sharedPreference.getBoolean("exitsettings")) {
+                        if (SharedPreferenceHelper.getBoolean("exitsettings")) {
                             System.exit(0);
                         } else {
                             finish();
@@ -264,45 +265,45 @@ public class MainActivity2 extends Activity {
 
     private void initFragment() {
         manager = getFragmentManager();
-        if (MainActivity.instence.sharedPreference.getBoolean(Data.preferenceKeys.loadGalleryReader)) {
-            initGalleryReaderFragment(false);
+        if (SharedPreferenceHelper.getBoolean(Data.preferenceKeys.loadGalleryReader)) {
+            showGalleryReaderFragment(false);
         }
-        if (MainActivity.instence.sharedPreference.getBoolean(Data.preferenceKeys.loadCameraReader)) {
-            initCameraReaderFragment(false);
+        if (SharedPreferenceHelper.getBoolean(Data.preferenceKeys.loadCameraReader)) {
+            showCameraReaderFragment(false);
         }
-        if (MainActivity.instence.sharedPreference.getBoolean("ldlgqr")) {
-            initLogoCreatorFragment(false);
+        if (SharedPreferenceHelper.getBoolean("ldlgqr")) {
+            showLogoCreatorFragment(false);
         }
-        initAwesomeFragment(false);
-        if (MainActivity.instence.sharedPreference.getBoolean("ldgif")) {
-            initGifAwesomeFragment(false);
+        showAwesomeFragment(false);
+        if (SharedPreferenceHelper.getBoolean("ldgif")) {
+            showGifAwesomeFragment(false);
         }
-        if (MainActivity.instence.sharedPreference.getBoolean("ldaw2")) {
-            initArbFragmentFragment(false);
+        if (SharedPreferenceHelper.getBoolean("ldaw2")) {
+            showArbFragmentFragment(false);
         }
-        if (MainActivity.instence.sharedPreference.getBoolean("ldaw3")) {
-            initGifArbAwesomeFragment(false);
+        if (SharedPreferenceHelper.getBoolean("ldaw3")) {
+            showGifArbAwesomeFragment(false);
         }
-        if (MainActivity.instence.sharedPreference.getBoolean("ldgif")) {
-            initGifFragment(false);
+        if (SharedPreferenceHelper.getBoolean("ldgif")) {
+            showGifFragment(false);
         }
-        if (MainActivity.instence.sharedPreference.getBoolean("settings")) {
-            initSettingsFragment(false);
+        if (SharedPreferenceHelper.getBoolean("SettingsPreference")) {
+            showSettingsFragment(false);
         }
-        if (MainActivity.instence.sharedPreference.getBoolean("BusCodeCreator")) {
-            initBusFragment(false);
+        if (SharedPreferenceHelper.getBoolean("BusCodeCreator")) {
+            showBusFragment(false);
         }
-        if (MainActivity.instence.sharedPreference.getBoolean("BusCodeReader")) {
-            initBusRFragment(false);
+        if (SharedPreferenceHelper.getBoolean("BusCodeReader")) {
+            showBusRFragment(false);
         }
-        if (MainActivity.instence.sharedPreference.getBoolean("pice")) {
-            initPicEncryFragment(false);
+        if (SharedPreferenceHelper.getBoolean("pice")) {
+            showPicEncryFragment(false);
         }
-        if (MainActivity.instence.sharedPreference.getBoolean("picd")) {
-            initPicDecryFragment(false);
+        if (SharedPreferenceHelper.getBoolean("picd")) {
+            showPicDecryFragment(false);
         }
-        if (MainActivity.instence.sharedPreference.getBoolean("loadPixivDownload")) {
-            initPixivDownloadFragment(false);
+        if (SharedPreferenceHelper.getBoolean("loadPixivDownload")) {
+            showPixivDownloadFragment(false);
         }
     }
 
@@ -319,7 +320,7 @@ public class MainActivity2 extends Activity {
         transactionWelcome.commit();
     }
 
-    private void initGalleryReaderFragment(boolean showNow) {
+    private void showGalleryReaderFragment(boolean showNow) {
         FragmentTransaction transactionGalleryReaderFragment = manager.beginTransaction();
         if (galleryReaderFragment == null) {
             galleryReaderFragment = new galleryReader();
@@ -332,7 +333,7 @@ public class MainActivity2 extends Activity {
         transactionGalleryReaderFragment.commit();
     }
 
-    private void initCameraReaderFragment(boolean showNow) {
+    private void showCameraReaderFragment(boolean showNow) {
         FragmentTransaction transactionCameraReaderFragment = manager.beginTransaction();
         if (cameraReaderFragment == null) {
             cameraReaderFragment = new cameraReader();
@@ -345,7 +346,7 @@ public class MainActivity2 extends Activity {
         transactionCameraReaderFragment.commit();
     }
 
-    private void initLogoCreatorFragment(boolean showNow) {
+    private void showLogoCreatorFragment(boolean showNow) {
         FragmentTransaction transactionLogoCreatorFragment = manager.beginTransaction();
         if (logoCreatorFragment == null) {
             logoCreatorFragment = new logoCreator();
@@ -358,7 +359,7 @@ public class MainActivity2 extends Activity {
         transactionLogoCreatorFragment.commit();
     }
 
-    private void initAwesomeFragment(boolean showNow) {
+    private void showAwesomeFragment(boolean showNow) {
         FragmentTransaction transactionAwesomeCreatorFragment = manager.beginTransaction();
         if (awesomeCreatorFragment == null) {
             awesomeCreatorFragment = new awesomeCreator();
@@ -371,7 +372,7 @@ public class MainActivity2 extends Activity {
         transactionAwesomeCreatorFragment.commit();
     }
 
-    private void initGifAwesomeFragment(boolean showNow) {
+    private void showGifAwesomeFragment(boolean showNow) {
         FragmentTransaction transactionGifAwesomeCreatorFragment = manager.beginTransaction();
         if (gifAwesomeFragment == null) {
             gifAwesomeFragment = new gifAwesomeQr();
@@ -384,7 +385,7 @@ public class MainActivity2 extends Activity {
         transactionGifAwesomeCreatorFragment.commit();
     }
 
-    private void initArbFragmentFragment(boolean showNow) {
+    private void showArbFragmentFragment(boolean showNow) {
         FragmentTransaction transactionTestFragment = manager.beginTransaction();
         if (arbAwesomeFragment == null) {
             arbAwesomeFragment = new arbAwesome();
@@ -397,7 +398,7 @@ public class MainActivity2 extends Activity {
         transactionTestFragment.commit();
     }
 
-    private void initGifArbAwesomeFragment(boolean showNow) {
+    private void showGifArbAwesomeFragment(boolean showNow) {
         FragmentTransaction transactionGifArbAwesomeFragment = manager.beginTransaction();
         if (gifArbAwesomeFragment == null) {
             gifArbAwesomeFragment = new gifArbAwesome();
@@ -410,7 +411,7 @@ public class MainActivity2 extends Activity {
         transactionGifArbAwesomeFragment.commit();
     }
 
-    private void initGifFragment(boolean showNow) {
+    private void showGifFragment(boolean showNow) {
         FragmentTransaction transactionGifFragment = manager.beginTransaction();
         if (gifCreatorFragment == null) {
             gifCreatorFragment = new gifCreator();
@@ -423,10 +424,10 @@ public class MainActivity2 extends Activity {
         transactionGifFragment.commit();
     }
 
-    private void initSettingsFragment(boolean showNow) {
+    private void showSettingsFragment(boolean showNow) {
         FragmentTransaction transactionsettings = manager.beginTransaction();
         if (settingsFragment == null) {
-            settingsFragment = new settings();
+            settingsFragment = new SettingsPreference();
             transactionsettings.add(R.id.main_activityLinearLayout, settingsFragment);
         }
         hideFragment(transactionsettings);
@@ -437,7 +438,7 @@ public class MainActivity2 extends Activity {
     }
 
 
-    private void initBusFragment(boolean showNow) {
+    private void showBusFragment(boolean showNow) {
         FragmentTransaction transactionBus = manager.beginTransaction();
         if (busCodeCreatorFragment == null) {
             busCodeCreatorFragment = new BusCodeCreator();
@@ -450,7 +451,7 @@ public class MainActivity2 extends Activity {
         transactionBus.commit();
     }
 
-    private void initBusRFragment(boolean showNow) {
+    private void showBusRFragment(boolean showNow) {
         FragmentTransaction transactionBusR = manager.beginTransaction();
         if (busCodeReaderFragment == null) {
             busCodeReaderFragment = new BusCodeReader();
@@ -463,7 +464,7 @@ public class MainActivity2 extends Activity {
         transactionBusR.commit();
     }
 
-    private void initPicEncryFragment(boolean showNow) {
+    private void showPicEncryFragment(boolean showNow) {
         FragmentTransaction transactionBus = manager.beginTransaction();
         if (pictureEncryFragment == null) {
             pictureEncryFragment = new pictureEncry();
@@ -476,7 +477,7 @@ public class MainActivity2 extends Activity {
         transactionBus.commit();
     }
 
-    private void initPixivDownloadFragment(boolean showNow) {
+    private void showPixivDownloadFragment(boolean showNow) {
         FragmentTransaction transactionBusR = manager.beginTransaction();
         if (pixivDownloadMainFragment == null) {
             pixivDownloadMainFragment = new PixivDownloadMain();
@@ -489,7 +490,7 @@ public class MainActivity2 extends Activity {
         transactionBusR.commit();
     }
 
-    private void initPicDecryFragment(boolean showNow) {
+    private void showPicDecryFragment(boolean showNow) {
         FragmentTransaction transactionBusR = manager.beginTransaction();
         if (pictureDecryFragment == null) {
             pictureDecryFragment = new pictureDecry();

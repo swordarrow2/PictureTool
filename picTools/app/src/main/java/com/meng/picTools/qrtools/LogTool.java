@@ -4,7 +4,9 @@ import android.widget.Toast;
 
 import com.meng.picTools.MainActivity2;
 
-public class log{
+import java.text.MessageFormat;
+
+public class LogTool {
 
     public static void e(final Object o){
         if(o instanceof Exception){
@@ -14,7 +16,6 @@ public class log{
 
             @Override
             public void run(){
-                // TODO: Implement this method
                 Toast.makeText(MainActivity2.instence,"发生错误:"+o.toString(),Toast.LENGTH_SHORT).show();
                 i("发生错误:"+o.toString());
             }
@@ -27,10 +28,8 @@ public class log{
 
             @Override
             public void run(){
-                // TODO: Implement this method
                 MainActivity2.instence.rightText.setText(
-                        MainActivity2.instence.rightText.getText().toString()+
-                                o.toString()+"\n"
+                        MessageFormat.format("{0}{1}\n", MainActivity2.instence.rightText.getText().toString(), o.toString())
                 );
             }
         });
@@ -41,7 +40,6 @@ public class log{
 
             @Override
             public void run(){
-                // TODO: Implement this method
                 Toast.makeText(MainActivity2.instence,o.toString(),Toast.LENGTH_SHORT).show();
                 i(o.toString());
             }

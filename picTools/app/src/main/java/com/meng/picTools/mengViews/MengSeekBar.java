@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.meng.picTools.R;
 
+import java.text.MessageFormat;
+
 public class MengSeekBar extends LinearLayout{
     private TextView textView;
     private SeekBar seekBar;
@@ -29,7 +31,7 @@ public class MengSeekBar extends LinearLayout{
             public void onProgressChanged(SeekBar seekBar,int progress,boolean fromUser){
                 progress=progress%2==1?progress-1:progress;
 				progress=progress<1?2:progress;
-                textView.setText("当前:"+progress);
+                textView.setText(MessageFormat.format("当前:{0}", progress));
 				MengSeekBar.this.seekBar.setProgress(progress);
             }
 

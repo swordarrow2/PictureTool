@@ -15,7 +15,7 @@ import android.text.TextUtils;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.meng.picTools.qrtools.log;
+import com.meng.picTools.qrtools.LogTool;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -122,9 +122,9 @@ public class screenshotListener{
         if(sScreenRealSize==null){
             sScreenRealSize=getRealScreenSize();
             if(sScreenRealSize!=null){
-                log.i("Screen Real Size: "+sScreenRealSize.x+" * "+sScreenRealSize.y);
+                LogTool.i("Screen Real Size: "+sScreenRealSize.x+" * "+sScreenRealSize.y);
             }else{
-                log.i("Get screen real size failed.");
+                LogTool.i("Get screen real size failed.");
             }
         }
     }
@@ -207,11 +207,11 @@ public class screenshotListener{
             );
 
             if(cursor==null){
-                log.i("Deviant logic.");
+                LogTool.i("Deviant logic.");
                 return;
             }
             if(!cursor.moveToFirst()){
-                log.i("Cursor no data.");
+                LogTool.i("Cursor no data.");
                 return;
             }
 
@@ -265,14 +265,14 @@ public class screenshotListener{
      */
     private void handleMediaRowData(String data,long dateTaken,int width,int height){
         if(checkScreenShot(data,dateTaken,width,height)){
-            log.i("ScreenShot: path = "+data+"; size = "+width+" * "+height
+            LogTool.i("ScreenShot: path = "+data+"; size = "+width+" * "+height
                     +"; date = "+dateTaken);
             if(mListener!=null&&!checkCallback(data)){
                 mListener.onShot(data);
             }
         }else{
-            // 如果在观察区间媒体数据库有数据改变，又不符合截屏规则，则输出到 log 待分析
-            log.i("Media content changed, but not screenshot: path = "+data
+            // 如果在观察区间媒体数据库有数据改变，又不符合截屏规则，则输出到 LogTool 待分析
+            LogTool.i("Media content changed, but not screenshot: path = "+data
                     +"; size = "+width+" * "+height+"; date = "+dateTaken);
         }
     }

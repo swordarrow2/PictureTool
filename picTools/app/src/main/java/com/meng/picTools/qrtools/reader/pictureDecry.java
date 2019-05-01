@@ -54,7 +54,7 @@ public class pictureDecry extends Fragment{
 					  String s=QrUtils.saveMyBitmap(MainActivity.instence.getBarcodePath("bus"),decryBitmap);
 					  getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
 					}catch(IOException e){
-					  log.t(e.toString());
+					  LogTool.t(e.toString());
 					}
 				}
 			});

@@ -12,9 +12,9 @@ import android.view.WindowManager;
 
 import com.google.zxing.Result;
 import com.meng.picTools.MainActivity;
+import com.meng.picTools.qrtools.LogTool;
 import com.meng.picTools.qrtools.lib.qrcodelib.QrUtils;
 import com.meng.picTools.qrtools.lib.screenshotListener;
-import com.meng.picTools.qrtools.log;
 
 import java.io.File;
 
@@ -36,12 +36,12 @@ public class screenshotListenerService extends Service{
     public int onStartCommand(Intent intent,int flags,int startId){
 
         manager=screenshotListener.newInstance(this);
-        log.i("监听器");
+        LogTool.i("监听器");
         manager.setListener(new screenshotListener.OnScreenShotListener(){
             @Override
             public void onShot(final String imagePath){
                 // TODO: Implement this method
-                log.i("文件改变"+imagePath);
+                LogTool.i("文件改变"+imagePath);
                 try{
                     Thread.sleep(1000);
                 }catch(InterruptedException e){
@@ -84,14 +84,14 @@ public class screenshotListenerService extends Service{
             }
         });
         manager.startListen();
-        log.i("开始监听");
+        LogTool.i("开始监听");
         return super.onStartCommand(intent,flags,startId);
     }
 
     @Override
     public void onDestroy(){
         manager.stopListen();
-        log.i("停止监听");
+        LogTool.i("停止监听");
         super.onDestroy();
     }
 

@@ -6,26 +6,28 @@ import android.view.*;
 import android.widget.*;
 
 import com.meng.picTools.*;
-import com.meng.picTools.pixivGifDownloader.*;
+import com.meng.picTools.javaBean.PictureInfoJavaBean;
+import com.meng.picTools.pixivPictureDownloader.*;
 
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.*;
 
 public class MengProgressBar extends LinearLayout {
-    Context context;
-    TextView fileNameTextView;
-    TextView statuTextView;
-    TextView statusTextViewBytes;
-    ProgressBar progressBar;
-    DownloadImageThread downloadImageThread;
-    UnzipThread unzipThread;
-    CreateGifThread makeGif;
-    ListView listView;
-	public PictureInfoJavaBean pijb;
+    private Context context;
+    private TextView fileNameTextView;
+    private TextView statuTextView;
+    private TextView statusTextViewBytes;
+    private ProgressBar progressBar;
+    private DownloadImageThread downloadImageThread;
+    private UnzipThread unzipThread;
+    private CreateGifThread makeGif;
+    private ListView listView;
+    public PictureInfoJavaBean pictureInfoJavaBean;
 
-    public MengProgressBar(final Context context, ListView listView,PictureInfoJavaBean pijb) {
+    public MengProgressBar(final Context context, ListView listView, PictureInfoJavaBean pijb, String url) {
         super(context);
-		this.pijb=pijb;
+        this.pictureInfoJavaBean = pijb;
         this.listView = listView;
         this.context = context;
         LayoutInflater.from(context).inflate(R.layout.downloading_list_item, this);
@@ -33,48 +35,33 @@ public class MengProgressBar extends LinearLayout {
         statuTextView = (TextView) findViewById(R.id.main_list_item_textview_statu);
         statusTextViewBytes = (TextView) findViewById(R.id.main_list_item_textview_statu_byte);
         progressBar = (ProgressBar) findViewById(R.id.main_list_item_progressbar);
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (progressBar.getProgress() == 100) {
-                    Intent intent = new Intent(context, playLayout.class);
-                    intent.putExtra(Data.intentKeys.fileName, MainActivity.instence.getPixivZipPath(fileNameTextView.getText().toString()));
-                    context.startActivity(intent);
-                } else {
-                    Toast.makeText(context, "下载完成后才可以查看", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        downloadImageThread = new DownloadImageThread(context, url);
+        downloadImageThread.start();
+        update.start();
     }
 
-    public void setDownloadProgress(int progress) {
-        progressBar.setProgress(progress);
+    public void setDownloadProgress(float downloadedSize, float fileSize) {
+        float progress = downloadedSize / fileSize * 100;
+        progressBar.setProgress((int) progress);
         if (downloadImageThread.getDownloadedFileSize() == 0) {
             statuTextView.setText("正在连接");
         } else {
             statuTextView.setText("正在下载");
-            statusTextViewBytes.setText(downloadImageThread.getDownloadedFileSize() + "B/" + downloadImageThread.getImageSize() + "B (" + progress + "%)");
+            statusTextViewBytes.setText(MessageFormat.format("{0}B/{1}B ({2}%)", downloadedSize, fileSize, progress));
         }
     }
 
-    public void setUnzipProgress(int progress) {
-        progressBar.setProgress(progress);
+    public void setUnzipProgress(float unzipCount, float fileCount) {
+        progressBar.setProgress((int) (unzipCount / fileCount * 100));
         statuTextView.setText("正在解压");
-        statusTextViewBytes.setText(unzipThread.getFilesCountNow() + "/" + unzipThread.getFilesCount());
+        statusTextViewBytes.setText(MessageFormat.format("{0}/{1}", unzipCount, fileCount));
 
     }
 
-    public void setMakeGifProgress(int progress) {
-        progressBar.setProgress(progress);
+    public void setMakeGifProgress(float gifedCount, float fileCount) {
+        progressBar.setProgress((int) (gifedCount / fileCount * 100));
         statuTextView.setText("正在生成gif");
-        statusTextViewBytes.setText(makeGif.getNowFile() + "/" + makeGif.getAllFrameFile());
-    }
-
-
-    public void startDownload(String url) {
-        downloadImageThread = new DownloadImageThread(context, this, url);
-        downloadImageThread.start();
-        update.start();
+        statusTextViewBytes.setText(MessageFormat.format("{0}/{1}", gifedCount, fileCount));
     }
 
     Thread update = new Thread() {
@@ -85,7 +72,7 @@ public class MengProgressBar extends LinearLayout {
                     @Override
                     public void run() {
                         fileNameTextView.setText(downloadImageThread.getFileName());
-                        setDownloadProgress((int) (((float) downloadImageThread.getDownloadedFileSize()) / downloadImageThread.getImageSize() * 100));
+                        setDownloadProgress(downloadImageThread.getDownloadedFileSize(), downloadImageThread.getImageSize());
                     }
                 });
                 try {
@@ -94,7 +81,7 @@ public class MengProgressBar extends LinearLayout {
                     e.printStackTrace();
                 }
             }
-            if (pijb.isDynamic) {
+            if (pictureInfoJavaBean.isAnimPicture) {
                 unzipThread = new UnzipThread(new File(MainActivity.instence.getPixivZipPath(downloadImageThread.getFileName())));
                 unzipThread.start();
                 while (!unzipThread.isUnzipSuccess) {
@@ -102,7 +89,7 @@ public class MengProgressBar extends LinearLayout {
                         @Override
                         public void run() {
                             fileNameTextView.setText(unzipThread.zipName);
-                            setUnzipProgress((int) (((float) unzipThread.getFilesCountNow()) / unzipThread.getFilesCount() * 100));
+                            setUnzipProgress(unzipThread.getFilesCountNow(), unzipThread.getFilesCount());
                         }
                     });
                     try {
@@ -122,8 +109,8 @@ public class MengProgressBar extends LinearLayout {
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            fileNameTextView.setText(makeGif.gifName + ".gif");
-                            setMakeGifProgress((int) (((float) makeGif.getNowFile()) / unzipThread.getFilesCount() * 100));
+                            fileNameTextView.setText(MessageFormat.format("{0}.gif", makeGif.gifName));
+                            setMakeGifProgress(makeGif.getNowFile(), makeGif.getFilesCount());
                         }
                     });
                     try {
@@ -133,7 +120,7 @@ public class MengProgressBar extends LinearLayout {
                     }
                 }
             }
-            
+
             ((Activity) context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -146,5 +133,4 @@ public class MengProgressBar extends LinearLayout {
             });
         }
     };
-
 }

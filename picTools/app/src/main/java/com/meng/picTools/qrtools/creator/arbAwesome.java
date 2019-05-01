@@ -19,6 +19,7 @@ import com.meng.picTools.qrtools.lib.*;
 import com.meng.picTools.qrtools.lib.qrcodelib.*;
 import com.meng.picTools.mengViews.*;
 import java.io.*;
+import java.text.MessageFormat;
 
 import android.app.Fragment;
 import com.meng.picTools.R;
@@ -79,7 +80,7 @@ public class arbAwesome extends Fragment{
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
 					mColorBar.setVisibility(isChecked?View.GONE:View.VISIBLE);
-					if(!isChecked) log.t("如果颜色搭配不合理,二维码将会难以识别");
+					if(!isChecked) LogTool.t("如果颜色搭配不合理,二维码将会难以识别");
 				}
 			});
         DisplayMetrics dm=new DisplayMetrics();
@@ -108,11 +109,11 @@ public class arbAwesome extends Fragment{
                 case R.id.awesomeqr_mainButton_save:
                     try{
                         String s=QrUtils.saveMyBitmap(MainActivity.instence.getArbAwesomeQRPath(),finallyBmp);
-                        log.t("已保存至"+s);
+                        LogTool.t("已保存至"+s);
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
 						btnSave.setVisibility(View.GONE);
                     }catch(IOException e){
-                        log.e(e);
+                        LogTool.e(e);
                     }
                     break;
             }
@@ -139,7 +140,7 @@ public class arbAwesome extends Fragment{
             imgPathTextView.setVisibility(View.VISIBLE);
             Uri uri=data.getData();
             selectedBmpPath=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),uri);
-            imgPathTextView.setText("当前文件："+selectedBmpPath);
+            imgPathTextView.setText(MessageFormat.format("当前文件：{0}", selectedBmpPath));
             final Bitmap selectedBmp=BitmapFactory.decodeFile(selectedBmpPath);
             selectedBmpWidth=selectedBmp.getWidth();
             selectedBmpHeight=selectedBmp.getHeight();
@@ -178,7 +179,7 @@ public class arbAwesome extends Fragment{
 						para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);
 						mengSelectView.setLayoutParams(para);
 						mengSelectView.setVisibility(View.VISIBLE);
-						if(para.height>screenH*2/3) log.t("可使用音量键滚动界面");
+						if(para.height>screenH*2/3) LogTool.t("可使用音量键滚动界面");
 						sv.post(new Runnable(){
                                 public void run(){
                                     sv.fullScroll(View.FOCUS_DOWN);

@@ -130,7 +130,7 @@ public class ExceptionCatcher implements Thread.UncaughtExceptionHandler{
         try{
             long timestamp=System.currentTimeMillis();
             String time=format.format(new Date());
-             fileName="crash-"+time+"-"+timestamp+".log";
+             fileName="crash-"+time+"-"+timestamp+".LogTool";
             if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
                 String path=Environment.getExternalStorageDirectory().getAbsolutePath()+"/crash/";
                 File dir=new File(path);

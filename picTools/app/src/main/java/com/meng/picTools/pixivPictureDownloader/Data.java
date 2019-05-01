@@ -1,4 +1,4 @@
-package com.meng.picTools.pixivGifDownloader;
+package com.meng.picTools.pixivPictureDownloader;
 
 public class Data{
     public static class preferenceKeys{

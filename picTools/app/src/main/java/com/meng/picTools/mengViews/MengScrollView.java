@@ -35,10 +35,7 @@ public class MengScrollView extends ScrollView {
         int r = l + view.getWidth();
         int t = locate[1];
         int b = t + view.getHeight();
-        if (l < x && x < r && t < y && y < b) {
-            return true;
-        }
-        return false;
+        return l < x && x < r && t < y && y < b;
     }
 
     public void setSelectView(MengSelectRectView mengSelectRectView) {

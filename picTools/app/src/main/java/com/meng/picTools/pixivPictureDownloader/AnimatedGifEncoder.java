@@ -1,4 +1,4 @@
-package com.meng.picTools.pixivGifDownloader;
+package com.meng.picTools.pixivPictureDownloader;
 
 import android.graphics.*;
 import android.graphics.Bitmap.*;

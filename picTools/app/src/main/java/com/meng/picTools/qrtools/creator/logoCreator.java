@@ -57,7 +57,7 @@ public class logoCreator extends Fragment{
 			  @Override
 			  public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
 				  mColorBar.setVisibility(isChecked?View.GONE:View.VISIBLE);
-				  if(!isChecked) log.t("如果颜色搭配不合理,二维码将会难以识别");
+				  if(!isChecked) LogTool.t("如果颜色搭配不合理,二维码将会难以识别");
 				}
 			});
         ((Spinner)view.findViewById(R.id.qr_main_spinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
@@ -162,9 +162,9 @@ public class logoCreator extends Fragment{
             Bundle bundle=data.getExtras();
             if(bundle!=null){
                 logoImage=bundle.getParcelable("data");
-                log.t("图片添加成功");
+                LogTool.t("图片添加成功");
 			  }else{
-                log.t("取消了添加图片");
+                LogTool.t("取消了添加图片");
 			  }
 		  }else if(resultCode==getActivity().RESULT_CANCELED){
             Toast.makeText(getActivity().getApplicationContext(),"取消选择图片",Toast.LENGTH_SHORT).show();

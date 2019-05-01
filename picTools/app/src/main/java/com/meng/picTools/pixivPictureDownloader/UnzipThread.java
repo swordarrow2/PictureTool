@@ -1,17 +1,12 @@
-package com.meng.picTools.pixivGifDownloader;
-
-import android.graphics.Bitmap;
-import android.util.Log;
+package com.meng.picTools.pixivPictureDownloader;
 
 import com.meng.picTools.MainActivity;
-import com.meng.picTools.R;
-import com.meng.picTools.qrtools.log;
+import com.meng.picTools.qrtools.LogTool;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -73,7 +68,7 @@ public class UnzipThread extends Thread {
             }
             isUnzipSuccess = true;
         } catch (Exception e) {
-            log.t(e.toString());
+            LogTool.t(e.toString());
         }
     }
 

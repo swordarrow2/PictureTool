@@ -11,16 +11,13 @@ import android.widget.TextView;
 import com.meng.picTools.R;
 
 public class MengEditText extends LinearLayout{
-    Context context;
 
     private EditText editText;
-    private TextView textView;
 
     public MengEditText(Context context, AttributeSet attributeSet){
         super(context,attributeSet);
-        this.context =context;
         LayoutInflater.from(context).inflate(R.layout.meng_textview,this);
-        textView =(TextView)findViewById(R.id.test_view_textview);
+        TextView textView = (TextView) findViewById(R.id.test_view_textview);
         editText =(EditText)findViewById(R.id.test_view_edittext);
         TypedArray typedArray=context.obtainStyledAttributes(attributeSet,R.styleable.mengViews);
         textView.setText(typedArray.getString(R.styleable.mengViews_textviewText));
@@ -41,11 +38,7 @@ public class MengEditText extends LinearLayout{
     }
 
     private boolean isEmpty(){
-        if(editText.getText().toString().trim().length()==0){
-            return true;
-        }else{
-            return false;
-        }
+        return editText.getText().toString().trim().length() == 0;
     }
 
     @Override

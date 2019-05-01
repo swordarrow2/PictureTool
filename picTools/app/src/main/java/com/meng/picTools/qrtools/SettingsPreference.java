@@ -9,11 +9,11 @@ import android.preference.PreferenceFragment;
 
 import com.meng.picTools.MainActivity;
 import com.meng.picTools.R;
-import com.meng.picTools.pixivGifDownloader.Data;
+import com.meng.picTools.pixivPictureDownloader.Data;
 
 import java.io.File;
 
-public class settings extends PreferenceFragment{
+public class SettingsPreference extends PreferenceFragment{
 
     Preference clean;
 

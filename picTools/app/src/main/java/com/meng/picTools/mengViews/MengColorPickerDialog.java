@@ -11,15 +11,15 @@ import android.widget.TextView;
 
 import com.meng.picTools.R;
 
+import java.text.MessageFormat;
+
 
 public class MengColorPickerDialog extends Dialog{
-    Context context;
-    EditText editText;
-    MengColorPicker mengColorPicker;
+    private EditText editText;
+    private MengColorPicker mengColorPicker;
 
     public MengColorPickerDialog(Context context, EditText editText){
         super(context);
-        this.context=context;
         this.editText =editText;
     }
 
@@ -34,7 +34,7 @@ public class MengColorPickerDialog extends Dialog{
         mengColorPicker.setOnColorBackListener(new MengColorPicker.OnColorBackListener(){
             @Override
             public void onColorBack(int a,int r,int g,int b){
-                tv.setText("R："+r+"\nG："+g+"\nB："+b+"\n"+ mengColorPicker.getStrColor());
+                tv.setText(MessageFormat.format("R：{0}\nG：{1}\nB：{2}\n{3}", r, g, b, mengColorPicker.getStrColor()));
                 tv.setTextColor(Color.argb(a,r,g,b));
             }
         });

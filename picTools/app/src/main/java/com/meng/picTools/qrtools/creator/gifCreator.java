@@ -16,9 +16,9 @@ import android.widget.CompoundButton;
 import com.meng.picTools.MainActivity2;
 import com.meng.picTools.MainActivity;
 import com.meng.picTools.R;
+import com.meng.picTools.qrtools.LogTool;
 import com.meng.picTools.qrtools.lib.ContentHelper;
 import com.meng.picTools.qrtools.lib.qrcodelib.QrUtils;
-import com.meng.picTools.qrtools.log;
 import com.meng.picTools.mengViews.MengEditText;
 import com.waynejo.androidndkgif.GifEncoder;
 
@@ -95,11 +95,11 @@ public class gifCreator extends Fragment{
                         }
                         gifEncoder.close();
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
-                        log.t("完成 : "+filePath);
+                        LogTool.t("完成 : "+filePath);
                         dataMap.clear();
                         bitmapFlag=0;
                     }catch(IOException e){
-                        log.e(e);
+                        LogTool.e(e);
                     }
                     break;
             }
@@ -126,12 +126,12 @@ public class gifCreator extends Fragment{
             if(bundle!=null){
                 dataMap.put(bitmapFlag,(Bitmap)bundle.getParcelable("data"));
                 bitmapFlag++;
-                log.t("图片添加成功");
+                LogTool.t("图片添加成功");
             }else{
-                log.t("取消了添加图片");
+                LogTool.t("取消了添加图片");
             }
         }else if(resultCode==getActivity().RESULT_CANCELED){
-            log.t("取消选择图片");
+            LogTool.t("取消选择图片");
         }
         super.onActivityResult(requestCode,resultCode,data);
     }

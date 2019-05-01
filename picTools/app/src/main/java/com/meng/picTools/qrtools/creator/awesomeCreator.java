@@ -24,15 +24,16 @@ import android.widget.Toast;
 import com.meng.picTools.MainActivity2;
 import com.meng.picTools.R;
 import com.meng.picTools.MainActivity;
+import com.meng.picTools.qrtools.LogTool;
 import com.meng.picTools.qrtools.lib.ContentHelper;
 import com.meng.picTools.qrtools.lib.qrcodelib.AwesomeQRCode;
 import com.meng.picTools.qrtools.lib.qrcodelib.QrUtils;
-import com.meng.picTools.qrtools.log;
 import com.meng.picTools.mengViews.MengColorBar;
 import com.meng.picTools.mengViews.MengEditText;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 /**
  * 普通的Awesome QRcode
@@ -98,7 +99,7 @@ public class awesomeCreator extends Fragment{
             switch(buttonView.getId()){
                 case R.id.awesomeqr_main_autoColor:
                     mColorBar.setVisibility(isChecked?View.GONE:View.VISIBLE);
-                    if(!isChecked) log.t("如果颜色搭配不合理,二维码将会难以识别");
+                    if(!isChecked) LogTool.t("如果颜色搭配不合理,二维码将会难以识别");
                     break;
                 case R.id.awesomeqr_main_binarize:
                     mengEtBinarize.setEnabled(isChecked);
@@ -117,7 +118,7 @@ public class awesomeCreator extends Fragment{
                 case R.id.awesomeqr_main_removeBackgroundImage:
                     backgroundImage=null;
                     imgPathTextView.setVisibility(View.GONE);
-                    log.t(getResources().getString(R.string.Background_image_removed));
+                    LogTool.t(getResources().getString(R.string.Background_image_removed));
                     break;
                 case R.id.awesomeqr_main_generate:
                     generate(mengEtContents.getString(),
@@ -137,10 +138,10 @@ public class awesomeCreator extends Fragment{
                 case R.id.awesomeqr_mainButton_save:
                     try{
                         String s=QrUtils.saveMyBitmap(MainActivity.instence.getAwesomeQRPath(),bmpQRcode);
-                        log.t("已保存至"+s);
+                        LogTool.t("已保存至"+s);
                         getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
                     }catch(IOException e){
-                        log.e(e);
+                        LogTool.e(e);
                     }
                     break;
             }
@@ -188,20 +189,20 @@ public class awesomeCreator extends Fragment{
         if(requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE&&resultCode==getActivity().RESULT_OK&&data.getData()!=null){
             imgPathTextView.setVisibility(View.VISIBLE);
             String path=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),cropPhoto(data.getData(),cbCrop.isChecked()));
-            imgPathTextView.setText("当前图片："+path);
+            imgPathTextView.setText(MessageFormat.format("当前图片：{0}", path));
             if(!cbCrop.isChecked()){
                 backgroundImage=BitmapFactory.decodeFile(path);
             }
         }else if(requestCode==MainActivity.instence.CROP_REQUEST_CODE){
             Bundle bundle=data.getExtras();
 			if(bundle==null){
-				log.t("bundle is null");
+				LogTool.t("bundle is null");
 			}
             if(bundle!=null){
                 backgroundImage=bundle.getParcelable("data");
-                log.t(getResources().getString(R.string.Background_image_added));
+                LogTool.t(getResources().getString(R.string.Background_image_added));
             }else{
-                log.t("取消了添加图片");
+                LogTool.t("取消了添加图片");
             }
         }else if(resultCode==getActivity().RESULT_CANCELED){
             Toast.makeText(getActivity().getApplicationContext(),"取消选择图片",Toast.LENGTH_SHORT).show();
@@ -236,7 +237,7 @@ public class awesomeCreator extends Fragment{
                         }
                     });
                 }catch(Exception e){
-                    log.e(e);
+                    LogTool.e(e);
                     generating=false;
                 }
             }

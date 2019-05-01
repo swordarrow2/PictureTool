@@ -187,7 +187,7 @@ public class QrUtils{
 		int[] tmp=new int[bitmap.getWidth()*bitmap.getHeight()];
 		bitmap.getPixels(tmp,0,bitmap.getWidth(),0,0,bitmap.getWidth(),bitmap.getHeight());
 		int[][] bitPix=convert(tmp,bitmap.getWidth());
-		MyRandom myRandom=new MyRandom(bitmap.getWidth());	
+		MyRandom myRandom=new MyRandom(bitmap.getWidth());
 		int[][] bitPix2=new int[bitmap.getWidth()][bitmap.getHeight()];
 		for(int y=0;y<bitmap.getHeight();y++){	  
 			myRandom.random.setSeed(y);

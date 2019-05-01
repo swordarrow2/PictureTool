@@ -1,20 +1,18 @@
-package com.meng.picTools.pixivGifDownloader;
+package com.meng.picTools.pixivPictureDownloader;
 
 import android.app.*;
 import android.os.*;
 import android.webkit.*;
 import com.meng.picTools.*;
+import com.meng.picTools.qrtools.lib.SharedPreferenceHelper;
 
 public class login extends Activity{
 
-    private WebView webView;
-    private String loginUrl = "https://www.pixiv.net";
-
-    @Override
+	@Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pixiv_login);
-        webView=(WebView) findViewById(R.id.loginWebview);
+		WebView webView = (WebView) findViewById(R.id.loginWebview);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.setWebViewClient(new WebViewClient() {
@@ -29,9 +27,9 @@ public class login extends Activity{
 				  super.onPageFinished(view,url);
 				  CookieManager cookieManager = CookieManager.getInstance();
 				  String CookieStr = cookieManager.getCookie(url)==null? "null" :cookieManager.getCookie(url);
-				  MainActivity.instence.sharedPreference.putValue(Data.preferenceKeys.cookievalue,CookieStr);
+				  SharedPreferenceHelper.putValue(Data.preferenceKeys.cookievalue,CookieStr);
 				}
 			});
-        webView.loadUrl(loginUrl);
+		webView.loadUrl( "https://www.pixiv.net");
 	  }
   }

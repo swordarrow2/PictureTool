@@ -18,52 +18,46 @@ import android.widget.TextView;
 import com.meng.picTools.R;
 
 public class MengColorBar extends LinearLayout {
-    private Context context;
 
     private EditText etTrue;
     private TextView tvTrue;
     private EditText etFalse;
     private TextView tvFalse;
-    private Button btnTrue;
-    private Button btnFalse;
-    private ImageButton ib;
 
-    public MengColorBar(Context context, AttributeSet attributeSet) {
+    public MengColorBar(final Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
-        this.context = context;
         LayoutInflater.from(context).inflate(R.layout.meng_colorbar, this);
         tvTrue = (TextView) findViewById(R.id.meng_colorbar_textview_trueDot);
         tvFalse = (TextView) findViewById(R.id.meng_colorbar_textview_falseDot);
         etTrue = (EditText) findViewById(R.id.meng_colorbar_edittext_true);
         etFalse = (EditText) findViewById(R.id.meng_colorbar_edittext_false);
-        btnTrue = (Button) findViewById(R.id.meng_colorbar_button_select_true_color);
-        btnFalse = (Button) findViewById(R.id.meng_colorbar_button_select_false_color);
-        ib = (ImageButton) findViewById(R.id.meng_colorbar_imagebutton);
+        Button btnTrue = (Button) findViewById(R.id.meng_colorbar_button_select_true_color);
+        Button btnFalse = (Button) findViewById(R.id.meng_colorbar_button_select_false_color);
+        ImageButton imageButton = (ImageButton) findViewById(R.id.meng_colorbar_imagebutton);
         etTrue.addTextChangedListener(tw);
         etFalse.addTextChangedListener(tw);
+        OnClickListener clickListener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.meng_colorbar_button_select_true_color:
+                        Dialog dialog = new MengColorPickerDialog(getContext(), etTrue);
+                        dialog.show();
+                        break;
+                    case R.id.meng_colorbar_button_select_false_color:
+                        Dialog dialog2 = new MengColorPickerDialog(getContext(), etFalse);
+                        dialog2.show();
+                        break;
+                    case R.id.meng_colorbar_imagebutton:
+                        new AlertDialog.Builder(context).setTitle("").setMessage("真值点就是普通二维码中的黑色部分,其余部分为假值点").setPositiveButton("我知道了", null).show();
+                        break;
+                }
+            }
+        };
         btnTrue.setOnClickListener(clickListener);
         btnFalse.setOnClickListener(clickListener);
-        ib.setOnClickListener(clickListener);
+        imageButton.setOnClickListener(clickListener);
     }
-
-    private OnClickListener clickListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.meng_colorbar_button_select_true_color:
-                    Dialog dialog = new MengColorPickerDialog(getContext(), etTrue);
-                    dialog.show();
-                    break;
-                case R.id.meng_colorbar_button_select_false_color:
-                    Dialog dialog2 = new MengColorPickerDialog(getContext(), etFalse);
-                    dialog2.show();
-                    break;
-                case R.id.meng_colorbar_imagebutton:
-                    new AlertDialog.Builder(context).setTitle("").setMessage("真值点就是普通二维码中的黑色部分,其余部分为假值点").setPositiveButton("我知道了", null).show();
-                    break;
-            }
-        }
-    };
 
     public int getTrueColor() {
         return etTrue.getText().toString().trim().length() == 0 ?

@@ -30,8 +30,8 @@
             android:label="@string/app_name"
             android:theme="@style/AppThemeDark"/>
         <service android:name=".qrtools.reader.screenshotListenerService"/>
-        <activity android:name=".pixivGifDownloader.login"/>
-        <activity android:name=".pixivGifDownloader.playLayout"/>
+        <activity android:name=".pixivPictureDownloader.login"/>
+        <activity android:name=".pixivPictureDownloader.playLayout"/>
     </application>
 
 </manifest>

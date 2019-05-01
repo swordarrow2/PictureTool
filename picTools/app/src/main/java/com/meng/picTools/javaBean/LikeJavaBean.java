@@ -1,4 +1,4 @@
-package com.meng.picTools.pixivGifDownloader;
+package com.meng.picTools.javaBean;
 import java.util.*;
 
 public class LikeJavaBean{
