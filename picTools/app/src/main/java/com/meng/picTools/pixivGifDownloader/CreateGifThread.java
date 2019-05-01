@@ -50,7 +50,7 @@ public class CreateGifThread extends Thread{
 	  }
 
     private void createGifJava(String folder,String file_name){
-		List<PixivZipJavaBean.Body.Frames> lf=mpb.zjb.body.frames;
+		List<DynamicPicJavaBean.Body.Frames> lf=mpb.pijb.dynamicPicJavaBean.body.frames;
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         AnimatedGifEncoder localAnimatedGifEncoder = new AnimatedGifEncoder();
@@ -82,7 +82,7 @@ public class CreateGifThread extends Thread{
 
     private void createGifNative(String folder,String file_name){
         String filePath = MainActivity.instence.getGifPath(file_name);
-        List<PixivZipJavaBean.Body.Frames> lf=mpb.zjb.body.frames;
+        List<DynamicPicJavaBean.Body.Frames> lf=mpb.pijb.dynamicPicJavaBean.body.frames;
         Bitmap bmp = BitmapFactory.decodeFile(folder+lf.get(0).file);
         GifEncoder gifEncoder = new GifEncoder();
         gifEncoder.setDither(false);

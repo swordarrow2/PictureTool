@@ -6,13 +6,18 @@ import android.os.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
+import android.widget.AdapterView.*;
 import com.google.gson.*;
 import com.meng.picTools.*;
 import com.meng.picTools.mengViews.*;
+import com.meng.picTools.pixivGifDownloader.*;
 import com.meng.picTools.qrtools.*;
 import java.io.*;
+import java.net.*;
 import java.util.*;
-import android.widget.AdapterView.*;
+import java.util.regex.*;
+
+import android.view.View.OnClickListener;
 
 public class PixivDownloadMain extends Fragment{
 
@@ -63,10 +68,38 @@ public class PixivDownloadMain extends Fragment{
         btnStart.setOnClickListener(new View.OnClickListener() {
 			  @Override
 			  public void onClick(View view){
-				  MengProgressBar mpb = new MengProgressBar(getActivity(),downloadedList);
-				  taskLinearLayout.addView(mpb);
-				  mpb.startDownload(editTextURL.getText().toString());
-				  editTextURL.setText("");
+				  final String text=editTextURL.getText().toString();						
+				  editTextURL.setText("");	
+				  Toast.makeText(getActivity(),"正在读取信息",Toast.LENGTH_SHORT).show();
+				  new Thread(new Runnable(){
+
+						@Override
+						public void run(){																	
+							final PictureInfoJavaBean pijb=getPicInfo(getPixivId(text));
+							getActivity().runOnUiThread(new Runnable(){
+
+								  @Override
+								  public void run(){									  	
+									  if(pijb.isDynamic){
+										  MengProgressBar mpb = new MengProgressBar(getActivity(),downloadedList,pijb);
+										  taskLinearLayout.addView(mpb);
+										  String url=MainActivity.instence.sharedPreference.getBoolean(Data.preferenceKeys.downloadBigPicture)? pijb.dynamicPicJavaBean.body.originalSrc :pijb.dynamicPicJavaBean.body.src;
+										  mpb.startDownload(url);
+										  Toast.makeText(getActivity(),url,Toast.LENGTH_SHORT).show();
+										}else{						  
+										  for(int i=0;i<pijb.staticPicJavaBean.body.size();++i){
+											  String url=MainActivity.instence.sharedPreference.getBoolean(Data.preferenceKeys.downloadBigPicture)? pijb.staticPicJavaBean.body.get(i).urls.original :pijb.staticPicJavaBean.body.get(i).urls.regular;
+											  MengProgressBar mpb = new MengProgressBar(getActivity(),downloadedList,pijb);
+											  taskLinearLayout.addView(mpb);						
+											  mpb.startDownload(url);	
+												Toast.makeText(getActivity(),url,Toast.LENGTH_SHORT).show();
+											}	  				  
+										}
+									}	
+								}
+							);
+						  }
+					  }).start();		  
 				}
 			});
 
@@ -96,15 +129,35 @@ public class PixivDownloadMain extends Fragment{
 					.setTitle("开始下载？")
 					.setPositiveButton("确定",new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface p11,int p2){
+						public void onClick(DialogInterface p11,int p2){	
+							Toast.makeText(getActivity(),"正在读取信息",Toast.LENGTH_SHORT).show();
+							new Thread(new Runnable(){
 
-							editTextURL.setText(p1.getItemAtPosition(p3).toString());
+								  @Override
+								  public void run(){																	
+									  final PictureInfoJavaBean pijb=getPicInfo(getPixivId(p1.getItemAtPosition(p3).toString()));
+									  getActivity().runOnUiThread(new Runnable(){
 
-							MengProgressBar mpb = new MengProgressBar(getActivity(),downloadedList);
-							taskLinearLayout.addView(mpb);
-							mpb.startDownload(editTextURL.getText().toString());
-							editTextURL.setText("");
-
+											@Override
+											public void run(){									  	
+												if(pijb.isDynamic){
+													MengProgressBar mpb = new MengProgressBar(getActivity(),downloadedList,pijb);
+													taskLinearLayout.addView(mpb);
+													String url=MainActivity.instence.sharedPreference.getBoolean(Data.preferenceKeys.downloadBigPicture)? pijb.dynamicPicJavaBean.body.originalSrc :pijb.dynamicPicJavaBean.body.src;
+													mpb.startDownload(url);
+												  }else{						  
+													for(int i=0;i<pijb.staticPicJavaBean.body.size();++i){
+														String url=MainActivity.instence.sharedPreference.getBoolean(Data.preferenceKeys.downloadBigPicture)? pijb.staticPicJavaBean.body.get(i).urls.original :pijb.staticPicJavaBean.body.get(i).urls.regular;
+														MengProgressBar mpb = new MengProgressBar(getActivity(),downloadedList,pijb);
+														taskLinearLayout.addView(mpb);						
+														mpb.startDownload(url);								
+													  }	  				  
+												  }
+											  }	
+										  }
+									  );
+									}
+								}).start();		  
 						  }
 					  }).setNegativeButton("取消",null).show();
 
@@ -164,4 +217,63 @@ public class PixivDownloadMain extends Fragment{
 		  }
 	  }
 
+	private PictureInfoJavaBean getPicInfo(String picId){
+		PictureInfoJavaBean pijb=new PictureInfoJavaBean();
+        try{
+			pijb.dynamicPicJavaBean=getDynamicPictureJsonAddress(picId);
+            if(pijb.dynamicPicJavaBean.error.equals("true")){
+                pijb.staticPicJavaBean=getStaticPictureJsonAddress(picId);
+				pijb.isDynamic=false;
+			  }
+		  }catch(Exception e){
+			log.t(getActivity().getString(R.string.maybe_need_login));		
+			getActivity().startActivity(new Intent(getActivity(),login.class));		
+		  }
+		return pijb;
+	  }
+
+	public DynamicPicJavaBean getDynamicPictureJsonAddress(String id){
+        String picJsonAddress = "https://www.pixiv.net/ajax/illust/"+id+"/ugoira_meta";
+		return new Gson().fromJson(readStringFromNetwork(picJsonAddress),DynamicPicJavaBean.class);
+	  }
+
+	public StaticPicJavaBean getStaticPictureJsonAddress(String id){
+        String picJsonAddress = "https://www.pixiv.net/ajax/illust/"+id+"/pages";
+		return new Gson().fromJson(readStringFromNetwork(picJsonAddress),StaticPicJavaBean.class);
+	  }
+
+	public String readStringFromNetwork(String url){
+		try{
+			URL u = new URL(url);	 
+			HttpURLConnection connection = (HttpURLConnection) u.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("Referer","https://www.pixiv.net/member_illust.php?mode=medium&illust_id="+getPixivId(url));
+			connection.setRequestProperty("cookie",MainActivity.instence.sharedPreference.getValue(Data.preferenceKeys.keyCookieValue));
+			connection.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
+			connection.setConnectTimeout(10000);
+			connection.setReadTimeout(10000);
+			InputStream in = connection.getInputStream();
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while((line=br.readLine())!=null){
+				sb.append(line);
+			  }
+			return sb.toString();
+		  }catch(Exception e){
+			return "{}";
+		  }
+	  }
+
+	public String getPixivId(String str){
+		int pageIn=str.indexOf("&page");
+		if(pageIn>1){
+			str=str.substring(0,pageIn);
+		  }
+		String regEx = "[^0-9]";
+		Pattern p = Pattern.compile(regEx);
+		Matcher m = p.matcher(str);
+		return m.replaceAll("").trim();
+
+	  }
   }

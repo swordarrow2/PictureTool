@@ -13,7 +13,6 @@ import java.util.*;
 
 public class MengProgressBar extends LinearLayout {
     Context context;
-    public PixivZipJavaBean zjb;
     TextView fileNameTextView;
     TextView statuTextView;
     TextView statusTextViewBytes;
@@ -22,9 +21,11 @@ public class MengProgressBar extends LinearLayout {
     UnzipThread unzipThread;
     CreateGifThread makeGif;
     ListView listView;
+	public PictureInfoJavaBean pijb;
 
-    public MengProgressBar(final Context context, ListView listView) {
+    public MengProgressBar(final Context context, ListView listView,PictureInfoJavaBean pijb) {
         super(context);
+		this.pijb=pijb;
         this.listView = listView;
         this.context = context;
         LayoutInflater.from(context).inflate(R.layout.downloading_list_item, this);
@@ -70,8 +71,8 @@ public class MengProgressBar extends LinearLayout {
     }
 
 
-    public void startDownload(String PixivID) {
-        downloadImageThread = new DownloadImageThread(context, this, PixivID);
+    public void startDownload(String url) {
+        downloadImageThread = new DownloadImageThread(context, this, url);
         downloadImageThread.start();
         update.start();
     }
@@ -93,7 +94,7 @@ public class MengProgressBar extends LinearLayout {
                     e.printStackTrace();
                 }
             }
-            if (zjb!=null&&zjb.error.equals("false")) {
+            if (pijb.isDynamic) {
                 unzipThread = new UnzipThread(new File(MainActivity.instence.getPixivZipPath(downloadImageThread.getFileName())));
                 unzipThread.start();
                 while (!unzipThread.isUnzipSuccess) {
