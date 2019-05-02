@@ -27,6 +27,7 @@ import com.meng.picTools.R;
 import com.meng.picTools.MainActivity;
 import com.meng.picTools.qrtools.lib.ContentHelper;
 import com.meng.picTools.qrtools.lib.qrcodelib.QrUtils;
+import com.meng.picTools.qrtools.lib.*;
 
 public class galleryReader extends Fragment{
     private final int REQUEST_PERMISSION_PHOTO=1001;
@@ -50,7 +51,7 @@ public class galleryReader extends Fragment{
         btnOpenGallery.setOnClickListener(click);
         btnCreateAwesomeQR.setOnClickListener(click);
         cbAutoRead=(CheckBox)view.findViewById(R.id.read_gallery_autoread);
-        boolean b=MainActivity.instence.sharedPreference.getBoolean("service",false);
+        boolean b=SharedPreferenceHelper.getBoolean("service",false);
         cbAutoRead.setChecked(b);
         if(b){
             startService();
@@ -60,7 +61,7 @@ public class galleryReader extends Fragment{
         cbAutoRead.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked){
-                MainActivity.instence.sharedPreference.putBoolean("service",isChecked);
+                SharedPreferenceHelper.putBoolean("service",isChecked);
                 if(isChecked){
                     startService();
                 }else{
