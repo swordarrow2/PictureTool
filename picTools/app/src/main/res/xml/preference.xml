@@ -57,7 +57,12 @@
                 android:targetClass="com.meng.picTools.pixivGifDownloader.login"
                 android:targetPackage="com.meng.picTools" />
         </Preference>
-
+		
+		<EditTextPreference
+			android:title="爬画师图片时任务创建间隔"
+			android:key="sleep"
+			android:dialogTitle="单位为毫秒,默认为2000" />
+		
         <PreferenceCategory android:title="下载">
             <CheckBoxPreference
                 android:defaultValue="false"

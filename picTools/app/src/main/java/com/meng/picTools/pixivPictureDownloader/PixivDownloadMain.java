@@ -184,7 +184,7 @@ public class PixivDownloadMain extends Fragment {
                             createDownloadTask(key);
                             LogTool.i("添加任务:" + key);
                             try {
-                                Thread.sleep(1000);
+                                Thread.sleep(Integer.parseInt(SharedPreferenceHelper.getValue("sleep","2000")));
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
