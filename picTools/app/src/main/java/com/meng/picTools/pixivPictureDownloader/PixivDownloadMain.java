@@ -8,11 +8,13 @@ import android.widget.*;
 import android.widget.AdapterView.*;
 
 import com.google.gson.*;
+import com.google.gson.internal.LinkedTreeMap;
 import com.meng.picTools.*;
 import com.meng.picTools.javaBean.AnimPicJavaBean;
 import com.meng.picTools.javaBean.LikeJavaBean;
 import com.meng.picTools.javaBean.PictureInfoJavaBean;
 import com.meng.picTools.javaBean.StaticPicJavaBean;
+import com.meng.picTools.javaBean.allPics.PaitenerAllPictures;
 import com.meng.picTools.mengViews.*;
 import com.meng.picTools.qrtools.*;
 import com.meng.picTools.qrtools.lib.SharedPreferenceHelper;
@@ -23,6 +25,7 @@ import java.util.*;
 import java.util.regex.*;
 
 import android.view.View.OnClickListener;
+
 import org.jsoup.*;
 
 public class PixivDownloadMain extends Fragment {
@@ -62,15 +65,26 @@ public class PixivDownloadMain extends Fragment {
         Arrays.sort(filesName);
         ListAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, filesName);
         downloadedList.setAdapter(adapter);
-		
-		new Thread(new Runnable(){
 
-			  @Override
-			  public void run(){
-				  String s=readStringFromNetwork("https://www.pixiv.net/ajax/user/544479/profile/all",SharedPreferenceHelper.getValue(Data.preferenceKeys.keyCookieValue),"https://www.pixiv.net/member.php?id=544479");
-				  LogTool.i(s);
-				}
-			}).start();
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                String s = readStringFromNetwork("https://www.pixiv.net/ajax/user/544479/profile/all",
+                        SharedPreferenceHelper.getValue(Data.preferenceKeys.keyCookieValue),
+                        "https://www.pixiv.net/member.php?id=544479");
+                PaitenerAllPictures paitenerAllPictures = new Gson().fromJson(s, PaitenerAllPictures.class);
+
+                LinkedTreeMap linkedTreeMap = (LinkedTreeMap) paitenerAllPictures.body.illusts;
+                linkedTreeMap.put("f", "json");
+                Iterator it = linkedTreeMap.keySet().iterator();
+                while (it.hasNext()) {
+                    String key = (String) it.next();
+                    String value = (String) linkedTreeMap.get(key);
+                    LogTool.i("key: " + key + ", value: " + value);
+                }
+            }
+        }).start();
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,61 +227,61 @@ public class PixivDownloadMain extends Fragment {
 
     public AnimPicJavaBean getDynamicPictureJsonAddress(String id) {
         String picJsonAddress = "https://www.pixiv.net/ajax/illust/" + id + "/ugoira_meta";
-        return new Gson().fromJson(readStringFromNetwork(picJsonAddress,SharedPreferenceHelper.getValue(Data.preferenceKeys.keyCookieValue),null), AnimPicJavaBean.class);
+        return new Gson().fromJson(readStringFromNetwork(picJsonAddress, SharedPreferenceHelper.getValue(Data.preferenceKeys.keyCookieValue), null), AnimPicJavaBean.class);
     }
 
     public StaticPicJavaBean getStaticPictureJsonAddress(String id) {
         String picJsonAddress = "https://www.pixiv.net/ajax/illust/" + id + "/pages";
-        return new Gson().fromJson(readStringFromNetwork(picJsonAddress,SharedPreferenceHelper.getValue(Data.preferenceKeys.keyCookieValue),null), StaticPicJavaBean.class);
+        return new Gson().fromJson(readStringFromNetwork(picJsonAddress, SharedPreferenceHelper.getValue(Data.preferenceKeys.keyCookieValue), null), StaticPicJavaBean.class);
     }
-	
-	public String readStringFromNetwork(String url,String cookie,String refer){
+
+    public String readStringFromNetwork(String url, String cookie, String refer) {
         Connection.Response response = null;
         Connection connection = null;
-        try{
-            connection=Jsoup.connect(url);
-            if(cookie!=null){
+        try {
+            connection = Jsoup.connect(url);
+            if (cookie != null) {
                 connection.cookies(cookieToMap(cookie));
-			  }
-			if(refer!=null){
+            }
+            if (refer != null) {
                 connection.referrer(refer);
-              }
-			connection.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
+            }
+            connection.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
             connection.ignoreContentType(true).method(Connection.Method.GET);
-            response=connection.execute();
-            if(response.statusCode()!=200){
+            response = connection.execute();
+            if (response.statusCode() != 200) {
                 showToast(String.valueOf(response.statusCode()));
-			  }
-		  }catch(IOException e){
+            }
+        } catch (IOException e) {
             e.printStackTrace();
-		  }
+        }
         return response.body();
-	  }
-	
-	public Map<String, String> cookieToMap(String value){
+    }
+
+    public Map<String, String> cookieToMap(String value) {
         Map<String, String> map = new HashMap<String, String>();
         String values[] = value.split("; ");
-        for(String val : values){
+        for (String val : values) {
             String vals[] = val.split("=");
-            if(vals.length==2){
-                map.put(vals[0],vals[1]);
-			  }else if(vals.length==1){
-                map.put(vals[0],"");
-			  }
-		  }
+            if (vals.length == 2) {
+                map.put(vals[0], vals[1]);
+            } else if (vals.length == 1) {
+                map.put(vals[0], "");
+            }
+        }
         return map;
-	  }
-	
-	public void showToast(final String msg){
-     getActivity().runOnUiThread(new Runnable() {
+    }
 
-			  @Override
-			  public void run(){
-				  Toast.makeText(getActivity(),msg,Toast.LENGTH_LONG).show();
-				}
-			});
-	  }
-	    
+    public void showToast(final String msg) {
+        getActivity().runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     public String getPixivId(String str) {
         int pageIndex = str.indexOf("&page");
         if (pageIndex > 1) {
