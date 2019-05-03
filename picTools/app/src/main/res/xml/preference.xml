@@ -82,7 +82,7 @@
 			android:dialogTitle="线程越多对系统资源要求越高"
 			android:key="threads"
 			android:title="下载线程数" />
-		
+
 		<CheckBoxPreference
 			android:defaultValue="false"
 			android:key="useJava"
