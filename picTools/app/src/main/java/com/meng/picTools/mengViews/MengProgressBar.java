@@ -25,9 +25,9 @@ public class MengProgressBar extends LinearLayout {
     private ListView listView;
     public PictureInfoJavaBean pictureInfoJavaBean;
 
-    public MengProgressBar(final Context context, ListView listView, PictureInfoJavaBean pijb, String url) {
+    public MengProgressBar(final Context context, ListView listView, PictureInfoJavaBean pictureInfoJavaBean, String url) {
         super(context);
-        this.pictureInfoJavaBean = pijb;
+        this.pictureInfoJavaBean = pictureInfoJavaBean;
         this.listView = listView;
         this.context = context;
         LayoutInflater.from(context).inflate(R.layout.downloading_list_item, this);
@@ -35,7 +35,25 @@ public class MengProgressBar extends LinearLayout {
         statuTextView = (TextView) findViewById(R.id.main_list_item_textview_statu);
         statusTextViewBytes = (TextView) findViewById(R.id.main_list_item_textview_statu_byte);
         progressBar = (ProgressBar) findViewById(R.id.main_list_item_progressbar);
-        downloadImageThread = new DownloadImageThread(context, url);
+		
+		String path="";
+		String expandName = url.substring(url.lastIndexOf(".")+1,url.length()).toLowerCase();
+		String fileName = url.substring(url.lastIndexOf("/")+1,url.lastIndexOf("."));
+		if(expandName.equalsIgnoreCase("zip")){
+			path= MainActivity.instence.getPixivZipPath(fileName+"."+expandName);
+		  }else{
+			  File folder=new File(MainActivity.instence.getPixivImagePath(pictureInfoJavaBean.id+"/"));
+			  if(!folder.exists()){
+				folder.mkdirs();
+			  }
+			if(pictureInfoJavaBean.staticPicJavaBean.body.size()>1){
+				  path=MainActivity.instence.getPixivImagePath(pictureInfoJavaBean.id+"/"+fileName+"."+expandName);
+			}else{
+				  path=MainActivity.instence.getPixivImagePath(fileName+"."+expandName);
+			}
+		  }
+		
+        downloadImageThread = new DownloadImageThread(context, url, path);
         downloadImageThread.start();
         update.start();
     }
@@ -129,6 +147,7 @@ public class MengProgressBar extends LinearLayout {
                     listView.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, downloadedFilesName));
                     LinearLayout ll = (LinearLayout) getParent();
                     ll.removeView(MengProgressBar.this);
+					--MainActivity2.instence.pixivDownloadMainFragment.threadCount;
                 }
             });
         }

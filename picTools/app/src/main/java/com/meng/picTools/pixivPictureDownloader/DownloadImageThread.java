@@ -18,10 +18,12 @@ public class DownloadImageThread extends Thread{
     private long imageSize = 0;
     private long downloadedFileSize = 0;
     private String fileName = "";
+	private String path;
 
-    public DownloadImageThread(Context c, String picUrl){
+    public DownloadImageThread(Context c,String picUrl,String absolutePath){
         context=c;
         this.picUrl=picUrl;
+		path=absolutePath;
 	  }
 
     public String getFileName(){
@@ -37,29 +39,26 @@ public class DownloadImageThread extends Thread{
 	  }
 
     @Override
-    public void run(){     
-		downloadFile(picUrl);	  
+    public void run(){   
+        downloadFile(picUrl,path);	
 	  }
 
     private HttpURLConnection getConnection(URL u) throws IOException{
         HttpURLConnection connection = (HttpURLConnection) u.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Referer",picUrl);
-        connection.setRequestProperty("cookie", SharedPreferenceHelper.getValue(Data.preferenceKeys.keyCookieValue));
+        connection.setRequestProperty("cookie",SharedPreferenceHelper.getValue(Data.preferenceKeys.keyCookieValue));
         connection.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
         return connection;
 	  }
 
-    private void downloadFile(String fileUrl){
+    private void downloadFile(String fileUrl,String absolutePath){
         try{
             URL u = new URL(fileUrl);
             HttpURLConnection connection = getConnection(u);
             imageSize=connection.getContentLength();
-            String expandName = fileUrl.substring(fileUrl.lastIndexOf(".")+1,fileUrl.length()).toLowerCase();
-            String fileName = fileUrl.substring(fileUrl.lastIndexOf("/")+1,fileUrl.lastIndexOf("."));
-            File file = new File(expandName.equalsIgnoreCase("zip")? MainActivity.instence.getPixivZipPath(fileName+"."+expandName):MainActivity.instence.getPixivImagePath(fileName+"."+expandName));
-            this.fileName=fileName+"."+expandName;
-            if(file.exists()){
+            File file = new File(absolutePath);
+			if(file.exists()){
                 if(file.length()==imageSize){
                     LogTool.t(context.getString(R.string.file_exist)+file.getName());
 				  }else{
@@ -91,12 +90,12 @@ public class DownloadImageThread extends Thread{
 			  }
             connection.disconnect();
             isDownloaded=true;
-		  }catch(IOException e){
+			}catch(IOException e){
 		  }
 	  }
 
     //使用系统下载器下载
-    private void systemDownload(String zipUrl){
+  /*  private void systemDownload(String zipUrl){
         String expandName = zipUrl.substring(zipUrl.lastIndexOf(".")+1,zipUrl.length()).toLowerCase();
         String fileName = zipUrl.substring(zipUrl.lastIndexOf("/")+1,zipUrl.lastIndexOf("."));
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(zipUrl));
@@ -117,5 +116,5 @@ public class DownloadImageThread extends Thread{
 				}
 			},new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 	  }
-
+*/
   }

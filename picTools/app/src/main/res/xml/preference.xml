@@ -57,12 +57,12 @@
                 android:targetClass="com.meng.picTools.pixivPictureDownloader.login"
                 android:targetPackage="com.meng.picTools" />
         </Preference>
-		
+
 		<EditTextPreference
 			android:title="爬画师图片时任务创建间隔"
 			android:key="sleep"
 			android:dialogTitle="单位为毫秒,默认为2000" />
-		
+
         <PreferenceCategory android:title="下载">
             <CheckBoxPreference
                 android:defaultValue="false"
@@ -78,18 +78,17 @@
                 android:title="生成GIF后删除zip压缩包" />
         </PreferenceCategory>
 
-        <PreferenceCategory android:title="GIF">
-            <EditTextPreference
-                android:dialogTitle="1为原图，数字越大，图片越小"
-                android:key="option"
-                android:title="预览及生成GIF缩放比例" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="useJava"
-                android:summaryOn="使用java"
-				android:summaryOff="使用jni"
-                android:title="使用java代码生成gif" />
-        </PreferenceCategory>
+		<EditTextPreference
+			android:dialogTitle="线程越多对系统资源要求越高"
+			android:key="threads"
+			android:title="下载线程数" />
+		
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="useJava"
+			android:summaryOn="使用java"
+			android:summaryOff="使用jni"
+			android:title="使用java代码生成gif" />
 
         <PreferenceCategory android:title="临时文件">
             <CheckBoxPreference

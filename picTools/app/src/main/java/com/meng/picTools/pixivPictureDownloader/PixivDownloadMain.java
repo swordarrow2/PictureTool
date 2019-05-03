@@ -36,6 +36,7 @@ public class PixivDownloadMain extends Fragment{
     private LikeJavaBean likeJavaBean;
     private CheckBox checkBoxIsUID;
     private Gson gson;
+	public int threadCount=0;
 
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
@@ -148,22 +149,32 @@ public class PixivDownloadMain extends Fragment{
 			  @Override
 			  public void run(){
 				  final PictureInfoJavaBean pictureInfoJavaBean = getPicInfo(getPixivId(url));
+				  while(threadCount>Integer.parseInt(SharedPreferenceHelper.getValue("threads","5"))){
+					  try{
+						  Thread.sleep(50);
+						}catch(InterruptedException e){}
+					}
 				  getActivity().runOnUiThread(
 					new Runnable() {
 
 						@Override
 						public void run(){
 							if(pictureInfoJavaBean.isAnimPicture){
+								++threadCount;
 								taskLinearLayout.addView(new MengProgressBar(getActivity(),downloadedList,pictureInfoJavaBean,
 																			 SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigPicture)?
 																			 pictureInfoJavaBean.animPicJavaBean.body.originalSrc :
-																			 pictureInfoJavaBean.animPicJavaBean.body.src));
+																			 pictureInfoJavaBean.animPicJavaBean.body.src));			
+								LogTool.i(threadCount);
 							  }else{
-								for(int i = 0; i<pictureInfoJavaBean.staticPicJavaBean.body.size(); ++i)
-								  taskLinearLayout.addView(new MengProgressBar(getActivity(),downloadedList,pictureInfoJavaBean,
-																			   SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigPicture)?
-																			   pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.original :
-																			   pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.regular));
+								for(int i = 0; i<pictureInfoJavaBean.staticPicJavaBean.body.size(); ++i){
+									++threadCount;
+									taskLinearLayout.addView(new MengProgressBar(getActivity(),downloadedList,pictureInfoJavaBean,
+																				 SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigPicture)?
+																				 pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.original :
+																				 pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.regular));
+									LogTool.i(threadCount);
+								  }
 							  }
 						  }
 					  }
@@ -180,6 +191,11 @@ public class PixivDownloadMain extends Fragment{
 				  try{
 					  LinkedTreeMap linkedTreeMap = (LinkedTreeMap) getAllPaint(text).body.illusts;
 					  for(Object o : linkedTreeMap.keySet()){
+						  while(threadCount>Integer.parseInt(SharedPreferenceHelper.getValue("threads","5"))){
+							  try{
+								  Thread.sleep(50);
+								}catch(InterruptedException e){}
+							}
 						  String key = (String) o;
 						  //    String value = (String) linkedTreeMap.get(key);
 						  createDownloadTask(key);
@@ -188,8 +204,8 @@ public class PixivDownloadMain extends Fragment{
 						}
 					}catch(InterruptedException e){
 					  e.printStackTrace();
-						if(getAllPaint(text).body.illusts instanceof ArrayList){
-							for(Object o:(ArrayList)(getAllPaint(text).body.illusts)){
+					  if(getAllPaint(text).body.illusts instanceof ArrayList){
+						  for(Object o:(ArrayList)(getAllPaint(text).body.illusts)){
 							  LogTool.i(String.valueOf(o));
 							}
 						}
@@ -240,6 +256,7 @@ public class PixivDownloadMain extends Fragment{
     private PictureInfoJavaBean getPicInfo(String picId){
         PictureInfoJavaBean pijb = new PictureInfoJavaBean();
         try{
+		    pijb.id=picId;
 			pijb.staticPicJavaBean=getStaticPicture(picId);	
 			if(pijb.staticPicJavaBean.error.equals("true")){
                 pijb.isAnimPicture=true;

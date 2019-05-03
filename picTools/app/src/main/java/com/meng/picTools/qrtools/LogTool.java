@@ -29,7 +29,7 @@ public class LogTool {
             @Override
             public void run(){
                 MainActivity2.instence.rightText.setText(
-                        MessageFormat.format("{0}{1}\n", MainActivity2.instence.rightText.getText().toString(), o.toString())
+				  MessageFormat.format("{0}\n{1}", o.toString(),MainActivity2.instence.rightText.getText().toString())
                 );
             }
         });

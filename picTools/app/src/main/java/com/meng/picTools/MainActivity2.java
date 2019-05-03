@@ -38,7 +38,7 @@ public class MainActivity2 extends Activity {
     private BusCodeReader busCodeReaderFragment;
     private pictureEncry pictureEncryFragment;
     private pictureDecry pictureDecryFragment;
-    private PixivDownloadMain pixivDownloadMainFragment;
+    public PixivDownloadMain pixivDownloadMainFragment;
 
     public FragmentManager manager;
     public TextView rightText;
