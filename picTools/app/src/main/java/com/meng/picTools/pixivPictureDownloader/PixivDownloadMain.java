@@ -177,30 +177,35 @@ public class PixivDownloadMain extends Fragment{
 		  new Runnable() {
 			  @Override
 			  public void run(){
-				  LinkedTreeMap linkedTreeMap = (LinkedTreeMap) getAllPaint(text).body.illusts;
-				  for(Object o : linkedTreeMap.keySet()){
-					  String key = (String) o;
-					  //    String value = (String) linkedTreeMap.get(key);
-					  createDownloadTask(key);
-					  LogTool.i("添加任务:"+key);
-					  try{
+				  try{
+					  LinkedTreeMap linkedTreeMap = (LinkedTreeMap) getAllPaint(text).body.illusts;
+					  for(Object o : linkedTreeMap.keySet()){
+						  String key = (String) o;
+						  //    String value = (String) linkedTreeMap.get(key);
+						  createDownloadTask(key);
+						  LogTool.i("添加任务:"+key);				  
 						  Thread.sleep(Integer.parseInt(SharedPreferenceHelper.getValue("sleep","2000")));
-						}catch(InterruptedException e){
-						  e.printStackTrace();
+						}
+					}catch(InterruptedException e){
+					  e.printStackTrace();
+						if(getAllPaint(text).body.illusts instanceof ArrayList){
+							for(Object o:(ArrayList)(getAllPaint(text).body.illusts)){
+							  LogTool.i(String.valueOf(o));
+							}
 						}
 					}
-				  /*    while (it.hasNext()) {
-				   String key = (String) it.next();
-				   String value = (String) linkedTreeMap.get(key);
-				   createDownloadTask(key);
-				   try {
-				   Thread.sleep(1000);
-				   } catch (InterruptedException e) {
-				   e.printStackTrace();
-				   }
-				   LogTool.i("id:" + key);
-				   } */
 				}
+			  /*    while (it.hasNext()) {
+			   String key = (String) it.next();
+			   String value = (String) linkedTreeMap.get(key);
+			   createDownloadTask(key);
+			   try {
+			   Thread.sleep(1000);
+			   } catch (InterruptedException e) {
+			   e.printStackTrace();
+			   }
+			   LogTool.i("id:" + key);
+			   } */
 			}
         ).start();
 	  }
@@ -235,11 +240,12 @@ public class PixivDownloadMain extends Fragment{
     private PictureInfoJavaBean getPicInfo(String picId){
         PictureInfoJavaBean pijb = new PictureInfoJavaBean();
         try{
-            pijb.animPicJavaBean=getDynamicPicture(picId);
-            if(pijb.animPicJavaBean.error.equals("true")){
-                pijb.staticPicJavaBean=getStaticPicture(picId);
-                pijb.isAnimPicture=false;
+			pijb.staticPicJavaBean=getStaticPicture(picId);	
+			if(pijb.staticPicJavaBean.error.equals("true")){
+                pijb.isAnimPicture=true;
+				pijb.animPicJavaBean=getDynamicPicture(picId);
 			  }
+
 		  }catch(Exception e){
             LogTool.t(getActivity().getString(R.string.maybe_need_login));
             LogTool.e(e.toString());
