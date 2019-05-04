@@ -36,13 +36,13 @@ public class MengProgressBar extends LinearLayout {
         if (expandName.equalsIgnoreCase("zip")) {
             fileAbsolutePath = MainActivity.instence.getPixivZipPath(fileName + "." + expandName);
         } else {
-            File folder = new File(MainActivity.instence.getPixivImagePath(pictureInfoJavaBean.id + "/"));
-            if (!folder.exists()) folder.mkdirs();
-            if (pictureInfoJavaBean.staticPicJavaBean.body.size() > 1) {
-                fileAbsolutePath = MainActivity.instence.getPixivImagePath(pictureInfoJavaBean.id + "/" + fileName + "." + expandName);
-            } else {
-                fileAbsolutePath = MainActivity.instence.getPixivImagePath(fileName + "." + expandName);
-            }
+            if(pictureInfoJavaBean.staticPicJavaBean.body.size()>1){
+				File folder = new File(MainActivity.instence.getPixivImagePath(pictureInfoJavaBean.id+"/"));
+				if(!folder.exists()) folder.mkdirs();		   
+                fileAbsolutePath=MainActivity.instence.getPixivImagePath(pictureInfoJavaBean.id+"/"+fileName+"."+expandName);
+			  }else{
+                fileAbsolutePath=MainActivity.instence.getPixivImagePath(fileName+"."+expandName);
+			  }
         }
         MainActivity2.instence.pixivDownloadMainFragment.threadPool.execute(new DownloadRunnable(this, picUrl, fileAbsolutePath, listView));
     }
