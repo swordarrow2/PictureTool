@@ -76,13 +76,6 @@
 
                     </ScrollView>
                 </LinearLayout>
-
-				<ListView
-					android:id="@+id/contentList"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-				></ListView>
-				
 				
                 <LinearLayout
                     android:id="@+id/pixiv_download_main_downloaded"

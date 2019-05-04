@@ -30,14 +30,12 @@ public class PixivDownloadMain extends Fragment{
     private EditText editTextURL;
     private ListView downloadedList;
     private ListView likeList;
-	private ListView lv;
     private LinearLayout taskLinearLayout;
     private LikeJavaBean likeJavaBean;
     private CheckBox checkBoxIsUID;
     private Gson gson;
     public ExecutorService threadPool;
 	private String title="pids";
-	private DBHelper helper;
 	
 	public enum Type{
 	  pid,
@@ -61,9 +59,7 @@ public class PixivDownloadMain extends Fragment{
         tabHost.addTab(tabHost.newTabSpec("one").setIndicator("正在下载").setContent(R.id.pixiv_download_main_downloading));
         tabHost.addTab(tabHost.newTabSpec("two").setIndicator("已下载").setContent(R.id.pixiv_download_main_downloaded));
         tabHost.addTab(tabHost.newTabSpec("three").setIndicator("收藏").setContent(R.id.pixiv_download_main_like));
-		tabHost.addTab(tabHost.newTabSpec("four").setIndicator("错误列表").setContent(R.id.contentList));
         gson=new Gson();
-		lv=(ListView)view.findViewById(R.id.contentList);
         downloadedList=(ListView) view.findViewById(R.id.saved_files_list);
         likeList=(ListView) view.findViewById(R.id.like_files_list);
         editTextURL=(EditText) view.findViewById(R.id.pixiv_download_main_edittext_url);
@@ -76,7 +72,6 @@ public class PixivDownloadMain extends Fragment{
         String[] filesName = new File(MainActivity.instence.getPixivZipPath("")).list();
         Arrays.sort(filesName);
         downloadedList.setAdapter(new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,filesName));
-		 helper = new DBHelper(getActivity());
         likeList.setOnItemClickListener(new OnItemClickListener() {
 
 			  @Override
@@ -119,58 +114,6 @@ public class PixivDownloadMain extends Fragment{
             likeList.setAdapter(new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,likeJavaBean.info));
 		  }
         threadPool=Executors.newFixedThreadPool(Integer.parseInt(SharedPreferenceHelper.getValue("threads","3")));
-
-
-		final DBHelper helper = new DBHelper(getActivity());
-
-		Cursor c = helper.query();
-		if(c.getCount()>0){
-			String [] from ={"pixivId","type","statu"};
-			int [] to={R.id.TextView01,R.id.TextView02,R.id.TextView03};
-			final SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),R.layout.items,c,from,to);
-			lv.setAdapter(adapter);
-			final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			lv.setOnItemClickListener(new OnItemClickListener() {
-
-				  @Override
-				  public void onItemClick(final AdapterView<?> parent,View view,
-										  int position,long id){
-					  final long noteId = id;
-					  builder.setMessage("真的要删除吗？")
-						.setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,int which){
-								//删除数据
-								helper.deleteData((int)noteId);
-								//重新查询
-								Cursor c = helper.query();
-								String [] from ={"pixivId","type","statu"};
-								int [] to={R.id.TextView01,R.id.TextView02,R.id.TextView03};
-								SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),R.layout.items,c,from,to);
-								lv.setAdapter(adapter);
-								LogTool.t("删除成功");
-							  }
-						  }).setNegativeButton(android.R.string.cancel,new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,int which){
-								dialog.dismiss();
-							  }
-						  });
-					  builder.create();
-					  builder.show();
-
-					}
-				});
-
-		  }else{
-			LogTool.t("没有记录哦！");
-		  }
-
-
-
-
 	  }
 
     View.OnClickListener onClickListener = new OnClickListener() {
@@ -405,17 +348,7 @@ public class PixivDownloadMain extends Fragment{
 				}
 			});
 	  }
-	  
-	  public long addData(String id,Type type,boolean ok){
-		  long l = helper.insertData(id,type.toString(),ok);
-		  return l;
-	  }
-	  
-	public long updateData(String id,Type type,boolean ok){
-		long l = helper.updateData(id,type.toString(),ok);
-		return l;
-	  }
-	  
+
     public String getPixivId(String str){
         int pageIndex = str.indexOf("&page");
         if(pageIndex>1){

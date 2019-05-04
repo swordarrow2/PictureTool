@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Vibrator;
 
+import com.meng.picTools.dataBase.DataBaseHelper;
 import com.meng.picTools.qrtools.lib.ExceptionCatcher;
 import com.meng.picTools.qrtools.lib.SharedPreferenceHelper;
 import com.meng.picTools.qrtools.LogTool;
@@ -16,7 +17,7 @@ import java.util.Date;
 
 public class MainActivity extends Activity {
     public static MainActivity instence;
-    public final int CROP_REQUEST_CODE=3;
+    public final int CROP_REQUEST_CODE = 3;
     public static Boolean lightTheme = true;
     private final String exDir = Environment.getExternalStorageDirectory().getAbsolutePath();
 
@@ -24,7 +25,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         instence = this;
         ExceptionCatcher.getInstance().init(this);
-        SharedPreferenceHelper.Init(this,"main");
+        SharedPreferenceHelper.Init(this, "main");
+        DataBaseHelper.init(this);
         lightTheme = SharedPreferenceHelper.getBoolean("useLightTheme", true);
         startActivity(new Intent(MainActivity.this, MainActivity2.class).putExtra("setTheme", getIntent().getBooleanExtra("setTheme", false)));
         finish();
@@ -43,10 +45,10 @@ public class MainActivity extends Activity {
         }
         return tmpFolder;
     }
-	
-	public String getPreDownloadJsonPath(){
-	  return exDir+"/pixivLike.json";
-	}
+
+    public String getPreDownloadJsonPath() {
+        return exDir + "/pixivLike.json";
+    }
 
     public String getAwesomeQRPath() {
         String awesomeQRPath = exDir + "/Pictures/picTool/AwesomeQR/";
