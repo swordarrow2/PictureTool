@@ -116,11 +116,7 @@ public class DownloadRunnable implements Runnable{
             connection.disconnect();
 		  }catch(Exception e){
 			e.printStackTrace();
-            LogTool.i("下载异常"+e.toString());
-			//调用数据库的添加方法
-			DBHelper helper = new DBHelper(mengProgressBar.context);
-			long l = helper.insertData(title,MainActivity2.instence.pixivDownloadMainFragment.getPixivId(picUrl));
-            downloadEnd();
+            LogTool.i("下载异常"+e.toString());downloadEnd();
             return;
 		  }
         if(mengProgressBar.pictureInfoJavaBean.isAnimPicture){
@@ -151,10 +147,7 @@ public class DownloadRunnable implements Runnable{
 			  }catch(Exception e){
                 LogTool.t("解压异常"+e.getStackTrace()[0]);
 				LogTool.t(e.getStackTrace()[1]);
-				e.printStackTrace();
-				DBHelper helper = new DBHelper(mengProgressBar.context);
-				long l = helper.insertData(title,MainActivity2.instence.pixivDownloadMainFragment.getPixivId(picUrl));			  
-                downloadEnd();
+				e.printStackTrace();downloadEnd();
                 return;
 			  }
             taskState=TaskState.creatingGif;
@@ -168,6 +161,7 @@ public class DownloadRunnable implements Runnable{
 		  }
         taskState=TaskState.end;
         downloadEnd();
+		MainActivity2.instence.pixivDownloadMainFragment.updateData(picUrl,PixivDownloadMain.Type.pid,true);
 	  }
 
     private void setProgressBarFileName(final String gifPath){
@@ -200,11 +194,7 @@ public class DownloadRunnable implements Runnable{
             fos.flush();
             baos.close();
             fos.close();
-		  }catch(IOException e){
-            e.printStackTrace();
-			DBHelper helper = new DBHelper(mengProgressBar.context);
-			long l = helper.insertData(title,MainActivity2.instence.pixivDownloadMainFragment.getPixivId(picUrl));
-			LogTool.e("gif异常"+e.toString());
+		  }catch(IOException e){LogTool.e("gif异常"+e.toString());
 		  }
         registImage(path);
 	  }
@@ -219,9 +209,7 @@ public class DownloadRunnable implements Runnable{
             gifEncoder.init(bmp.getWidth(),bmp.getHeight(),filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
 		  }catch(FileNotFoundException e){
             LogTool.e("jni异常:"+e.toString());
-			DBHelper helper = new DBHelper(mengProgressBar.context);
-			long l = helper.insertData(title,MainActivity2.instence.pixivDownloadMainFragment.getPixivId(picUrl));		  
-            return;
+			return;
 		  }
         for(int i = 0; i<lf.size(); i++){
             gifEncoder.encodeFrame(BitmapFactory.decodeFile(folder+lf.get(i).file),Integer.parseInt(lf.get(i).delay));

@@ -37,6 +37,12 @@ public class PixivDownloadMain extends Fragment{
     private Gson gson;
     public ExecutorService threadPool;
 	private String title="pids";
+	private DBHelper helper;
+	
+	public enum Type{
+	  pid,
+	  uid
+	}
 
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
@@ -70,7 +76,7 @@ public class PixivDownloadMain extends Fragment{
         String[] filesName = new File(MainActivity.instence.getPixivZipPath("")).list();
         Arrays.sort(filesName);
         downloadedList.setAdapter(new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,filesName));
-
+		 helper = new DBHelper(getActivity());
         likeList.setOnItemClickListener(new OnItemClickListener() {
 
 			  @Override
@@ -119,8 +125,8 @@ public class PixivDownloadMain extends Fragment{
 
 		Cursor c = helper.query();
 		if(c.getCount()>0){
-			String [] from ={"title","content"};
-			int [] to={R.id.TextView01,R.id.TextView02};
+			String [] from ={"pixivId","type","statu"};
+			int [] to={R.id.TextView01,R.id.TextView02,R.id.TextView03};
 			final SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),R.layout.items,c,from,to);
 			lv.setAdapter(adapter);
 			final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -130,7 +136,7 @@ public class PixivDownloadMain extends Fragment{
 				  public void onItemClick(final AdapterView<?> parent,View view,
 										  int position,long id){
 					  final long noteId = id;
-					  builder.setMessage("真的要删除这天记录吗？")
+					  builder.setMessage("真的要删除吗？")
 						.setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener() {
 
 							@Override
@@ -139,8 +145,8 @@ public class PixivDownloadMain extends Fragment{
 								helper.deleteData((int)noteId);
 								//重新查询
 								Cursor c = helper.query();
-								String [] from ={"title","content"};
-								int [] to={R.id.TextView01,R.id.TextView02};
+								String [] from ={"pixivId","type","statu"};
+								int [] to={R.id.TextView01,R.id.TextView02,R.id.TextView03};
 								SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),R.layout.items,c,from,to);
 								lv.setAdapter(adapter);
 								LogTool.t("删除成功");
@@ -203,23 +209,39 @@ public class PixivDownloadMain extends Fragment{
 
 			  @Override
 			  public void run(){
-				  final PictureInfoJavaBean pictureInfoJavaBean = getPicInfo(getPixivId(url));
+				  final PictureInfoJavaBean pictureInfoJavaBean = getPicInfo(getPixivId(url));		  
 				  getActivity().runOnUiThread(
 					new Runnable() {
 
 						@Override
 						public void run(){
 							if(pictureInfoJavaBean.isAnimPicture){
+							  if(pictureInfoJavaBean.animPicJavaBean.error.equals("true")){
+								addData(url,Type.pid,false);
+								LogTool.e("动态图信息读取错误");
+								return;
+							  }
 								taskLinearLayout.addView(new MengProgressBar(getActivity(),downloadedList,pictureInfoJavaBean,
 																			 SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigPicture)?
 																			 pictureInfoJavaBean.animPicJavaBean.body.originalSrc :
 																			 pictureInfoJavaBean.animPicJavaBean.body.src));
+								addData(SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigPicture)?
+										pictureInfoJavaBean.animPicJavaBean.body.originalSrc :
+										pictureInfoJavaBean.animPicJavaBean.body.src,Type.pid,false);										 
 							  }else{
+								  if(pictureInfoJavaBean.staticPicJavaBean.error.equals("true")){
+									  addData(url,Type.pid,false);
+									  LogTool.e("图片信息读取错误");
+									  return;
+									}
 								for(int i = 0; i<pictureInfoJavaBean.staticPicJavaBean.body.size(); ++i){
 									taskLinearLayout.addView(new MengProgressBar(getActivity(),downloadedList,pictureInfoJavaBean,
 																				 SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigPicture)?
 																				 pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.original :
 																				 pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.regular));
+									  addData(SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigPicture)?
+											  pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.original :
+											  pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.regular,Type.pid,false);
 								  }
 							  }
 						  }
@@ -303,7 +325,6 @@ public class PixivDownloadMain extends Fragment{
 				pijb.staticPicJavaBean=getStaticPicture(picId);
 				pijb.isAnimPicture=false;  
 			  }
-
 		  }catch(Exception e){
             LogTool.t(getActivity().getString(R.string.maybe_need_login));
             LogTool.e(e.toString());
@@ -316,9 +337,7 @@ public class PixivDownloadMain extends Fragment{
         String picJsonAddress = "https://www.pixiv.net/ajax/illust/"+id+"/ugoira_meta";
         try{
             return new Gson().fromJson(readStringFromNetwork(picJsonAddress),AnimPicJavaBean.class);
-		  }catch(Exception e){
-			DBHelper helper = new DBHelper(getActivity());
-			long l = helper.insertData(title,id);	  
+		  }catch(Exception e){		
             return new AnimPicJavaBean();
 		  }
 	  }
@@ -327,9 +346,7 @@ public class PixivDownloadMain extends Fragment{
         String picJsonAddress = "https://www.pixiv.net/ajax/illust/"+id+"/pages";
         try{
             return new Gson().fromJson(readStringFromNetwork(picJsonAddress),StaticPicJavaBean.class);
-		  }catch(Exception e){
-			DBHelper helper = new DBHelper(getActivity());
-			long l = helper.insertData(title,id);
+		  }catch(Exception e){	
             return new StaticPicJavaBean();
 		  }
 	  }
@@ -388,7 +405,17 @@ public class PixivDownloadMain extends Fragment{
 				}
 			});
 	  }
-
+	  
+	  public long addData(String id,Type type,boolean ok){
+		  long l = helper.insertData(id,type.toString(),ok);
+		  return l;
+	  }
+	  
+	public long updateData(String id,Type type,boolean ok){
+		long l = helper.updateData(id,type.toString(),ok);
+		return l;
+	  }
+	  
     public String getPixivId(String str){
         int pageIndex = str.indexOf("&page");
         if(pageIndex>1){
