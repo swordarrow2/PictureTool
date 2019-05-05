@@ -68,7 +68,7 @@ public class DownloadRunnable implements Runnable{
 					}
 				}
 			}).start();
-
+		DataBaseHelper.insertData(picUrl);
         File file = new File(absolutePath);
         taskState=TaskState.connecting;
         try{
@@ -161,7 +161,7 @@ public class DownloadRunnable implements Runnable{
 		  }
         taskState=TaskState.end;
         downloadEnd();
-		MainActivity2.instence.pixivDownloadMainFragment.updateData(picUrl,PixivDownloadMain.Type.pid,true);
+		DataBaseHelper.deleteData(picUrl);
 	  }
 
     private void setProgressBarFileName(final String gifPath){

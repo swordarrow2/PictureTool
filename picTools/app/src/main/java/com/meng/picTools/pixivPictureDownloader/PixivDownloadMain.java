@@ -160,20 +160,15 @@ public class PixivDownloadMain extends Fragment{
 						public void run(){
 							if(pictureInfoJavaBean.isAnimPicture){
 							  if(pictureInfoJavaBean.animPicJavaBean.error.equals("true")){
-								addData(url,Type.pid,false);
 								LogTool.e("动态图信息读取错误");
 								return;
 							  }
 								taskLinearLayout.addView(new MengProgressBar(getActivity(),downloadedList,pictureInfoJavaBean,
 																			 SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigPicture)?
 																			 pictureInfoJavaBean.animPicJavaBean.body.originalSrc :
-																			 pictureInfoJavaBean.animPicJavaBean.body.src));
-								addData(SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigPicture)?
-										pictureInfoJavaBean.animPicJavaBean.body.originalSrc :
-										pictureInfoJavaBean.animPicJavaBean.body.src,Type.pid,false);										 
+																			 pictureInfoJavaBean.animPicJavaBean.body.src));															 
 							  }else{
-								  if(pictureInfoJavaBean.staticPicJavaBean.error.equals("true")){
-									  addData(url,Type.pid,false);
+								  if(pictureInfoJavaBean.staticPicJavaBean.error.equals("true")){						
 									  LogTool.e("图片信息读取错误");
 									  return;
 									}
@@ -182,9 +177,7 @@ public class PixivDownloadMain extends Fragment{
 																				 SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigPicture)?
 																				 pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.original :
 																				 pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.regular));
-									  addData(SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigPicture)?
-											  pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.original :
-											  pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.regular,Type.pid,false);
+
 								  }
 							  }
 						  }

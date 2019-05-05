@@ -11,13 +11,11 @@ public class DataBaseHelper {
     //表的主键
     private static final String KEY_ID = "_id";
     private static final String ID = "pixivId";
-    private static final String TYPE = "type";
-    private static final String STATU = "statu";
     //创建一个表的sql语句
     private static final String sql = "create table "
             + TABLE_NAME + "( " + KEY_ID
             + " integer primary key autoincrement,"
-            + ID + " text," + TYPE + " type," + STATU + " statu)";
+            + ID + " text)";
     private static SQLiteOpenHelper sqLiteOpenHelper;
 
     public static void init(Context context) {
@@ -36,12 +34,10 @@ public class DataBaseHelper {
     }
 
     //插入一条数据
-    public static long insertData(String id, String type, boolean ok) {
+    public static long insertData(String id) {
         SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(ID, id);
-        values.put(TYPE, type);
-        values.put(STATU, ok);
+        values.put(ID, id);  
         return db.insert(TABLE_NAME, null, values);
     }
 
@@ -57,13 +53,13 @@ public class DataBaseHelper {
         db.delete("record", "pixivId=?", new String[]{pixivId});
     }
 
-    public static long updateData(String id, String type, boolean ok) {
+  /* public static long updateData(String id, String type, boolean ok) {
         SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ID, id);
         values.put(TYPE, type);
         values.put(STATU, ok);
         return db.update("record", values, ID + "=?", new String[]{id});
-    }
+    }*/
 }
 
