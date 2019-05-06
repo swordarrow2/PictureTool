@@ -8,7 +8,6 @@ import com.meng.picTools.*;
 import com.meng.picTools.javaBean.*;
 import com.meng.picTools.mengViews.*;
 import com.meng.picTools.lib.*;
-import com.waynejo.androidndkgif.*;
 import java.io.*;
 import java.net.*;
 import java.text.*;
@@ -151,11 +150,7 @@ public class DownloadRunnable implements Runnable{
             taskState=TaskState.creatingGif;
             filesNow=0;
             setProgressBarFileName(zipName+".gif");
-            if(SharedPreferenceHelper.getBoolean(Data.preferenceKeys.useJava)){
-                createGifJava(frameFileFolder.getAbsolutePath()+File.separator,zipName);
-			  }else{
-                createGifNative(frameFileFolder.getAbsolutePath()+File.separator,zipName);
-			  }
+            createGifJava(frameFileFolder.getAbsolutePath()+File.separator,zipName);
 		  }
         taskState=TaskState.end;
         downloadEnd();
@@ -195,26 +190,6 @@ public class DownloadRunnable implements Runnable{
 		  }catch(IOException e){LogTool.e("gif异常"+e.toString());
 		  }
         registImage(path);
-	  }
-
-    private void createGifNative(String folder,String fileName){
-        String filePath = MainActivity.instence.getGifPath(fileName);
-        List<AnimPicJavaBean.Body.Frames> lf = mengProgressBar.pictureInfoJavaBean.animPicJavaBean.body.frames;
-        Bitmap bmp = BitmapFactory.decodeFile(folder+lf.get(0).file);
-        GifEncoder gifEncoder = new GifEncoder();
-        gifEncoder.setDither(false);
-        try{
-            gifEncoder.init(bmp.getWidth(),bmp.getHeight(),filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
-		  }catch(FileNotFoundException e){
-            LogTool.e("jni异常:"+e.toString());
-			return;
-		  }
-        for(int i = 0; i<lf.size(); i++){
-            gifEncoder.encodeFrame(BitmapFactory.decodeFile(folder+lf.get(i).file),Integer.parseInt(lf.get(i).delay));
-            filesNow=i;
-		  }
-        gifEncoder.close();
-        registImage(filePath);
 	  }
 
     private int countFilesInZip(File zipFile){

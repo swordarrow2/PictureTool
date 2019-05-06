@@ -38,7 +38,7 @@
                 android:id="@+id/gif_arb_qr_selected_path"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -50,14 +50,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/use_dither"
-                    android:visibility="gone"/>
+                    />
 
                 <Button
                     android:id="@+id/gif_arb_qr_button_encode_gif"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/create_gif"
-                    android:visibility="gone"/>
+                    />
             </LinearLayout>
 
             <com.meng.picTools.mengViews.MengEditText
@@ -85,13 +85,13 @@
                 android:id="@+id/gif_arb_qr_main_colorBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                />
 
             <com.meng.picTools.mengViews.MengSeekBar
                 android:id="@+id/gif_arb_qr_mainMengSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                />
 
             <ProgressBar
                 android:id="@+id/gif_arb_qr_mainProgressBar"
@@ -99,7 +99,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:max="100"
-                android:visibility="gone"/>
+                />
 
             <com.meng.picTools.mengViews.MengSelectRectView
                 android:id="@+id/gif_arb_awesome_qrselectRectView"

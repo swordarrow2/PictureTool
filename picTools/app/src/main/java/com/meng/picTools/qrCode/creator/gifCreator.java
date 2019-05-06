@@ -20,7 +20,6 @@ import com.meng.picTools.LogTool;
 import com.meng.picTools.lib.ContentHelper;
 import com.meng.picTools.qrCode.qrcodelib.QrUtils;
 import com.meng.picTools.mengViews.MengEditText;
-import com.waynejo.androidndkgif.GifEncoder;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,7 +76,7 @@ public class gifCreator extends Fragment{
                     MainActivity2.selectImage(gifCreator.this);
                     break;
                 case R.id.gif_creator_finish:
-                    try{
+              /*      try{
                         String filePath=MainActivity.instence.getGifPath();
                         GifEncoder gifEncoder=new GifEncoder();
                         gifEncoder.setDither(false);
@@ -100,7 +99,7 @@ public class gifCreator extends Fragment{
                         bitmapFlag=0;
                     }catch(IOException e){
                         LogTool.e(e);
-                    }
+                    }*/
                     break;
             }
         }

@@ -102,7 +102,7 @@ public class MainActivity extends Activity {
         String gifPath = exDir + "/Pictures/picTool/gif/";
         File f = new File(gifPath);
         if (!f.exists()) f.mkdirs();
-        return gifPath + zipName.replace(".zip", "") + ".gif";
+        return gifPath + zipName.replace(".zip", "").replace(".gif","") + ".gif";
     }
 
 

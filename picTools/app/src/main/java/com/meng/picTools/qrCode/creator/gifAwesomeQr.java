@@ -27,10 +27,6 @@ import com.meng.picTools.qrCode.qrcodelib.AwesomeQRCode;
 import com.meng.picTools.qrCode.qrcodelib.QrUtils;
 import com.meng.picTools.mengViews.MengColorBar;
 import com.meng.picTools.mengViews.MengEditText;
-import com.waynejo.androidndkgif.GifDecoder;
-import com.waynejo.androidndkgif.GifEncoder;
-import com.waynejo.androidndkgif.GifImage;
-import com.waynejo.androidndkgif.GifImageIterator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -121,7 +117,7 @@ public class gifAwesomeQr extends Fragment{
     };
 
     private void encodeGIF(){
-        new Thread(new Runnable(){
+       /* new Thread(new Runnable(){
             @Override
             public void run(){
                 try{
@@ -164,11 +160,11 @@ public class gifAwesomeQr extends Fragment{
                     }
                 });
             }
-        }).start();
+        }).start();*/
     }
 
     private void decodeGif(final String path){
-        if(cbLowMemoryMode.isChecked()){
+     /*   if(cbLowMemoryMode.isChecked()){
             new Thread(new Runnable(){
                 @Override
                 public void run(){
@@ -231,7 +227,7 @@ public class gifAwesomeQr extends Fragment{
                     });
                 }
             }).start();
-        }
+        }*/
     }
 
     private Bitmap encodeAwesome(int size,Bitmap bg){
