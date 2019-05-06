@@ -2,19 +2,28 @@ package com.meng.picTools;
 
 import android.app.*;
 import android.content.*;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.*;
+import android.net.Uri;
 import android.os.*;
 import android.support.v4.widget.*;
 import android.view.*;
 import android.widget.*;
 
+import com.meng.picTools.javaBean.UpdateInfo;
 import com.meng.picTools.pixivPictureDownloader.Data;
 import com.meng.picTools.pixivPictureDownloader.PixivDownloadMain;
-import com.meng.picTools.qrtools.*;
-import com.meng.picTools.qrtools.creator.*;
-import com.meng.picTools.qrtools.lib.SharedPreferenceHelper;
-import com.meng.picTools.qrtools.lib.materialDesign.*;
-import com.meng.picTools.qrtools.reader.*;
+import com.meng.picTools.qrCode.creator.*;
+import com.meng.picTools.lib.SharedPreferenceHelper;
+import com.meng.picTools.lib.materialDesign.*;
+import com.meng.picTools.qrCode.reader.*;
+
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity2 extends Activity {
     public static MainActivity2 instence;
@@ -76,7 +85,7 @@ public class MainActivity2 extends Activity {
         if (getIntent().getBooleanExtra("setTheme", false)) {
             showSettingsFragment(true);
         } else {
-            initWelcome(true);
+            showWelcome(true);
             if (SharedPreferenceHelper.getBoolean("opendraw", true)) {
                 mDrawerLayout.openDrawer(mDrawerList);
             }
@@ -134,7 +143,7 @@ public class MainActivity2 extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (((TextView) view).getText().toString()) {
                     case "首页(大概)":
-                        initWelcome(true);
+                        showWelcome(true);
                         break;
                     case "读取二维码":
                         new AlertDialog.Builder(MainActivity2.this)
@@ -256,6 +265,52 @@ public class MainActivity2 extends Activity {
         });
     }
 
+    private void checkUpdate() {
+        PackageInfo packageInfo;
+        final UpdateInfo updateInfo = new UpdateInfo(getApplicationContext());
+        if (updateInfo.error) return;
+        try {
+            Connection connection = Jsoup.connect("https://github.com/swordarrow2/PictureTool/releases/latest");
+            connection.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
+            connection.ignoreContentType(true).method(Connection.Method.GET);
+            Connection.Response response = connection.execute();
+            Map<String, String> head = response.headers();
+            updateInfo.setNewVersionLink(head.get("Location"));
+            //		showToast(String.valueOf(response.statusCode()));
+            //		Thread.sleep(2900);
+        } catch (Exception e) {
+            LogTool.e("检查更新出错");
+            e.printStackTrace();
+            return;
+        }
+        updateInfo.check();
+        if (updateInfo.newFunction || updateInfo.optimize || updateInfo.bugFix) {
+            StringBuilder stringBuilder = new StringBuilder("本次更新的主要目的是\n");
+            if (updateInfo.newFunction) stringBuilder.append("添加新功能\n");
+            if (updateInfo.optimize) stringBuilder.append("性能优化\n");
+            if (updateInfo.bugFix) stringBuilder.append("修理bug\n");
+            stringBuilder.append("现在要更新吗");
+            new AlertDialog.Builder(MainActivity2.this)
+                    .setTitle("发现新版本")
+                    .setMessage(stringBuilder.toString())
+                    .setPositiveButton("现在更新", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface p1, int p2) {
+                            Intent intent = new Intent();
+                            intent.setAction("android.intent.action.VIEW");
+                            Uri content_url = Uri.parse(updateInfo.getNewVersionLink());
+                            intent.setData(content_url);
+                            startActivity(intent);
+                        }
+                    }).setNegativeButton("以后再说", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            }).show();
+        }
+    }
+
     private void findViews() {
         rt = (RelativeLayout) findViewById(R.id.right_drawer);
         rightText = (TextView) findViewById(R.id.main_activityTextViewRight);
@@ -265,49 +320,23 @@ public class MainActivity2 extends Activity {
 
     private void initFragment() {
         manager = getFragmentManager();
-        if (SharedPreferenceHelper.getBoolean(Data.preferenceKeys.loadGalleryReader)) {
-            showGalleryReaderFragment(false);
-        }
-        if (SharedPreferenceHelper.getBoolean(Data.preferenceKeys.loadCameraReader)) {
-            showCameraReaderFragment(false);
-        }
-        if (SharedPreferenceHelper.getBoolean("ldlgqr")) {
-            showLogoCreatorFragment(false);
-        }
+        showGalleryReaderFragment(false);
+        showCameraReaderFragment(false);
+        showLogoCreatorFragment(false);
         showAwesomeFragment(false);
-        if (SharedPreferenceHelper.getBoolean("ldgif")) {
-            showGifAwesomeFragment(false);
-        }
-        if (SharedPreferenceHelper.getBoolean("ldaw2")) {
-            showArbFragmentFragment(false);
-        }
-        if (SharedPreferenceHelper.getBoolean("ldaw3")) {
-            showGifArbAwesomeFragment(false);
-        }
-        if (SharedPreferenceHelper.getBoolean("ldgif")) {
-            showGifFragment(false);
-        }
-        if (SharedPreferenceHelper.getBoolean("SettingsPreference")) {
-            showSettingsFragment(false);
-        }
-        if (SharedPreferenceHelper.getBoolean("BusCodeCreator")) {
-            showBusFragment(false);
-        }
-        if (SharedPreferenceHelper.getBoolean("BusCodeReader")) {
-            showBusRFragment(false);
-        }
-        if (SharedPreferenceHelper.getBoolean("pice")) {
-            showPicEncryFragment(false);
-        }
-        if (SharedPreferenceHelper.getBoolean("picd")) {
-            showPicDecryFragment(false);
-        }
-        if (SharedPreferenceHelper.getBoolean("loadPixivDownload")) {
-            showPixivDownloadFragment(false);
-        }
+        showGifAwesomeFragment(false);
+        showArbFragmentFragment(false);
+        showGifArbAwesomeFragment(false);
+        showGifFragment(false);
+        showSettingsFragment(false);
+        showBusFragment(false);
+        showBusRFragment(false);
+        showPicEncryFragment(false);
+        showPicDecryFragment(false);
+        showPixivDownloadFragment(false);
     }
 
-    private void initWelcome(boolean showNow) {
+    private void showWelcome(boolean showNow) {
         FragmentTransaction transactionWelcome = manager.beginTransaction();
         if (welcomeFragment == null) {
             welcomeFragment = new Welcome();

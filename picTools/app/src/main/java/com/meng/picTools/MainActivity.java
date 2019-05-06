@@ -6,10 +6,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Vibrator;
 
-import com.meng.picTools.dataBase.DataBaseHelper;
-import com.meng.picTools.qrtools.lib.ExceptionCatcher;
-import com.meng.picTools.qrtools.lib.SharedPreferenceHelper;
-import com.meng.picTools.qrtools.LogTool;
+import com.meng.picTools.lib.DataBaseHelper;
+import com.meng.picTools.lib.ExceptionCatcher;
+import com.meng.picTools.lib.SharedPreferenceHelper;
 
 import java.io.File;
 import java.io.IOException;

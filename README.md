@@ -1,2 +1,1 @@
-# QRCodeReaderAndCreator
-一个一维码和二维码的编码解码工具
+#

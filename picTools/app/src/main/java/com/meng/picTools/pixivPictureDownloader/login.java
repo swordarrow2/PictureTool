@@ -4,7 +4,7 @@ import android.app.*;
 import android.os.*;
 import android.webkit.*;
 import com.meng.picTools.*;
-import com.meng.picTools.qrtools.lib.SharedPreferenceHelper;
+import com.meng.picTools.lib.SharedPreferenceHelper;
 
 public class login extends Activity{
 

@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.meng.picTools.qrtools.lib.qrcodelib.QrUtils;
+import com.meng.picTools.qrCode.qrcodelib.QrUtils;
 
 public class MengSelectRectView extends View{
 

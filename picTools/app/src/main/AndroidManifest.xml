@@ -29,9 +29,8 @@
             android:name="com.meng.picTools.MainActivity2"
             android:label="@string/app_name"
             android:theme="@style/AppThemeDark"/>
-        <service android:name=".qrtools.reader.screenshotListenerService"/>
+        <service android:name=".qrCode.reader.screenshotListenerService"/>
         <activity android:name=".pixivPictureDownloader.login"/>
-        <activity android:name=".pixivPictureDownloader.playLayout"/>
     </application>
 
 </manifest>

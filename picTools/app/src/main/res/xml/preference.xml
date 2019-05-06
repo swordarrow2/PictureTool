@@ -17,40 +17,6 @@
         android:summary="System.exit(0)可以彻底关闭软件"
         android:title="使用System.exit(0)代替finish()" />
 
-    <PreferenceScreen
-        android:title="启动时立即加载的项目">
-        <CheckBoxPreference
-            android:key="ldlgqr"
-            android:title="logo二维码" />
-        <CheckBoxPreference
-            android:key="loadCameraReader"
-            android:title="相机扫描" />
-        <CheckBoxPreference
-            android:key="loadGalleryReader"
-            android:title="从相册读取" />
-        <CheckBoxPreference
-            android:key="ldgif"
-            android:title="动态AwesomeQR" />
-        <CheckBoxPreference
-            android:key="ldaw2"
-            android:title="自选位置的AwesomeQR" />
-        <CheckBoxPreference
-            android:key="ldaw3"
-            android:title="自选位置的动态AwesomeQR" />
-        <CheckBoxPreference
-            android:key="ldgif"
-            android:title="生成gif" />
-        <CheckBoxPreference
-            android:key="loadPixivDownload"
-            android:title="P图下载" />
-        <CheckBoxPreference
-            android:key="about"
-            android:title="关于" />
-        <CheckBoxPreference
-            android:key="settings"
-            android:title="设置" />
-    </PreferenceScreen>
-
     <PreferenceScreen android:title="Pixiv图片下载设置">
         <Preference android:title="登录Pixiv">
             <intent
