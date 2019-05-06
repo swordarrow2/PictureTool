@@ -1,46 +1,20 @@
 package com.meng.picTools.qrCode.creator;
 
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ProgressBar;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.meng.picTools.MainActivity2;
-import com.meng.picTools.MainActivity;
-import com.meng.picTools.R;
-import com.meng.picTools.LogTool;
-import com.meng.picTools.lib.ContentHelper;
-import com.meng.picTools.qrCode.qrcodelib.QrUtils;
-import com.meng.picTools.mengViews.MengColorBar;
-import com.meng.picTools.mengViews.MengEditText;
-import com.meng.picTools.mengViews.MengScrollView;
-import com.meng.picTools.mengViews.MengSeekBar;
-import com.meng.picTools.mengViews.MengSelectRectView;
-import com.waynejo.androidndkgif.GifDecoder;
-import com.waynejo.androidndkgif.GifEncoder;
-import com.waynejo.androidndkgif.GifImage;
-import com.waynejo.androidndkgif.GifImageIterator;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import android.app.*;
+import android.content.*;
+import android.graphics.*;
+import android.net.*;
+import android.os.*;
+import android.util.*;
+import android.view.*;
+import android.widget.*;
+import com.meng.picTools.*;
+import com.meng.picTools.lib.*;
+import com.meng.picTools.mengViews.*;
+import com.meng.picTools.pixivPictureDownloader.*;
+import com.meng.picTools.qrCode.qrcodelib.*;
+import java.io.*;
+import java.util.*;
 
 /**
  * gif二维码
@@ -49,9 +23,7 @@ import java.io.IOException;
 public class gifArbAwesome extends Fragment{
 
     private boolean coding=false;
-    private int intGifFrameDelay;
     private int qrSize;
-    private Bitmap[] bmpDecodedBitmaps;
     private Button btnEncodeGif;
     private Button btnSelectImage;
     private CheckBox cbAutoColor;
@@ -67,9 +39,6 @@ public class gifArbAwesome extends Fragment{
     private MengSelectRectView mengSelectView;
     private float screenW;
     private float screenH;
-    private int gifWidth;
-    private int gifHeight;
-    private int bmpCount;
     private MengScrollView msv;
     private MengSeekBar mengSeekBar;
 
@@ -128,43 +97,58 @@ public class gifArbAwesome extends Fragment{
                         LogTool.t("正在执行操作");
                     }else{
                         btnSelectImage.setEnabled(false);
-                        encodeGIF();
+                        encodeGIF(strSelectedGifPath);
                     }
                     break;
             }
         }
     };
 
-    private void encodeGIF(){
+    private void encodeGIF(final String oldGifPath){
         new Thread(new Runnable(){
             @Override
             public void run(){
                 try{
                     coding=true;
-                     String filePath=MainActivity.instence.getGifArbAwesomeQRPath();
-                    GifEncoder gifEncoder=new GifEncoder();
-                    gifEncoder.setDither(cbUseDither.isChecked());
-                    if(cbLowMemoryMode.isChecked()){
-                        gifEncoder.init(gifWidth,gifHeight,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
-                        for(int t=0;t<bmpCount;t++){
-                            gifEncoder.encodeFrame(
-                                    encodeAwesome(BitmapFactory.decodeFile(MainActivity.instence.getTmpFolder()+t+".png")),
-                                    intGifFrameDelay);
-                            setProgress((int)((t+1)*100.0f/bmpDecodedBitmaps.length),true);
-                        }
-                    }else{
-                        gifEncoder.init(gifWidth,gifHeight,filePath,GifEncoder.EncodingType.ENCODING_TYPE_FAST);
-                        for(int t=0;t<bmpCount;t++){
-                            gifEncoder.encodeFrame(
-                                    encodeAwesome(bmpDecodedBitmaps[t]),
-                                    intGifFrameDelay);
-                            setProgress((int)((t+1)*100.0f/bmpDecodedBitmaps.length),true);
-                        }
-                    }
-                    gifEncoder.close();
+					GifDecoder gifDecoder=new GifDecoder();
+					File gifFile=new File(oldGifPath);
+					FileInputStream fis=new FileInputStream(gifFile);
+					int c=0;
+					try{
+						c=gifDecoder.read(fis,fis.available());
+					  }catch(IOException e){}
+					if(c!=0){
+					  LogTool.e("read error "+oldGifPath);
+					  return;
+					}
+                    String filePath=MainActivity.instence.getGifArbAwesomeQRPath();
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					AnimatedGifEncoder localAnimatedGifEncoder = new AnimatedGifEncoder();
+					localAnimatedGifEncoder.start(baos);//start
+					localAnimatedGifEncoder.setRepeat(0);//设置生成gif的开始播放时间。0为立即开始播放
+					
+					for(int i = 0; i<gifDecoder.getFrameCount(); i++){
+	    				  gifDecoder.advance();
+						localAnimatedGifEncoder.setDelay(gifDecoder.getNextDelay());
+						localAnimatedGifEncoder.addFrame(encodeAwesome(gifDecoder.getNextFrame()));
+					  }
+					
+					localAnimatedGifEncoder.finish();
+					String path = MainActivity.instence.getGifPath(oldGifPath.substring(oldGifPath.lastIndexOf("/")+1));
+					try{
+						FileOutputStream fos = new FileOutputStream(path);
+						baos.writeTo(fos);
+						baos.flush();
+						fos.flush();
+						baos.close();
+						fos.close();
+					  }catch(IOException e){
+						LogTool.e("gif异常"+e.toString());
+					  }
+
                     getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
                     LogTool.t("完成 : "+filePath);
-                }catch(FileNotFoundException e){
+                }catch(Exception e){
                     LogTool.e(e);
                 }
                 coding=false;
@@ -178,95 +162,6 @@ public class gifArbAwesome extends Fragment{
                 });
             }
         }).start();
-    }
-
-    private void decodeGif(final String path){
-        if(cbLowMemoryMode.isChecked()){
-            new Thread(new Runnable(){
-                @Override
-                public void run(){
-                    GifDecoder gifDecoder=new GifDecoder();
-                    GifImageIterator iterator=gifDecoder.loadUsingIterator(path);
-                    int flag=0;
-                    while(iterator.hasNext()){
-                        GifImage next=iterator.next();
-                        if(next!=null){
-                            gifHeight=next.bitmap.getHeight();
-                            gifWidth=next.bitmap.getWidth();
-                            try{
-                                QrUtils.saveMyBitmap(MainActivity.instence.getTmpFolder()+flag+++".png",next.bitmap);
-                            }catch(IOException e){
-                                LogTool.e(e);
-                            }
-                            intGifFrameDelay=next.delayMs;
-                        }else{
-                            LogTool.e("解码失败，可能文件损坏");
-                        }
-                    }
-                    iterator.close();
-                    LogTool.t("共"+(flag-1)+"张,解码成功");
-                    bmpCount=flag;
-                    coding=false;
-                    getActivity().runOnUiThread(new Runnable(){
-                        @Override
-                        public void run(){
-                            btnEncodeGif.setVisibility(View.VISIBLE);
-                            cbUseDither.setVisibility(View.VISIBLE);
-                            tvImagePath.setVisibility(View.VISIBLE);
-                            mengSelectView.setup(
-                                    BitmapFactory.decodeFile(MainActivity.instence.getTmpFolder()+"0.png"),
-                                    screenW,
-                                    screenH,
-                                    qrSize);
-                            ViewGroup.LayoutParams para=mengSelectView.getLayoutParams();
-                            para.height=(int)(screenW/gifWidth*gifHeight);
-                            mengSelectView.setLayoutParams(para);
-                            mengSelectView.setVisibility(View.VISIBLE);
-                        }
-                    });
-                }
-            }).start();
-        }else{
-            new Thread(new Runnable(){
-                @Override
-                public void run(){
-                    final GifDecoder gifDecoder=new GifDecoder();
-                    if(gifDecoder.load(path)){
-                        bmpDecodedBitmaps=new Bitmap[gifDecoder.frameNum()];
-                        intGifFrameDelay=gifDecoder.delay(1);
-                        for(int i=0;i<gifDecoder.frameNum();i++){
-                            bmpDecodedBitmaps[i]=gifDecoder.frame(i);
-                            setProgress((int)((i+1)*100.0f/gifDecoder.frameNum()),false);
-                        }
-                        LogTool.t("共"+(bmpCount=gifDecoder.frameNum())+"张,解码成功");
-                    }else{
-                        LogTool.e("解码失败，可能不是GIF文件");
-                    }
-                    coding=false;
-                    getActivity().runOnUiThread(new Runnable(){
-                        @Override
-                        public void run(){
-                            btnEncodeGif.setVisibility(View.VISIBLE);
-                            cbUseDither.setVisibility(View.VISIBLE);
-                            tvImagePath.setVisibility(View.VISIBLE);
-                            gifHeight=bmpDecodedBitmaps[0].getHeight();
-                            gifWidth=bmpDecodedBitmaps[0].getWidth();
-                            LogTool.i("setup");
-                            mengSelectView.setup(
-                                    bmpDecodedBitmaps[0],
-                                    screenW,
-                                    screenH,
-                                    qrSize);
-                            LogTool.i("setPara");
-                            ViewGroup.LayoutParams para=mengSelectView.getLayoutParams();
-                            para.height=(int)(screenW/gifWidth*gifHeight);
-                            mengSelectView.setLayoutParams(para);
-                            mengSelectView.setVisibility(View.VISIBLE);
-                        }
-                    });
-                }
-            }).start();
-        }
     }
 
     private Bitmap encodeAwesome(Bitmap bg){
@@ -348,7 +243,6 @@ public class gifArbAwesome extends Fragment{
                                     para.height=(int)(screenW/selectedBmpWidth*selectedBmpHeight);
                                     mengSelectView.setLayoutParams(para);
                                     mengSelectView.setVisibility(View.VISIBLE);
-                                    decodeGif(strSelectedGifPath);
                                     if(para.height>screenH*2/3){
                                         LogTool.t("可使用音量键滚动界面");
                                     }
@@ -357,7 +251,6 @@ public class gifArbAwesome extends Fragment{
                                             msv.fullScroll(View.FOCUS_DOWN);
                                         }
                                     });
-                                    coding=true;
                                 }
                             }).show();
                 }
