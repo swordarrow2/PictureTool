@@ -137,7 +137,7 @@ public class gifAwesomeQr extends Fragment{
                         localAnimatedGifEncoder.addFrame(encodeAwesome(gifDecoder.getNextFrame()));
                     }
                     localAnimatedGifEncoder.finish();
-                    String path = MainActivity.instence.getGifPath(oldGifPath.substring(oldGifPath.lastIndexOf("/")+1));
+                    String path = MainActivity.instence.getGifAwesomeQRPath();
                     try{
                         FileOutputStream fos = new FileOutputStream(path);
                         baos.writeTo(fos);

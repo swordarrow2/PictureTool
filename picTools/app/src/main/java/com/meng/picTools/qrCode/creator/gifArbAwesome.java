@@ -129,7 +129,7 @@ public class gifArbAwesome extends Fragment{
 					  }
 
 					localAnimatedGifEncoder.finish();
-					String path = MainActivity.instence.getGifPath(oldGifPath.substring(oldGifPath.lastIndexOf("/")+1));
+					String path = MainActivity.instence.getGifArbAwesomeQRPath();
 					try{
 						FileOutputStream fos = new FileOutputStream(path);
 						baos.writeTo(fos);

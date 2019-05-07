@@ -53,7 +53,7 @@ public class UpdateInfo {
     }
 
     public String getUpdateNote() {
-        StringBuilder stringBuilder = new StringBuilder("本次更新的主要目的是\n");
+        StringBuilder stringBuilder = new StringBuilder("本次更新的内容:\n");
         if (newFunction) stringBuilder.append("添加新功能\n");
         if (optimize) stringBuilder.append("性能优化\n");
         if (bugFix) stringBuilder.append("修理bug\n");

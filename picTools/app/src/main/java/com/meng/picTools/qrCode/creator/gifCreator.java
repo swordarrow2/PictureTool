@@ -80,32 +80,39 @@ public class gifCreator extends Fragment{
                     MainActivity2.selectImage(gifCreator.this);
                     break;
                 case R.id.gif_creator_finish:
-                    try{
-                        String filePath= MainActivity.instence.getGifPath();
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        AnimatedGifEncoder localAnimatedGifEncoder = new AnimatedGifEncoder();
-                        localAnimatedGifEncoder.start(baos);//start
-                        localAnimatedGifEncoder.setRepeat(0);//设置生成gif的开始播放时间。0为立即开始播放
-                        for(int i = 0; i<dataMap.size(); i++){
-                            localAnimatedGifEncoder.setDelay(mengEtFrameDelay.getInt());
-                            localAnimatedGifEncoder.addFrame(dataMap.get(i));
-                        }
-                        localAnimatedGifEncoder.finish();
-                        try{
-                            FileOutputStream fos = new FileOutputStream(filePath);
-                            baos.writeTo(fos);
-                            baos.flush();
-                            fos.flush();
-                            baos.close();
-                            fos.close();
-                        }catch(IOException e){
-                            LogTool.e("gif异常"+e.toString());
-                        }
-                        getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(filePath))));
-                        LogTool.t("完成 : "+filePath);
-                    }catch(Exception e){
-                        LogTool.e(e);
-                    }
+				  LogTool.t("开始生成gif");
+				  new Thread(new Runnable(){
+
+						@Override
+						public void run() {
+							try{
+								String filePath= MainActivity.instence.getGifPath();
+								ByteArrayOutputStream baos = new ByteArrayOutputStream();
+								AnimatedGifEncoder localAnimatedGifEncoder = new AnimatedGifEncoder();
+								localAnimatedGifEncoder.start(baos);//start
+								localAnimatedGifEncoder.setRepeat(0);//设置生成gif的开始播放时间。0为立即开始播放
+								for(int i = 0; i<dataMap.size(); i++){
+									localAnimatedGifEncoder.setDelay(mengEtFrameDelay.getInt());
+									localAnimatedGifEncoder.addFrame(dataMap.get(i));
+								  }
+								localAnimatedGifEncoder.finish();
+								try{
+									FileOutputStream fos = new FileOutputStream(filePath);
+									baos.writeTo(fos);
+									baos.flush();
+									fos.flush();
+									baos.close();
+									fos.close();
+								  }catch(IOException e){
+									LogTool.e("gif异常"+e.toString());
+								  }
+								getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(filePath))));
+								LogTool.t("完成 : "+filePath);
+							  }catch(Exception e){
+								LogTool.e(e);
+							  }
+						  }
+					  }).start();
                     break;
             }
         }
@@ -125,6 +132,7 @@ public class gifCreator extends Fragment{
                         BitmapFactory.decodeFile(
                                 ContentHelper.absolutePathFromUri(getActivity(),data.getData())
                         ));
+						bitmapFlag++;
             }
         }else if(requestCode==CROP_REQUEST_CODE&&resultCode==getActivity().RESULT_OK){
             Bundle bundle=data.getExtras();

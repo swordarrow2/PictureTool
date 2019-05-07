@@ -190,11 +190,11 @@ public class MainActivity2 extends Activity {
                             @Override
                             public void onCheckedChanged(RadioGroup group, int checkedId) {
                                 if (group.getCheckedRadioButtonId() == R.id.select_qr_function_normal_qr) {
-                                    r2.setEnabled(false);
-                                    r3.setEnabled(false);
+                                    r2.setVisibility(View.GONE);
+                                    r3.setVisibility(View.GONE);
                                 } else {
-                                    r2.setEnabled(true);
-                                    r3.setEnabled(true);
+                                    r2.setVisibility(View.VISIBLE);
+                                    r3.setVisibility(View.VISIBLE);
                                 }
                             }
                         });
@@ -202,7 +202,8 @@ public class MainActivity2 extends Activity {
                         final RadioButton rbAnim = (RadioButton) view1.findViewById(R.id.select_qr_function_anim);
                         final RadioButton rbArb = (RadioButton) view1.findViewById(R.id.select_qr_function_arb);
                         new AlertDialog.Builder(MainActivity2.this)
-                                .setTitle("要创建的二维码类型")
+                                .setTitle("选择二维码类型")
+								.setView(view1)
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface p1, int p2) {
@@ -314,7 +315,8 @@ public class MainActivity2 extends Activity {
                                     public void onClick(DialogInterface p1, int p2) {
                                         Intent intent = new Intent();
                                         intent.setAction("android.intent.action.VIEW");
-                                        Uri contentUrl = Uri.parse(updateInfo.getNewVersionLink());
+										
+                                        Uri contentUrl = Uri.parse("https://github.com/swordarrow2/PictureTool/releases/download/"+updateInfo.getVersionName()+"/pictool.apk");
                                         intent.setData(contentUrl);
                                         startActivity(intent);
                                     }
