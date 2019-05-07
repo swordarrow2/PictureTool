@@ -1,4 +1,4 @@
-package com.meng.picTools.qrCode.creator;
+package com.meng.picTools.encryAndDecry;
 
 import android.*;
 import android.app.*;
@@ -21,10 +21,12 @@ import java.io.*;
 
 import com.meng.picTools.R;
 
-public class pictureEncry extends Fragment{
+
+public class pictureDecry extends Fragment{
     private final int REQUEST_PERMISSION_PHOTO = 1001;
+    private Button btnOpenGallery;
 	private ImageView imageView;
-	private Bitmap encryBitmap;
+	private Bitmap decryBitmap;
 	private Button btnSave;
 
     @Override
@@ -35,8 +37,8 @@ public class pictureEncry extends Fragment{
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
         super.onViewCreated(view,savedInstanceState);
-		Button btnOpenGallery = (Button) view.findViewById(R.id.read_galleryButton);
-        imageView=(ImageView)view.findViewById(R.id.qr_imageview);
+		imageView=(ImageView)view.findViewById(R.id.qr_imageview);
+        btnOpenGallery=(Button) view.findViewById(R.id.read_galleryButton);
 		btnSave=(Button) view.findViewById(R.id.qr_ButtonSave);
         btnOpenGallery.setOnClickListener(new OnClickListener() {
 			  @Override
@@ -49,7 +51,7 @@ public class pictureEncry extends Fragment{
 			  @Override
 			  public void onClick(View p1){
 				  try{
-					  String s=QrUtils.saveMyBitmap(MainActivity.instence.getBarcodePath("bus"),encryBitmap);
+					  String s=QrUtils.saveMyBitmap(MainActivity.instence.getBarcodePath("bus"),decryBitmap);
 					  getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(s))));//更新图库
 					}catch(IOException e){
 					  LogTool.t(e.toString());
@@ -59,10 +61,9 @@ public class pictureEncry extends Fragment{
 	  }
 
 	private void createBitmap(String path){
-        encryBitmap=QrUtils.encryBitmap(BitmapFactory.decodeFile(path));      
-        imageView.setImageBitmap(encryBitmap);
+        decryBitmap=QrUtils.decryBitmap(BitmapFactory.decodeFile(path));      
+        imageView.setImageBitmap(decryBitmap);
 		btnSave.setVisibility(View.VISIBLE);
-
 	  }
 
     @Override
@@ -104,6 +105,7 @@ public class pictureEncry extends Fragment{
             MainActivity2.selectImage(this);
 		  }
 	  }
+
 
   }
 

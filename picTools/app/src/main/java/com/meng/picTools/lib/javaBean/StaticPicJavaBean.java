@@ -1,4 +1,4 @@
-package com.meng.picTools.javaBean;
+package com.meng.picTools.lib.javaBean;
 
 import java.util.*;
 

@@ -45,8 +45,8 @@ import java.util.*;
 	 * Implementation adapted from sample code published in Lyons. (2004). <em>Java for Programmers</em>,
 	 * republished under the MIT Open Source License
 	 */
-	public class GifDecoder {
-		private static final String TAG = GifDecoder.class.getSimpleName();
+	public class AnimatedGifDecoder {
+		private static final String TAG = AnimatedGifDecoder.class.getSimpleName();
 
 		/**
 		 * File read status: No errors.

@@ -13,15 +13,19 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
-import com.meng.picTools.MainActivity2;
 import com.meng.picTools.MainActivity;
+import com.meng.picTools.MainActivity2;
 import com.meng.picTools.R;
 import com.meng.picTools.LogTool;
+import com.meng.picTools.lib.AnimatedGifDecoder;
+import com.meng.picTools.lib.AnimatedGifEncoder;
 import com.meng.picTools.lib.ContentHelper;
-import com.meng.picTools.qrCode.qrcodelib.QrUtils;
-import com.meng.picTools.mengViews.MengEditText;
+import com.meng.picTools.lib.mengViews.MengEditText;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -76,30 +80,32 @@ public class gifCreator extends Fragment{
                     MainActivity2.selectImage(gifCreator.this);
                     break;
                 case R.id.gif_creator_finish:
-              /*      try{
-                        String filePath=MainActivity.instence.getGifPath();
-                        GifEncoder gifEncoder=new GifEncoder();
-                        gifEncoder.setDither(false);
-                        if(cbAutoSize.isChecked()){
-                            bmpW=dataMap.get(0).getWidth();
-                            bmpH=dataMap.get(0).getHeight();
-                            gifEncoder.init(bmpW,bmpH,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
-                        }else{
-                            bmpW=mengEtGifWidth.getInt();
-                            bmpH=mengEtGifHeight.getInt();
-                            gifEncoder.init(bmpW,bmpH,filePath,GifEncoder.EncodingType.ENCODING_TYPE_NORMAL_LOW_MEMORY);
+                    try{
+                        String filePath= MainActivity.instence.getGifPath();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        AnimatedGifEncoder localAnimatedGifEncoder = new AnimatedGifEncoder();
+                        localAnimatedGifEncoder.start(baos);//start
+                        localAnimatedGifEncoder.setRepeat(0);//设置生成gif的开始播放时间。0为立即开始播放
+                        for(int i = 0; i<dataMap.size(); i++){
+                            localAnimatedGifEncoder.setDelay(mengEtFrameDelay.getInt());
+                            localAnimatedGifEncoder.addFrame(dataMap.get(i));
                         }
-                        for(int i=0;i<bitmapFlag;i++){
-                            gifEncoder.encodeFrame(QrUtils.scale(dataMap.get(i),bmpW,bmpH),mengEtFrameDelay.getInt());
+                        localAnimatedGifEncoder.finish();
+                        try{
+                            FileOutputStream fos = new FileOutputStream(filePath);
+                            baos.writeTo(fos);
+                            baos.flush();
+                            fos.flush();
+                            baos.close();
+                            fos.close();
+                        }catch(IOException e){
+                            LogTool.e("gif异常"+e.toString());
                         }
-                        gifEncoder.close();
-                        getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File(filePath))));
+                        getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(filePath))));
                         LogTool.t("完成 : "+filePath);
-                        dataMap.clear();
-                        bitmapFlag=0;
-                    }catch(IOException e){
+                    }catch(Exception e){
                         LogTool.e(e);
-                    }*/
+                    }
                     break;
             }
         }

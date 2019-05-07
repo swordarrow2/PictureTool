@@ -1,16 +1,14 @@
-package com.meng.picTools.mengViews;
+package com.meng.picTools.lib.mengViews;
 
 import android.app.*;
-import android.content.*;
 import android.view.*;
 import android.widget.*;
 
 import com.meng.picTools.*;
-import com.meng.picTools.javaBean.PictureInfoJavaBean;
+import com.meng.picTools.lib.javaBean.PictureInfoJavaBean;
 import com.meng.picTools.pixivPictureDownloader.*;
 
 import java.io.*;
-import java.util.*;
 
 public class MengProgressBar extends LinearLayout {
     public Activity context;

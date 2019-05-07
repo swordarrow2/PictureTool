@@ -22,28 +22,28 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <com.meng.picTools.mengViews.MengEditText
+            <com.meng.picTools.lib.mengViews.MengEditText
                 android:id="@+id/awesomeqr_main_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="@string/input_text"
                 ran:textviewText="@string/contents"/>
 
-            <com.meng.picTools.mengViews.MengEditText
+            <com.meng.picTools.lib.mengViews.MengEditText
                 android:id="@+id/awesomeqr_main_mengEdittext_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="800"
                 ran:textviewText="@string/barcode_size"/>
 
-            <com.meng.picTools.mengViews.MengEditText
+            <com.meng.picTools.lib.mengViews.MengEditText
                 android:id="@+id/awesomeqr_main_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ran:edittextHint="20"
                 ran:textviewText="@string/margin_px"/>
 
-            <com.meng.picTools.mengViews.MengEditText
+            <com.meng.picTools.lib.mengViews.MengEditText
                 android:id="@+id/awesomeqr_main_dotScale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                     android:text="@string/crop_square"/>
             </LinearLayout>
 
-            <com.meng.picTools.mengViews.MengColorBar
+            <com.meng.picTools.lib.mengViews.MengColorBar
                 android:id="@+id/gif_arb_qr_main_colorBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/binarize_background_image"/>
 
-            <com.meng.picTools.mengViews.MengEditText
+            <com.meng.picTools.lib.mengViews.MengEditText
                 android:id="@+id/awesomeqr_main_mengEdittext_binarizeThreshold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -13,7 +13,7 @@ import com.google.zxing.*;
 import com.meng.picTools.MainActivity;
 import com.meng.picTools.R;
 import com.meng.picTools.qrCode.qrcodelib.*;
-import com.meng.picTools.mengViews.*;
+import com.meng.picTools.lib.mengViews.*;
 
 import java.io.*;
 

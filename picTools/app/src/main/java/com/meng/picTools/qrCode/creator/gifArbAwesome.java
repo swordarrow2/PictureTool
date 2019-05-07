@@ -10,11 +10,9 @@ import android.view.*;
 import android.widget.*;
 import com.meng.picTools.*;
 import com.meng.picTools.lib.*;
-import com.meng.picTools.mengViews.*;
-import com.meng.picTools.pixivPictureDownloader.*;
+import com.meng.picTools.lib.mengViews.*;
 import com.meng.picTools.qrCode.qrcodelib.*;
 import java.io.*;
-import java.util.*;
 
 /**
  * gif二维码
@@ -24,11 +22,9 @@ public class gifArbAwesome extends Fragment{
 
     private boolean coding=false;
     private int qrSize;
-    private Button btnEncodeGif;
     private Button btnSelectImage;
     private CheckBox cbAutoColor;
     private CheckBox cbLowMemoryMode;
-    private CheckBox cbUseDither;
     private MengEditText mengEtDotScale;
     private MengEditText mengEtTextToEncode;
     private ProgressBar pbCodingProgress;
@@ -39,7 +35,7 @@ public class gifArbAwesome extends Fragment{
     private MengSelectRectView mengSelectView;
     private float screenW;
     private float screenH;
-    private MengScrollView msv;
+    private MengScrollView mengScrollView;
     private MengSeekBar mengSeekBar;
 
     @Override
@@ -50,14 +46,13 @@ public class gifArbAwesome extends Fragment{
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
         super.onViewCreated(view,savedInstanceState);
-        msv=(MengScrollView)view.findViewById(R.id.gif_arb_awesome_qrMengScrollView);
+        mengScrollView =(MengScrollView)view.findViewById(R.id.gif_arb_awesome_qrMengScrollView);
         mengSelectView=(MengSelectRectView)view.findViewById(R.id.gif_arb_awesome_qrselectRectView);
         mColorBar=(MengColorBar)view.findViewById(R.id.gif_arb_qr_main_colorBar);
-        btnEncodeGif=(Button)view.findViewById(R.id.gif_arb_qr_button_encode_gif);
+        Button btnEncodeGif = (Button) view.findViewById(R.id.gif_arb_qr_button_encode_gif);
         btnSelectImage=(Button)view.findViewById(R.id.gif_arb_qr_button_selectImg);
         cbAutoColor=(CheckBox)view.findViewById(R.id.gif_arb_qr_checkbox_autocolor);
         cbLowMemoryMode=(CheckBox)view.findViewById(R.id.gif_arb_qr_checkbox_low_memery);
-        cbUseDither=(CheckBox)view.findViewById(R.id.gif_arb_qr_checkbox_dither);
         mengEtDotScale=(MengEditText)view.findViewById(R.id.gif_arb_qr_mengEdittext_dotScale);
         mengEtTextToEncode=(MengEditText)view.findViewById(R.id.gif_arb_qr_mainmengTextview_content);
         pbCodingProgress=(ProgressBar)view.findViewById(R.id.gif_arb_qr_mainProgressBar);
@@ -66,7 +61,7 @@ public class gifArbAwesome extends Fragment{
         cbAutoColor.setOnCheckedChangeListener(check);
         btnSelectImage.setOnClickListener(listenerBtnClick);
         btnEncodeGif.setOnClickListener(listenerBtnClick);
-        msv.setSelectView(mengSelectView);
+        mengScrollView.setSelectView(mengSelectView);
         DisplayMetrics dm=new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         screenW=dm.widthPixels;
@@ -110,14 +105,12 @@ public class gifArbAwesome extends Fragment{
             public void run(){
                 try{
                     coding=true;
-					GifDecoder gifDecoder=new GifDecoder();
+					AnimatedGifDecoder gifDecoder=new AnimatedGifDecoder();
 					File gifFile=new File(oldGifPath);
 					FileInputStream fis=new FileInputStream(gifFile);
-					int c=0;
-					try{
-						c=gifDecoder.read(fis,fis.available());
-					  }catch(IOException e){}
-					if(c!=0){
+					int statusCode=0;
+					statusCode=gifDecoder.read(fis,fis.available());
+					if(statusCode!=0){
 					  LogTool.e("read error "+oldGifPath);
 					  return;
 					}
@@ -126,13 +119,15 @@ public class gifArbAwesome extends Fragment{
 					AnimatedGifEncoder localAnimatedGifEncoder = new AnimatedGifEncoder();
 					localAnimatedGifEncoder.start(baos);//start
 					localAnimatedGifEncoder.setRepeat(0);//设置生成gif的开始播放时间。0为立即开始播放
-					
+
 					for(int i = 0; i<gifDecoder.getFrameCount(); i++){
-	    				  gifDecoder.advance();
+					    float pro=((float)gifDecoder.getCurrentFrameIndex())/gifDecoder.getFrameCount()*100;
+					    setProgress((int) pro);
+					    gifDecoder.advance();
 						localAnimatedGifEncoder.setDelay(gifDecoder.getNextDelay());
 						localAnimatedGifEncoder.addFrame(encodeAwesome(gifDecoder.getNextFrame()));
 					  }
-					
+
 					localAnimatedGifEncoder.finish();
 					String path = MainActivity.instence.getGifPath(oldGifPath.substring(oldGifPath.lastIndexOf("/")+1));
 					try{
@@ -183,14 +178,14 @@ public class gifArbAwesome extends Fragment{
         return (int)a;
     }
 
-    private void setProgress(final int p,final boolean encoing){
+    private void setProgress(final int p ){
         getActivity().runOnUiThread(new Runnable(){
             @Override
             public void run(){
                 pbCodingProgress.setProgress(p);
                 if(p==100){
                     pbCodingProgress.setVisibility(View.GONE);
-                    LogTool.t(encoing?"编码完成":"解码完成");
+                    LogTool.t( "完成");
                 }else{
                     if(pbCodingProgress.getVisibility()==View.GONE){
                         pbCodingProgress.setVisibility(View.VISIBLE);
@@ -246,9 +241,9 @@ public class gifArbAwesome extends Fragment{
                                     if(para.height>screenH*2/3){
                                         LogTool.t("可使用音量键滚动界面");
                                     }
-                                    msv.post(new Runnable(){
+                                    mengScrollView.post(new Runnable(){
                                         public void run(){
-                                            msv.fullScroll(View.FOCUS_DOWN);
+                                            mengScrollView.fullScroll(View.FOCUS_DOWN);
                                         }
                                     });
                                 }
@@ -268,16 +263,16 @@ public class gifArbAwesome extends Fragment{
     public void onKeyDown(int keyCode,KeyEvent event){
 
         if((keyCode==KeyEvent.KEYCODE_VOLUME_UP)){
-            msv.post(new Runnable(){
+            mengScrollView.post(new Runnable(){
                 public void run(){
-                    msv.scrollBy(0,0xffffff9c);//(0xffffff9c)16=(-100)10
+                    mengScrollView.scrollBy(0,0xffffff9c);//(0xffffff9c)16=(-100)10
                 }
             });
         }
         if((keyCode==KeyEvent.KEYCODE_VOLUME_DOWN)){
-            msv.post(new Runnable(){
+            mengScrollView.post(new Runnable(){
                 public void run(){
-                    msv.scrollBy(0,100);
+                    mengScrollView.scrollBy(0,100);
                 }
             });
         }

@@ -15,7 +15,7 @@ import com.meng.picTools.MainActivity2;
 import com.meng.picTools.R;
 import com.meng.picTools.lib.*;
 import com.meng.picTools.qrCode.qrcodelib.*;
-import com.meng.picTools.mengViews.*;
+import com.meng.picTools.lib.mengViews.*;
 import java.io.*;
 
 public class logoCreator extends Fragment{

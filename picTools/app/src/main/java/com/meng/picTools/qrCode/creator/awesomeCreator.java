@@ -28,8 +28,8 @@ import com.meng.picTools.LogTool;
 import com.meng.picTools.lib.ContentHelper;
 import com.meng.picTools.qrCode.qrcodelib.AwesomeQRCode;
 import com.meng.picTools.qrCode.qrcodelib.QrUtils;
-import com.meng.picTools.mengViews.MengColorBar;
-import com.meng.picTools.mengViews.MengEditText;
+import com.meng.picTools.lib.mengViews.MengColorBar;
+import com.meng.picTools.lib.mengViews.MengEditText;
 
 import java.io.File;
 import java.io.IOException;

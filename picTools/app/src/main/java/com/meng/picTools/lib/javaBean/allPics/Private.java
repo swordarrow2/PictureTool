@@ -1,4 +1,4 @@
-package com.meng.picTools.javaBean.allPics;
+package com.meng.picTools.lib.javaBean.allPics;
 
 public class Private {
     public int illust = 0;

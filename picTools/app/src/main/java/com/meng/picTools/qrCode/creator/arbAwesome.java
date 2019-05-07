@@ -17,7 +17,7 @@ import com.meng.picTools.MainActivity;
 import com.meng.picTools.MainActivity2;
 import com.meng.picTools.lib.*;
 import com.meng.picTools.qrCode.qrcodelib.*;
-import com.meng.picTools.mengViews.*;
+import com.meng.picTools.lib.mengViews.*;
 import java.io.*;
 import java.text.MessageFormat;
 

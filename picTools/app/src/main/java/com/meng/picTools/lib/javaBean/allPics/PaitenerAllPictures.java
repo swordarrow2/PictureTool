@@ -1,4 +1,4 @@
-package com.meng.picTools.javaBean.allPics;
+package com.meng.picTools.lib.javaBean.allPics;
 
 public class PaitenerAllPictures {
     public boolean error = false;

@@ -1,4 +1,4 @@
-package com.meng.picTools.mengViews;
+package com.meng.picTools.lib.mengViews;
 
 import android.app.Dialog;
 import android.content.Context;
