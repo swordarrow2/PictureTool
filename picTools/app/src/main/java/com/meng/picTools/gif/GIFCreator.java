@@ -70,11 +70,9 @@ public class GIFCreator extends Fragment {
 					.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialogInterface, int which) {
-							if (selectedImages.size() > 0) {
-								btnEncode.setEnabled(true);
-							  }
 							selectedImages.remove(position);
 							((BaseAdapter) adapterView.getAdapter()).notifyDataSetChanged();
+							btnEncode.setEnabled(selectedImages.size() > 0);
 						  }
 					  }).setNegativeButton("取消", null).show();
 				  return true;
@@ -162,9 +160,7 @@ public class GIFCreator extends Fragment {
         if (requestCode == 9961 && resultCode == Activity.RESULT_OK) {
             LogTool.t("add frame ok");
 		  }
-		if (selectedImages.size() > 0) {
-			btnEncode.setEnabled(true);
-		  }
+		btnEncode.setEnabled(selectedImages.size() > 0);
         super.onActivityResult(requestCode, resultCode, data);
 	  }
 

@@ -44,7 +44,7 @@ public class GIFSelectFrameActivity extends Activity {
 					  gifFrame.delay = MainActivity2.instence.gifCreatorFragment.mengEtFrameDelay.getInt();
 					  gifFrame.filePath = file.getAbsolutePath();
 					  selectedImages.add(gifFrame);
-					  LogTool.t("add frame");			
+					  LogTool.t("已选择");			
 					}
 				}
 			});

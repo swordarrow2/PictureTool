@@ -20,14 +20,14 @@
                 android:id="@+id/gif_creator_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="select_picture" />
+                android:text="@string/select_picture" />
 
             <Button
 				android:enabled="false"
                 android:id="@+id/gif_creator_finish"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="start_encode" />
+                android:text="@string/start_encode" />
 			<ProgressBar
 				android:id="@+id/gif_creator_progress_bar"
 				style="@android:style/Widget.Holo.ProgressBar.Horizontal"
