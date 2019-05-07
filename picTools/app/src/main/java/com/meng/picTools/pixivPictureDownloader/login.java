@@ -11,8 +11,8 @@ public class login extends Activity{
 	@Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pixiv_login);
-		WebView webView = (WebView) findViewById(R.id.loginWebview);
+		WebView webView = new WebView(this);
+		setContentView(webView);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.setWebViewClient(new WebViewClient() {

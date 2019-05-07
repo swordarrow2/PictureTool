@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/group_reply_list_itemImageView"
+        android:id="@+id/select_file_adapter_imageview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -16,7 +16,7 @@
         android:paddingRight="?android:attr/listPreferredItemPaddingRight" />
 
     <TextView
-        android:id="@+id/group_reply_list_itemTextView"
+        android:id="@+id/select_file_adapter_file_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -26,16 +26,5 @@
         android:paddingRight="?android:attr/listPreferredItemPaddingRight"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:textColor="#ffffff" />
-
-    <Switch
-        android:id="@+id/group_reply_list_itemSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|center"
-        android:layout_weight="1"
-        android:focusable="false"
-        android:gravity="center_vertical"
-        android:textOff="not_reply"
-        android:textOn="reply" />
 
 </LinearLayout>

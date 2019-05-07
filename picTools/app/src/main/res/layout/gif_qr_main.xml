@@ -24,12 +24,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <CheckBox
-                android:id="@+id/gif_arb_qr_checkbox_low_memery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/big_gif" />
-
             <Button
                 android:id="@+id/gif_arb_qr_button_selectImg"
                 android:layout_width="wrap_content"

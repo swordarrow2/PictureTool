@@ -49,6 +49,13 @@ public class MainActivity extends Activity {
         return exDir + "/pixivLike.json";
     }
 
+    public String getImagePath(Class tClass) {
+        File folder = new File(exDir + "/Pictures/picTool/" + tClass.getSimpleName());
+        if (!folder.exists()) folder.mkdirs();
+        return exDir + "/Pictures/picTool/" + tClass.getSimpleName() + "/" +
+                (SharedPreferenceHelper.getBoolean("useTimeStamp") ? String.valueOf(System.currentTimeMillis()) : new Date().toString());
+    }
+
     public String getAwesomeQRPath() {
         String awesomeQRPath = exDir + "/Pictures/picTool/AwesomeQR/";
         File f = new File(awesomeQRPath);
@@ -102,7 +109,7 @@ public class MainActivity extends Activity {
         String gifPath = exDir + "/Pictures/picTool/gif/";
         File f = new File(gifPath);
         if (!f.exists()) f.mkdirs();
-        return gifPath + zipName.replace(".zip", "").replace(".gif","") + ".gif";
+        return gifPath + zipName.replace(".zip", "").replace(".gif", "") + ".gif";
     }
 
 

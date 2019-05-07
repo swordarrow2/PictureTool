@@ -24,11 +24,6 @@
                 android:targetPackage="com.meng.picTools" />
         </Preference>
 
-		<EditTextPreference
-			android:title="爬画师图片时任务创建间隔"
-			android:key="sleep"
-			android:dialogTitle="单位为毫秒,默认为2000" />
-
         <PreferenceCategory android:title="下载">
             <CheckBoxPreference
                 android:defaultValue="false"
@@ -44,17 +39,10 @@
                 android:title="生成GIF后删除zip压缩包" />
         </PreferenceCategory>
 
-		<EditTextPreference
-			android:dialogTitle="线程越多对系统资源要求越高"
-			android:key="threads"
-			android:title="下载线程数" />
-
-		<CheckBoxPreference
-			android:defaultValue="false"
-			android:key="useJava"
-			android:summaryOn="使用java"
-			android:summaryOff="使用jni"
-			android:title="使用java代码生成gif" />
+        <EditTextPreference
+            android:dialogTitle="线程越多对系统资源要求越高"
+            android:key="threads"
+            android:title="下载线程数" />
 
         <PreferenceCategory android:title="临时文件">
             <CheckBoxPreference
@@ -69,14 +57,11 @@
         </PreferenceCategory>
     </PreferenceScreen>
 
-    <PreferenceScreen android:title="二维码设置">
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="useTimeStamp"
-            android:summaryOff="使用具体时间"
-            android:summaryOn="使用时间戳"
-            android:title="使用时间戳为二维码命名" />
-    </PreferenceScreen>
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="useTimeStamp"
+        android:summaryOff="使用具体时间"
+        android:summaryOn="使用时间戳"
+        android:title="使用时间戳为图片文件命名" />
 
 </PreferenceScreen>

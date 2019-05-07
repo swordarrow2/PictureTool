@@ -21,35 +21,26 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/gif_arb_qr_checkbox_low_memery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/big_gif" />
-
                 <Button
                     android:id="@+id/gif_arb_qr_button_selectImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/select_gif" />
+
+                <Button
+                    android:id="@+id/gif_arb_qr_button_encode_gif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:text="@string/create_gif" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/gif_arb_qr_selected_path"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/gif_arb_qr_button_encode_gif"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/create_gif" />
-            </LinearLayout>
 
             <com.meng.picTools.lib.mengViews.MengEditText
                 android:id="@+id/gif_arb_qr_mainmengTextview_content"
