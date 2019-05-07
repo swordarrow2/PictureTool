@@ -31,7 +31,7 @@ import com.google.zxing.common.HybridBinarizer;
 import com.meng.picTools.R;
 import com.meng.picTools.qrCode.qrcodelib.zxing.camera.CameraManager;
 import com.meng.picTools.qrCode.qrcodelib.zxing.camera.PlanarYUVLuminanceSource;
-import com.meng.picTools.qrCode.reader.cameraReader;
+import com.meng.picTools.qrCode.reader.CameraQRReader;
 
 import java.util.Hashtable;
 
@@ -40,10 +40,10 @@ final class DecodeHandler extends Handler{
 
     private static final String TAG=DecodeHandler.class.getSimpleName();
 
-    private final cameraReader activity;
+    private final CameraQRReader activity;
     private final MultiFormatReader multiFormatReader;
 
-    DecodeHandler(cameraReader activity,Hashtable<DecodeHintType,Object> hints){
+    DecodeHandler(CameraQRReader activity, Hashtable<DecodeHintType,Object> hints){
         multiFormatReader=new MultiFormatReader();
         multiFormatReader.setHints(hints);
         this.activity=activity;

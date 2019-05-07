@@ -56,7 +56,7 @@ import java.util.List;
  *
  * @author xietansheng
  */
-public class screenshotListener{
+public class ScreenShotListener {
 
     /**
      * 读取媒体数据库时需要读取的列
@@ -112,7 +112,7 @@ public class screenshotListener{
      */
     private final Handler mUiHandler=new Handler(Looper.getMainLooper());
 
-    private screenshotListener(Context context){
+    private ScreenShotListener(Context context){
         if(context==null){
             throw new IllegalArgumentException("The context must not be null.");
         }
@@ -129,9 +129,9 @@ public class screenshotListener{
         }
     }
 
-    public static screenshotListener newInstance(Context context){
+    public static ScreenShotListener newInstance(Context context){
         assertInMainThread();
-        return new screenshotListener(context);
+        return new ScreenShotListener(context);
     }
 
     /**

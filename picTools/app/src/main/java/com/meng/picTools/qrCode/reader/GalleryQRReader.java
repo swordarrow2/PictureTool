@@ -29,7 +29,7 @@ import com.meng.picTools.lib.ContentHelper;
 import com.meng.picTools.qrCode.qrcodelib.QrUtils;
 import com.meng.picTools.lib.*;
 
-public class galleryReader extends Fragment{
+public class GalleryQRReader extends Fragment{
     private final int REQUEST_PERMISSION_PHOTO=1001;
     private Button btnOpenGallery, btnCreateAwesomeQR;
     private TextView tvResult;
@@ -151,11 +151,11 @@ public class galleryReader extends Fragment{
     }
 
     private void startService(){
-        getActivity().startService(new Intent(getActivity(),screenshotListenerService.class));
+        getActivity().startService(new Intent(getActivity(),ScreenShotListenService.class));
     }
 
     private void stopService(){
-        getActivity().stopService(new Intent(getActivity(),screenshotListenerService.class));
+        getActivity().stopService(new Intent(getActivity(),ScreenShotListenService.class));
     }
 
 }

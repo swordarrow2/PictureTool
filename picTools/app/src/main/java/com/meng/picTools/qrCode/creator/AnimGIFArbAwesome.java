@@ -18,7 +18,7 @@ import java.io.*;
  * gif二维码
  */
 
-public class gifArbAwesome extends Fragment{
+public class AnimGIFArbAwesome extends Fragment{
 
     private boolean coding=false;
     private int qrSize;
@@ -85,7 +85,7 @@ public class gifArbAwesome extends Fragment{
             switch(v.getId()){
                 case R.id.gif_arb_qr_button_selectImg:
                     cbLowMemoryMode.setEnabled(false);
-                    MainActivity2.selectImage(gifArbAwesome.this);
+                    MainActivity2.selectImage(AnimGIFArbAwesome.this);
                     break;
                 case R.id.gif_arb_qr_button_encode_gif:
                     if(coding){

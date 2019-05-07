@@ -34,7 +34,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class gifAwesomeQr extends Fragment{
+public class AnimGIFAwesomeQr extends Fragment{
 
     private boolean coding=false;
     private Button btnSelectImage;
@@ -94,7 +94,7 @@ public class gifAwesomeQr extends Fragment{
             switch(v.getId()){
                 case R.id.gif_arb_qr_button_selectImg:
                     cbLowMemoryMode.setEnabled(false);
-                    MainActivity2.selectImage(gifAwesomeQr.this);
+                    MainActivity2.selectImage(AnimGIFAwesomeQr.this);
                     break;
                 case R.id.gif_arb_qr_button_encode_gif:
                     if(coding){

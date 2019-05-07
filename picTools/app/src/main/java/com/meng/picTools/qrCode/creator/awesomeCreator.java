@@ -39,7 +39,7 @@ import java.text.MessageFormat;
  * 普通的Awesome QRcode
  */
 
-public class awesomeCreator extends Fragment{
+public class AwesomeCreator extends Fragment{
 
     private ImageView qrCodeImageView;
     private MengEditText mengEtDotScale, mengEtContents, mengEtMargin, mengEtSize;
@@ -113,7 +113,7 @@ public class awesomeCreator extends Fragment{
         public void onClick(View v){
             switch(v.getId()){
                 case R.id.awesomeqr_main_backgroundImage:
-                    MainActivity2.selectImage(awesomeCreator.this);
+                    MainActivity2.selectImage(AwesomeCreator.this);
                     break;
                 case R.id.awesomeqr_main_removeBackgroundImage:
                     backgroundImage=null;

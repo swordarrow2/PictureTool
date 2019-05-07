@@ -1,4 +1,4 @@
-package com.meng.picTools.qrCode.reader;
+package com.meng.picTools.lib;
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -14,7 +14,6 @@ import com.google.zxing.Result;
 import com.meng.picTools.MainActivity;
 import com.meng.picTools.LogTool;
 import com.meng.picTools.qrCode.qrcodelib.QrUtils;
-import com.meng.picTools.lib.screenshotListener;
 
 import java.io.File;
 
@@ -22,8 +21,8 @@ import java.io.File;
  * Created by Administrator on 2018/8/24.
  */
 
-public class screenshotListenerService extends Service{
-    private screenshotListener manager;
+public class ScreenShotListenService extends Service{
+    private ScreenShotListener manager;
     private AlertDialog dialog=null;
 
     @Override
@@ -35,9 +34,9 @@ public class screenshotListenerService extends Service{
     @Override
     public int onStartCommand(Intent intent,int flags,int startId){
 
-        manager=screenshotListener.newInstance(this);
+        manager= ScreenShotListener.newInstance(this);
         LogTool.i("监听器");
-        manager.setListener(new screenshotListener.OnScreenShotListener(){
+        manager.setListener(new ScreenShotListener.OnScreenShotListener(){
             @Override
             public void onShot(final String imagePath){
                 // TODO: Implement this method
@@ -51,7 +50,7 @@ public class screenshotListenerService extends Service{
                     if(result!=null){
                         final String resultString=result.getText();
                         MainActivity.instence.doVibrate(200L);
-                        dialog=new AlertDialog.Builder(screenshotListenerService.this)
+                        dialog=new AlertDialog.Builder(ScreenShotListenService.this)
                                 .setTitle("类型:"+result.getBarcodeFormat().toString()).setMessage(resultString)
                                 .setPositiveButton("复制文本到剪贴板",new DialogInterface.OnClickListener(){
 
@@ -66,7 +65,7 @@ public class screenshotListenerService extends Service{
                         dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
                         dialog.show();
                     }else{
-                        AlertDialog dialog=new AlertDialog.Builder(screenshotListenerService.this)
+                        AlertDialog dialog=new AlertDialog.Builder(ScreenShotListenService.this)
                                 .setTitle("提示").setMessage("此图片无法识别")
                                 .setPositiveButton("确定",null).create();
                         dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
@@ -101,7 +100,7 @@ public class screenshotListenerService extends Service{
     }
 
     private void deleteDialog(final String path){
-        AlertDialog dialog2=new AlertDialog.Builder(screenshotListenerService.this)
+        AlertDialog dialog2=new AlertDialog.Builder(ScreenShotListenService.this)
                 .setMessage("是否删除此屏幕截图？")
                 .setPositiveButton("是",new DialogInterface.OnClickListener(){
 

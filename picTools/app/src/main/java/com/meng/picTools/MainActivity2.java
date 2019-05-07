@@ -11,6 +11,7 @@ import android.widget.*;
 
 import com.meng.picTools.encryAndDecry.pictureDecry;
 import com.meng.picTools.encryAndDecry.pictureEncry;
+import com.meng.picTools.gif.GIFCreator;
 import com.meng.picTools.lib.javaBean.UpdateInfo;
 import com.meng.picTools.pixivPictureDownloader.PixivDownloadMain;
 import com.meng.picTools.qrCode.creator.*;
@@ -31,15 +32,15 @@ public class MainActivity2 extends Activity {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private Welcome welcomeFragment;
-    private logoCreator logoCreatorFragment;
-    public awesomeCreator awesomeCreatorFragment;
-    public cameraReader cameraReaderFragment;
-    public galleryReader galleryReaderFragment;
-    private gifAwesomeQr gifAwesomeFragment;
-    private arbAwesome arbAwesomeFragment;
-    private gifCreator gifCreatorFragment;
+    private LogoQRCreator logoCreatorFragment;
+    public AwesomeCreator awesomeCreatorFragment;
+    public CameraQRReader cameraReaderFragment;
+    public GalleryQRReader galleryReaderFragment;
+    private AnimGIFAwesomeQr gifAwesomeFragment;
+    private ArbAwesomeCreator arbAwesomeFragment;
+    public GIFCreator gifCreatorFragment;
     private SettingsPreference settingsFragment;
-    private gifArbAwesome gifArbAwesomeFragment;
+    private AnimGIFArbAwesome gifArbAwesomeFragment;
     private BusCodeCreator busCodeCreatorFragment;
     private BusCodeReader busCodeReaderFragment;
     private pictureEncry pictureEncryFragment;
@@ -350,7 +351,7 @@ public class MainActivity2 extends Activity {
     private void showGalleryReaderFragment(boolean showNow) {
         FragmentTransaction transactionGalleryReaderFragment = manager.beginTransaction();
         if (galleryReaderFragment == null) {
-            galleryReaderFragment = new galleryReader();
+            galleryReaderFragment = new GalleryQRReader();
             transactionGalleryReaderFragment.add(R.id.main_activityLinearLayout, galleryReaderFragment);
         }
         hideFragment(transactionGalleryReaderFragment);
@@ -363,7 +364,7 @@ public class MainActivity2 extends Activity {
     private void showCameraReaderFragment(boolean showNow) {
         FragmentTransaction transactionCameraReaderFragment = manager.beginTransaction();
         if (cameraReaderFragment == null) {
-            cameraReaderFragment = new cameraReader();
+            cameraReaderFragment = new CameraQRReader();
             transactionCameraReaderFragment.add(R.id.main_activityLinearLayout, cameraReaderFragment);
         }
         hideFragment(transactionCameraReaderFragment);
@@ -376,7 +377,7 @@ public class MainActivity2 extends Activity {
     private void showLogoCreatorFragment(boolean showNow) {
         FragmentTransaction transactionLogoCreatorFragment = manager.beginTransaction();
         if (logoCreatorFragment == null) {
-            logoCreatorFragment = new logoCreator();
+            logoCreatorFragment = new LogoQRCreator();
             transactionLogoCreatorFragment.add(R.id.main_activityLinearLayout, logoCreatorFragment);
         }
         hideFragment(transactionLogoCreatorFragment);
@@ -389,7 +390,7 @@ public class MainActivity2 extends Activity {
     private void showAwesomeFragment(boolean showNow) {
         FragmentTransaction transactionAwesomeCreatorFragment = manager.beginTransaction();
         if (awesomeCreatorFragment == null) {
-            awesomeCreatorFragment = new awesomeCreator();
+            awesomeCreatorFragment = new AwesomeCreator();
             transactionAwesomeCreatorFragment.add(R.id.main_activityLinearLayout, awesomeCreatorFragment);
         }
         hideFragment(transactionAwesomeCreatorFragment);
@@ -402,7 +403,7 @@ public class MainActivity2 extends Activity {
     private void showGifAwesomeFragment(boolean showNow) {
         FragmentTransaction transactionGifAwesomeCreatorFragment = manager.beginTransaction();
         if (gifAwesomeFragment == null) {
-            gifAwesomeFragment = new gifAwesomeQr();
+            gifAwesomeFragment = new AnimGIFAwesomeQr();
             transactionGifAwesomeCreatorFragment.add(R.id.main_activityLinearLayout, gifAwesomeFragment);
         }
         hideFragment(transactionGifAwesomeCreatorFragment);
@@ -415,7 +416,7 @@ public class MainActivity2 extends Activity {
     private void showArbFragmentFragment(boolean showNow) {
         FragmentTransaction transactionTestFragment = manager.beginTransaction();
         if (arbAwesomeFragment == null) {
-            arbAwesomeFragment = new arbAwesome();
+            arbAwesomeFragment = new ArbAwesomeCreator();
             transactionTestFragment.add(R.id.main_activityLinearLayout, arbAwesomeFragment);
         }
         hideFragment(transactionTestFragment);
@@ -428,7 +429,7 @@ public class MainActivity2 extends Activity {
     private void showGifArbAwesomeFragment(boolean showNow) {
         FragmentTransaction transactionGifArbAwesomeFragment = manager.beginTransaction();
         if (gifArbAwesomeFragment == null) {
-            gifArbAwesomeFragment = new gifArbAwesome();
+            gifArbAwesomeFragment = new AnimGIFArbAwesome();
             transactionGifArbAwesomeFragment.add(R.id.main_activityLinearLayout, gifArbAwesomeFragment);
         }
         hideFragment(transactionGifArbAwesomeFragment);
@@ -441,7 +442,7 @@ public class MainActivity2 extends Activity {
     private void showGifFragment(boolean showNow) {
         FragmentTransaction transactionGifFragment = manager.beginTransaction();
         if (gifCreatorFragment == null) {
-            gifCreatorFragment = new gifCreator();
+            gifCreatorFragment = new GIFCreator();
             transactionGifFragment.add(R.id.main_activityLinearLayout, gifCreatorFragment);
         }
         hideFragment(transactionGifFragment);

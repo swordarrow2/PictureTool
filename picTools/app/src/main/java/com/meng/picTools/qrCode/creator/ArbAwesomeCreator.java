@@ -28,7 +28,7 @@ import com.meng.picTools.R;
  * 自选二维码位置的Awesome QRcode
  */
 
-public class arbAwesome extends Fragment{
+public class ArbAwesomeCreator extends Fragment{
 
     private ImageView qrCodeImageView;
     private MengEditText mengEtDotScale, mengEtContents;
@@ -97,7 +97,7 @@ public class arbAwesome extends Fragment{
                     qrCodeImageView.setVisibility(View.GONE);
                     btGenerate.setEnabled(true);
 					btnSave.setVisibility(View.GONE);
-                    MainActivity2.selectImage(arbAwesome.this);
+                    MainActivity2.selectImage(ArbAwesomeCreator.this);
                     break;
                 case R.id.awesomeqr_main_generate:
                     generate();
@@ -190,7 +190,7 @@ public class arbAwesome extends Fragment{
         }else if(resultCode==getActivity().RESULT_CANCELED){
             Toast.makeText(getActivity().getApplicationContext(),"取消选择图片",Toast.LENGTH_SHORT).show();
         }else{
-            MainActivity2.selectImage(arbAwesome.this);
+            MainActivity2.selectImage(ArbAwesomeCreator.this);
         }
         super.onActivityResult(requestCode,resultCode,data);
     }

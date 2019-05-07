@@ -18,7 +18,7 @@ import com.meng.picTools.qrCode.qrcodelib.*;
 import com.meng.picTools.lib.mengViews.*;
 import java.io.*;
 
-public class logoCreator extends Fragment{
+public class LogoQRCreator extends Fragment{
     private ScrollView scrollView;
     private ImageView qrcodeImageView;
     private MengEditText mengEtContent;
@@ -80,7 +80,7 @@ public class logoCreator extends Fragment{
         public void onClick(View v){
             switch(v.getId()){
                 case R.id.qr_ButtonSelectImage:
-				  MainActivity2.selectImage(logoCreator.this);
+				  MainActivity2.selectImage(LogoQRCreator.this);
 				  break;
                 case R.id.qr_ButtonRemoveImage:
 				  logoImage=null;

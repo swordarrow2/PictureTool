@@ -40,7 +40,7 @@ import java.util.Vector;
  *
  * @author Ryan.Tang
  */
-public class cameraReader extends Fragment implements Callback{
+public class CameraQRReader extends Fragment implements Callback{
 
     private final int REQUEST_PERMISSION_CAMERA=1000;
     private CaptureActivityHandler handler;
