@@ -9,27 +9,30 @@ import com.meng.picTools.*;
 
 import java.io.*;
 import java.util.*;
+import android.media.*;
 
 public class SelectFileAdapter extends BaseAdapter {
     private Activity context;
-    private ArrayList<File> fileList;
+    private File[] fileList;
+	private Bitmap[] bmpList;
 
-    public SelectFileAdapter(Activity context, ArrayList<File> fileArrayList) {
+    public SelectFileAdapter(Activity context, File[] fileArrayList) {
         this.context = context;
         this.fileList = fileArrayList;
-    }
+		bmpList = new Bitmap[fileList.length];
+	  }
 
     public int getCount() {
-        return fileList.size();
-    }
+        return fileList.length;
+	  }
 
     public Object getItem(int position) {
-        return fileList.get(position);
-    }
+        return fileList[position];
+	  }
 
     public long getItemId(int position) {
-        return fileList.get(position).hashCode();
-    }
+        return fileList[position].hashCode();
+	  }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
@@ -39,21 +42,20 @@ public class SelectFileAdapter extends BaseAdapter {
             holder.fileName = (TextView) convertView.findViewById(R.id.select_file_adapter_file_name);
             holder.imageView = (ImageView) convertView.findViewById(R.id.select_file_adapter_imageview);
             convertView.setTag(holder);
-        } else {
+		  } else {
             holder = (ViewHolder) convertView.getTag();
-        }
-        File qqNotReply = fileList.get(position);
+		  }
+        File qqNotReply = fileList[position];
         holder.fileName.setText(qqNotReply.getName());
-        try {
-            holder.imageView.setImageBitmap(BitmapFactory.decodeFile(qqNotReply.getAbsolutePath()));
-        } catch (Exception e) {
-
-        }
+		if (bmpList[position] == null) {
+			bmpList[position] = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(qqNotReply.getAbsolutePath()), 48, 48);
+		  }
+		holder.imageView.setImageBitmap(bmpList[position]);
         return convertView;
-    }
+	  }
 
     private final class ViewHolder {
         private ImageView imageView;
         private TextView fileName;
-    }
-}
+	  }
+  }

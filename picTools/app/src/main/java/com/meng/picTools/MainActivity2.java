@@ -286,7 +286,7 @@ public class MainActivity2 extends Activity {
         final UpdateInfo updateInfo = new UpdateInfo(getApplicationContext());
         try {
             if (updateInfo.error) {
-                LogTool.i("检查更新出错");
+                LogTool.i("检查更新出错:无法获取自身信息");
                 return;
             }
             Connection connection = Jsoup.connect("https://github.com/swordarrow2/PictureTool/releases/latest");
@@ -297,7 +297,7 @@ public class MainActivity2 extends Activity {
             LogTool.i(head.get("Location"));
             updateInfo.setNewVersionLink(head.get("Location"));
         } catch (Exception e) {
-            LogTool.i("检查更新出错");
+            LogTool.i("检查更新出错:连接服务器出错");
             e.printStackTrace();
             return;
         }

@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/imageView_info"
-        android:layout_width="?android:attr/listPreferredItemHeightSmall"
-        android:layout_height="?android:attr/listPreferredItemHeightSmall"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:gravity="center_vertical"
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
         android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
@@ -29,7 +29,7 @@
             android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
             android:paddingRight="?android:attr/listPreferredItemPaddingRight"
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
-            android:textColor="#ffffff" />
+             />
 
         <TextView
             android:id="@+id/textView_bilibiliLiveId"
@@ -40,6 +40,6 @@
             android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
             android:paddingRight="?android:attr/listPreferredItemPaddingRight"
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
-            android:textColor="#ffffff" />
+             />
     </LinearLayout>
 </LinearLayout>
