@@ -1,5 +1,7 @@
 package com.meng.picTools.qrCode.creator;
 
+
+
 import android.app.*;
 import android.content.*;
 import android.graphics.*;
@@ -8,16 +10,14 @@ import android.os.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
-
 import com.google.zxing.*;
-import com.meng.picTools.MainActivity;
-import com.meng.picTools.R;
-import com.meng.picTools.qrCode.qrcodelib.*;
+import com.meng.picTools.*;
+import com.meng.picTools.activity.*;
 import com.meng.picTools.lib.mengViews.*;
-
+import com.meng.picTools.qrCode.qrcodelib.*;
 import java.io.*;
 
-public class BusCodeCreator extends Fragment{
+public class BusCodeCreator extends Fragment {
     private ScrollView scrollView;
     private ImageView qrcodeImageView;
     private MengEditText mengEtContent;

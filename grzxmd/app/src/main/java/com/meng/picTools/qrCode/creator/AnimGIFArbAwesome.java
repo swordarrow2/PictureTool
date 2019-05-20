@@ -1,24 +1,24 @@
 package com.meng.picTools.qrCode.creator;
 
+
 import android.app.*;
 import android.content.*;
 import android.graphics.*;
 import android.net.*;
 import android.os.*;
+import android.support.v7.app.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
-
 import com.meng.picTools.*;
+import com.meng.picTools.activity.*;
 import com.meng.picTools.lib.*;
 import com.meng.picTools.lib.mengViews.*;
+import com.meng.picTools.qrCode.creator.*;
 import com.meng.picTools.qrCode.qrcodelib.*;
-
 import java.io.*;
 
-/**
- * gif二维码
- */
+import android.support.v7.app.AlertDialog;
 
 public class AnimGIFArbAwesome extends Fragment {
 
@@ -86,7 +86,7 @@ public class AnimGIFArbAwesome extends Fragment {
             switch (v.getId()) {
                 case R.id.gif_arb_qr_button_selectImg:
                     btnEncodeGif.setEnabled(true);
-                    MainActivity2.selectImage(AnimGIFArbAwesome.this);
+                    MainActivity.instence.selectImage(AnimGIFArbAwesome.this);
                     break;
                 case R.id.gif_arb_qr_button_encode_gif:
                     if (coding) {
@@ -197,7 +197,7 @@ public class AnimGIFArbAwesome extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MainActivity2.SELECT_FILE_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data.getData() != null) {
+        if (requestCode == MainActivity.instence.SELECT_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data.getData() != null) {
             try {
                 if (coding) {
                     LogTool.t("正在执行操作");
@@ -259,7 +259,7 @@ public class AnimGIFArbAwesome extends Fragment {
         } else if (resultCode == getActivity().RESULT_CANCELED) {
             Toast.makeText(getActivity().getApplicationContext(), "用户取消了操作", Toast.LENGTH_SHORT).show();
         } else {
-            MainActivity2.selectImage(this);
+            MainActivity.instence.selectImage(this);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

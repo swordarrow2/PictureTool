@@ -1,15 +1,13 @@
 package com.meng.picTools.fragment;
 
+import android.app.*;
 import android.os.*;
 import android.support.annotation.*;
-import android.support.v4.app.*;
 import android.view.*;
 import android.view.animation.*;
 import android.widget.*;
-
 import com.github.clans.fab.*;
-import com.meng.picTools.R;
-
+import com.meng.picTools.*;
 import java.util.*;
 
 public class HomeFragment extends Fragment {

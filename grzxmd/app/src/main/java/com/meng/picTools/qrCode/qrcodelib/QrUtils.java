@@ -288,7 +288,7 @@ public class QrUtils {
      * @param bitName 保存的名字
      * @param mBitmap 图片对像
      *                return 生成压缩图片后的图片路径
-     */
+     *
     public static String saveMyBitmap(String bitName, Bitmap mBitmap) throws IOException {
         File f = new File(bitName);
         if (!f.getParentFile().exists()) {
@@ -302,6 +302,7 @@ public class QrUtils {
         fOut.close();
         return f.getAbsolutePath();
     }
+	*/
 
     /**
      * 生成二维码，默认大小为500*500

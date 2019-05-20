@@ -3,11 +3,10 @@ package com.meng.picTools.lib.mengViews;
 import android.app.*;
 import android.view.*;
 import android.widget.*;
-
 import com.meng.picTools.*;
-import com.meng.picTools.lib.javaBean.PictureInfoJavaBean;
+import com.meng.picTools.activity.*;
+import com.meng.picTools.lib.javaBean.*;
 import com.meng.picTools.pixivPictureDownloader.*;
-
 import java.io.*;
 
 public class MengProgressBar extends LinearLayout {
@@ -32,17 +31,17 @@ public class MengProgressBar extends LinearLayout {
         String expandName = picUrl.substring(picUrl.lastIndexOf(".") + 1, picUrl.length()).toLowerCase();
         String fileName = picUrl.substring(picUrl.lastIndexOf("/") + 1, picUrl.lastIndexOf("."));
         if (expandName.equalsIgnoreCase("zip")) {
-            fileAbsolutePath = MainActivity.instence.getPixivZipPath(fileName + "." + expandName);
+            fileAbsolutePath =FileHelper.getFileAbsPath(fileName + "." + expandName,FileType.pixivZIP);
         } else {
             if(pictureInfoJavaBean.staticPicJavaBean.body.size()>1){
-				File folder = new File(MainActivity.instence.getPixivImagePath(pictureInfoJavaBean.id+"/"));
+				File folder = new File(FileHelper.getFileAbsPath(pictureInfoJavaBean.id,FileType.pixivDynamic));
 				if(!folder.exists()) folder.mkdirs();		   
-                fileAbsolutePath=MainActivity.instence.getPixivImagePath(pictureInfoJavaBean.id+"/"+fileName+"."+expandName);
+                fileAbsolutePath=FileHelper.getFileAbsPath(pictureInfoJavaBean.id+"/"+fileName+"."+expandName,FileType.pixivDynamic);
 			  }else{
-                fileAbsolutePath=MainActivity.instence.getPixivImagePath(fileName+"."+expandName);
+				  fileAbsolutePath=FileHelper.getFileAbsPath(fileName+"."+expandName,FileType.pixivDynamic);
 			  }
         }
-        MainActivity2.instence.pixivDownloadMainFragment.threadPool.execute(new DownloadRunnable(this, picUrl, fileAbsolutePath, listView));
+        MainActivity.instence.pixivDownloadMainFragment.threadPool.execute(new DownloadRunnable(this, picUrl, fileAbsolutePath, listView));
     }
 
     public void setProgress(int progress) {

@@ -5,9 +5,10 @@ import android.graphics.*;
 import android.net.*;
 import android.widget.*;
 import com.meng.picTools.*;
+import com.meng.picTools.activity.*;
+import com.meng.picTools.lib.*;
 import com.meng.picTools.lib.javaBean.*;
 import com.meng.picTools.lib.mengViews.*;
-import com.meng.picTools.lib.*;
 import java.io.*;
 import java.net.*;
 import java.text.*;
@@ -252,7 +253,7 @@ public class DownloadRunnable implements Runnable{
         mengProgressBar.context.runOnUiThread(new Runnable() {
 			  @Override
 			  public void run(){
-				  String[] downloadedFilesName = new File(MainActivity.instence.getPixivZipPath("")).list();
+				  String[] downloadedFilesName = FileHelper.getFolder(FileType.pixivZIP).list();
 				  Arrays.sort(downloadedFilesName);
 				  listView.setAdapter(new ArrayAdapter<String>(mengProgressBar.context,android.R.layout.simple_list_item_1,downloadedFilesName));
 				  LinearLayout ll = (LinearLayout) mengProgressBar.getParent();

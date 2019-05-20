@@ -4,5 +4,12 @@
     <dimen name="fab_size_normal">56dp</dimen>
     <dimen name="fab_size_mini">40dp</dimen>
     <dimen name="labels_text_size">14sp</dimen>
+<dimen name="ldrawer_drawableSize">50dp</dimen>
+    <dimen name="ldrawer_barSize">18dp</dimen>
+    <dimen name="ldrawer_topBottomBarArrowSize">11dp</dimen>
+    <dimen name="ldrawer_thickness">2dp</dimen>
+    <dimen name="ldrawer_gapBetweenBars">3dp</dimen>
+    <dimen name="ldrawer_middleBarArrowSize">16dp</dimen>
+    <dimen name="navdrawer_width">260dp</dimen>
 
 </resources>

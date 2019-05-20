@@ -5,18 +5,18 @@ import android.content.*;
 import android.graphics.*;
 import android.net.*;
 import android.os.*;
+import android.support.v7.app.*;
 import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.*;
 import com.meng.picTools.*;
+import com.meng.picTools.activity.*;
 import com.meng.picTools.lib.*;
 import com.meng.picTools.lib.mengViews.*;
 import java.io.*;
 import java.util.*;
 
-/**
- * gif生成
- */
+import android.support.v7.app.AlertDialog;
 
 public class GIFCreator extends Fragment {
 
@@ -95,7 +95,7 @@ public class GIFCreator extends Fragment {
                         @Override
                         public void run() {
                             try {
-                                String filePath = MainActivity.instence.getGifPath();
+                                String filePath = FileHelper.getFolder(FileType.gif).getAbsolutePath();
                                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                                 AnimatedGifEncoder localAnimatedGifEncoder = new AnimatedGifEncoder();
                                 localAnimatedGifEncoder.start(baos);//start

@@ -1,38 +1,19 @@
 package com.meng.picTools.qrCode.creator;
 
-import android.app.Fragment;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.meng.picTools.MainActivity;
-import com.meng.picTools.MainActivity2;
-import com.meng.picTools.R;
-import com.meng.picTools.LogTool;
-import com.meng.picTools.lib.AnimatedGifDecoder;
-import com.meng.picTools.lib.AnimatedGifEncoder;
-import com.meng.picTools.lib.ContentHelper;
-import com.meng.picTools.qrCode.qrcodelib.AwesomeQRCode;
-import com.meng.picTools.lib.mengViews.MengColorBar;
-import com.meng.picTools.lib.mengViews.MengEditText;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import android.app.*;
+import android.content.*;
+import android.graphics.*;
+import android.net.*;
+import android.os.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
+import com.meng.picTools.*;
+import com.meng.picTools.activity.*;
+import com.meng.picTools.lib.*;
+import com.meng.picTools.lib.mengViews.*;
+import com.meng.picTools.qrCode.qrcodelib.*;
+import java.io.*;
 
 public class AnimGIFAwesomeQr extends Fragment {
 
@@ -91,7 +72,7 @@ public class AnimGIFAwesomeQr extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.gif_arb_qr_button_selectImg:
-                    MainActivity2.selectImage(AnimGIFAwesomeQr.this);
+                    MainActivity.instence.selectImage(AnimGIFAwesomeQr.this);
                     break;
                 case R.id.gif_arb_qr_button_encode_gif:
                     if (coding) {
@@ -198,7 +179,7 @@ public class AnimGIFAwesomeQr extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MainActivity2.SELECT_FILE_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data.getData() != null) {
+        if (requestCode == MainActivity.instence.SELECT_FILE_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data.getData() != null) {
             try {
                 if (coding) {
                     LogTool.t("正在执行操作");
@@ -212,7 +193,7 @@ public class AnimGIFAwesomeQr extends Fragment {
         } else if (resultCode == getActivity().RESULT_CANCELED) {
             Toast.makeText(getActivity().getApplicationContext(), "用户取消了操作", Toast.LENGTH_SHORT).show();
         } else {
-            MainActivity2.selectImage(this);
+            MainActivity.instence.selectImage(this);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

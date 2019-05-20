@@ -1,33 +1,25 @@
 package com.meng.picTools.qrCode.reader;
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.zxing.Result;
-import com.meng.picTools.MainActivity2;
-import com.meng.picTools.R;
-import com.meng.picTools.MainActivity;
-import com.meng.picTools.lib.ContentHelper;
-import com.meng.picTools.qrCode.qrcodelib.QrUtils;
+import android.*;
+import android.app.*;
+import android.content.*;
+import android.content.pm.*;
+import android.graphics.*;
+import android.net.*;
+import android.os.*;
+import android.support.v7.app.*;
+import android.text.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
+import com.google.zxing.*;
+import com.meng.picTools.*;
+import com.meng.picTools.activity.*;
 import com.meng.picTools.lib.*;
+import com.meng.picTools.qrCode.qrcodelib.*;
+
+import android.support.v7.app.AlertDialog;
+import com.meng.picTools.R;
 
 public class GalleryQRReader extends Fragment{
     private final int REQUEST_PERMISSION_PHOTO=1001;
@@ -79,11 +71,9 @@ public class GalleryQRReader extends Fragment{
                     openGallery();
                     break;
                 case R.id.read_galleryButton_createAwesomeQR:
-                    FragmentTransaction transaction=getActivity().getFragmentManager().beginTransaction();
-                    MainActivity2.instence.awesomeCreatorFragment.setDataStr(tvResult.getText().toString());
-                    transaction.hide(MainActivity2.instence.galleryReaderFragment);
-                    transaction.show(MainActivity2.instence.awesomeCreatorFragment);
-                    transaction.commit();
+				  MainActivity.instence.showAwesomeFragment(true);
+                    MainActivity.instence.awesomeCreatorFragment.setDataStr(tvResult.getText().toString());
+                    
                     break;
             }
         }
@@ -107,7 +97,7 @@ public class GalleryQRReader extends Fragment{
 
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
-        if(resultCode==getActivity().RESULT_OK&&data!=null&&requestCode==MainActivity2.SELECT_FILE_REQUEST_CODE){
+        if(resultCode==Activity.RESULT_OK&&data!=null&&requestCode==MainActivity.instence.SELECT_FILE_REQUEST_CODE){
             Uri inputUri=data.getData();
             String path=ContentHelper.absolutePathFromUri(getActivity(),inputUri);
             if(!TextUtils.isEmpty(path)){
@@ -134,7 +124,7 @@ public class GalleryQRReader extends Fragment{
                         .setPositiveButton("确定",null)
                         .show();
             }else{
-                MainActivity2.selectImage(this);
+                MainActivity.instence.selectImage(this);
             }
         }
     }
@@ -146,7 +136,7 @@ public class GalleryQRReader extends Fragment{
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     REQUEST_PERMISSION_PHOTO);
         }else{
-            MainActivity2.selectImage(this);
+            MainActivity.instence.selectImage(this);
         }
     }
 

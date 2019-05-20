@@ -1,46 +1,31 @@
 package com.meng.picTools.qrCode.reader;
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.ClipData;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
-import android.view.SurfaceHolder.Callback;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.Result;
-import com.meng.picTools.MainActivity2;
-import com.meng.picTools.R;
-import com.meng.picTools.MainActivity;
-import com.meng.picTools.qrCode.qrcodelib.zxing.camera.CameraManager;
-import com.meng.picTools.qrCode.qrcodelib.zxing.decoding.CaptureActivityHandler;
-import com.meng.picTools.qrCode.qrcodelib.zxing.decoding.InactivityTimer;
-import com.meng.picTools.qrCode.qrcodelib.zxing.view.ViewfinderView;
-import com.meng.picTools.LogTool;
-
-import java.util.Vector;
-
 /**
  * Initial the camera
  *
  * @author Ryan.Tang
  */
-public class CameraQRReader extends Fragment implements Callback{
+
+import android.*;
+import android.app.*;
+import android.content.*;
+import android.content.pm.*;
+import android.graphics.*;
+import android.os.*;
+import android.text.*;
+import android.view.*;
+import android.view.SurfaceHolder.*;
+import android.widget.*;
+import com.google.zxing.*;
+import com.meng.picTools.*;
+import com.meng.picTools.activity.*;
+import com.meng.picTools.qrCode.qrcodelib.zxing.camera.*;
+import com.meng.picTools.qrCode.qrcodelib.zxing.decoding.*;
+import com.meng.picTools.qrCode.qrcodelib.zxing.view.*;
+import java.util.*;
+
+import com.meng.picTools.R;
+public class CameraQRReader extends Fragment implements Callback {
 
     private final int REQUEST_PERMISSION_CAMERA=1000;
     private CaptureActivityHandler handler;
@@ -176,11 +161,8 @@ public class CameraQRReader extends Fragment implements Callback{
 
                             @Override
                             public void onClick(DialogInterface p1,int p2){
-                                FragmentTransaction transaction=getActivity().getFragmentManager().beginTransaction();
-                                MainActivity2.instence.awesomeCreatorFragment.setDataStr(resultString);
-                                transaction.hide(MainActivity2.instence.cameraReaderFragment);
-                                transaction.show(MainActivity2.instence.awesomeCreatorFragment);
-                                transaction.commit();
+                                MainActivity.instence.showAwesomeFragment(true);
+                                MainActivity.instence.awesomeCreatorFragment.setDataStr(resultString);                        
                             }
                         }).create();
                 mDialog.setOnDismissListener(new DialogInterface.OnDismissListener(){

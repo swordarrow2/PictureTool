@@ -1,21 +1,14 @@
 package com.meng.picTools.lib;
 
-import android.app.AlertDialog;
-import android.app.Service;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.IBinder;
-import android.view.WindowManager;
-
-import com.google.zxing.Result;
-import com.meng.picTools.MainActivity;
-import com.meng.picTools.LogTool;
-import com.meng.picTools.qrCode.qrcodelib.QrUtils;
-
-import java.io.File;
+import android.app.*;
+import android.content.*;
+import android.os.*;
+import android.view.*;
+import com.google.zxing.*;
+import com.meng.picTools.*;
+import com.meng.picTools.activity.*;
+import com.meng.picTools.qrCode.qrcodelib.*;
+import java.io.*;
 
 /**
  * Created by Administrator on 2018/8/24.

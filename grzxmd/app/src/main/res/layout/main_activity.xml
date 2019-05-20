@@ -29,4 +29,28 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/drawer_header"
         app:menu="@menu/menu_drawer" />
+	<RelativeLayout
+        android:id="@+id/right_drawer"
+        android:layout_width="220dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="#eeeeee"
+        android:gravity="center_horizontal">
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:id="@+id/main_activityTextViewRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="true"
+                android:focusable="true"
+                android:longClickable="true"
+                android:padding="5dp"
+                android:textIsSelectable="true" />
+        </ScrollView>
+    </RelativeLayout>
+	
 </android.support.v4.widget.DrawerLayout>

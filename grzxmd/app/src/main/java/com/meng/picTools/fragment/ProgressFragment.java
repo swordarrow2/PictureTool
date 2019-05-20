@@ -1,15 +1,13 @@
 package com.meng.picTools.fragment;
 
+import android.app.*;
 import android.os.*;
 import android.support.annotation.*;
-import android.support.v4.app.*;
 import android.support.v7.widget.*;
 import android.view.*;
 import android.widget.*;
-
 import com.github.clans.fab.*;
-import com.meng.picTools.R;
-
+import com.meng.picTools.*;
 import java.util.*;
 
 public class ProgressFragment extends Fragment {

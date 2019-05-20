@@ -3,22 +3,26 @@ package com.meng.picTools.pixivPictureDownloader;
 import android.app.*;
 import android.content.*;
 import android.os.*;
+import android.support.v7.app.*;
 import android.view.*;
+import android.view.View.*;
 import android.widget.*;
 import android.widget.AdapterView.*;
 import com.google.gson.*;
 import com.google.gson.internal.*;
 import com.meng.picTools.*;
+import com.meng.picTools.activity.*;
+import com.meng.picTools.lib.*;
 import com.meng.picTools.lib.javaBean.*;
 import com.meng.picTools.lib.javaBean.allPics.*;
 import com.meng.picTools.lib.mengViews.*;
-import com.meng.picTools.lib.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.*;
 import org.jsoup.*;
 
+import android.support.v7.app.AlertDialog;
 import android.view.View.OnClickListener;
 
 public class PixivDownloadMain extends Fragment{
@@ -65,7 +69,7 @@ public class PixivDownloadMain extends Fragment{
         preStart.setOnClickListener(onClickListener);
         taskLinearLayout=(LinearLayout) view.findViewById(R.id.pixiv_download_main_downloadlist_task);
         checkBoxIsUID=(CheckBox) view.findViewById(R.id.pixiv_download_main_checkbox_user);
-        String[] filesName = new File(MainActivity.instence.getPixivZipPath("")).list();
+        String[] filesName = FileHelper.getFolder(FileType.pixivZIP).list();
         Arrays.sort(filesName);
         downloadedList.setAdapter(new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,filesName));
         likeList.setOnItemClickListener(new OnItemClickListener() {
@@ -104,7 +108,7 @@ public class PixivDownloadMain extends Fragment{
 				}
 			});
 
-        File preDownloadJson = new File(MainActivity.instence.getPreDownloadJsonPath());
+        File preDownloadJson = new File(FileHelper.getPreDownloadJsonPath());
         if(preDownloadJson.exists()){
             likeJavaBean=gson.fromJson(readStringFromFile(preDownloadJson),LikeJavaBean.class);
             likeList.setAdapter(new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,likeJavaBean.info));
@@ -127,7 +131,7 @@ public class PixivDownloadMain extends Fragment{
                     }
 				  break;
                 case R.id.pixiv_download_main_button_pre_start:
-				  File jsonFile = new File(MainActivity.instence.getPreDownloadJsonPath());
+				  File jsonFile = new File(FileHelper.getPreDownloadJsonPath());
 				  if(jsonFile.exists()){
 					  likeJavaBean=gson.fromJson(readStringFromFile(jsonFile),LikeJavaBean.class);
                     }else{
@@ -239,7 +243,7 @@ public class PixivDownloadMain extends Fragment{
 
     public void writeStringToFile(String str){
         try{
-            FileWriter fw = new FileWriter(MainActivity.instence.getPreDownloadJsonPath());//SD卡中的路径
+            FileWriter fw = new FileWriter(FileHelper.getPreDownloadJsonPath());//SD卡中的路径
             fw.flush();
             fw.write(str);
             fw.close();
