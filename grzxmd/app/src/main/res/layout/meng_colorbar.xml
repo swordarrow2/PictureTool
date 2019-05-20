@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/meng_colorbar_textview_trueDot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/colordark_true_dots_dddddd"/>
+
+        <Button
+            android:id="@+id/meng_colorbar_button_select_true_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择"/>
+
+        <ImageButton
+            android:id="@+id/meng_colorbar_imagebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:src="@android:drawable/ic_menu_info_details"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/meng_colorbar_edittext_true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="#000000"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/meng_colorbar_textview_falseDot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/colorlight_false_dots_dddddd"/>
+
+        <Button
+            android:id="@+id/meng_colorbar_button_select_false_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/meng_colorbar_edittext_false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="#ffffff"/>
+</LinearLayout>

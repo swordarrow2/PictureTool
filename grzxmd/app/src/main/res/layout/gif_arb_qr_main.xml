@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ran="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top|center_horizontal"
+    android:orientation="vertical">
+
+    <com.meng.picTools.lib.mengViews.MengScrollView
+        android:id="@+id/gif_arb_awesome_qrMengScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/gif_arb_qr_button_selectImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/select_gif" />
+
+                <Button
+                    android:id="@+id/gif_arb_qr_button_encode_gif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:text="@string/create_gif" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/gif_arb_qr_selected_path"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.meng.picTools.lib.mengViews.MengEditText
+                android:id="@+id/gif_arb_qr_mainmengTextview_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ran:edittextHint="@string/contents"
+                ran:textviewText="@string/input_text" />
+
+            <com.meng.picTools.lib.mengViews.MengEditText
+                android:id="@+id/gif_arb_qr_mengEdittext_dotScale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ran:edittextHint="0.4"
+                ran:textviewText="@string/data_dot_scale" />
+
+            <CheckBox
+                android:id="@+id/gif_arb_qr_checkbox_autocolor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/auto_color" />
+
+            <com.meng.picTools.lib.mengViews.MengColorBar
+                android:id="@+id/gif_arb_qr_main_colorBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.meng.picTools.lib.mengViews.MengSeekBar
+                android:id="@+id/gif_arb_qr_mainMengSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ProgressBar
+                android:id="@+id/gif_arb_qr_mainProgressBar"
+                style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:max="100" />
+
+            <com.meng.picTools.lib.mengViews.MengSelectRectView
+                android:id="@+id/gif_arb_awesome_qrselectRectView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+    </com.meng.picTools.lib.mengViews.MengScrollView>
+</RelativeLayout>
+

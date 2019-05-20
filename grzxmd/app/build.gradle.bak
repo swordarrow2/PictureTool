@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     defaultConfig {
-        applicationId "com.meng.grzxConfig.MaterialDesign"
+        applicationId "picTools.MaterialDesign"
         minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
