@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">新pictool</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur magna tortor, semper eu feugiat eu, vehicula vitae lacus.</string>
+    <string name="recyclerview_fab_example">RecyclerView FAB example</string>
+    <string name="floating_action_menu">Floating Action Menu</string>
+    <string name="lorem_ipsum_large">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed ultricies risus. Integer nisi orci, lacinia sit amet mi in, mollis scelerisque purus. Nunc risus ligula, maximus eu orci a, facilisis dictum velit. Proin nec laoreet magna. Nulla ut sagittis lorem. Morbi id enim fermentum, semper diam et, tempus leo. Aliquam vel congue orci. Suspendisse potenti. Curabitur finibus diam augue, vel bibendum sapien ultrices non.</string>
+    <string name="navigation_drawer_open">Navigation open</string>
+    <string name="navigation_drawer_close">Navigation close</string>
+	<string name="bid">bid</string>
+    <string name="_0">0</string>
+    <string name="liveroom">liveRoom</string>
+    <string name="qq">QQ</string>
+    <string name="name">name</string>
+    <string name="reply">回复</string>
+    <string name="not_reply">不回复</string>
+    <string name="add">添加</string>
+    <string name="repeat">复读</string>
+    <string name="setu">色图</string>
+    <string name="pohai">迫害图</string>
+    <string name="dic">词库</string>
+    <string name="bilibili">屑站链接</string>
+    <string name="cuigeng">催更</string>
+    <string name="soutu">搜图</string>
+    <string name="link">链接</string>
+    <string name="roll">roll</string>
+    <string name="barcode">二维码</string>
+    <string name="kuiping">窥屏检测</string>
+    <string name="cqcode">CQ码</string>
+    <string name="zan">赞</string>
+    <string name="moshenfusong">膜神复诵</string>
+</resources>

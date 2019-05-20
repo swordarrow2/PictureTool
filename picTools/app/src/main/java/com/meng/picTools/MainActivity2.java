@@ -23,6 +23,7 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
 import java.util.Map;
+import com.meng.picTools.lib.*;
 
 public class MainActivity2 extends Activity {
     public static MainActivity2 instence;
@@ -83,14 +84,7 @@ public class MainActivity2 extends Activity {
 
         setListener();
         changeTheme();
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                checkUpdate();
-            }
-        }).start();
-
+        new GithubUpdateManager(this,"swordarrow2","PicTools");
     }
 
     public static void selectImage(Fragment f) {
@@ -280,59 +274,6 @@ public class MainActivity2 extends Activity {
             }
 
         });
-    }
-
-    private void checkUpdate() {
-        final UpdateInfo updateInfo = new UpdateInfo(getApplicationContext());
-        try {
-            if (updateInfo.error) {
-                LogTool.i("检查更新出错:无法获取自身信息");
-                return;
-            }
-            Connection connection = Jsoup.connect("https://github.com/swordarrow2/PictureTool/releases/latest");
-            connection.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
-            connection.ignoreContentType(true).method(Connection.Method.GET).followRedirects(false);
-            Connection.Response response = connection.execute();
-            Map<String, String> head = response.headers();
-            LogTool.i(head.get("Location"));
-            updateInfo.setNewVersionLink(head.get("Location"));
-        } catch (Exception e) {
-            LogTool.i("检查更新出错:连接服务器出错");
-            e.printStackTrace();
-            return;
-        }
-        if (!SharedPreferenceHelper.getValue("newVersion", "0.0.0").equals(updateInfo.getVersionName())) {
-            runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    if (updateInfo.newFunction || updateInfo.optimize || updateInfo.bugFix) {
-
-                        new AlertDialog.Builder(MainActivity2.this)
-                                .setTitle("发现新版本")
-                                .setMessage(updateInfo.getUpdateNote())
-                                .setPositiveButton("现在更新", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface p1, int p2) {
-                                        Intent intent = new Intent();
-                                        intent.setAction("android.intent.action.VIEW");
-										
-                                        Uri contentUrl = Uri.parse("https://github.com/swordarrow2/PictureTool/releases/download/"+updateInfo.getVersionName()+"/pictool.apk");
-                                        intent.setData(contentUrl);
-                                        startActivity(intent);
-                                    }
-                                }).setNeutralButton("下次提醒我", null)
-                                .setNegativeButton("忽略本次更新", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SharedPreferenceHelper.putValue("newVersion", updateInfo.getVersionName());
-                                    }
-                                }).show();
-                    }
-                }
-            });
-        }
-
     }
 
     private void showWelcome(boolean showNow) {

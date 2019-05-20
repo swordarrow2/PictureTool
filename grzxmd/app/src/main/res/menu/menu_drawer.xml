@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+		<item
+            android:id="@+id/group_config"
+            android:icon="@drawable/ic_menu"
+            android:title="群配置" />
+        <item
+            android:id="@+id/qq_not_reply"
+            android:icon="@drawable/ic_menu"
+            android:title="不回复的QQ" />
+        <item
+            android:id="@+id/word_not_reply"
+            android:icon="@drawable/ic_menu"
+            android:title="不回复的字" />
+		<item
+            android:id="@+id/accounts"
+            android:icon="@drawable/ic_menu"
+            android:title="飞机佬名单" />
+        <item
+            android:id="@+id/home"
+            android:icon="@drawable/ic_nav_item"
+            android:title="Home" />
+        <item
+            android:id="@+id/menus"
+            android:icon="@drawable/ic_nav_item"
+            android:title="Menus" />
+        <item
+            android:id="@+id/progress"
+            android:icon="@drawable/ic_nav_item"
+            android:title="Progress" />
+    </group>
+
+</menu>
