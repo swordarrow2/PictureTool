@@ -18,7 +18,6 @@ import android.view.SurfaceHolder.*;
 import android.widget.*;
 import com.google.zxing.*;
 import com.meng.picTools.*;
-import com.meng.picTools.activity.*;
 import com.meng.picTools.lib.zxing.camera.*;
 import com.meng.picTools.lib.zxing.decoding.*;
 import com.meng.picTools.lib.zxing.view.*;

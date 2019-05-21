@@ -11,7 +11,6 @@ import android.support.v4.app.*;
 import android.view.*;
 import android.widget.*;
 import com.meng.picTools.*;
-import com.meng.picTools.activity.*;
 import com.meng.picTools.helpers.ContentHelper;
 import com.meng.picTools.helpers.FileHelper;
 import com.meng.picTools.helpers.FileType;

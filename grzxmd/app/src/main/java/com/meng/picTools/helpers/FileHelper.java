@@ -23,12 +23,12 @@ public class FileHelper {
         return f;
     }
 
-    public static String getFileAbsPath(String name, FileType t) {
-        return exDir + t.toString() + "/" + name;
+    public static String getFileAbsPath(String name, FileType type) {
+        return getFolder(type) + "/" + name;
     }
 
-    public static String getFileAbsPath(FileType t) {
-        return exDir + t.toString() + "/" + (SharedPreferenceHelper.getBoolean("useTimeStamp") ? String.valueOf(System.currentTimeMillis() / 1000) : new Date().toString()) + ".png";
+    public static String getFileAbsPath(FileType type) {
+        return getFolder(type) + "/" + (SharedPreferenceHelper.getBoolean("useTimeStamp") ? String.valueOf(System.currentTimeMillis() / 1000) : new Date().toString()) + ".png";
     }
 
 

@@ -1,7 +1,7 @@
 package com.meng.picTools;
 
 import android.widget.*;
-import com.meng.picTools.activity.*;
+
 import java.text.*;
 
 public class LogTool {

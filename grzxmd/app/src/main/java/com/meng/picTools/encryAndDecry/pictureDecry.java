@@ -12,7 +12,7 @@ import android.view.*;
 import android.view.View.*;
 import android.widget.*;
 
-import com.meng.picTools.activity.*;
+import com.meng.picTools.MainActivity;
 import com.meng.picTools.helpers.ContentHelper;
 import com.meng.picTools.helpers.FileHelper;
 import com.meng.picTools.helpers.FileType;

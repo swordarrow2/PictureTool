@@ -30,6 +30,7 @@ public class GIFCreator extends Fragment {
     public FloatingActionButton fabEncode;
 
     private int mPreviousVisibleItem;
+    private boolean encoding = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,11 +107,13 @@ public class GIFCreator extends Fragment {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.gif_creator_add:
+                case R.id.fab_add:
                     Intent intent = new Intent(getActivity(), GIFSelectFrameActivity.class);
                     startActivityForResult(intent, 9961);
                     break;
-                case R.id.gif_creator_finish:
+                case R.id.fab_encode:
+                    if (encoding) return;
+                    encoding = true;
                     LogTool.t("开始生成gif");
                     new Thread(new Runnable() {
 
@@ -118,7 +121,7 @@ public class GIFCreator extends Fragment {
                         public void run() {
                             try {
                                 fabEncode.setMax(selectedImages.size());
-                                String filePath = FileHelper.getFolder(FileType.gif).getAbsolutePath();
+                                String filePath = FileHelper.getFileAbsPath(FileType.gif);
                                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
@@ -154,6 +157,7 @@ public class GIFCreator extends Fragment {
                             } catch (Exception e) {
                                 LogTool.e(e);
                             }
+                            encoding = false;
                         }
                     }).start();
                     break;

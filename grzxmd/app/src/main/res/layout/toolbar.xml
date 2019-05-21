@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?colorPrimary"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
-	<!--<SearchView
-		android:iconifiedByDefault="false"
-		android:layout_gravity="end"
-		android:id="@+id/toolbarSearchView"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"/>-->
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark">
+    <!--<SearchView
+        android:iconifiedByDefault="false"
+        android:layout_gravity="end"
+        android:id="@+id/toolbarSearchView"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>-->
 </android.support.v7.widget.Toolbar>

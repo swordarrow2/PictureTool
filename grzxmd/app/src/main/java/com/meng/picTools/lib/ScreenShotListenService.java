@@ -6,7 +6,6 @@ import android.os.*;
 import android.view.*;
 import com.google.zxing.*;
 import com.meng.picTools.*;
-import com.meng.picTools.activity.*;
 
 import java.io.*;
 

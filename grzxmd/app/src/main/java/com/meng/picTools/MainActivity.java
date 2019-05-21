@@ -1,4 +1,4 @@
-package com.meng.picTools.activity;
+package com.meng.picTools;
 
 import android.*;
 import android.content.*;
@@ -15,7 +15,6 @@ import android.support.v7.app.*;
 import android.view.*;
 import android.widget.*;
 
-import com.meng.picTools.*;
 import com.meng.picTools.encryAndDecry.*;
 import com.meng.picTools.fragment.*;
 import com.meng.picTools.gif.*;
@@ -33,8 +32,6 @@ import android.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-
-import com.meng.picTools.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -109,10 +106,10 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
-        initHomeFragment(true);
+        //initHomeFragment(true);
         //initProgressFragment(false);
         //initMenuFragment(false);
-
+        showWelcome(true);
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifiNetworkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         onWifi = wifiNetworkInfo.isConnected();

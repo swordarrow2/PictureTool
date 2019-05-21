@@ -11,72 +11,72 @@
         android:gravity="top|center_horizontal"
         android:orientation="vertical"
         android:padding="8dp">
-		
+
         <RadioGroup
             android:id="@+id/select_qr_function_g1"
             android:layout_width="match_parent"
-			android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <RadioButton
-				android:layout_weight="1"
                 android:id="@+id/select_qr_function_normal_qr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:checked="true"
                 android:text="普通二维码" />
 
             <RadioButton
-				android:layout_weight="1"
                 android:id="@+id/select_qr_function_awesome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Awesome二维码" />
         </RadioGroup>
 
         <RadioGroup
-			android:visibility="gone"
-			android:orientation="horizontal"
             android:id="@+id/select_qr_function_g2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <RadioButton
-				android:layout_weight="1"
                 android:id="@+id/select_qr_function_static"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:checked="true"
                 android:text="静态" />
 
             <RadioButton
-				android:layout_weight="1"
                 android:id="@+id/select_qr_function_anim"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="动态" />
         </RadioGroup>
 
         <RadioGroup
-			android:visibility="gone"
-			android:orientation="horizontal"
             android:id="@+id/select_qr_function_g3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <RadioButton
                 android:id="@+id/select_qr_function_arb"
-				android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:checked="true"
                 android:text="自选位置" />
 
             <RadioButton
                 android:id="@+id/select_qr_function_square"
                 android:layout_width="wrap_content"
-				android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="普通方式" />
         </RadioGroup>
 

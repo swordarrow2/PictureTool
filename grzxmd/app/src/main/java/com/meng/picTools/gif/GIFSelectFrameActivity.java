@@ -7,7 +7,7 @@ import android.os.*;
 import android.view.*;
 import android.widget.*;
 import com.meng.picTools.*;
-import com.meng.picTools.activity.*;
+
 import java.io.*;
 import java.util.*;
 

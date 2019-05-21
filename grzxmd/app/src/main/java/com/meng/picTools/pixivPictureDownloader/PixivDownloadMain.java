@@ -6,6 +6,8 @@ import android.os.*;
 import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.*;
+
+import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.*;
 import com.google.gson.internal.*;
 import com.meng.picTools.*;
@@ -35,7 +37,7 @@ public class PixivDownloadMain extends Fragment{
     private Gson gson;
     public ExecutorService threadPool;
 	private String title="pids";
-	
+	private FloatingActionButton fab;
 	public enum Type{
 	  pid,
 	  uid
@@ -64,7 +66,8 @@ public class PixivDownloadMain extends Fragment{
         editTextURL=(EditText) view.findViewById(R.id.pixiv_download_main_edittext_url);
         Button btnStart = (Button) view.findViewById(R.id.pixiv_download_main_button_start);
         Button preStart = (Button) view.findViewById(R.id.pixiv_download_main_button_pre_start);
-        btnStart.setOnClickListener(onClickListener);
+        fab=(FloatingActionButton)view.findViewById(R.id.fab);
+		btnStart.setOnClickListener(onClickListener);
         preStart.setOnClickListener(onClickListener);
         taskLinearLayout=(LinearLayout) view.findViewById(R.id.pixiv_download_main_downloadlist_task);
         checkBoxIsUID=(CheckBox) view.findViewById(R.id.pixiv_download_main_checkbox_user);
