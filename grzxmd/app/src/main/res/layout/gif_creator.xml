@@ -1,43 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ran="http://schemas.android.com/apk/res-auto"
+	xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
 
-            <com.meng.picTools.lib.mengViews.MengEditText
-                android:id="@+id/gif_creator_delay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                ran:edittextHint="10"
-                ran:textviewText="@string/frame_delay" />
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
 
-            <Button
-                android:id="@+id/gif_creator_add"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/select_picture" />
-
-            <Button
-				android:enabled="false"
-                android:id="@+id/gif_creator_finish"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/start_encode" />
-			<ProgressBar
-				android:id="@+id/gif_creator_progress_bar"
-				style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+			<com.meng.picTools.lib.mengViews.MengEditText
+				android:id="@+id/gif_creator_delay"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content" />
+				android:layout_height="wrap_content"
+				ran:edittextHint="10"
+				ran:textviewText="@string/frame_delay" />
 
 			<ListView
 				android:id="@+id/gif_creator_list"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent" />
-        </LinearLayout>
+		</LinearLayout>
+
+		<com.github.clans.fab.FloatingActionButton
+			android:id="@+id/fab_add"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom|right"
+			android:layout_marginBottom="72dp"
+			android:layout_marginRight="8dp"
+			android:src="@drawable/fab_add"
+			fab:fab_showAnimation="@anim/show_from_bottom"
+			fab:fab_hideAnimation="@anim/hide_to_bottom"/>
+
+		<com.github.clans.fab.FloatingActionButton
+			android:id="@+id/fab_encode"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom|right"
+			android:layout_marginBottom="8dp"
+			android:layout_marginRight="8dp"
+			android:src="@drawable/ic_progress"
+			fab:fab_showAnimation="@anim/show_from_bottom"
+			fab:fab_hideAnimation="@anim/hide_to_bottom"/>
+
+	</FrameLayout>
 
 </RelativeLayout>

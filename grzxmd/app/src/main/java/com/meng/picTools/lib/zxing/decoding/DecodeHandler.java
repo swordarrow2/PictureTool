@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.meng.picTools.qrCode.qrcodelib.zxing.decoding;
+package com.meng.picTools.lib.zxing.decoding;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,8 +29,8 @@ import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.meng.picTools.R;
-import com.meng.picTools.qrCode.qrcodelib.zxing.camera.CameraManager;
-import com.meng.picTools.qrCode.qrcodelib.zxing.camera.PlanarYUVLuminanceSource;
+import com.meng.picTools.lib.zxing.camera.CameraManager;
+import com.meng.picTools.lib.zxing.camera.PlanarYUVLuminanceSource;
 import com.meng.picTools.qrCode.reader.CameraQRReader;
 
 import java.util.Hashtable;

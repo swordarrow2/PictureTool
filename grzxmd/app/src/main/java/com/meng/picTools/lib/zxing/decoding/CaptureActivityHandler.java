@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.meng.picTools.qrCode.qrcodelib.zxing.decoding;
+package com.meng.picTools.lib.zxing.decoding;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,8 +28,8 @@ import android.util.Log;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.meng.picTools.R;
-import com.meng.picTools.qrCode.qrcodelib.zxing.camera.CameraManager;
-import com.meng.picTools.qrCode.qrcodelib.zxing.view.ViewfinderResultPointCallback;
+import com.meng.picTools.lib.zxing.camera.CameraManager;
+import com.meng.picTools.lib.zxing.view.ViewfinderResultPointCallback;
 import com.meng.picTools.qrCode.reader.CameraQRReader;
 
 import java.util.Vector;

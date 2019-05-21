@@ -3,7 +3,8 @@ package com.meng.picTools.lib;
 import android.app.*;
 import android.content.*;
 import android.net.*;
-import com.meng.picTools.*;
+
+import com.meng.picTools.helpers.SharedPreferenceHelper;
 import com.meng.picTools.lib.javaBean.*;
 import java.util.*;
 import org.jsoup.*;

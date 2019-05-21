@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.meng.picTools.qrCode.qrcodelib.zxing.decoding;
+package com.meng.picTools.lib.zxing.decoding;
 
 /**
  * This class provides the constants to use when sending an Intent to Barcode Scanner.

@@ -7,15 +7,17 @@ import android.content.pm.*;
 import android.graphics.*;
 import android.net.*;
 import android.os.*;
-import android.support.v7.app.*;
 import android.text.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
-import com.meng.picTools.*;
+
 import com.meng.picTools.activity.*;
-import com.meng.picTools.lib.*;
-import com.meng.picTools.qrCode.qrcodelib.*;
+import com.meng.picTools.helpers.ContentHelper;
+import com.meng.picTools.helpers.FileHelper;
+import com.meng.picTools.helpers.FileType;
+import com.meng.picTools.lib.QrUtils;
+
 import java.io.*;
 
 import android.support.v7.app.AlertDialog;
@@ -48,14 +50,14 @@ public class pictureEncry extends Fragment {
 
 			  @Override
 			  public void onClick(View p) {
-				  String s=FileHelper.saveBitmap(encryBitmap, FileType.bus);
+				  String s= FileHelper.saveBitmap(encryBitmap, FileType.bus);
 				  getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(s))));//更新图库
 				}
 			});
 	  }
 
 	private void createBitmap(String path) {
-        encryBitmap = QrUtils.encryBitmap(BitmapFactory.decodeFile(path));      
+        encryBitmap = QrUtils.encryBitmap(BitmapFactory.decodeFile(path));
         imageView.setImageBitmap(encryBitmap);
 		btnSave.setVisibility(View.VISIBLE);
 

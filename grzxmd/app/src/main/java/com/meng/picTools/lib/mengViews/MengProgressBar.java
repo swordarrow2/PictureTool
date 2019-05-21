@@ -5,6 +5,8 @@ import android.view.*;
 import android.widget.*;
 import com.meng.picTools.*;
 import com.meng.picTools.activity.*;
+import com.meng.picTools.helpers.FileHelper;
+import com.meng.picTools.helpers.FileType;
 import com.meng.picTools.lib.javaBean.*;
 import com.meng.picTools.pixivPictureDownloader.*;
 import java.io.*;
@@ -31,7 +33,7 @@ public class MengProgressBar extends LinearLayout {
         String expandName = picUrl.substring(picUrl.lastIndexOf(".") + 1, picUrl.length()).toLowerCase();
         String fileName = picUrl.substring(picUrl.lastIndexOf("/") + 1, picUrl.lastIndexOf("."));
         if (expandName.equalsIgnoreCase("zip")) {
-            fileAbsolutePath =FileHelper.getFileAbsPath(fileName + "." + expandName,FileType.pixivZIP);
+            fileAbsolutePath = FileHelper.getFileAbsPath(fileName + "." + expandName, FileType.pixivZIP);
         } else {
             if(pictureInfoJavaBean.staticPicJavaBean.body.size()>1){
 				File folder = new File(FileHelper.getFileAbsPath(pictureInfoJavaBean.id,FileType.pixivDynamic));

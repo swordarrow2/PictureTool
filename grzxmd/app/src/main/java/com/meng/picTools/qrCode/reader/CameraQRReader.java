@@ -19,9 +19,9 @@ import android.widget.*;
 import com.google.zxing.*;
 import com.meng.picTools.*;
 import com.meng.picTools.activity.*;
-import com.meng.picTools.qrCode.qrcodelib.zxing.camera.*;
-import com.meng.picTools.qrCode.qrcodelib.zxing.decoding.*;
-import com.meng.picTools.qrCode.qrcodelib.zxing.view.*;
+import com.meng.picTools.lib.zxing.camera.*;
+import com.meng.picTools.lib.zxing.decoding.*;
+import com.meng.picTools.lib.zxing.view.*;
 import java.util.*;
 
 import com.meng.picTools.R;

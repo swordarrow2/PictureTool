@@ -9,16 +9,14 @@ import android.content.pm.*;
 import android.graphics.*;
 import android.net.*;
 import android.os.*;
-import android.support.v7.app.*;
 import android.text.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
 import com.google.zxing.*;
-import com.meng.picTools.*;
 import com.meng.picTools.activity.*;
-import com.meng.picTools.lib.*;
-import com.meng.picTools.qrCode.qrcodelib.*;
+import com.meng.picTools.helpers.ContentHelper;
+import com.meng.picTools.lib.QrUtils;
 
 import android.support.v7.app.AlertDialog;
 import com.meng.picTools.R;

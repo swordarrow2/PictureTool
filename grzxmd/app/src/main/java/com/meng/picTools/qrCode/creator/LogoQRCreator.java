@@ -12,10 +12,12 @@ import android.widget.*;
 import com.google.zxing.*;
 import com.meng.picTools.*;
 import com.meng.picTools.activity.*;
-import com.meng.picTools.lib.*;
+import com.meng.picTools.helpers.ContentHelper;
+import com.meng.picTools.helpers.FileHelper;
+import com.meng.picTools.helpers.FileType;
+import com.meng.picTools.lib.QrUtils;
 import com.meng.picTools.lib.mengViews.*;
-import com.meng.picTools.qrCode.creator.*;
-import com.meng.picTools.qrCode.qrcodelib.*;
+
 import java.io.*;
 
 public class LogoQRCreator extends Fragment {
@@ -91,7 +93,7 @@ public class LogoQRCreator extends Fragment {
 				  btnSave.setVisibility(View.VISIBLE);
 				  break;
                 case R.id.qr_ButtonSave:
-				  String s=FileHelper.saveBitmap(bmpQRcode, FileType.barcode);
+				  String s= FileHelper.saveBitmap(bmpQRcode, FileType.barcode);
 				  Toast.makeText(getActivity().getApplicationContext(), "已保存至" + s, Toast.LENGTH_LONG).show();
 				  getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(s))));//更新图库
 				  break;
@@ -149,7 +151,7 @@ public class LogoQRCreator extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MainActivity.instence.SELECT_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data.getData() != null) {
-            String path=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), cropPhoto(data.getData(), cbCrop.isChecked()));
+            String path= ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), cropPhoto(data.getData(), cbCrop.isChecked()));
             tvImgPath.setText("当前图片：" + path);
             if (!cbCrop.isChecked()) {
                 logoImage = BitmapFactory.decodeFile(path);

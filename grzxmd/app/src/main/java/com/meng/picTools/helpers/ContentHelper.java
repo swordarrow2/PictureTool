@@ -1,4 +1,4 @@
-package com.meng.picTools.lib;
+package com.meng.picTools.helpers;
 
 import android.annotation.TargetApi;
 import android.content.ContentUris;

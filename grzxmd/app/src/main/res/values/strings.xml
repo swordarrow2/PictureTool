@@ -10,7 +10,6 @@
 
     <string name="start_encode">开始生成</string>
 
-    <string name="app_name">PicTools</string>
     <string name="long_press_to_copy_result">长按复制结果</string>
     <string name="input_text">输入文字</string>
     <string name="contents">内容</string>

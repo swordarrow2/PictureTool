@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.meng.picTools.qrCode.qrcodelib.zxing.view;
+package com.meng.picTools.lib.zxing.view;
 
 import com.google.zxing.ResultPoint;
 import com.google.zxing.ResultPointCallback;

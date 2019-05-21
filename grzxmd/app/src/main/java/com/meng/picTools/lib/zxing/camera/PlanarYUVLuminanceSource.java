@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.meng.picTools.qrCode.qrcodelib.zxing.camera;
+package com.meng.picTools.lib.zxing.camera;
 
 import android.graphics.Bitmap;
 

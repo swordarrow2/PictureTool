@@ -7,7 +7,7 @@ import android.view.*;
 import com.google.zxing.*;
 import com.meng.picTools.*;
 import com.meng.picTools.activity.*;
-import com.meng.picTools.qrCode.qrcodelib.*;
+
 import java.io.*;
 
 /**

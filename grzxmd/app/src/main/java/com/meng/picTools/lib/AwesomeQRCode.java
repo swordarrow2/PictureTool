@@ -1,4 +1,4 @@
-package com.meng.picTools.qrCode.qrcodelib;
+package com.meng.picTools.lib;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

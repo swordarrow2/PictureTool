@@ -1,4 +1,4 @@
-package com.meng.picTools.qrCode.qrcodelib;
+package com.meng.picTools.lib;
 
 import android.graphics.*;
 
@@ -7,9 +7,7 @@ import com.google.zxing.aztec.encoder.*;
 import com.google.zxing.common.*;
 import com.google.zxing.qrcode.*;
 import com.google.zxing.qrcode.decoder.*;
-import com.meng.picTools.lib.*;
 
-import java.io.*;
 import java.util.*;
 
 /**

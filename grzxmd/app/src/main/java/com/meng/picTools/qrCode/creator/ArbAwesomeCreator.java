@@ -3,23 +3,23 @@ package com.meng.picTools.qrCode.creator;
 
 
 import android.*;
-import android.app.*;
 import android.content.*;
 import android.content.pm.*;
 import android.graphics.*;
 import android.net.*;
 import android.os.*;
 import android.support.v4.app.*;
-import android.support.v7.app.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
 import com.meng.picTools.*;
 import com.meng.picTools.activity.*;
-import com.meng.picTools.lib.*;
+import com.meng.picTools.helpers.ContentHelper;
+import com.meng.picTools.helpers.FileHelper;
+import com.meng.picTools.helpers.FileType;
+import com.meng.picTools.lib.QrUtils;
 import com.meng.picTools.lib.mengViews.*;
-import com.meng.picTools.qrCode.creator.*;
-import com.meng.picTools.qrCode.qrcodelib.*;
+
 import java.io.*;
 import java.text.*;
 
@@ -106,7 +106,7 @@ public class ArbAwesomeCreator extends Fragment {
 				  mengSelectView.setVisibility(View.GONE);
 				  break;
                 case R.id.awesomeqr_mainButton_save:              
-				  String s=FileHelper.saveBitmap(finallyBmp, FileType.awesomeQR);
+				  String s= FileHelper.saveBitmap(finallyBmp, FileType.awesomeQR);
 				  LogTool.t("已保存至" + s);
 				  getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(s))));//更新图库
 				  btnSave.setVisibility(View.GONE);

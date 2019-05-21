@@ -3,8 +3,8 @@ package com.meng.picTools.pixivPictureDownloader;
 import android.app.*;
 import android.os.*;
 import android.webkit.*;
-import com.meng.picTools.*;
-import com.meng.picTools.lib.SharedPreferenceHelper;
+
+import com.meng.picTools.helpers.SharedPreferenceHelper;
 
 public class login extends Activity{
 

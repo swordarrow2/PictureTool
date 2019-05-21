@@ -6,16 +6,17 @@ import android.content.*;
 import android.graphics.*;
 import android.net.*;
 import android.os.*;
-import android.support.v7.app.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
 import com.meng.picTools.*;
 import com.meng.picTools.activity.*;
+import com.meng.picTools.helpers.ContentHelper;
+import com.meng.picTools.helpers.FileHelper;
+import com.meng.picTools.helpers.FileType;
 import com.meng.picTools.lib.*;
 import com.meng.picTools.lib.mengViews.*;
-import com.meng.picTools.qrCode.creator.*;
-import com.meng.picTools.qrCode.qrcodelib.*;
+
 import java.io.*;
 
 import android.support.v7.app.AlertDialog;
@@ -115,7 +116,6 @@ public class AnimGIFArbAwesome extends Fragment {
                         LogTool.e("read error " + oldGifPath);
                         return;
                     }
-                    String filePath = MainActivity.instence.getGifArbAwesomeQRPath();
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     AnimatedGifEncoder localAnimatedGifEncoder = new AnimatedGifEncoder();
                     localAnimatedGifEncoder.start(baos);//start
@@ -130,9 +130,9 @@ public class AnimGIFArbAwesome extends Fragment {
                     }
 
                     localAnimatedGifEncoder.finish();
-                    String path = MainActivity.instence.getGifArbAwesomeQRPath();
+                    String filePath = FileHelper.getFileAbsPath(FileType.awesomeQR);
                     try {
-                        FileOutputStream fos = new FileOutputStream(path);
+                        FileOutputStream fos = new FileOutputStream(filePath);
                         baos.writeTo(fos);
                         baos.flush();
                         fos.flush();
@@ -141,7 +141,6 @@ public class AnimGIFArbAwesome extends Fragment {
                     } catch (IOException e) {
                         LogTool.e("gif异常" + e.toString());
                     }
-
                     getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(filePath))));
                     LogTool.t("完成 : " + filePath);
                 } catch (Exception e) {

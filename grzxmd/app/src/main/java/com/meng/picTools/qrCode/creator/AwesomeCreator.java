@@ -12,10 +12,12 @@ import android.view.*;
 import android.widget.*;
 import com.meng.picTools.*;
 import com.meng.picTools.activity.*;
-import com.meng.picTools.lib.*;
+import com.meng.picTools.helpers.ContentHelper;
+import com.meng.picTools.helpers.FileHelper;
+import com.meng.picTools.helpers.FileType;
+import com.meng.picTools.lib.AwesomeQRCode;
 import com.meng.picTools.lib.mengViews.*;
-import com.meng.picTools.qrCode.creator.*;
-import com.meng.picTools.qrCode.qrcodelib.*;
+
 import java.io.*;
 import java.text.*;
 
@@ -119,7 +121,7 @@ public class AwesomeCreator extends Fragment {
 				  btnSave.setVisibility(View.VISIBLE);
 				  break;
                 case R.id.awesomeqr_mainButton_save:
-				  String s=FileHelper.saveBitmap(bmpQRcode, FileType.awesomeQR);
+				  String s= FileHelper.saveBitmap(bmpQRcode, FileType.awesomeQR);
 				  LogTool.t("已保存至" + s);
 				  getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(s))));//更新图库
 				  break;
@@ -167,7 +169,7 @@ public class AwesomeCreator extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MainActivity.instence.SELECT_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data.getData() != null) {
             imgPathTextView.setVisibility(View.VISIBLE);
-            String path=ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), cropPhoto(data.getData(), cbCrop.isChecked()));
+            String path= ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), cropPhoto(data.getData(), cbCrop.isChecked()));
             imgPathTextView.setText(MessageFormat.format("当前图片：{0}", path));
             if (!cbCrop.isChecked()) {
                 backgroundImage = BitmapFactory.decodeFile(path);
@@ -200,7 +202,7 @@ public class AwesomeCreator extends Fragment {
 			  @Override
 			  public void run() {
 				  try {
-					  final Bitmap b=AwesomeQRCode.create(contents, size, margin, dotScale, colorDark, colorLight, background, whiteMargin, autoColor, binarize, binarizeThreshold);
+					  final Bitmap b= AwesomeQRCode.create(contents, size, margin, dotScale, colorDark, colorLight, background, whiteMargin, autoColor, binarize, binarizeThreshold);
 					  getActivity().runOnUiThread(new Runnable(){
 							@Override
 							public void run() {

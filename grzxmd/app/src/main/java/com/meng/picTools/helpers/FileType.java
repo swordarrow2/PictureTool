@@ -1,4 +1,4 @@
-package com.meng.picTools;
+package com.meng.picTools.helpers;
 
 public enum FileType {
 	barcode,

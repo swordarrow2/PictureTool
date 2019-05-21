@@ -8,11 +8,15 @@ import android.os.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
+
 import com.meng.picTools.*;
 import com.meng.picTools.activity.*;
+import com.meng.picTools.helpers.ContentHelper;
+import com.meng.picTools.helpers.FileHelper;
+import com.meng.picTools.helpers.FileType;
 import com.meng.picTools.lib.*;
 import com.meng.picTools.lib.mengViews.*;
-import com.meng.picTools.qrCode.qrcodelib.*;
+
 import java.io.*;
 
 public class AnimGIFAwesomeQr extends Fragment {
@@ -102,7 +106,6 @@ public class AnimGIFAwesomeQr extends Fragment {
                         LogTool.e("read error " + oldGifPath);
                         return;
                     }
-                    String filePath = MainActivity.instence.getGifAwesomeQRPath();
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     AnimatedGifEncoder localAnimatedGifEncoder = new AnimatedGifEncoder();
                     localAnimatedGifEncoder.start(baos);//start
@@ -115,10 +118,9 @@ public class AnimGIFAwesomeQr extends Fragment {
                         localAnimatedGifEncoder.addFrame(encodeAwesome(gifDecoder.getNextFrame()));
                     }
                     localAnimatedGifEncoder.finish();
-                    String path = MainActivity.instence.getGifAwesomeQRPath();
-                    path=MainActivity.instence.getImagePath(AnimGIFAwesomeQr.class);
+                    String filePath = FileHelper.getFileAbsPath(FileType.awesomeQR);
                     try {
-                        FileOutputStream fos = new FileOutputStream(path);
+                        FileOutputStream fos = new FileOutputStream(filePath);
                         baos.writeTo(fos);
                         baos.flush();
                         fos.flush();

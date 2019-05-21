@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.meng.picTools.qrCode.qrcodelib.zxing.decoding;
+package com.meng.picTools.lib.zxing.decoding;
 
 import android.app.Activity;
 

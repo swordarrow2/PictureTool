@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.meng.picTools.qrCode.qrcodelib.zxing.camera;
+package com.meng.picTools.lib.zxing.camera;
 
 import android.Manifest;
 import android.content.Context;
@@ -27,7 +27,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.meng.picTools.qrCode.qrcodelib.zxing.view.ViewfinderView;
+import com.meng.picTools.lib.zxing.view.ViewfinderView;
 
 import java.io.IOException;
 import java.util.List;

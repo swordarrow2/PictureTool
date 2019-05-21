@@ -22,7 +22,7 @@ public class UpdateInfo {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             String[] nowVersionStr = packageInfo.versionName.split("\\.");
             nowVersion = new int[]{Integer.parseInt(nowVersionStr[0]), Integer.parseInt(nowVersionStr[1]), Integer.parseInt(nowVersionStr[2])};
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (Exception e) {
             LogTool.e("检查更新出错");
             e.printStackTrace();
             error = true;
