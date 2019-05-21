@@ -23,6 +23,7 @@ public class UpdateInfo {
             String[] nowVersionStr = packageInfo.versionName.split("\\.");
             nowVersion = new int[]{Integer.parseInt(nowVersionStr[0]), Integer.parseInt(nowVersionStr[1]), Integer.parseInt(nowVersionStr[2])};
         } catch (Exception e) {
+		  LogTool.e((e.getClass().getSimpleName()));
             LogTool.e("检查更新出错");
             e.printStackTrace();
             error = true;

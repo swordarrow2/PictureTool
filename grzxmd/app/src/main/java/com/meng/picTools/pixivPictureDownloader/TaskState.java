@@ -4,7 +4,6 @@ public enum TaskState {
     nothing,
     connecting,
     downloading,
-    unziping,
     creatingGif,
     end
 }

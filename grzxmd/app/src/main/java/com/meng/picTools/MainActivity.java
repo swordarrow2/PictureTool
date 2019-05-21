@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         rightText = (TextView) findViewById(R.id.main_activityTextViewRight);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        new GithubUpdateManager(this, "swordarrow2", "PicTools");
+        new GithubUpdateManager(this, "swordarrow2", "PictureTools");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

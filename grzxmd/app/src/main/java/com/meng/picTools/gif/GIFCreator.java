@@ -174,7 +174,7 @@ public class GIFCreator extends Fragment {
                     LogTool.t("完成");
                     fabEncode.hideProgress();
                 } else {
-
+				  fabEncode.setIndeterminate(false);
                 }
             }
         });

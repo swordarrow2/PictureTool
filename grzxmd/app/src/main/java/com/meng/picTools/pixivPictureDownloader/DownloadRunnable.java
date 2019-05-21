@@ -54,9 +54,6 @@ public class DownloadRunnable implements Runnable {
                         case downloading:
                             setDownloadProgress(downloadedFileSize, imageSize);
                             break;
-                        case unziping:
-                            setUnzipProgress(filesNow, filesCount);
-                            break;
                         case creatingGif:
                             setCreateGifProgress(filesNow, filesCount);
                             break;
@@ -125,10 +122,9 @@ public class DownloadRunnable implements Runnable {
         }
         if (mengProgressBar.pictureInfoJavaBean.isAnimPicture) {
             String zipName = absolutePath.substring(absolutePath.lastIndexOf("/") + 1, absolutePath.lastIndexOf("."));
-            setProgressBarFileName(zipName);
-            taskState = TaskState.unziping;
+            setProgressBarFileName(zipName + ".gif");
+            taskState = TaskState.creatingGif;
             try {
-                byte[] buffer = new byte[1024];
                 filesCount = countFilesInZip(file);
                 ZipInputStream zis = new ZipInputStream(new FileInputStream(file));
                 ZipEntry ze = zis.getNextEntry();
@@ -149,7 +145,7 @@ public class DownloadRunnable implements Runnable {
                 }
 
                 localAnimatedGifEncoder.finish();
-                String path = FileHelper.getFileAbsPath(zipName, FileType.pixivAnimate);
+                String path = FileHelper.getFileAbsPath(zipName+".gif", FileType.pixivAnimate);
                 FileOutputStream fos = new FileOutputStream(path);
                 baos.writeTo(fos);
                 baos.flush();
@@ -157,29 +153,15 @@ public class DownloadRunnable implements Runnable {
                 baos.close();
                 fos.close();
                 registImage(path);
-         /*       while(ze!=null){
-                    filesNow++;
-                    String fileName = ze.getName();
-                    File frameFile = new File(frameFileFolder.getAbsolutePath()+File.separator+fileName);
-                    FileOutputStream nfos = new FileOutputStream(frameFile);
-                    int len;
-                    while((len=zis.read(buffer))>0){
-                        nfos.write(buffer,0,len);
-					  }
-                    nfos.close();
-                    ze=zis.getNextEntry();
-				  }*/
             } catch (Exception e) {
-                LogTool.t("解压异常" + e.getStackTrace()[0]);
-                LogTool.t(e.getStackTrace()[1]);
+                LogTool.t("生成gif出错");
+                LogTool.e(e.getClass().getSimpleName());
                 e.printStackTrace();
                 downloadEnd();
                 return;
             }
-            taskState = TaskState.creatingGif;
             filesNow = 0;
-            setProgressBarFileName(zipName + ".gif");
-            //          createGifJava(frameFileFolder.getAbsolutePath() + File.separator, zipName);
+			LogTool.t(zipName+".gif"+"完成");
         }
         taskState = TaskState.end;
         downloadEnd();
@@ -195,7 +177,7 @@ public class DownloadRunnable implements Runnable {
         });
     }
 
-    private void createGifJava(String folder, String fileName) {
+/*private void createGifJava(String folder, String fileName) {
         List<AnimPicJavaBean.Body.Frames> lf = mengProgressBar.pictureInfoJavaBean.animPicJavaBean.body.frames;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         AnimatedGifEncoder localAnimatedGifEncoder = new AnimatedGifEncoder();
@@ -221,7 +203,7 @@ public class DownloadRunnable implements Runnable {
         }
         registImage(path);
     }
-
+*/
     private int countFilesInZip(File zipFile) {
         int filesCount = 0;
         try {
@@ -249,17 +231,6 @@ public class DownloadRunnable implements Runnable {
                     mengProgressBar.setStatusText("正在下载");
                     mengProgressBar.setProgressText(MessageFormat.format("{0}B/{1}B ({2}%)", downloadedSize, fileSize, progress));
                 }
-            }
-        });
-    }
-
-    public void setUnzipProgress(final float unzipCount, final float fileCount) {
-        mengProgressBar.context.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mengProgressBar.setProgress((int) (unzipCount / fileCount * 100));
-                mengProgressBar.setStatusText("正在解压");
-                mengProgressBar.setProgressText(MessageFormat.format("{0}/{1}", unzipCount, fileCount));
             }
         });
     }
