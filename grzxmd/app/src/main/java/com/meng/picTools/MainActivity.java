@@ -1,6 +1,7 @@
 package com.meng.picTools;
 
 import android.*;
+import android.app.*;
 import android.content.*;
 import android.content.pm.*;
 import android.content.res.*;
@@ -12,15 +13,15 @@ import android.support.v4.content.*;
 import android.support.v4.view.*;
 import android.support.v4.widget.*;
 import android.support.v7.app.*;
+import android.support.v7.graphics.drawable.*;
+import android.support.v7.widget.*;
 import android.view.*;
 import android.widget.*;
-
+import com.meng.picTools.*;
 import com.meng.picTools.encryAndDecry.*;
 import com.meng.picTools.fragment.*;
 import com.meng.picTools.gif.*;
-import com.meng.picTools.helpers.DataBaseHelper;
-import com.meng.picTools.helpers.FileHelper;
-import com.meng.picTools.helpers.SharedPreferenceHelper;
+import com.meng.picTools.helpers.*;
 import com.meng.picTools.lib.*;
 import com.meng.picTools.pixivPictureDownloader.*;
 import com.meng.picTools.qrCode.creator.*;
@@ -32,6 +33,9 @@ import android.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import com.meng.picTools.R;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
 
     public boolean onWifi = false;
-
 
     public FragmentManager manager;
 
@@ -68,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
     public TextView rightText;
 
     private ActionBarDrawerToggle toggle;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
+        toggle = new  ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.setDrawerListener(toggle);
         toggle.syncState();
@@ -114,13 +116,14 @@ public class MainActivity extends AppCompatActivity {
         NetworkInfo wifiNetworkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         onWifi = wifiNetworkInfo.isConnected();
         mDrawerLayout.openDrawer(GravityCompat.START);
-        navigationView.setCheckedItem(R.id.home);
+        navigationView.setCheckedItem(R.id.first_page);
     }
 
     NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(MenuItem item) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
+			mDrawerLayout.closeDrawer(GravityCompat.END);
             switch (item.getItemId()) {
                 case R.id.home:
                     initHomeFragment(true);
