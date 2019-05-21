@@ -266,7 +266,7 @@ public class PixivDownloadMain extends Fragment{
 		  }catch(Exception e){
             LogTool.t(getActivity().getString(R.string.maybe_need_login));
             LogTool.e(e.toString());
-            getActivity().startActivity(new Intent(getActivity(),login.class));
+            getActivity().startActivity(new Intent(getActivity(),LoginPixivActivity.class));
 		  }
         return pijb;
 	  }
@@ -318,7 +318,7 @@ public class PixivDownloadMain extends Fragment{
     public Map<String, String> cookieToMap(String value){
         if(value==null){
             LogTool.t("请先登录");
-            getActivity().startActivity(new Intent(getActivity(),login.class));
+            getActivity().startActivity(new Intent(getActivity(),LoginPixivActivity.class));
             return null;
 		  }
         Map<String, String> map = new HashMap<>();

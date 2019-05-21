@@ -6,7 +6,7 @@ import android.webkit.*;
 
 import com.meng.picTools.helpers.SharedPreferenceHelper;
 
-public class login extends Activity{
+public class LoginPixivActivity extends Activity{
 
 	@Override
     protected void onCreate(Bundle savedInstanceState){
