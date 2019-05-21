@@ -10,6 +10,7 @@ import com.meng.picTools.*;
 
 import java.io.*;
 import java.util.*;
+import android.widget.AdapterView.*;
 
 public class GIFSelectFrameActivity extends Activity {
 
@@ -47,6 +48,25 @@ public class GIFSelectFrameActivity extends Activity {
 					  selectedImages.add(gifFrame);
 					  LogTool.t("已选择");			
 					}
+				}
+			});
+		listView.setOnItemLongClickListener(new OnItemLongClickListener(){
+
+			  @Override
+			  public boolean onItemLongClick(AdapterView<?> p1, View p2, int p3, long p4) {
+				  for (File file:fileList) {
+					  if (file.getName().toLowerCase().endsWith(".jpg") ||
+						  file.getName().toLowerCase().endsWith(".png") ||
+						  file.getName().toLowerCase().endsWith(".bmp")) {
+						  GIFFrame gifFrame = new GIFFrame();
+						  gifFrame.thumb = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()), 48, 48);
+						  gifFrame.delay = MainActivity.instence.gifCreatorFragment.mengEtFrameDelay.getInt();
+						  gifFrame.filePath = file.getAbsolutePath();
+						  selectedImages.add(gifFrame);
+						  LogTool.t("已选择");			
+						}
+					}
+				  return true;
 				}
 			});
 	  }
