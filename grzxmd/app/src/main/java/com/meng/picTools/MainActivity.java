@@ -111,6 +111,11 @@ public class MainActivity extends AppCompatActivity {
         //initHomeFragment(true);
         //initProgressFragment(false);
         //initMenuFragment(false);
+		
+		navigationView.setItemTextColor(null);
+		navigationView.setItemIconTintList(null);
+		
+		
         showWelcome(true);
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifiNetworkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);

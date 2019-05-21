@@ -274,6 +274,7 @@ public class PixivDownloadMain extends Fragment{
     public AnimPicJavaBean getDynamicPicture(String id){
         String picJsonAddress = "https://www.pixiv.net/ajax/illust/"+id+"/ugoira_meta";
         try{
+		  LogTool.i(picJsonAddress);
             return new Gson().fromJson(readStringFromNetwork(picJsonAddress),AnimPicJavaBean.class);
 		  }catch(Exception e){		
             return new AnimPicJavaBean();
@@ -283,6 +284,7 @@ public class PixivDownloadMain extends Fragment{
     public StaticPicJavaBean getStaticPicture(String id){
         String picJsonAddress = "https://www.pixiv.net/ajax/illust/"+id+"/pages";
         try{
+		  LogTool.i(picJsonAddress);
             return new Gson().fromJson(readStringFromNetwork(picJsonAddress),StaticPicJavaBean.class);
 		  }catch(Exception e){	
             return new StaticPicJavaBean();
@@ -309,8 +311,9 @@ public class PixivDownloadMain extends Fragment{
             response=connection.execute();
             //		showToast(String.valueOf(response.statusCode()));
             //		Thread.sleep(2900);
+			LogTool.i(response.body());
 		  }catch(Exception e){
-            LogTool.i(e.toString());
+       //     LogTool.i(e.toString());
 		  }
         return response.body();
 	  }

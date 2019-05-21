@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">新pictool</string>
+    <string name="app_name">pictool</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur magna tortor, semper eu feugiat eu, vehicula vitae lacus.</string>
     <string name="recyclerview_fab_example">RecyclerView FAB example</string>
     <string name="floating_action_menu">Floating Action Menu</string>
