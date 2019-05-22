@@ -13,7 +13,7 @@
     <PreferenceCategory android:title="Pixiv下载">
         <Preference android:title="登录Pixiv">
             <intent
-                android:targetClass="com.meng.picTools.pixivPictureDownloader.login"
+                android:targetClass="com.meng.picTools.pixivPictureDownloader.LoginPixivActivity"
                 android:targetPackage="com.meng.picTools" />
         </Preference>
         <CheckBoxPreference

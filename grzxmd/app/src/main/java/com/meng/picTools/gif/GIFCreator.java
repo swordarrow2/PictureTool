@@ -102,15 +102,25 @@ public class GIFCreator extends Fragment {
 				}
 			});
 		fabAdd.hide(false);
-		fabAdd.show(true);
-		fabAdd.setShowAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.show_from_bottom));
-		fabAdd.setHideAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.hide_to_bottom));
-		fabEncode.hide(false);
-		fabEncode.show(true);
-		fabEncode.setShowAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.show_from_bottom));
-		fabEncode.setHideAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.hide_to_bottom));
-
-	}
+		new Handler().postDelayed(new Runnable() {
+			  @Override
+			  public void run() {
+				  fabAdd.show(true);
+				  fabAdd.setShowAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.show_from_bottom));
+				  fabAdd.setHideAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.hide_to_bottom));
+				}
+			}, 300);
+		
+		fabEncode.hide(false);	
+		new Handler().postDelayed(new Runnable() {
+			  @Override
+			  public void run() {
+				  fabEncode.show(true);
+				  fabEncode.setShowAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.show_from_bottom));
+				  fabEncode.setHideAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.hide_to_bottom));
+				}
+			}, 600);	
+	  }
 
     View.OnClickListener listenerBtnClick = new View.OnClickListener() {
 

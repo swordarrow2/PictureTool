@@ -322,7 +322,7 @@ public class PixivDownloadMain extends Fragment {
             //		Thread.sleep(2900);
             LogTool.i(response.body());
         } catch (Exception e) {
-            //     LogTool.i(e.toString());
+                LogTool.i(e.toString());
         }
         return response.body();
     }
