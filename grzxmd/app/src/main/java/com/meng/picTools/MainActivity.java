@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
-        pixivHead = (ImageView) navigationView.findViewById(R.id.header);
+       pixivHead = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.header);
         //initHomeFragment(true);
         //initProgressFragment(false);
         //initMenuFragment(false);

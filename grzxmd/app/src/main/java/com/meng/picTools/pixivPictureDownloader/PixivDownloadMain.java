@@ -65,8 +65,25 @@ public class PixivDownloadMain extends Fragment {
     }
 
     private void init(View view) {
+		new Thread(new Runnable(){
+
+			  @Override
+			  public void run() {
+				  getToken();
+				  final Bitmap b=getPixivHead();
+				  getActivity().runOnUiThread(new Runnable(){
+
+						@Override
+						public void run() {
+						  if(b==null)return;
+							MainActivity.instence.pixivHead.setImageBitmap(b);
+						  }
+					  });
+				}
+			}).start();
         TabHost tabHost = (TabHost) view.findViewById(R.id.pixiv_download_main_tabhost);
         tabHost.setup();
+		tabHost.addTab(tabHost.newTabSpec("zero").setIndicator("预览").setContent(R.id.pixiv_download_main_browser));
         tabHost.addTab(tabHost.newTabSpec("one").setIndicator("正在下载").setContent(R.id.pixiv_download_main_downloading));
         tabHost.addTab(tabHost.newTabSpec("two").setIndicator("已下载").setContent(R.id.pixiv_download_main_downloaded));
         tabHost.addTab(tabHost.newTabSpec("three").setIndicator("收藏").setContent(R.id.pixiv_download_main_like));
@@ -137,7 +154,22 @@ public class PixivDownloadMain extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.pixiv_download_main_button_start:
-                    final String text = editTextURL.getText().toString();
+				  new Thread(new Runnable(){
+
+						@Override
+						public void run() {
+						  addFa();
+							final Bitmap b=getThumb(getPixivId(editTextURL.getText().toString()));
+							getActivity().runOnUiThread(new Runnable(){
+
+								  @Override
+								  public void run() {
+									  imageView.setImageBitmap(b);
+									}
+								});
+						  }
+					  }).start();
+            /*        final String text = editTextURL.getText().toString();
                     editTextURL.setText("");
                     LogTool.t("正在读取信息");
                     fab.setShowProgressBackground(true);
@@ -146,7 +178,7 @@ public class PixivDownloadMain extends Fragment {
                         createDownloadAllPictureTask(text);
                     } else {
                         createDownloadTask(text);
-                    }
+                    }*/
                     break;
                 case R.id.pixiv_download_main_button_pre_start:
                     File jsonFile = new File(FileHelper.getPreDownloadJsonPath());
@@ -281,7 +313,7 @@ public class PixivDownloadMain extends Fragment {
             return getBitmapFromNetwork(picUrl);
         } catch (IOException e) {
             e.printStackTrace();
-            LogTool.e(e.toString());
+     //       LogTool.e(e.toString());
             return null;
         }
     }
@@ -300,11 +332,12 @@ public class PixivDownloadMain extends Fragment {
         int index1 = main.indexOf(flag) + flag.length();
         int index2 = main.indexOf("\"", index1);
         String picUrl = main.substring(index1, index2);
+		LogTool.i(""+index1+" "+index2+" "+picUrl.replace("\\",""));
         try {
-            return getBitmapFromNetwork(picUrl);
+            return getBitmapFromNetwork(picUrl.replace("\\",""));
         } catch (IOException e) {
             e.printStackTrace();
-            LogTool.e(e.toString());
+    //        LogTool.e(e.toString());
             return null;
         }
     }
@@ -315,12 +348,14 @@ public class PixivDownloadMain extends Fragment {
         Connection connection = Jsoup.connect("https://www.pixiv.net/ajax/illusts/bookmarks/add");
         connection.cookies(cookieToMap(SharedPreferenceHelper.getValue(Data.preferenceKeys.cookieValue)));
         connection.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
-        connection.data("{\"illust_id\":\"70952691\",\"restrict\":0,\"comment\":\"\",\"tags\":[]}");
+        connection.data("{\"illust_id\":\"74810169\",\"restrict\":0,\"comment\":\"\",\"tags\":[]}");
         connection.headers(map);
-        connection.ignoreContentType(true).method(Connection.Method.POST);
+        connection.ignoreContentType(true).method(Connection.Method.GET);
         try {
             Connection.Response response = connection.execute();
+			LogTool.t(response.body());
         } catch (IOException e) {
+		  LogTool.e(e.toString());
             e.printStackTrace();
         }
     }
@@ -329,6 +364,7 @@ public class PixivDownloadMain extends Fragment {
         URL url = new URL(picUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setConnectTimeout(5 * 1000);
+		conn.addRequestProperty("Referer","https://www.pixiv.net/member_illust.php?mode=medium&illust_id=74780259");
         conn.setRequestMethod("GET");
         if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
             return BitmapFactory.decodeStream(conn.getInputStream());
@@ -404,7 +440,7 @@ public class PixivDownloadMain extends Fragment {
             response = connection.execute();
             //		showToast(String.valueOf(response.statusCode()));
             //		Thread.sleep(2900);
-            LogTool.i(response.body());
+     //       LogTool.i(response.body());
         } catch (Exception e) {
             LogTool.i(e.toString());
         }
