@@ -8,8 +8,11 @@ import android.support.v4.content.*;
 import android.view.*;
 import android.view.animation.*;
 import android.widget.*;
-import com.github.clans.fab.*;
+
 import com.meng.picTools.*;
+import com.meng.picTools.lib.MaterialDesign.FloatingActionButton;
+import com.meng.picTools.lib.MaterialDesign.FloatingActionMenu;
+
 import java.util.*;
 
 public class MenusFragment extends Fragment {

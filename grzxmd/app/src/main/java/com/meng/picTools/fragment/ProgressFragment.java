@@ -6,8 +6,10 @@ import android.support.annotation.*;
 import android.support.v7.widget.*;
 import android.view.*;
 import android.widget.*;
-import com.github.clans.fab.*;
+
 import com.meng.picTools.*;
+import com.meng.picTools.lib.MaterialDesign.FloatingActionButton;
+
 import java.util.*;
 
 public class ProgressFragment extends Fragment {
@@ -33,7 +35,7 @@ public class ProgressFragment extends Fragment {
             mProgressTypes.offer(type);
         }
 
-        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_start_download);
         fab.setMax(mMaxProgress);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);

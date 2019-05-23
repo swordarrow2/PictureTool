@@ -10,8 +10,8 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
 
-    <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fab"
+    <com.meng.picTools.lib.MaterialDesign.FloatingActionButton
+        android:id="@+id/fab_start_download"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"

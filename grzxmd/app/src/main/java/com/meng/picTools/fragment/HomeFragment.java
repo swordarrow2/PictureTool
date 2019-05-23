@@ -6,8 +6,10 @@ import android.support.annotation.*;
 import android.view.*;
 import android.view.animation.*;
 import android.widget.*;
-import com.github.clans.fab.*;
+
 import com.meng.picTools.*;
+import com.meng.picTools.lib.MaterialDesign.FloatingActionButton;
+
 import java.util.*;
 
 public class HomeFragment extends Fragment {
@@ -26,7 +28,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mListView = (ListView) view.findViewById(R.id.list);
-        mFab = (FloatingActionButton) view.findViewById(R.id.fab);
+        mFab = (FloatingActionButton) view.findViewById(R.id.fab_start_download);
     }
 
     @Override

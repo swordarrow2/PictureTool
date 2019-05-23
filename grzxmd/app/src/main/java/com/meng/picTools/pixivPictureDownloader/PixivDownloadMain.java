@@ -1,15 +1,21 @@
 package com.meng.picTools.pixivPictureDownloader;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.*;
 import android.content.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.*;
 import android.view.*;
+import android.view.animation.OvershootInterpolator;
 import android.widget.*;
 import android.widget.AdapterView.*;
 
-import com.github.clans.fab.FloatingActionButton;
+import com.meng.picTools.lib.MaterialDesign.FloatingActionButton;
+import com.meng.picTools.lib.MaterialDesign.FloatingActionMenu;
 import com.google.gson.*;
 import com.google.gson.internal.*;
 import com.meng.picTools.*;
@@ -22,7 +28,6 @@ import com.meng.picTools.lib.mengViews.*;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.*;
@@ -44,10 +49,12 @@ public class PixivDownloadMain extends Fragment {
     private Gson gson;
     public ExecutorService threadPool;
     private String title = "pids";
-    private FloatingActionButton fab;
     private ImageView imageView;
     private String token = "";
-
+    private FloatingActionMenu menuStar;
+    private FloatingActionButton fabStartDownload;
+    private FloatingActionButton fabAddMine;
+    private FloatingActionButton fabAddPixiv;
     public enum Type {
         pid,
         uid
@@ -88,14 +95,17 @@ public class PixivDownloadMain extends Fragment {
         tabHost.addTab(tabHost.newTabSpec("two").setIndicator("已下载").setContent(R.id.pixiv_download_main_downloaded));
         tabHost.addTab(tabHost.newTabSpec("three").setIndicator("收藏").setContent(R.id.pixiv_download_main_like));
         gson = new Gson();
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fabStartDownload = (FloatingActionButton) view.findViewById(R.id.fab_start_download);
+        fabAddMine = (FloatingActionButton) view.findViewById(R.id.fab_add_mine);
+        fabAddPixiv = (FloatingActionButton) view.findViewById(R.id.fab_add_pixiv);
         imageView = (ImageView) view.findViewById(R.id.imageview);
         downloadedList = (ListView) view.findViewById(R.id.saved_files_list);
         likeList = (ListView) view.findViewById(R.id.like_files_list);
+        menuStar = (FloatingActionMenu) view.findViewById(R.id.menu_star);
         editTextURL = (EditText) view.findViewById(R.id.pixiv_download_main_edittext_url);
         Button btnStart = (Button) view.findViewById(R.id.pixiv_download_main_button_start);
         Button preStart = (Button) view.findViewById(R.id.pixiv_download_main_button_pre_start);
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fabStartDownload = (FloatingActionButton) view.findViewById(R.id.fab_start_download);
         btnStart.setOnClickListener(onClickListener);
         preStart.setOnClickListener(onClickListener);
         taskLinearLayout = (LinearLayout) view.findViewById(R.id.pixiv_download_main_downloadlist_task);
@@ -115,13 +125,13 @@ public class PixivDownloadMain extends Fragment {
                             public void onClick(DialogInterface p11, int p2) {
                                 createDownloadTask(p1.getItemAtPosition(p3).toString());
                                 LogTool.t("正在读取信息");
-                                fab.setShowProgressBackground(true);
-                                fab.setIndeterminate(true);
+                                fabStartDownload.setShowProgressBackground(true);
+                                fabStartDownload.setIndeterminate(true);
                             }
                         }).setNegativeButton("取消", null).show();
             }
         });
-
+        fabStartDownload.setOnClickListener(onClickListener);
         likeList.setOnItemLongClickListener(new OnItemLongClickListener() {
 
             @Override
@@ -140,6 +150,34 @@ public class PixivDownloadMain extends Fragment {
                 return true;
             }
         });
+        menuStar.setAnimated(false);
+        menuStar.hideMenuButton(false);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                menuStar.showMenuButton(true);
+            }
+        }, 300);
+        AnimatorSet set = new AnimatorSet();
+        ObjectAnimator scaleOutX = ObjectAnimator.ofFloat(menuStar.getMenuIconView(), "scaleX", 1.0f, 0.2f);
+        ObjectAnimator scaleOutY = ObjectAnimator.ofFloat(menuStar.getMenuIconView(), "scaleY", 1.0f, 0.2f);
+        ObjectAnimator scaleInX = ObjectAnimator.ofFloat(menuStar.getMenuIconView(), "scaleX", 0.2f, 1.0f);
+        ObjectAnimator scaleInY = ObjectAnimator.ofFloat(menuStar.getMenuIconView(), "scaleY", 0.2f, 1.0f);
+        scaleOutX.setDuration(50);
+        scaleOutY.setDuration(50);
+        scaleInX.setDuration(150);
+        scaleInY.setDuration(150);
+        scaleInX.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                menuStar.getMenuIconView().setImageResource(menuStar.isOpened()
+                        ? R.drawable.ic_close : R.drawable.ic_star);
+            }
+        });
+        set.play(scaleOutX).with(scaleOutY);
+        set.play(scaleInX).with(scaleInY).after(scaleOutX);
+        set.setInterpolator(new OvershootInterpolator(2));
+        menuStar.setIconToggleAnimatorSet(set);
 
         File preDownloadJson = new File(FileHelper.getPreDownloadJsonPath());
         if (preDownloadJson.exists()) {
@@ -153,6 +191,21 @@ public class PixivDownloadMain extends Fragment {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
+                case R.id.fab_add_mine:
+                    break;
+                case R.id.fab_add_pixiv:
+                    break;
+                case R.id.fab_start_download:
+                    final String text = editTextURL.getText().toString();
+                    editTextURL.setText("");
+                    LogTool.t("正在读取信息");
+                    fabStartDownload.setShowProgressBackground(true);
+                    fabStartDownload.setIndeterminate(true);
+                    if (checkBoxIsUID.isChecked()) {
+                        createDownloadAllPictureTask(text);
+                    } else {
+                        createDownloadTask(text);
+                    }
                 case R.id.pixiv_download_main_button_start:
 				  new Thread(new Runnable(){
 
@@ -169,16 +222,6 @@ public class PixivDownloadMain extends Fragment {
 								});
 						  }
 					  }).start();
-            /*        final String text = editTextURL.getText().toString();
-                    editTextURL.setText("");
-                    LogTool.t("正在读取信息");
-                    fab.setShowProgressBackground(true);
-                    fab.setIndeterminate(true);
-                    if (checkBoxIsUID.isChecked()) {
-                        createDownloadAllPictureTask(text);
-                    } else {
-                        createDownloadTask(text);
-                    }*/
                     break;
                 case R.id.pixiv_download_main_button_pre_start:
                     File jsonFile = new File(FileHelper.getPreDownloadJsonPath());
@@ -208,7 +251,7 @@ public class PixivDownloadMain extends Fragment {
 
                             @Override
                             public void run() {
-                                fab.hideProgress();
+                                fabStartDownload.hideProgress();
                                 if (pictureInfoJavaBean.isAnimPicture) {
                                     if (pictureInfoJavaBean.animPicJavaBean.error.equals("true")) {
                                         LogTool.e("动态图信息读取错误");
@@ -261,17 +304,6 @@ public class PixivDownloadMain extends Fragment {
                             }
                         }
                     }
-			  /*    while (it.hasNext()) {
-			   String key = (String) it.next();
-			   String value = (String) linkedTreeMap.get(key);
-			   createDownloadTask(key);
-			   try {
-			   Thread.sleep(1000);
-			   } catch (InterruptedException e) {
-			   e.printStackTrace();
-			   }
-			   LogTool.i("id:" + key);
-			   } */
                 }
         ).start();
     }
@@ -344,13 +376,23 @@ public class PixivDownloadMain extends Fragment {
 
     public void addFa() {
         Map<String, String> map = new HashMap<>();
+        map.put(":authority", "www.pixiv.net");
+        map.put(":method", "POST");
+        map.put(":path", "/ajax/illusts/bookmarks/add");
+        map.put(":scheme", "https");
+        map.put("accept", "application/json");
+        map.put("accept-encoding", "gzip, deflate, br");
+        map.put("accept-language", "zh-CN,zh;q=0.9");
+        map.put("content-type", "application/json; charset=utf-8");
+        map.put("origin", "https://www.pixiv.net");
         map.put("x-csrf-token", token);
         Connection connection = Jsoup.connect("https://www.pixiv.net/ajax/illusts/bookmarks/add");
         connection.cookies(cookieToMap(SharedPreferenceHelper.getValue(Data.preferenceKeys.cookieValue)));
         connection.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
+        connection.referrer("https://www.pixiv.net/member_illust.php?mode=medium&illust_id=74810169");
         connection.data("{\"illust_id\":\"74810169\",\"restrict\":0,\"comment\":\"\",\"tags\":[]}");
         connection.headers(map);
-        connection.ignoreContentType(true).method(Connection.Method.GET);
+        connection.ignoreContentType(true).method(Connection.Method.POST);
         try {
             Connection.Response response = connection.execute();
 			LogTool.t(response.body());
@@ -464,16 +506,6 @@ public class PixivDownloadMain extends Fragment {
             }
         }
         return map;
-    }
-
-    public void showToast(final String msg) {
-        getActivity().runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     public String getPixivId(String str) {
