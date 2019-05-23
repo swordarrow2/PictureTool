@@ -32,6 +32,10 @@
             android:id="@+id/pixiv_download"
             android:icon="@drawable/ic_menu"
             android:title="Pixiv图片下载" />
+		<item
+            android:id="@+id/sauce_nao"
+            android:icon="@drawable/ic_menu"
+            android:title="sauceNao" />
         <item
             android:id="@+id/settings"
             android:icon="@drawable/ic_menu"
