@@ -17,6 +17,7 @@ import android.support.v7.graphics.drawable.*;
 import android.support.v7.widget.*;
 import android.view.*;
 import android.widget.*;
+
 import com.meng.picTools.*;
 import com.meng.picTools.encryAndDecry.*;
 import com.meng.picTools.fragment.*;
@@ -33,8 +34,8 @@ import android.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import com.meng.picTools.R;
 
+import com.meng.picTools.R;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     public final int CROP_REQUEST_CODE = 3;
     public final int SELECT_FILE_REQUEST_CODE = 822;
     public TextView rightText;
+    public ImageView pixivHead;
 
     private ActionBarDrawerToggle toggle;
 
@@ -101,21 +103,22 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toggle = new  ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
+        pixivHead = (ImageView) navigationView.findViewById(R.id.header);
         //initHomeFragment(true);
         //initProgressFragment(false);
         //initMenuFragment(false);
-		
-		navigationView.setItemTextColor(null);
-		navigationView.setItemIconTintList(null);
-		
-		
+
+        navigationView.setItemTextColor(null);
+        navigationView.setItemIconTintList(null);
+
+
         showWelcome(true);
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifiNetworkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -128,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(MenuItem item) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
-			mDrawerLayout.closeDrawer(GravityCompat.END);
+            mDrawerLayout.closeDrawer(GravityCompat.END);
             switch (item.getItemId()) {
                 case R.id.home:
                     initHomeFragment(true);

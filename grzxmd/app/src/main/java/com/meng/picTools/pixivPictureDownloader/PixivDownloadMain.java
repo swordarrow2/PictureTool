@@ -2,6 +2,8 @@ package com.meng.picTools.pixivPictureDownloader;
 
 import android.app.*;
 import android.content.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
@@ -19,6 +21,9 @@ import com.meng.picTools.lib.javaBean.allPics.*;
 import com.meng.picTools.lib.mengViews.*;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.*;
@@ -40,6 +45,8 @@ public class PixivDownloadMain extends Fragment {
     public ExecutorService threadPool;
     private String title = "pids";
     private FloatingActionButton fab;
+    private ImageView imageView;
+    private String token = "";
 
     public enum Type {
         pid,
@@ -65,6 +72,7 @@ public class PixivDownloadMain extends Fragment {
         tabHost.addTab(tabHost.newTabSpec("three").setIndicator("收藏").setContent(R.id.pixiv_download_main_like));
         gson = new Gson();
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        imageView = (ImageView) view.findViewById(R.id.imageview);
         downloadedList = (ListView) view.findViewById(R.id.saved_files_list);
         likeList = (ListView) view.findViewById(R.id.like_files_list);
         editTextURL = (EditText) view.findViewById(R.id.pixiv_download_main_edittext_url);
@@ -175,7 +183,7 @@ public class PixivDownloadMain extends Fragment {
                                         return;
                                     }
                                     taskLinearLayout.addView(new MengProgressBar(getActivity(), downloadedList, pictureInfoJavaBean,
-                                            SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigPicture) ?
+                                            SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigGif) ?
                                                     pictureInfoJavaBean.animPicJavaBean.body.originalSrc :
                                                     pictureInfoJavaBean.animPicJavaBean.body.src));
                                 } else {
@@ -263,14 +271,90 @@ public class PixivDownloadMain extends Fragment {
         }
     }
 
+    private Bitmap getThumb(String picId) {
+        String main = readStringFromNetwork("https://www.pixiv.net/member_illust.php?mode=medium&illust_id=" + picId);
+        String flag = "\"small\":\"";
+        int index1 = main.indexOf(flag) + flag.length();
+        int index2 = main.indexOf("\"", index1);
+        String picUrl = main.substring(index1, index2);
+        try {
+            return getBitmapFromNetwork(picUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+            LogTool.e(e.toString());
+            return null;
+        }
+    }
+
+    public void getToken() {
+        String main = readStringFromNetwork("https://www.pixiv.net/member_illust.php?mode=medium&illust_id=74780259");
+        String flag = "token: \"";
+        int index1 = main.indexOf(flag) + flag.length();
+        int index2 = main.indexOf("\"", index1);
+        token = main.substring(index1, index2);
+    }
+
+    public Bitmap getPixivHead() {
+        String main = readStringFromNetwork("https://www.pixiv.net/member_illust.php?mode=medium&illust_id=74780259");
+        String flag = "profileImg: \"";
+        int index1 = main.indexOf(flag) + flag.length();
+        int index2 = main.indexOf("\"", index1);
+        String picUrl = main.substring(index1, index2);
+        try {
+            return getBitmapFromNetwork(picUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+            LogTool.e(e.toString());
+            return null;
+        }
+    }
+
+    public void addFa() {
+        Map<String, String> map = new HashMap<>();
+        map.put("x-csrf-token", token);
+        Connection connection = Jsoup.connect("https://www.pixiv.net/ajax/illusts/bookmarks/add");
+        connection.cookies(cookieToMap(SharedPreferenceHelper.getValue(Data.preferenceKeys.cookieValue)));
+        connection.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
+        connection.data("{\"illust_id\":\"70952691\",\"restrict\":0,\"comment\":\"\",\"tags\":[]}");
+        connection.headers(map);
+        connection.ignoreContentType(true).method(Connection.Method.POST);
+        try {
+            Connection.Response response = connection.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Bitmap getBitmapFromNetwork(String picUrl) throws IOException {
+        URL url = new URL(picUrl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setConnectTimeout(5 * 1000);
+        conn.setRequestMethod("GET");
+        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            return BitmapFactory.decodeStream(conn.getInputStream());
+        }
+        return null;
+    }
+
     private PictureInfoJavaBean getPicInfo(String picId) {
+        String main = readStringFromNetwork("https://www.pixiv.net/member_illust.php?mode=medium&illust_id=" + picId);
+        String flag = "\"illustType\":";
+        int index1 = main.indexOf(flag) + flag.length();
+        int type = Integer.parseInt(main.substring(index1, index1 + 1));
         PictureInfoJavaBean pijb = new PictureInfoJavaBean();
         try {
             pijb.id = picId;
-            pijb.animPicJavaBean = getDynamicPicture(picId);
-            if (pijb.animPicJavaBean.error.equals("true")) {
-                pijb.staticPicJavaBean = getStaticPicture(picId);
-                pijb.isAnimPicture = false;
+            switch (type) {
+                case 0:
+                    pijb.isAnimPicture = false;
+                    pijb.staticPicJavaBean = getStaticPicture(picId);
+                    break;
+                case 1://unkonwn
+                    break;
+                case 2:
+                    pijb.isAnimPicture = true;
+                    pijb.animPicJavaBean = getDynamicPicture(picId);
+                    break;
             }
         } catch (Exception e) {
             LogTool.t(getActivity().getString(R.string.maybe_need_login));
@@ -313,7 +397,7 @@ public class PixivDownloadMain extends Fragment {
         Connection.Response response = null;
         try {
             Connection connection = Jsoup.connect(url);
-            connection.cookies(cookieToMap(SharedPreferenceHelper.getValue(Data.preferenceKeys.keyCookieValue)));
+            connection.cookies(cookieToMap(SharedPreferenceHelper.getValue(Data.preferenceKeys.cookieValue)));
             connection.referrer("https://www.pixiv.net/member_illust.php?mode=medium&illust_id=" + getPixivId(url));
             connection.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
             connection.ignoreContentType(true).method(Connection.Method.GET);
@@ -322,7 +406,7 @@ public class PixivDownloadMain extends Fragment {
             //		Thread.sleep(2900);
             LogTool.i(response.body());
         } catch (Exception e) {
-                LogTool.i(e.toString());
+            LogTool.i(e.toString());
         }
         return response.body();
     }

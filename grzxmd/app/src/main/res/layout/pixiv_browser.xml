@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pixiv_download_main_browser"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/pixiv_download_main_edittext_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/link" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/pixiv_download_main_button_pre_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="@string/add_favorite" />
+
+            <Button
+                android:id="@+id/pixiv_download_main_button_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="@string/download" />
+
+            <CheckBox
+                android:id="@+id/pixiv_download_main_checkbox_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="@string/get_all_pictures" />
+
+            <ImageView
+                android:id="@+id/imageview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/ic_progress"
+        fab:fab_hideAnimation="@anim/hide_to_bottom"
+        fab:fab_showAnimation="@anim/show_from_bottom" />
+</FrameLayout>

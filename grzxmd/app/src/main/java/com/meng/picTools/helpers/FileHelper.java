@@ -33,7 +33,7 @@ public class FileHelper {
 
 
     public static String getPreDownloadJsonPath() {
-        return exDir + "/pixivLike.json";
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/pixivLike.json";
     }
 
     public static String saveBitmap(Bitmap bmp, FileType t) {

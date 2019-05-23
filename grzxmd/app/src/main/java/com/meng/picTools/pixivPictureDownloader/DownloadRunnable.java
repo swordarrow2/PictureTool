@@ -76,7 +76,7 @@ public class DownloadRunnable implements Runnable {
             HttpURLConnection connection = (HttpURLConnection) u.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Referer", picUrl);
-            connection.setRequestProperty("cookie", SharedPreferenceHelper.getValue(Data.preferenceKeys.keyCookieValue));
+            connection.setRequestProperty("cookie", SharedPreferenceHelper.getValue(Data.preferenceKeys.cookieValue));
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
             connection.setReadTimeout(30000);
             imageSize = connection.getContentLength();
@@ -122,7 +122,7 @@ public class DownloadRunnable implements Runnable {
         }
         if (mengProgressBar.pictureInfoJavaBean.isAnimPicture) {
             String zipName = absolutePath.substring(absolutePath.lastIndexOf("/") + 1, absolutePath.lastIndexOf("."));
-            setProgressBarFileName(zipName + ".gif");
+            setProgressBarFileName(mengProgressBar.pictureInfoJavaBean.id + ".gif");
             taskState = TaskState.creatingGif;
             try {
                 filesCount = countFilesInZip(file);
@@ -162,6 +162,9 @@ public class DownloadRunnable implements Runnable {
             }
             filesNow = 0;
 			LogTool.t(zipName+".gif"+"完成");
+			if(SharedPreferenceHelper.getBoolean(Data.preferenceKeys.deleteZipAfterMakeGif)){
+			    file.delete();
+            }
         }
         taskState = TaskState.end;
         downloadEnd();
@@ -240,7 +243,7 @@ public class DownloadRunnable implements Runnable {
             @Override
             public void run() {
                 mengProgressBar.setProgress((int) (gifedCount / fileCount * 100));
-                mengProgressBar.setStatusText("正在生成gif");
+                mengProgressBar.setStatusText("正在合成gif");
                 mengProgressBar.setProgressText(MessageFormat.format("{0}/{1}", gifedCount, fileCount));
             }
         });
@@ -273,7 +276,7 @@ public class DownloadRunnable implements Runnable {
 	 request.setDescription(fileName+"."+expandName);
 	 request.setDestinationInExternalPublicDir(MainActivity.instence.getPixivZipPath(""),fileName+"."+expandName);
 	 request.addRequestHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0");
-	 request.addRequestHeader("cookie",SharedPreferenceHelper.getValue(Data.preferenceKeys.keyCookieValue));
+	 request.addRequestHeader("cookie",SharedPreferenceHelper.getValue(Data.preferenceKeys.cookieValue));
 	 request.addRequestHeader("Referer",picUrl);
 	 DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
 	 downloadManager.enqueue(request);

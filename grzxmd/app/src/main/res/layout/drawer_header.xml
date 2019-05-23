@@ -8,6 +8,11 @@
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
+    <ImageView
+        android:id="@+id/header"
+        android:layout_width="160dp"
+        android:layout_height="160dp" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

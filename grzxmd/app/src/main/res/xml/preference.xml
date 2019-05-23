@@ -21,7 +21,13 @@
             android:key="bigpicture"
             android:summaryOff="否"
             android:summaryOn="是"
-            android:title="下载原图" />
+            android:title="静态图下载原图" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="bigpicturegif"
+            android:summaryOff="否"
+            android:summaryOn="是"
+            android:title="GIF下载大图" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="deleteZipAfterMakeGif"
