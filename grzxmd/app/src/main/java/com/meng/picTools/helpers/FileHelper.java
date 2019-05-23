@@ -37,7 +37,7 @@ public class FileHelper {
     }
 
     public static String saveBitmap(Bitmap bmp, FileType t) {
-        String fileAbsPath = getFolder(t).getAbsolutePath() + (SharedPreferenceHelper.getBoolean("useTimeStamp") ? String.valueOf(System.currentTimeMillis() / 1000) : new Date().toString()) + ".png";
+        String fileAbsPath = getFolder(t).getAbsolutePath() +"/"+ (SharedPreferenceHelper.getBoolean("useTimeStamp") ? String.valueOf(System.currentTimeMillis() / 1000) : new Date().toString()) + ".png";
         File f = new File(fileAbsPath);
         try {
             f.createNewFile();
