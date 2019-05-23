@@ -29,6 +29,8 @@
 
         <com.meng.picTools.lib.MaterialDesign.FloatingActionButton
             android:id="@+id/fab_add"
+            fab:fab_hideAnimation="@anim/hide_to_bottom"
+            fab:fab_showAnimation="@anim/show_from_bottom" 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
@@ -39,6 +41,8 @@
 
         <com.meng.picTools.lib.MaterialDesign.FloatingActionButton
             android:id="@+id/fab_encode"
+            fab:fab_hideAnimation="@anim/hide_to_bottom"
+            fab:fab_showAnimation="@anim/show_from_bottom" 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"

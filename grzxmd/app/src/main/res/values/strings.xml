@@ -53,7 +53,7 @@
     <string name="create_awesomeqr">生成AwesomeQR</string>
     <string name="read_screenshot">自动读取屏幕截图中的二维码</string>
 
-    <string name="link">输入图片ID或链接</string>
+    <string name="link">输入ID或链接</string>
     <string name="download">下载</string>
     <string name="download_success">下载完成</string>
     <string name="downloading">正在下载</string>
@@ -65,6 +65,6 @@
     <string name="gif_delay">帧间隔</string>
     <string name="update_content">更新内容</string>
     <string name="add_favorite">加入收藏</string>
-    <string name="get_all_pictures">扒画师图片</string>
+    <string name="get_all_pictures">这是画师的ID</string>
 
 </resources>

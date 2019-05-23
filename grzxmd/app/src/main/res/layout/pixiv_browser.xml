@@ -21,32 +21,11 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/link" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/pixiv_download_main_button_pre_start"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:text="@string/add_favorite" />
-
-                <Button
-                    android:id="@+id/pixiv_download_main_button_start"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:text="@string/download" />
-
-                <CheckBox
-                    android:id="@+id/pixiv_download_main_checkbox_user"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:text="@string/get_all_pictures" />
-            </LinearLayout>
+			<CheckBox
+				android:id="@+id/pixiv_download_main_checkbox_user"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"   
+				android:text="@string/get_all_pictures" />
 
             <ImageView
                 android:id="@+id/imageview"
@@ -57,14 +36,11 @@
 
         <com.meng.picTools.lib.MaterialDesign.FloatingActionMenu
             android:id="@+id/menu_star"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="80dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="72dp"
             fab:menu_colorNormal="#1565C0"
             fab:menu_colorPressed="#2272CD"
             fab:menu_colorRipple="#62B2FF"
@@ -75,6 +51,7 @@
                 android:id="@+id/fab_add_mine"
                 style="@style/MenuButtonsSmall"
                 android:layout_width="wrap_content"
+				fab:fab_label="fafafa"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_star" />
 
@@ -83,6 +60,7 @@
                 style="@style/MenuButtonsSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+				fab:fab_label="pixiv"
                 android:src="@drawable/ic_star" />
 
         </com.meng.picTools.lib.MaterialDesign.FloatingActionMenu>

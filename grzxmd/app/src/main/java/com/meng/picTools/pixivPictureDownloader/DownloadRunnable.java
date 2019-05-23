@@ -165,7 +165,9 @@ public class DownloadRunnable implements Runnable {
 			if(SharedPreferenceHelper.getBoolean(Data.preferenceKeys.deleteZipAfterMakeGif)){
 			    file.delete();
             }
-        }
+        }else{
+		  registImage(file.getAbsolutePath());
+		}
         taskState = TaskState.end;
         downloadEnd();
         DataBaseHelper.deleteData(picUrl);
@@ -262,6 +264,7 @@ public class DownloadRunnable implements Runnable {
                 listView.setAdapter(new ArrayAdapter<String>(mengProgressBar.context, android.R.layout.simple_list_item_1, downloadedFilesName));
                 LinearLayout ll = (LinearLayout) mengProgressBar.getParent();
                 ll.removeView(mengProgressBar);
+				System.gc();
             }
         });
     }
