@@ -180,9 +180,12 @@ public class PixivDownloadMain extends Fragment {
                     }
 				  likeJavaBean.info.add(editTextURL.getText().toString());
 				  writeStringToFile(gson.toJson(likeJavaBean));
-				  likeAdapter.notifyDataSetChanged();
+				  //  likeAdapter.notifyDataSetChanged();
 				  //	  editTextURL.setText("");
-
+				  LogTool.t("添加成功");
+				  likeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, likeJavaBean.info);
+				  likeList.setAdapter(likeAdapter);
+				  menuStar.close(true);
 				  break;
 				case R.id.fab_add_pixiv:
 				  new Thread(new Runnable(){
@@ -192,6 +195,7 @@ public class PixivDownloadMain extends Fragment {
 							addFa(getPixivId(editTextURL.getText().toString()));
 						  }
 					  }).start();
+				  menuStar.close(true);		  
 				  break;
                 case R.id.fab_start_download:
 				  final String text = editTextURL.getText().toString();
