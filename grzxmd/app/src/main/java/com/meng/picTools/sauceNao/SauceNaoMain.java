@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -37,7 +38,7 @@ public class SauceNaoMain extends Fragment {
     private ListView listView;
     public HashMap<String, Bitmap> hashMap = new HashMap<>();
     public ExecutorService threadPool;
-    public String fileAbsPath;
+    public String uploadBmpAbsPath;
 
     @Nullable
     @Override
@@ -54,6 +55,24 @@ public class SauceNaoMain extends Fragment {
         threadPool = Executors.newFixedThreadPool(Integer.parseInt(SharedPreferenceHelper.getValue("threads", "3")));
         mFab.setOnClickListener(onClickListener);
         mFabSelect.setOnClickListener(onClickListener);
+        mFab.hide(false);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mFab.show(true);
+                mFab.setShowAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.show_from_bottom));
+                mFab.setHideAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.hide_to_bottom));
+            }
+        }, 300);
+        mFabSelect.hide(false);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mFabSelect.show(true);
+                mFabSelect.setShowAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.show_from_bottom));
+                mFabSelect.setHideAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.hide_to_bottom));
+            }
+        }, 450);
     }
 
 
@@ -67,7 +86,11 @@ public class SauceNaoMain extends Fragment {
                         public void run() {
                             FileInputStream fInputStream;
                             try {
-                                fInputStream = new FileInputStream(new File(fileAbsPath));
+                                if (uploadBmpAbsPath == null) {
+                                    LogTool.t("还没有选择图片");
+                                    return;
+                                }
+                                fInputStream = new FileInputStream(uploadBmpAbsPath);
                                 Connection.Response response = Jsoup.connect("https://saucenao.com/search.php?db=" + 999)
                                         .timeout(60000).data("file", "image.jpg", fInputStream).method(Connection.Method.POST).execute();
                                 if (response.statusCode() != 200) {
@@ -75,8 +98,13 @@ public class SauceNaoMain extends Fragment {
                                     return;
                                 }
                                 PicResults mResults = new PicResults(Jsoup.parse(response.body()));
-                                ResultAdapter resultAdapter = new ResultAdapter(getActivity(), mResults.getResults());
-                                listView.setAdapter(resultAdapter);
+                                final ResultAdapter resultAdapter = new ResultAdapter(getActivity(), mResults.getResults());
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        listView.setAdapter(resultAdapter);
+                                    }
+                                });
                        /*         int size = mResults.getResults().size();
                                 if (size < 1) {
                                     LogTool.t("没有相似度较高的图片");
@@ -138,22 +166,7 @@ public class SauceNaoMain extends Fragment {
         }
     };
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mFab.hide(false);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mFab.show(true);
-                mFab.setShowAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.show_from_bottom));
-                mFab.setHideAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.hide_to_bottom));
-            }
-        }, 300);
-    }
-
-    private Uri cropPhoto(Uri uri, boolean needCrop) {
-        if (!needCrop) return uri;
+    private void cropPhoto(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
@@ -165,26 +178,40 @@ public class SauceNaoMain extends Fragment {
         intent.putExtra("outputY", 300);
         intent.putExtra("return-data", true);
         startActivityForResult(intent, MainActivity.instence.CROP_REQUEST_CODE);
-        return uri;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MainActivity.instence.SELECT_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data.getData() != null) {
-            String path = ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), cropPhoto(data.getData(), cbCrop.isChecked()));
-            tvImgPath.setText("当前图片：" + path);
-            if (!cbCrop.isChecked()) {
-                logoImage = BitmapFactory.decodeFile(path);
+        if (data != null && resultCode == Activity.RESULT_OK) {
+            if (requestCode == MainActivity.instence.SELECT_FILE_REQUEST_CODE) {
+                //  String path = ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),
+                cropPhoto(data.getData());
+            } else if (requestCode == MainActivity.instence.CROP_REQUEST_CODE) {
+                Bundle bundle = data.getExtras();
+                if (bundle != null) {
+                    Bitmap bmp = bundle.getParcelable("data");
+                    if (bmp == null) {
+                        LogTool.e("选择图片出错");
+                    }
+                    String fileAbsPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/picTool/search_tmp.png";
+                    File f = new File(fileAbsPath);
+                    try {
+                        f.createNewFile();
+                        FileOutputStream fOut = new FileOutputStream(f);
+                        bmp.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                        fOut.flush();
+                        fOut.close();
+                        //  getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(f)));
+                        uploadBmpAbsPath = ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), Uri.fromFile(f));
+                    } catch (IOException e) {
+                        LogTool.e("裁剪图片出错");
+                    }
+                    LogTool.t("图片添加成功");
+                } else {
+                    LogTool.t("取消了添加图片");
+                }
             }
-        } else if (requestCode == MainActivity.instence.CROP_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
-            Bundle bundle = data.getExtras();
-            if (bundle != null) {
-                logoImage = bundle.getParcelable("data");
-                LogTool.t("图片添加成功");
-            } else {
-                LogTool.t("取消了添加图片");
-            }
-        } else if (resultCode == getActivity().RESULT_CANCELED) {
+        } else if (resultCode == Activity.RESULT_CANCELED) {
             Toast.makeText(getActivity().getApplicationContext(), "取消选择图片", Toast.LENGTH_SHORT).show();
         } else {
             MainActivity.instence.selectImage(this);
