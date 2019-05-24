@@ -476,7 +476,7 @@ public class MainActivity extends AppCompatActivity {
         transactionBus.commit();
 	  }
 
-    private void showPixivDownloadFragment(boolean showNow) {
+    public void showPixivDownloadFragment(boolean showNow) {
         FragmentTransaction transactionBusR = manager.beginTransaction();
         if (pixivDownloadMainFragment == null) {
             pixivDownloadMainFragment = new PixivDownloadMain();

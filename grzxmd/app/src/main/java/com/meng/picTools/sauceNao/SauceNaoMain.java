@@ -1,6 +1,9 @@
 package com.meng.picTools.sauceNao;
 
 import android.app.*;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -69,25 +72,34 @@ public class SauceNaoMain extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> p1, View p2, int p3, long p4) {
-                PicResults.Result result = (PicResults.Result) p1.getItemAtPosition(p3);
-                ListView naiSentenseListview = new ListView(getActivity());
-                naiSentenseListview.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, result.mExtUrls));
-                naiSentenseListview.setOnItemClickListener(new OnItemClickListener() {
+                final PicResults.Result result = (PicResults.Result) p1.getItemAtPosition(p3);
+                ListView urlSelect = new ListView(getActivity());
+                urlSelect.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, result.mExtUrls));
+                urlSelect.setOnItemClickListener(new OnItemClickListener() {
 
                     @Override
                     public void onItemClick(final AdapterView<?> p1, View p2, final int p3, long p4) {
-                        LogTool.t(p1.getItemAtPosition(p3));
+                        String url = (String) p1.getItemAtPosition(p3);
+                        LogTool.t(url);
+                        if (url.contains("illust_id")) {
+                            MainActivity.instence.showPixivDownloadFragment(true);
+                            MainActivity.instence.pixivDownloadMainFragment.editTextURL.setText(result.mExtUrls.get(1));
+                        } else {
+                            ClipboardManager clipboardManager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                            ClipData clipData = ClipData.newPlainText("text", url);
+                            clipboardManager.setPrimaryClip(clipData);
+                            LogTool.t("已复制到剪贴板");
+                        }
                         alertDialog.dismiss();
                     }
                 });
                 alertDialog = new AlertDialog.Builder(getActivity())
-                        .setView(naiSentenseListview)
-                        .setTitle("奶")
+                        .setView(urlSelect)
+                        .setTitle("这是一个标题")
                         .setNegativeButton("我好了", null).show();
             }
         });
     }
-
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override

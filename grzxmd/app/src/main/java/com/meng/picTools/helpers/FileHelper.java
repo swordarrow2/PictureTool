@@ -6,6 +6,8 @@ import android.graphics.*;
 import android.net.Uri;
 import android.os.*;
 
+import com.meng.picTools.LogTool;
+
 import java.io.*;
 import java.util.*;
 
@@ -51,5 +53,30 @@ public class FileHelper {
         }
         return f.getAbsolutePath();
     }
+    public static String readStringFromFile(File f) {
+        String result = null;
+        try {
+            int length = (int) f.length();
+            byte[] buff = new byte[length];
+            FileInputStream fin = new FileInputStream(f);
+            fin.read(buff);
+            fin.close();
+            result = new String(buff, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogTool.t(e.toString());
+        }
+        return result;
+    }
 
+    public static void writeStringToFile(String str) {
+        try {
+            FileWriter fw = new FileWriter(FileHelper.getPreDownloadJsonPath());//SD卡中的路径
+            fw.flush();
+            fw.write(str);
+            fw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

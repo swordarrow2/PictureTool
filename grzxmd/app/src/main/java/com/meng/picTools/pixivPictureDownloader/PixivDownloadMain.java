@@ -33,7 +33,7 @@ import android.view.View.OnClickListener;
 
 public class PixivDownloadMain extends Fragment {
 
-    private EditText editTextURL;
+    public EditText editTextURL;
     private ListView downloadedList;
     private ListView likeList;
     private LinearLayout taskLinearLayout;
@@ -135,7 +135,7 @@ public class PixivDownloadMain extends Fragment {
                             @Override
                             public void onClick(DialogInterface p1, int p2) {
                                 likeJavaBean.info.remove(p3);
-                                writeStringToFile(gson.toJson(likeJavaBean));
+                                FileHelper.writeStringToFile(gson.toJson(likeJavaBean));
                                 likeList.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, likeJavaBean.info));
                             }
                         }).setNegativeButton("取消", null).show();
@@ -163,7 +163,7 @@ public class PixivDownloadMain extends Fragment {
         }, 300);
         File preDownloadJson = new File(FileHelper.getPreDownloadJsonPath());
         if (preDownloadJson.exists()) {
-            likeJavaBean = gson.fromJson(readStringFromFile(preDownloadJson), LikeJavaBean.class);
+            likeJavaBean = gson.fromJson(FileHelper.readStringFromFile(preDownloadJson), LikeJavaBean.class);
             likeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, likeJavaBean.info);
             likeList.setAdapter(likeAdapter);
         }
@@ -177,13 +177,13 @@ public class PixivDownloadMain extends Fragment {
                 case R.id.fab_add_mine:
                     File jsonFile = new File(FileHelper.getPreDownloadJsonPath());
                     if (jsonFile.exists()) {
-                        likeJavaBean = gson.fromJson(readStringFromFile(jsonFile), LikeJavaBean.class);
+                        likeJavaBean = gson.fromJson(FileHelper.readStringFromFile(jsonFile), LikeJavaBean.class);
                     } else {
                         likeJavaBean = new LikeJavaBean();
                         likeJavaBean.info = new ArrayList<>();
                     }
                     likeJavaBean.info.add(editTextURL.getText().toString());
-                    writeStringToFile(gson.toJson(likeJavaBean));
+                    FileHelper.writeStringToFile(gson.toJson(likeJavaBean));
                     //  likeAdapter.notifyDataSetChanged();
                     //	  editTextURL.setText("");
                     LogTool.t("添加成功");
@@ -324,34 +324,6 @@ public class PixivDownloadMain extends Fragment {
                 }
         ).start();
     }
-
-    private String readStringFromFile(File f) {
-        String result = null;
-        try {
-            int length = (int) f.length();
-            byte[] buff = new byte[length];
-            FileInputStream fin = new FileInputStream(f);
-            fin.read(buff);
-            fin.close();
-            result = new String(buff, "UTF-8");
-        } catch (Exception e) {
-            e.printStackTrace();
-            LogTool.t(e.toString());
-        }
-        return result;
-    }
-
-    public void writeStringToFile(String str) {
-        try {
-            FileWriter fw = new FileWriter(FileHelper.getPreDownloadJsonPath());//SD卡中的路径
-            fw.flush();
-            fw.write(str);
-            fw.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private Bitmap getThumb(String picId) {
         String main = readStringFromNetwork("https://www.pixiv.net/member_illust.php?mode=medium&illust_id=" + picId);
         if (main == null) return null;
