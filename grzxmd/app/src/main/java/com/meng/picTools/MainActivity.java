@@ -1,7 +1,6 @@
 package com.meng.picTools;
 
 import android.*;
-import android.app.*;
 import android.content.*;
 import android.content.pm.*;
 import android.content.res.*;
@@ -13,12 +12,9 @@ import android.support.v4.content.*;
 import android.support.v4.view.*;
 import android.support.v4.widget.*;
 import android.support.v7.app.*;
-import android.support.v7.graphics.drawable.*;
-import android.support.v7.widget.*;
 import android.view.*;
 import android.widget.*;
 
-import com.meng.picTools.*;
 import com.meng.picTools.encryAndDecry.*;
 import com.meng.picTools.fragment.*;
 import com.meng.picTools.gif.*;
@@ -35,7 +31,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 
-import com.meng.picTools.R;
 import com.meng.picTools.sauceNao.*;
 
 
@@ -67,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private pictureEncry pictureEncryFragment;
     private pictureDecry pictureDecryFragment;
     public PixivDownloadMain pixivDownloadMainFragment;
-	public SauceNaoMain snm;
+	public SauceNaoMain sauceNaoMain;
 
     public final int CROP_REQUEST_CODE = 3;
     public final int SELECT_FILE_REQUEST_CODE = 822;
@@ -244,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
 				  showGifFragment(true);
 				  break;
 				case R.id.sauce_nao:
-				  showsnmFragment(true);
+				  showSauceNaoMainFragment(true);
 				  break;
                 case R.id.settings:
 				  showSettingsFragment(true);
@@ -507,18 +502,19 @@ public class MainActivity extends AppCompatActivity {
         transactionBusR.commit();
 	  }
 
-	private void showsnmFragment(boolean showNow) {
+	private void showSauceNaoMainFragment(boolean showNow) {
         FragmentTransaction transactionBusR = manager.beginTransaction();
-        if (snm == null) {
-            snm = new SauceNaoMain();
-            transactionBusR.add(R.id.fragment, snm);
+        if (sauceNaoMain == null) {
+            sauceNaoMain = new SauceNaoMain();
+            transactionBusR.add(R.id.fragment, sauceNaoMain);
 		  }
         hideFragment(transactionBusR);
         if (showNow) {
-            transactionBusR.show(snm);
+            transactionBusR.show(sauceNaoMain);
 		  }
         transactionBusR.commit();
 	  }
+
     public void hideFragment(FragmentTransaction transaction) {
         Fragment fs[] = {
 			welcomeFragment,
@@ -538,7 +534,7 @@ public class MainActivity extends AppCompatActivity {
 			pixivDownloadMainFragment,
 			homeFragment,
 			menusFragment,
-			snm,
+                sauceNaoMain,
 			progressFragment
 		  };
         for (Fragment f : fs) {
