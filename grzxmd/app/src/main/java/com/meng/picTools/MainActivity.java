@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             mDrawerLayout.closeDrawer(GravityCompat.START);
             mDrawerLayout.closeDrawer(GravityCompat.END);
             switch (item.getItemId()) {
-                case R.id.home:
+             /*   case R.id.home:
 				  initHomeFragment(true);
 				  break;
                 case R.id.menus:
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 				  break;
                 case R.id.progress:
 				  initProgressFragment(true);
-				  break;
+				  break;*/
                 case R.id.first_page:
 				  showWelcome(true);
 				  break;

@@ -44,7 +44,7 @@
             android:id="@+id/exit"
             android:icon="@drawable/ic_menu"
             android:title="退出" />
-        <item
+        <!--<item
             android:id="@+id/home"
             android:icon="@drawable/ic_menu"
             android:title="Home" />
@@ -55,7 +55,7 @@
         <item
             android:id="@+id/progress"
             android:icon="@drawable/ic_menu"
-            android:title="Progress" />
+            android:title="Progress" />-->
     </group>
 
 </menu>
