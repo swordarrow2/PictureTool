@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="app_primary">#1976D2</color>
-    <color name="app_primary_dark">#1565C0</color>
+    <color name="app_primary">#7fca00</color>
+    <color name="app_primary_dark">#7fba00</color>
     <color name="grey">#DDDDDD</color>
     <color name="light_grey">#EEEEEE</color>
     <color name="white_transparent">#99FFFFFF</color>
     <color name="black">#000</color>
-    <color name="actionBarLight">#3F51B5</color>
+    <color name="actionBarLight">#7fca00</color>
     <color name="actionBarDark">#888888</color>
     <color name="ldrawer_color">#FFFFFF</color>
     <color name="possible_result_points">#c0ffff00</color>
@@ -14,5 +14,5 @@
     <color name="viewfinder_frame">#ff000000</color>
     <color name="viewfinder_laser">#ffff0000</color>
     <color name="viewfinder_mask">#60000000</color>
-    <color name="qr_blue">#FF0099CC</color>
+    <color name="qr_blue">#8fca00</color>
 </resources>

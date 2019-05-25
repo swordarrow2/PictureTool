@@ -83,7 +83,10 @@ public class SauceNaoMain extends Fragment {
                         LogTool.t(url);
                         if (url.contains("illust_id")) {
                             MainActivity.instence.showPixivDownloadFragment(true);
-                            MainActivity.instence.pixivDownloadMainFragment.editTextURL.setText(result.mExtUrls.get(1));
+							try {
+								Thread.sleep(100);
+							  } catch (InterruptedException e) {}
+                            MainActivity.instence.pixivDownloadMainFragment.editTextURL.setText(url);
                         } else {
                             ClipboardManager clipboardManager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                             ClipData clipData = ClipData.newPlainText("text", url);

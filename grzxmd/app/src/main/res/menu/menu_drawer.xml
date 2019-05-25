@@ -7,16 +7,16 @@
         <item
             android:id="@+id/first_page"
             android:icon="@drawable/ic_menu"
-            android:title="首页(大概)" />
+            android:title="首页(大概)" />  
+		<item
+            android:id="@+id/create_barcode"
+            android:icon="@drawable/ic_menu"
+            android:title="创建二维码" />	
         <item
             android:id="@+id/read_barcode"
             android:icon="@drawable/ic_menu"
             android:title="读取二维码" />
-        <item
-            android:id="@+id/create_barcode"
-            android:icon="@drawable/ic_menu"
-            android:title="创建二维码" />
-        <item
+          <item
             android:id="@+id/bus"
             android:icon="@drawable/ic_menu"
             android:title="乘车码" />
@@ -27,7 +27,7 @@
         <item
             android:id="@+id/encode_gif"
             android:icon="@drawable/ic_menu"
-            android:title="生成gif" />
+            android:title="合成gif" />
         <item
             android:id="@+id/pixiv_download"
             android:icon="@drawable/ic_menu"
@@ -35,7 +35,7 @@
 		<item
             android:id="@+id/sauce_nao"
             android:icon="@drawable/ic_menu"
-            android:title="sauceNao" />
+            android:title="搜图(sauceNao)" />
         <item
             android:id="@+id/settings"
             android:icon="@drawable/ic_menu"

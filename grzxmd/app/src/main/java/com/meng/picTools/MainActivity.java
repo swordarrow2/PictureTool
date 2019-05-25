@@ -112,9 +112,10 @@ public class MainActivity extends AppCompatActivity {
         //initProgressFragment(false);
         //initMenuFragment(false);
 
-        navigationView.setItemTextColor(null);
-        navigationView.setItemIconTintList(null);
-
+   //     navigationView.setItemTextColor(null);
+   //     navigationView.setItemIconTintList(null);
+		showAwesomeFragment(false);
+		showPixivDownloadFragment(false);
 
         showWelcome(true);
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

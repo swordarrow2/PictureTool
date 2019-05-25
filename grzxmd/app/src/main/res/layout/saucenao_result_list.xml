@@ -23,6 +23,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+				android:textColor="#7FCA00"
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -30,6 +31,7 @@
                 android:layout_toStartOf="@+id/similarity" />
 
             <TextView
+				android:textColor="#7Fd000"
                 android:id="@+id/similarity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,6 +39,7 @@
         </RelativeLayout>
 
         <TextView
+			android:textColor="#5FCA00"
             android:id="@+id/metadata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
