@@ -6,8 +6,8 @@ android {
         applicationId "com.meng.picTools"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 20190521
-        versionName "1.1.1"
+        versionCode 20190525
+        versionName "8.9.0"
     }
     buildTypes {
         release {

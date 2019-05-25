@@ -143,7 +143,7 @@ public class PixivDownloadMain extends Fragment {
 				  return true;
 				}
 			});
-        editTextURL.addTextChangedListener(textWatcher);
+     //   editTextURL.addTextChangedListener(textWatcher);
         menuStar.setAnimated(true);
         menuStar.hideMenuButton(false);
         menuStar.setClosedOnTouchOutside(true);
@@ -222,36 +222,36 @@ public class PixivDownloadMain extends Fragment {
 		  }
 	  };
 
-    TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-		  }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-		  }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            new Thread(new Runnable() {
-
-				  @Override
-				  public void run() {
-					  final Bitmap b = getThumb(getPixivId(editTextURL.getText().toString()));
-					  if (b == null) return;
-					  getActivity().runOnUiThread(new Runnable() {
-
-							@Override
-							public void run() {
-								imageView.setImageBitmap(b);
-							  }
-						  });
-					}
-				}).start();
-		  }
-	  };
+//    TextWatcher textWatcher = new TextWatcher() {
+//        @Override
+//        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//		  }
+//
+//        @Override
+//        public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//		  }
+//
+//        @Override
+//        public void afterTextChanged(Editable s) {
+//            new Thread(new Runnable() {
+//
+//				  @Override
+//				  public void run() {
+//					  final Bitmap b = getThumb(getPixivId(editTextURL.getText().toString()));
+//					  if (b == null) return;
+//					  getActivity().runOnUiThread(new Runnable() {
+//
+//							@Override
+//							public void run() {
+//								imageView.setImageBitmap(b);
+//							  }
+//						  });
+//					}
+//				}).start();
+//		  }
+//	  };
 
 
     private void createDownloadTask(final String url) {
