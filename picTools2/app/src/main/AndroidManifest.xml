@@ -15,12 +15,23 @@
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="OCR_APP_KEY"
+            android:value="腾讯优图申请" />
+        <meta-data
+            android:name="OCR_SECRET_ID"
+            android:value="腾讯优图申请" />
+        <meta-data
+            android:name="OCR_SECRET_KEY"
+            android:value="腾讯优图申请" />
+
         <activity
-			android:launchMode="singleTask"
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme">
 
         </activity>
@@ -33,17 +44,26 @@
             android:name=".gif.GIFSelectFrameActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
-        <activity android:name="com.bluemoon.cardocr.CoustomCaptureActivity" />
-        <activity android:name="com.bluemoon.cardocr.MainActivity" >
+        <activity android:name="cn.com.bluemoon.cardocr.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="cn.com.bluemoon.cardocr.CoustomCaptureActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.Fullscreen" />
 
-        <service android:name=".lib.ScreenShotListenService" />
-
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.meng.picTools.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
     </application>
-
 </manifest>
