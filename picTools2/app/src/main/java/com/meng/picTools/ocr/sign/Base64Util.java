@@ -1,4 +1,4 @@
-package ocr.cardocr.lib.sign;
+package com.meng.picTools.ocr.sign;
 
 public class Base64Util {
 	private static final char last2byte = (char) Integer

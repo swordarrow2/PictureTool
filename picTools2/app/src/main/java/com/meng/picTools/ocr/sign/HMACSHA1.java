@@ -1,4 +1,4 @@
-package ocr.cardocr.lib.sign;
+package com.meng.picTools.ocr.sign;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
