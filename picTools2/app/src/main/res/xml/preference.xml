@@ -4,7 +4,10 @@
         android:defaultValue="true"
         android:key="opendraw"
         android:title="启动时打开滑动菜单" />
-
+	<CheckBoxPreference
+        android:key="showSJF"
+        android:summary="抽屉中的早苗"
+        android:title="显示SJF" />
     <CheckBoxPreference
         android:key="exitsettings"
         android:summary="System.exit(0)可以彻底关闭软件"

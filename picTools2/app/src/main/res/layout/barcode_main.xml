@@ -1,6 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ran="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	
     android:layout_height="match_parent">
 
     <ScrollView
@@ -12,7 +15,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
+			<com.meng.picTools.lib.MaterialDesign.MDEditText
+				style="@style/MDEditText"
+				app:errorEnable="true"
+				app:hint="username" />
             <com.meng.picTools.lib.mengViews.MengEditText
                 android:id="@+id/qr_mengEditText_content"
                 android:layout_width="match_parent"

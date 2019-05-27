@@ -32,6 +32,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 
 import com.meng.picTools.sauceNao.*;
+import com.meng.picTools.ocr.*;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private pictureDecry pictureDecryFragment;
     public PixivDownloadMain pixivDownloadMainFragment;
 	public SauceNaoMain sauceNaoMain;
+	public OcrMain om;
 
     public final int CROP_REQUEST_CODE = 3;
     public final int SELECT_FILE_REQUEST_CODE = 822;
@@ -84,17 +86,17 @@ public class MainActivity extends AppCompatActivity {
         rightText = (TextView) findViewById(R.id.main_activityTextViewRight);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        new GithubUpdateManager(this, "swordarrow2", "PictureTools");
+        new GithubUpdateManager(this, "swordarrow2", "PictureTool");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (checkSelfPermission( Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 new AlertDialog.Builder(this)
 				  .setTitle("权限申请")
-				  .setMessage("本软件需要存储权限用于部分数据存储")
+				  .setMessage("本软件需要存储权限用于数据存储")
 				  .setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
 					  @Override
 					  public void onClick(DialogInterface dialog, int which) {
-						  ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+						  requestPermissions( new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 						}
 					}).setCancelable(false).show();
 			  }
@@ -112,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
         //initProgressFragment(false);
         //initMenuFragment(false);
 
-   //     navigationView.setItemTextColor(null);
-   //     navigationView.setItemIconTintList(null);
+		//     navigationView.setItemTextColor(null);
+		//     navigationView.setItemIconTintList(null);
 		showAwesomeFragment(false);
 		showPixivDownloadFragment(false);
 
@@ -123,6 +125,12 @@ public class MainActivity extends AppCompatActivity {
         onWifi = wifiNetworkInfo.isConnected();
         mDrawerLayout.openDrawer(GravityCompat.START);
         navigationView.setCheckedItem(R.id.first_page);
+		if (SharedPreferenceHelper.getBoolean("opendraw", true)) {
+			mDrawerLayout.openDrawer(GravityCompat.START);
+		  } else {
+			mDrawerLayout.closeDrawer(GravityCompat.START);
+		  }
+		navigationView.getHeaderView(0).setVisibility(SharedPreferenceHelper.getBoolean("showSJF", true) ?View.VISIBLE: View.GONE);
 	  }
 
     NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
@@ -131,15 +139,15 @@ public class MainActivity extends AppCompatActivity {
             mDrawerLayout.closeDrawer(GravityCompat.START);
             mDrawerLayout.closeDrawer(GravityCompat.END);
             switch (item.getItemId()) {
-             /*   case R.id.home:
-				  initHomeFragment(true);
-				  break;
-                case R.id.menus:
-				  initMenuFragment(true);
-				  break;
-                case R.id.progress:
-				  initProgressFragment(true);
-				  break;*/
+				  /*   case R.id.home:
+				   initHomeFragment(true);
+				   break;
+				   case R.id.menus:
+				   initMenuFragment(true);
+				   break;
+				   case R.id.progress:
+				   initProgressFragment(true);
+				   break;*/
                 case R.id.first_page:
 				  showWelcome(true);
 				  break;
@@ -242,6 +250,9 @@ public class MainActivity extends AppCompatActivity {
 				case R.id.sauce_nao:
 				  showSauceNaoMainFragment(true);
 				  break;
+				case R.id.ocr:
+				  showOCRMainFragment(true);
+				  break;
                 case R.id.settings:
 				  showSettingsFragment(true);
 				  break;
@@ -249,11 +260,7 @@ public class MainActivity extends AppCompatActivity {
 				  showPixivDownloadFragment(true);
 				  break;
                 case R.id.exit:
-				  if (SharedPreferenceHelper.getBoolean("exitsettings")) {
-					  System.exit(0);
-                    } else {
-					  finish();
-                    }
+				  exit();
 				  break;
 			  }
             return true;
@@ -516,6 +523,20 @@ public class MainActivity extends AppCompatActivity {
         transactionBusR.commit();
 	  }
 
+	private void showOCRMainFragment(boolean showNow) {
+        FragmentTransaction transactionBusR = manager.beginTransaction();
+        if (om == null) {
+            om = new OcrMain();
+            transactionBusR.add(R.id.fragment, om);
+		  }
+        hideFragment(transactionBusR);
+        if (showNow) {
+            transactionBusR.show(om);
+		  }
+        transactionBusR.commit();
+	  }
+
+
     public void hideFragment(FragmentTransaction transaction) {
         Fragment fs[] = {
 			welcomeFragment,
@@ -535,8 +556,9 @@ public class MainActivity extends AppCompatActivity {
 			pixivDownloadMainFragment,
 			homeFragment,
 			menusFragment,
-                sauceNaoMain,
-			progressFragment
+			sauceNaoMain,
+			progressFragment,
+			om
 		  };
         for (Fragment f : fs) {
             if (f != null) {
@@ -559,7 +581,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_MENU) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+				exit();
+			  } else {
+				mDrawerLayout.openDrawer(GravityCompat.START);
+			  }
+            return true;
+		  }  
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
             if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                 mDrawerLayout.closeDrawer(GravityCompat.START);
 			  } else {
@@ -581,6 +611,13 @@ public class MainActivity extends AppCompatActivity {
     public void doVibrate(long time) {
         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vibrator.vibrate(time);
+	  }
+	public void exit() {
+		if (SharedPreferenceHelper.getBoolean("exitsettings")) {
+			System.exit(0);
+		  } else {
+			finish();
+		  }
 	  }
   }
 

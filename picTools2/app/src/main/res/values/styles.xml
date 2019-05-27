@@ -48,5 +48,19 @@
     <style name="DrawerItemTextAppearance">
         <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
     </style>
-
+	<style name="MDEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+    </style>
+    <style name="EdittextStateNormal">
+        <item name="android:textColor">@color/color_c1</item>
+        <item name="android:textSize">@dimen/common_s8</item>
+    </style>
+    <style name="EdittextStateError">
+        <item name="android:textColor">@color/color_c2</item>
+        <item name="android:textSize">@dimen/common_s8</item>
+    </style>
 </resources>

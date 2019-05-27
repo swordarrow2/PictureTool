@@ -36,6 +36,10 @@
             android:id="@+id/sauce_nao"
             android:icon="@drawable/ic_menu"
             android:title="搜图(sauceNao)" />
+		<item
+            android:id="@+id/ocr"
+            android:icon="@drawable/ic_menu"
+            android:title="OCR(印刷体，腾讯优图)" />
         <item
             android:id="@+id/settings"
             android:icon="@drawable/ic_menu"

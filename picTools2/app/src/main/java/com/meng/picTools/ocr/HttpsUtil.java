@@ -1,66 +1,41 @@
 package com.meng.picTools.ocr;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
- 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
- 
+import java.io.*;
+import java.net.*;
+import java.security.*;
+import java.security.cert.*;
+import javax.net.ssl.*;
+
 public class HttpsUtil {
- 
+
     private static class TrustAnyTrustManager implements X509TrustManager {
- 
+
         public void checkClientTrusted(X509Certificate[] chain, String authType)
-                throws CertificateException {
-        }
- 
+		throws CertificateException {
+		  }
+
         public void checkServerTrusted(X509Certificate[] chain, String authType)
-                throws CertificateException {
-        }
- 
+		throws CertificateException {
+		  }
+
         public X509Certificate[] getAcceptedIssuers() {
             return new X509Certificate[] {};
-        }
-    }
- 
+		  }
+	  }
+
     private static class TrustAnyHostnameVerifier implements HostnameVerifier {
         public boolean verify(String hostname, SSLSession session) {
             return true;
-        }
-    }
- 
-    /**
-     * post��ʽ���������(httpsЭ��)
-     * 
-     * @param url
-     *            �����ַ
-     * @param content
-     *            ����
-     * @param charset
-     *            ����
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws KeyManagementException
-     * @throws IOException
-     */
+		  }
+	  }
+
     public static byte[] post(String url, String content, String charset)
-            throws NoSuchAlgorithmException, KeyManagementException,
-            IOException {
+	throws NoSuchAlgorithmException, KeyManagementException,
+	IOException {
         SSLContext sc = SSLContext.getInstance("SSL");
         sc.init(null, new TrustManager[] { new TrustAnyTrustManager() },
                 new java.security.SecureRandom());
- 
+
         URL console = new URL(url);
         HttpsURLConnection conn = (HttpsURLConnection) console.openConnection();
         conn.setSSLSocketFactory(sc.getSocketFactory());
@@ -69,7 +44,6 @@ public class HttpsUtil {
         conn.connect();
         DataOutputStream out = new DataOutputStream(conn.getOutputStream());
         out.write(content.getBytes(charset));
-        // ˢ�¡��ر�
         out.flush();
         out.close();
         InputStream is = conn.getInputStream();
@@ -79,11 +53,11 @@ public class HttpsUtil {
             int len = 0;
             while ((len = is.read(buffer)) != -1) {
                 outStream.write(buffer, 0, len);
-            }
+			  }
             is.close();
             return outStream.toByteArray();
-        }
+		  }
         return null;
-    }
- 
-}
+	  }
+
+  }
