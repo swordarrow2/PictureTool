@@ -10,6 +10,7 @@
         <attr name="qr_offsetY" format="integer" />
         <attr name="qr_showPossiblePoint" format="boolean" />
     </declare-styleable>
+
     <declare-styleable name="mengViews">
         <attr name="textviewText" format="string" />
         <attr name="edittextHint" format="string" />

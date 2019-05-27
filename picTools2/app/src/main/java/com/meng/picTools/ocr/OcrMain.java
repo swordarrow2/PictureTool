@@ -16,9 +16,9 @@ import java.util.*;
 import org.json.*;
 
 public class OcrMain extends Fragment {
-    public static final String APP_ID = "10173140";
-    public static final String SECRET_ID = "AKIDRmqfEXsNxHOFBrrpx2rVzDG3arCPs2Uh";
-    public static final String SECRET_KEY = "71hGdBXfZIG1wWSLNI2YtCJrz62rIe8t";
+    public static final String APP_ID = "10178650";
+    public static final String SECRET_ID = "AKID15rARYSa6YwENdkhT8fdWKx0jMMSAZVg";
+    public static final String SECRET_KEY = "nvwrgKP8h4FE3h9QSKzSjpkW8bu1wfGf";
     public static final String USER_ID = "2856986197"; // qq号
     public Youtu faceYoutu = new Youtu(APP_ID, SECRET_ID, SECRET_KEY, Youtu.API_YOUTU_END_POINT, USER_ID);
     private FloatingActionButton mFabSelect;
@@ -27,7 +27,7 @@ public class OcrMain extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.saucenao_main, container, false);
+        return inflater.inflate(R.layout.list_fragment, container, false);
 	  }
 
     @Override

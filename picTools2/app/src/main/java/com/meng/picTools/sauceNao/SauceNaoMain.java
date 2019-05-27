@@ -6,7 +6,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.*;
 import android.support.annotation.*;
@@ -18,19 +17,11 @@ import com.meng.picTools.*;
 import com.meng.picTools.helpers.ContentHelper;
 import com.meng.picTools.helpers.SharedPreferenceHelper;
 import com.meng.picTools.lib.MaterialDesign.*;
-import com.meng.picTools.qrCode.creator.LogoQRCreator;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -49,7 +40,7 @@ public class SauceNaoMain extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.saucenao_main, container, false);
+        return inflater.inflate(R.layout.list_fragment, container, false);
     }
 
     @Override
@@ -80,12 +71,8 @@ public class SauceNaoMain extends Fragment {
                     @Override
                     public void onItemClick(final AdapterView<?> p1, View p2, final int p3, long p4) {
                         String url = (String) p1.getItemAtPosition(p3);
-                        LogTool.t(url);
                         if (url.contains("illust_id")) {
                             MainActivity.instence.showPixivDownloadFragment(true);
-							try {
-								Thread.sleep(100);
-							  } catch (InterruptedException e) {}
                             MainActivity.instence.pixivDownloadMainFragment.editTextURL.setText(url);
                         } else {
                             ClipboardManager clipboardManager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);

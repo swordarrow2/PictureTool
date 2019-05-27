@@ -22,7 +22,7 @@ public class MengProgressBar extends LinearLayout {
         super(context);
         this.pictureInfoJavaBean = pictureInfoJavaBean;
         this.context = context;
-        LayoutInflater.from(context).inflate(R.layout.downloading_list_item, this);
+        LayoutInflater.from(context).inflate(R.layout.list_item_downloading, this);
         fileNameTextView = (TextView) findViewById(R.id.main_list_item_textview_filename);
         textViewStatus = (TextView) findViewById(R.id.main_list_item_textview_statu);
         textViewProgress = (TextView) findViewById(R.id.main_list_item_textview_statu_byte);

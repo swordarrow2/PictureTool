@@ -8,9 +8,6 @@ import android.widget.*;
 import com.meng.picTools.MainActivity;
 import com.meng.picTools.R;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.*;
 
 
@@ -39,7 +36,7 @@ public class ResultAdapter extends BaseAdapter {
 
         final ViewHolder holder;
         if (convertView == null) {
-            convertView = activity.getLayoutInflater().inflate(R.layout.saucenao_result_list, null);
+            convertView = activity.getLayoutInflater().inflate(R.layout.list_item_saucenao_result, null);
             holder = new ViewHolder();
             holder.thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail);
             holder.title = (TextView) convertView.findViewById(R.id.title);

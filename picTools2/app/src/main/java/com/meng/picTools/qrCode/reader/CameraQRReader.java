@@ -57,9 +57,8 @@ public class CameraQRReader extends Fragment implements Callback {
         inactivityTimer = new InactivityTimer(getActivity());
         CameraManager.init(getActivity());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA},
+            if (getActivity().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA},
                         REQUEST_PERMISSION_CAMERA);
             }
         }

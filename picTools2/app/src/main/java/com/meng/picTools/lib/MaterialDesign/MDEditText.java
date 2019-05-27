@@ -22,34 +22,25 @@ public class MDEditText extends LinearLayout {
     public MDEditText(Context cxt, AttributeSet attrs) {
         super(cxt, attrs);
         mContext = cxt;
-
         init();
-
         TypedArray a = mContext.obtainStyledAttributes(attrs, R.styleable.MDEdittext);
         if (a != null) {
-            int textColor = a.getColor(R.styleable.MDEdittext_textColor,
-									   ContextCompat.getColor(mContext, R.color.color_c4));
+            int textColor = a.getColor(R.styleable.MDEdittext_textColor,  ContextCompat.getColor(mContext, R.color.color_c4));
             mEditText.setTextColor(textColor);
-
-            float textSize = a.getDimension(R.styleable.MDEdittext_textSize,
-											mContext.getResources().getDimension(R.dimen.common_s3));
+            float textSize = a.getDimension(R.styleable.MDEdittext_textSize,mContext.getResources().getDimension(R.dimen.common_s3));
             mEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-
             String hint = a.getString(R.styleable.MDEdittext_hint);
             mInputLayout.setHint(hint);
-
             mInputLayout.setErrorEnabled(a.getBoolean(R.styleable.MDEdittext_errorEnable, false));
             if (mInputLayout.isErrorEnabled()) {
                 mInputLayout.setError("");
 			  }
-
             a.recycle();
 		  }
 	  }
 
     private void init() {
         LayoutInflater.from(mContext).inflate(R.layout.conmon_edittext_layout, this, true);
-
         mEditText = (EditText) findViewById(R.id.edittext);
         mInputLayout = (TextInputLayout) findViewById(R.id.input_layout);
 	  }
