@@ -12,7 +12,14 @@
         android:key="exitsettings"
         android:summary="System.exit(0)可以彻底关闭软件"
         android:title="使用System.exit(0)代替finish()" />
-
+	<ListPreference
+		android:dialogTitle="选择颜色"
+		android:entries="@array/color_list"
+		android:entryValues="@array/color_list"
+		android:defaultValue="孙晋芳"
+		android:key="color"
+		android:title="主题色" />
+	
     <PreferenceCategory android:title="Pixiv下载">
         <Preference android:title="登录Pixiv">
             <intent

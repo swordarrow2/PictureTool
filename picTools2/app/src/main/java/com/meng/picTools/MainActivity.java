@@ -76,10 +76,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         instence = this;
-        ExceptionCatcher.getInstance().init(this);
+    //    ExceptionCatcher.getInstance().init(this);
         SharedPreferenceHelper.Init(this, "main");
         DataBaseHelper.init(this);
         FileHelper.init(this);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
+		  this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);	
         new GithubUpdateManager(this, "swordarrow2", "PictureTool");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
@@ -91,12 +96,7 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         manager = getFragmentManager();
         rightText = (TextView) findViewById(R.id.main_activityTextViewRight);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawerLayout.setDrawerListener(toggle);
+         mDrawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         }
         navigationView.getHeaderView(0).setVisibility(SharedPreferenceHelper.getBoolean("showSJF", true) ? View.VISIBLE : View.GONE);
-
     }
 
     NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
@@ -564,7 +563,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         toggle.syncState();
-    }
+	  }
+
+	@Override
+	public void setTheme(int resid) {
+	  SharedPreferenceHelper.Init(this, "main");
+		String mainColor=SharedPreferenceHelper.getValue("color","孙晋芳");
+		if(mainColor.equals("孙晋芳")){
+		  super.setTheme(R.style.AppTheme);
+		}else if(mainColor.equals("节操红")){
+		  super.setTheme(R.style.red);
+		}
+		else
+		  super.setTheme(resid);
+	  }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -612,16 +624,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             finish();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        } else {
-            init();
-        }
-        super.onResume();
     }
 }
 

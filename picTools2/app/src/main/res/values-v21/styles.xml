@@ -5,6 +5,16 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/app_primary</item>
         <item name="android:navigationBarColor">@color/app_primary_dark</item>
+		<item name="colorPrimary">@color/app_primary</item>
+        <item name="colorPrimaryDark">@color/app_primary_dark</item>
     </style>
-
+	<style name="red" parent="BaseTheme">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/color_c2</item>
+        <item name="android:navigationBarColor">@color/color_c2</item>
+		<item name="colorPrimary">@color/color_c2</item>
+        <item name="colorPrimaryDark">@color/color_c2</item>	
+    </style>
+	
+	
 </resources>
