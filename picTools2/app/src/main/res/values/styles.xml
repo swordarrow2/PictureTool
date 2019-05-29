@@ -5,8 +5,8 @@
 	</style>
 
     <style name="green" parent="BaseTheme">
-		<item name="colorPrimary">@color/app_primary</item>
-        <item name="colorPrimaryDark">@color/app_primary_dark</item>
+		<item name="colorPrimary">@color/sjf</item>
+        <item name="colorPrimaryDark">@color/sjf_dark</item>
     </style>
 
     <style name="ActionBarStyle" parent="Widget.AppCompat.ActionBar.Solid">

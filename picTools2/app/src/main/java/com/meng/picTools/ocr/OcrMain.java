@@ -24,6 +24,7 @@ public class OcrMain extends Fragment {
     private FloatingActionButton mFabSelect;
 	private ListView listView;
     public boolean running = false;
+    public Spinner spinner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,8 +37,10 @@ public class OcrMain extends Fragment {
         mFabSelect = (FloatingActionButton) view.findViewById(R.id.fab_select);
 		listView = (ListView) view.findViewById(R.id.list);
         mFabSelect.setOnClickListener(onClickListener);
+        spinner=(Spinner)view.findViewById(R.id.spinner_simple);
         mFabSelect.hide(false);
-        new Handler().postDelayed(new Runnable() {
+
+		new Handler().postDelayed(new Runnable() {
 			  @Override
 			  public void run() {
 				  mFabSelect.show(true);

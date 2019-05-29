@@ -3,10 +3,10 @@
 
     <style name="green" parent="BaseTheme">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@color/app_primary</item>
-        <item name="android:navigationBarColor">@color/app_primary_dark</item>
-		<item name="colorPrimary">@color/app_primary</item>
-        <item name="colorPrimaryDark">@color/app_primary_dark</item>
+        <item name="android:statusBarColor">@color/sjf</item>
+        <item name="android:navigationBarColor">@color/sjf_dark</item>
+		<item name="colorPrimary">@color/sjf</item>
+        <item name="colorPrimaryDark">@color/sjf_dark</item>
     </style>
 	<style name="red" parent="BaseTheme">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
