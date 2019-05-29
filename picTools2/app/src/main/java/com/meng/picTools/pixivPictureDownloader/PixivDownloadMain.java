@@ -78,7 +78,7 @@ public class PixivDownloadMain extends Fragment {
 		 @Override
 		 public void run() {
 		 if (b == null) return;
-		 */       MainActivity.instence.pixivHead.setImageResource(R.mipmap.ic_launcher);
+		 */       MainActivity2.instence.pixivHead.setImageResource(R.mipmap.ic_launcher);
 		/*    }
 		 });
 		 }
@@ -143,7 +143,7 @@ public class PixivDownloadMain extends Fragment {
 				  return true;
 				}
 			});
-     //   editTextURL.addTextChangedListener(textWatcher);
+		//   editTextURL.addTextChangedListener(textWatcher);
         menuStar.setAnimated(true);
         menuStar.hideMenuButton(false);
         menuStar.setClosedOnTouchOutside(true);
@@ -193,13 +193,13 @@ public class PixivDownloadMain extends Fragment {
 				  break;
                 case R.id.fab_add_pixiv:
 				  LogTool.t("有待填坑");
-				/*  new Thread(new Runnable() {
+				  /*  new Thread(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            addFa(getPixivId(editTextURL.getText().toString()));
-						  }
-					  }).start();*/
+				   @Override
+				   public void run() {
+				   addFa(getPixivId(editTextURL.getText().toString()));
+				   }
+				   }).start();*/
 				  menuStar.close(true);
 				  break;
                 case R.id.fab_start_download:
@@ -260,7 +260,13 @@ public class PixivDownloadMain extends Fragment {
 			  @Override
 			  public void run() {
 				  final PictureInfoJavaBean pictureInfoJavaBean = getPicInfo(getPixivId(url));
-				  fabStartDownload.hideProgress();
+				  getActivity().runOnUiThread(new Runnable(){
+
+						@Override
+						public void run() {					 				 
+							fabStartDownload.hideProgress();
+						  }
+					  });
 				  if (pictureInfoJavaBean == null) {
 					  LogTool.e("未获取到有效的图片信息");
 					  return;

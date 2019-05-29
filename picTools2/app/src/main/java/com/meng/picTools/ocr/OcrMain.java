@@ -67,7 +67,7 @@ public class OcrMain extends Fragment {
 				  running = true;
 				  mFabSelect.setShowProgressBackground(true);
 				  mFabSelect.setIndeterminate(true);
-				  MainActivity.instence.selectImage(OcrMain.this);
+				  MainActivity2.instence.selectImage(OcrMain.this);
 				  break;
 			  }
 		  }
@@ -76,7 +76,7 @@ public class OcrMain extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data.getData() != null && resultCode == Activity.RESULT_OK) {
-            if (requestCode == MainActivity.instence.SELECT_FILE_REQUEST_CODE) {
+            if (requestCode == MainActivity2.instence.SELECT_FILE_REQUEST_CODE) {
                 //    uploadBmpAbsPath = ContentHelper.absolutePathFromUri(getActivity(), data.getData());//= Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/picTool/search_tmp.png";
                 final String path = ContentHelper.absolutePathFromUri(getActivity(), data.getData());
                 if (path == null) {
@@ -118,7 +118,7 @@ public class OcrMain extends Fragment {
             running = false;
             Toast.makeText(getActivity().getApplicationContext(), "取消选择图片", Toast.LENGTH_SHORT).show();
 		  } else {
-            MainActivity.instence.selectImage(this);
+            MainActivity2.instence.selectImage(this);
 		  }
         super.onActivityResult(requestCode, resultCode, data);
 	  }

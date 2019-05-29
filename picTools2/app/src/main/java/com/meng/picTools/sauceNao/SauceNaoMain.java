@@ -72,8 +72,8 @@ public class SauceNaoMain extends Fragment {
                     public void onItemClick(final AdapterView<?> p1, View p2, final int p3, long p4) {
                         String url = (String) p1.getItemAtPosition(p3);
                         if (url.contains("illust_id")) {
-                            MainActivity.instence.showPixivDownloadFragment(true);
-                            MainActivity.instence.pixivDownloadMainFragment.editTextURL.setText(url);
+                            MainActivity2.instence.showPixivDownloadFragment(true);
+                            MainActivity2.instence.pixivDownloadMainFragment.editTextURL.setText(url);
                         } else {
                             ClipboardManager clipboardManager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                             ClipData clipData = ClipData.newPlainText("text", url);
@@ -100,7 +100,7 @@ public class SauceNaoMain extends Fragment {
                     running = true;
                     mFabSelect.setShowProgressBackground(true);
                     mFabSelect.setIndeterminate(true);
-                    MainActivity.instence.selectImage(SauceNaoMain.this);
+                    MainActivity2.instence.selectImage(SauceNaoMain.this);
                     break;
             }
         }
@@ -115,17 +115,17 @@ public class SauceNaoMain extends Fragment {
         intent.putExtra("outputX", 300);
         intent.putExtra("outputY", 300);
         intent.putExtra("return-data", true);
-        startActivityForResult(intent, MainActivity.instence.CROP_REQUEST_CODE);
+        startActivityForResult(intent, MainActivity2.instence.CROP_REQUEST_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null && resultCode == Activity.RESULT_OK) {
-            //      if (requestCode == MainActivity.instence.SELECT_FILE_REQUEST_CODE) {
+            //      if (requestCode == MainActivity2.instence.SELECT_FILE_REQUEST_CODE) {
             //  String path = ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(),
             //        cropPhoto(data.getData());
             //	  } else
-            if (requestCode == MainActivity.instence.SELECT_FILE_REQUEST_CODE) {
+            if (requestCode == MainActivity2.instence.SELECT_FILE_REQUEST_CODE) {
 				/*    Bundle bundle = data.getExtras();
 				 if (bundle != null) {
 				 Bitmap bmp = bundle.getParcelable("data");
@@ -194,7 +194,7 @@ public class SauceNaoMain extends Fragment {
             running = false;
             Toast.makeText(getActivity().getApplicationContext(), "取消选择图片", Toast.LENGTH_SHORT).show();
         } else {
-            MainActivity.instence.selectImage(this);
+            MainActivity2.instence.selectImage(this);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

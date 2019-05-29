@@ -97,7 +97,7 @@ public class AwesomeCreator extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.awesomeqr_main_backgroundImage:
-				  MainActivity.instence.selectImage(AwesomeCreator.this);
+				  MainActivity2.instence.selectImage(AwesomeCreator.this);
 				  break;
                 case R.id.awesomeqr_main_removeBackgroundImage:
 				  backgroundImage = null;
@@ -161,19 +161,19 @@ public class AwesomeCreator extends Fragment {
         intent.putExtra("outputX", 300);
         intent.putExtra("outputY", 300);
         intent.putExtra("return-data", true);
-        startActivityForResult(intent, MainActivity.instence.CROP_REQUEST_CODE);
+        startActivityForResult(intent, MainActivity2.instence.CROP_REQUEST_CODE);
         return uri;
 	  }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MainActivity.instence.SELECT_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data.getData() != null) {
+        if (requestCode == MainActivity2.instence.SELECT_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data.getData() != null) {
             imgPathTextView.setVisibility(View.VISIBLE);
             String path= ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), cropPhoto(data.getData(), cbCrop.isChecked()));
             imgPathTextView.setText(MessageFormat.format("当前图片：{0}", path));
             if (!cbCrop.isChecked()) {
                 backgroundImage = BitmapFactory.decodeFile(path);
 			  }
-		  } else if (requestCode == MainActivity.instence.CROP_REQUEST_CODE) {
+		  } else if (requestCode == MainActivity2.instence.CROP_REQUEST_CODE) {
             Bundle bundle=data.getExtras();
 			if (bundle == null) {
 				LogTool.t("bundle is null");
@@ -187,7 +187,7 @@ public class AwesomeCreator extends Fragment {
 		  } else if (resultCode == getActivity().RESULT_CANCELED) {
             Toast.makeText(getActivity().getApplicationContext(), "取消选择图片", Toast.LENGTH_SHORT).show();
 		  } else {
-            MainActivity.instence.selectImage(this);
+            MainActivity2.instence.selectImage(this);
 		  }
         super.onActivityResult(requestCode, resultCode, data);
 	  }

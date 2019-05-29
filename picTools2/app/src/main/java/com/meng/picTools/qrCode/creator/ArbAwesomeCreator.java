@@ -95,7 +95,7 @@ public class ArbAwesomeCreator extends Fragment {
 				  qrCodeImageView.setVisibility(View.GONE);
 				  btGenerate.setEnabled(true);
 				  btnSave.setVisibility(View.GONE);
-				  MainActivity.instence.selectImage(ArbAwesomeCreator.this);
+				  MainActivity2.instence.selectImage(ArbAwesomeCreator.this);
 				  break;
                 case R.id.awesomeqr_main_generate:
 				  generate();
@@ -130,7 +130,7 @@ public class ArbAwesomeCreator extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MainActivity.instence.SELECT_FILE_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data.getData() != null) {
+        if (requestCode == MainActivity2.instence.SELECT_FILE_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data.getData() != null) {
             imgPathTextView.setVisibility(View.VISIBLE);
             Uri uri=data.getData();
             selectedBmpPath = ContentHelper.absolutePathFromUri(getActivity().getApplicationContext(), uri);
@@ -184,7 +184,7 @@ public class ArbAwesomeCreator extends Fragment {
 		  } else if (resultCode == getActivity().RESULT_CANCELED) {
             Toast.makeText(getActivity().getApplicationContext(), "取消选择图片", Toast.LENGTH_SHORT).show();
 		  } else {
-            MainActivity.instence.selectImage(ArbAwesomeCreator.this);
+            MainActivity2.instence.selectImage(ArbAwesomeCreator.this);
 		  }
         super.onActivityResult(requestCode, resultCode, data);
 	  }

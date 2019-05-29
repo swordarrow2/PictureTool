@@ -1,13 +1,11 @@
 package com.meng.picTools.sauceNao;
 
 import android.app.*;
-import android.graphics.Bitmap;
+import android.graphics.*;
 import android.view.*;
 import android.widget.*;
-
-import com.meng.picTools.MainActivity;
-import com.meng.picTools.R;
-
+import com.meng.picTools.*;
+import com.meng.picTools.sauceNao.*;
 import java.util.*;
 
 
@@ -50,9 +48,9 @@ public class ResultAdapter extends BaseAdapter {
         holder.title.setText(result.mTitle);
         holder.similarity.setText(result.mSimilarity);
         holder.metadata.setText(result.mColumns.get(0));
-        Bitmap bitmap = MainActivity.instence.sauceNaoMain.hashMap.get(result.mThumbnail);
+        Bitmap bitmap = MainActivity2.instence.sauceNaoMain.hashMap.get(result.mThumbnail);
         if (bitmap == null) {
-            MainActivity.instence.sauceNaoMain.threadPool.execute(new DownloadThumbnailRunnable(activity, holder.thumbnail, result.mThumbnail));
+            MainActivity2.instence.sauceNaoMain.threadPool.execute(new DownloadThumbnailRunnable(activity, holder.thumbnail, result.mThumbnail));
         } else {
             holder.thumbnail.setImageBitmap(bitmap);
         }

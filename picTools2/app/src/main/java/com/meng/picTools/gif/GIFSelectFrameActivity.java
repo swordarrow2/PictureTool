@@ -23,7 +23,7 @@ public class GIFSelectFrameActivity extends Activity {
         super.onCreate(savedInstanceState);
         final ListView listView = new ListView(this);
         setContentView(listView);
-        selectedImages = MainActivity.instence.gifCreatorFragment.selectedImages;
+        selectedImages = MainActivity2.instence.gifCreatorFragment.selectedImages;
         fileList = Environment.getExternalStorageDirectory().listFiles();
 		Arrays.sort(fileList);
         selectFileAdapter = new SelectFileAdapter(this, fileList);
@@ -43,7 +43,7 @@ public class GIFSelectFrameActivity extends Activity {
 							   file.getName().toLowerCase().endsWith(".bmp")) {
 					  GIFFrame gifFrame = new GIFFrame();
 					  gifFrame.thumb = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()), 48, 48);
-					  gifFrame.delay = MainActivity.instence.gifCreatorFragment.mengEtFrameDelay.getInt();
+					  gifFrame.delay = MainActivity2.instence.gifCreatorFragment.mengEtFrameDelay.getInt();
 					  gifFrame.filePath = file.getAbsolutePath();
 					  selectedImages.add(gifFrame);
 					  LogTool.t("已选择");			
@@ -60,7 +60,7 @@ public class GIFSelectFrameActivity extends Activity {
 						  file.getName().toLowerCase().endsWith(".bmp")) {
 						  GIFFrame gifFrame = new GIFFrame();
 						  gifFrame.thumb = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()), 48, 48);
-						  gifFrame.delay = MainActivity.instence.gifCreatorFragment.mengEtFrameDelay.getInt();
+						  gifFrame.delay = MainActivity2.instence.gifCreatorFragment.mengEtFrameDelay.getInt();
 						  gifFrame.filePath = file.getAbsolutePath();
 						  selectedImages.add(gifFrame);
 						  LogTool.t("已选择");			

@@ -25,5 +25,7 @@
     <color name="color_c4">#DE000000</color>
     <color name="color_c7">#1F000000</color>
     <color name="color_c10">#FFFAFAFA</color>
-	
+	<color name="purple">#AD7BE8</color>
+	<color name="blue">#0084FE</color>
+	<color name="yellow">#DEFE00</color>
 </resources>

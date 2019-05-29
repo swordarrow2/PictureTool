@@ -16,9 +16,9 @@
 		android:dialogTitle="选择颜色"
 		android:entries="@array/color_list"
 		android:entryValues="@array/color_list"
-		android:defaultValue="孙晋芳"
+		android:defaultValue="胖子黑"
 		android:key="color"
-		android:title="主题色" />
+		android:title="导航栏颜色" />
 	
     <PreferenceCategory android:title="Pixiv下载">
         <Preference android:title="登录Pixiv">

@@ -14,7 +14,7 @@ import android.view.*;
 import android.view.View.*;
 import android.widget.*;
 import com.google.zxing.*;
-import com.meng.picTools.MainActivity;
+import com.meng.picTools.MainActivity2;
 import com.meng.picTools.helpers.ContentHelper;
 import com.meng.picTools.lib.QrUtils;
 
@@ -48,7 +48,7 @@ public class BusCodeReader extends Fragment {
 
     public void handleDecode(Result result, Bitmap barcode) {
         String resultString = result.getText();
-        MainActivity.instence.doVibrate(200L);
+        MainActivity2.instence.doVibrate(200L);
         handleResult(resultString, result.getBarcodeFormat().toString());
     }
 
@@ -62,7 +62,7 @@ public class BusCodeReader extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && data != null && requestCode == MainActivity.instence.SELECT_FILE_REQUEST_CODE) {
+        if (resultCode == Activity.RESULT_OK && data != null && requestCode == MainActivity2.instence.SELECT_FILE_REQUEST_CODE) {
             Uri inputUri = data.getData();
             String path = ContentHelper.absolutePathFromUri(getActivity(), inputUri);
             if (!TextUtils.isEmpty(path)) {
@@ -89,7 +89,7 @@ public class BusCodeReader extends Fragment {
                         .setPositiveButton("确定", null)
                         .show();
             } else {
-                MainActivity.instence.selectImage(this);
+                MainActivity2.instence.selectImage(this);
             }
         }
     }
@@ -101,7 +101,7 @@ public class BusCodeReader extends Fragment {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     REQUEST_PERMISSION_PHOTO);
         } else {
-            MainActivity.instence.selectImage(this);
+            MainActivity2.instence.selectImage(this);
         }
     }
 

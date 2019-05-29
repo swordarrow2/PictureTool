@@ -75,7 +75,7 @@ public class AnimGIFAwesomeQr extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.gif_arb_qr_button_selectImg:
-                    MainActivity.instence.selectImage(AnimGIFAwesomeQr.this);
+                    MainActivity2.instence.selectImage(AnimGIFAwesomeQr.this);
                     break;
                 case R.id.gif_arb_qr_button_encode_gif:
                     if (coding) {
@@ -180,7 +180,7 @@ public class AnimGIFAwesomeQr extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MainActivity.instence.SELECT_FILE_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data.getData() != null) {
+        if (requestCode == MainActivity2.instence.SELECT_FILE_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data.getData() != null) {
             try {
                 if (coding) {
                     LogTool.t("正在执行操作");
@@ -194,7 +194,7 @@ public class AnimGIFAwesomeQr extends Fragment {
         } else if (resultCode == getActivity().RESULT_CANCELED) {
             Toast.makeText(getActivity().getApplicationContext(), "用户取消了操作", Toast.LENGTH_SHORT).show();
         } else {
-            MainActivity.instence.selectImage(this);
+            MainActivity2.instence.selectImage(this);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

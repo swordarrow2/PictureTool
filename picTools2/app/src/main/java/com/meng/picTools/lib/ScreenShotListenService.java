@@ -41,7 +41,7 @@ public class ScreenShotListenService extends Service{
                     Result result=QrUtils.decodeImage(imagePath);
                     if(result!=null){
                         final String resultString=result.getText();
-                        MainActivity.instence.doVibrate(200L);
+                        MainActivity2.instence.doVibrate(200L);
                         dialog=new AlertDialog.Builder(ScreenShotListenService.this)
                                 .setTitle("类型:"+result.getBarcodeFormat().toString()).setMessage(resultString)
                                 .setPositiveButton("复制文本到剪贴板",new DialogInterface.OnClickListener(){

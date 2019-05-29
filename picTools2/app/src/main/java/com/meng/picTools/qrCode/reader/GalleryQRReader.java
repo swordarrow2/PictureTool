@@ -12,7 +12,7 @@ import android.view.*;
 import android.view.View.*;
 import android.widget.*;
 import com.google.zxing.*;
-import com.meng.picTools.MainActivity;
+import com.meng.picTools.MainActivity2;
 import com.meng.picTools.helpers.ContentHelper;
 import com.meng.picTools.helpers.SharedPreferenceHelper;
 import com.meng.picTools.lib.*;
@@ -70,9 +70,8 @@ public class GalleryQRReader extends Fragment{
                     openGallery();
                     break;
                 case R.id.read_galleryButton_createAwesomeQR:
-				  MainActivity.instence.showAwesomeFragment(true);
-                    MainActivity.instence.awesomeCreatorFragment.setDataStr(tvResult.getText().toString());
-                    
+				  MainActivity2.instence.showAwesomeFragment(true);
+                    MainActivity2.instence.awesomeCreatorFragment.setDataStr(tvResult.getText().toString());                 
                     break;
             }
         }
@@ -80,7 +79,7 @@ public class GalleryQRReader extends Fragment{
 
     public void handleDecode(Result result,Bitmap barcode){
         String resultString=result.getText();
-        MainActivity.instence.doVibrate(200L);
+        MainActivity2.instence.doVibrate(200L);
         handleResult(resultString,result.getBarcodeFormat().toString());
     }
 
@@ -96,7 +95,7 @@ public class GalleryQRReader extends Fragment{
 
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
-        if(resultCode==Activity.RESULT_OK&&data!=null&&requestCode==MainActivity.instence.SELECT_FILE_REQUEST_CODE){
+        if(resultCode==Activity.RESULT_OK&&data!=null&&requestCode==MainActivity2.instence.SELECT_FILE_REQUEST_CODE){
             Uri inputUri=data.getData();
             String path= ContentHelper.absolutePathFromUri(getActivity(),inputUri);
             if(!TextUtils.isEmpty(path)){
@@ -123,7 +122,7 @@ public class GalleryQRReader extends Fragment{
                         .setPositiveButton("确定",null)
                         .show();
             }else{
-                MainActivity.instence.selectImage(this);
+                MainActivity2.instence.selectImage(this);
             }
         }
     }
@@ -135,7 +134,7 @@ public class GalleryQRReader extends Fragment{
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     REQUEST_PERMISSION_PHOTO);
         }else{
-            MainActivity.instence.selectImage(this);
+            MainActivity2.instence.selectImage(this);
         }
     }
 

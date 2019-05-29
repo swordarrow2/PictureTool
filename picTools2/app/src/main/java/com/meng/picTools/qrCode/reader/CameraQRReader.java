@@ -134,7 +134,7 @@ public class CameraQRReader extends Fragment implements Callback {
 
     public void handleDecode(Result result, Bitmap barcode) {
         inactivityTimer.onActivity();
-        MainActivity.instence.doVibrate(200L);
+        MainActivity2.instence.doVibrate(200L);
         handleResult(result.getText(), result.getBarcodeFormat().toString());
     }
 
@@ -161,8 +161,8 @@ public class CameraQRReader extends Fragment implements Callback {
 
                             @Override
                             public void onClick(DialogInterface p1, int p2) {
-                                MainActivity.instence.showAwesomeFragment(true);
-                                MainActivity.instence.awesomeCreatorFragment.setDataStr(resultString);
+                                MainActivity2.instence.showAwesomeFragment(true);
+                                MainActivity2.instence.awesomeCreatorFragment.setDataStr(resultString);
                             }
                         }).create();
                 mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {

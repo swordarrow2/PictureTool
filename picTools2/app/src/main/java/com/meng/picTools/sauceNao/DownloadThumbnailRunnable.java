@@ -1,15 +1,11 @@
 package com.meng.picTools.sauceNao;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.widget.ImageView;
-
-import com.meng.picTools.MainActivity;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
+import android.app.*;
+import android.content.*;
+import android.graphics.*;
+import android.widget.*;
+import com.meng.picTools.*;
+import java.net.*;
 
 public class DownloadThumbnailRunnable implements Runnable {
     private Context context;
@@ -29,7 +25,7 @@ public class DownloadThumbnailRunnable implements Runnable {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(60000);
             final Bitmap bmp= BitmapFactory.decodeStream( connection.getInputStream());
-            MainActivity.instence.sauceNaoMain.hashMap.put(strUrl,bmp);
+            MainActivity2.instence.sauceNaoMain.hashMap.put(strUrl,bmp);
             ((Activity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

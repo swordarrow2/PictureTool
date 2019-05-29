@@ -15,6 +15,32 @@
 		<item name="colorPrimary">@color/color_c2</item>
         <item name="colorPrimaryDark">@color/color_c2</item>	
     </style>
-	
-	
+	<style name="black" parent="BaseTheme">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/viewfinder_frame</item>
+        <item name="android:navigationBarColor">@color/viewfinder_frame</item>
+		<item name="colorPrimary">@color/viewfinder_frame</item>
+        <item name="colorPrimaryDark">@color/viewfinder_frame</item>	
+    </style>
+	<style name="purple" parent="BaseTheme">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/purple</item>
+        <item name="android:navigationBarColor">@color/purple</item>
+		<item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryDark">@color/purple</item>	
+    </style>
+	<style name="blue" parent="BaseTheme">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/blue</item>
+        <item name="android:navigationBarColor">@color/blue</item>
+		<item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue</item>	
+    </style>
+	<style name="yellow" parent="dark">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/yellow</item>
+        <item name="android:navigationBarColor">@color/yellow</item>
+		<item name="colorPrimary">@color/yellow</item>
+        <item name="colorPrimaryDark">@color/yellow</item>	
+    </style>
 </resources>

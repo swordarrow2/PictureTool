@@ -12,7 +12,7 @@ import android.view.*;
 import android.view.View.*;
 import android.widget.*;
 
-import com.meng.picTools.MainActivity;
+import com.meng.picTools.MainActivity2;
 import com.meng.picTools.helpers.ContentHelper;
 import com.meng.picTools.helpers.FileHelper;
 import com.meng.picTools.helpers.FileType;
@@ -65,7 +65,7 @@ public class pictureEncry extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == getActivity().RESULT_OK && data != null && requestCode == MainActivity.instence.SELECT_FILE_REQUEST_CODE) {
+        if (resultCode == getActivity().RESULT_OK && data != null && requestCode == MainActivity2.instence.SELECT_FILE_REQUEST_CODE) {
             Uri inputUri = data.getData();
             String path = ContentHelper.absolutePathFromUri(getActivity(), inputUri);
             if (!TextUtils.isEmpty(path)) {     
@@ -87,7 +87,7 @@ public class pictureEncry extends Fragment {
 				  .setPositiveButton("确定", null)
 				  .show();
 			  } else {
-                MainActivity.instence.selectImage(this);
+                MainActivity2.instence.selectImage(this);
 			  }
 		  }
 	  }
@@ -99,7 +99,7 @@ public class pictureEncry extends Fragment {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
 							   REQUEST_PERMISSION_PHOTO);
 		  } else {
-            MainActivity.instence.selectImage(this);
+            MainActivity2.instence.selectImage(this);
 		  }
 	  }
 
