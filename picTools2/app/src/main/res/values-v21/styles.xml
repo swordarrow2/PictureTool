@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="BaseTheme">
+    <style name="green" parent="BaseTheme">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/app_primary</item>
         <item name="android:navigationBarColor">@color/app_primary_dark</item>
@@ -35,12 +35,5 @@
         <item name="android:navigationBarColor">@color/blue</item>
 		<item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue</item>	
-    </style>
-	<style name="yellow" parent="dark">
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@color/yellow</item>
-        <item name="android:navigationBarColor">@color/yellow</item>
-		<item name="colorPrimary">@color/yellow</item>
-        <item name="colorPrimaryDark">@color/yellow</item>	
     </style>
 </resources>
