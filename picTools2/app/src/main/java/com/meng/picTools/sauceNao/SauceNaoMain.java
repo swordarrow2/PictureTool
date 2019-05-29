@@ -36,7 +36,8 @@ public class SauceNaoMain extends Fragment {
     public String uploadBmpAbsPath;
     public boolean running = false;
     private AlertDialog alertDialog;
-    public Spinner spinner;
+//    public Spinner spinner;
+	
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class SauceNaoMain extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mFabSelect = (FloatingActionButton) view.findViewById(R.id.fab_select);
         listView = (ListView) view.findViewById(R.id.list);
-        spinner=(Spinner)view.findViewById(R.id.spinner_simple);
+  //      spinner=(Spinner)view.findViewById(R.id.spinner_simple);
         threadPool = Executors.newFixedThreadPool(Integer.parseInt(SharedPreferenceHelper.getValue("threads", "3")));
         mFabSelect.setOnClickListener(onClickListener);
         mFabSelect.hide(false);
@@ -60,17 +61,23 @@ public class SauceNaoMain extends Fragment {
                 mFabSelect.setHideAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.hide_to_bottom));
             }
         }, 450);
-        String[] spinnerItems =getResources().getStringArray(R.array.databases_entries);
-        String[] spinnerItems2 =getResources().getStringArray(R.array.databases_values);
+ /*       String[] spinnerItems =getResources().getStringArray(R.array.databases_entries);
+          String[] spinnerItems2 =getResources().getStringArray(R.array.databases_values);
         //自定义选择填充后的字体样式
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, spinnerItems);
         spinner.setAdapter(adapter);
-        spinner.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                LogTool.t(adapterView.getItemAtPosition(i));
-            }
-        });
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			  @Override
+			  public void onItemSelected(AdapterView<?> p1, View p2, int p3, long p4) {
+				  LogTool.t(p1.getItemAtPosition(p3));
+				}
+
+			  @Override
+			  public void onNothingSelected(AdapterView<?> p1) {
+				  // TODO: Implement this method
+				}
+        });*/
         listView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override

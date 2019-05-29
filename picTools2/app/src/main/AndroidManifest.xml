@@ -22,7 +22,7 @@
 			android:name=".MainActivity"
 			android:label="@string/app_name"
             android:launchMode="singleTask"
-            android:theme="@style/green">
+            android:theme="@android:style/Theme.Holo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,6 +37,9 @@
 			android:launchMode="singleTask"
             android:name=".MainActivity2"
             android:theme="@style/green" />
-
+		<activity
+			android:name="com.meng.picTools.pixivPictureDownloader.LoginPixivActivity"
+			android:label="@string/app_name"
+            android:launchMode="singleTask" />
     </application>
 </manifest>

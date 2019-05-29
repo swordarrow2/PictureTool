@@ -1,14 +1,14 @@
 package com.meng.picTools;
 
 import android.*;
+import android.app.*;
 import android.content.*;
 import android.content.pm.*;
 import android.os.*;
-import android.support.v7.app.*;
 import com.meng.picTools.helpers.*;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -86,29 +86,31 @@ public class MainActivity2 extends AppCompatActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
-        ColorStateList csl;
-        switch (theme) {
-            case R.style.green:
-                csl = (ColorStateList) getResources().getColorStateList(R.color.navigation_menu_item_color_green);
-                break;
-            case R.style.red:
-                csl = (ColorStateList) getResources().getColorStateList(R.color.navigation_menu_item_color_red);
-                break;
-            case R.style.blue:
-                csl = (ColorStateList) getResources().getColorStateList(R.color.navigation_menu_item_color_blue);
-                break;
-            case R.style.black:
-                csl = (ColorStateList) getResources().getColorStateList(R.color.navigation_menu_item_color_black);
-                break;
-            case R.style.purple:
-                csl = (ColorStateList) getResources().getColorStateList(R.color.navigation_menu_item_color_purple);
-                break;
-            default:
-                csl = (ColorStateList) getResources().getColorStateList(R.color.navigation_menu_item_color_green);
-                break;
-        }
-        navigationView.setItemTextColor(csl);
-        navigationView.setItemIconTintList(csl);
+					  ColorStateList csl;
+				  switch (theme) {
+					  case R.style.green:
+						csl = getResources().getColorStateList(R.color.navigation_menu_item_color_green);
+						break;
+					  case R.style.red:
+						csl = getResources().getColorStateList(R.color.navigation_menu_item_color_red);
+						break;
+					  case R.style.blue:
+						csl = getResources().getColorStateList(R.color.navigation_menu_item_color_blue);
+						break;
+					  case R.style.black:
+						csl = getResources().getColorStateList(R.color.navigation_menu_item_color_black);
+						break;
+					  case R.style.purple:
+						csl = getResources().getColorStateList(R.color.navigation_menu_item_color_purple);
+						break;
+					  default:
+						csl = getResources().getColorStateList(R.color.navigation_menu_item_color_green);
+						break;
+					}
+				  navigationView.setItemTextColor(csl);
+				  navigationView.setItemIconTintList(csl);		
+				
+        
 
 
         pixivHead = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.header);
@@ -578,26 +580,25 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     @Override
-    public void setTheme(int resid) {
-        theme = resid;
+    public void setTheme(int resid) {    
         switch (SharedPreferenceHelper.getValue("color", "芳")) {
             case "芳":
-                super.setTheme(R.style.green);
+			  super.setTheme(theme =R.style.green);
                 break;
             case "红":
-                super.setTheme(R.style.red);
+			  super.setTheme(theme =R.style.red);
                 break;
             case "黑":
-                super.setTheme(R.style.black);
+			  super.setTheme(theme =R.style.black);
                 break;
             case "紫":
-                super.setTheme(R.style.purple);
+			  super.setTheme(theme =R.style.purple);
                 break;
             case "蓝":
-                super.setTheme(R.style.blue);
+			  super.setTheme(theme =R.style.blue);
                 break;
             default:
-                super.setTheme(R.style.green);
+			  super.setTheme(theme =R.style.green);
                 break;
         }
     }

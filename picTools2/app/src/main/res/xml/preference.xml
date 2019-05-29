@@ -6,7 +6,7 @@
         android:title="启动时打开滑动菜单" />
 	<CheckBoxPreference
         android:key="showSJF"
-        android:summary="抽屉中的早苗"
+        android:summary="重启生效"
         android:title="显示SJF" />
     <CheckBoxPreference
         android:key="exitsettings"
@@ -18,6 +18,7 @@
 		android:entryValues="@array/color_list"
 		android:defaultValue="胖子黑"
 		android:key="color"
+		android:summary="重启生效"
 		android:title="导航栏颜色" />
 	
     <PreferenceCategory android:title="Pixiv下载">
