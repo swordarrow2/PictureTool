@@ -580,20 +580,20 @@ public class MainActivity2 extends AppCompatActivity {
     @Override
     public void setTheme(int resid) {
         theme = resid;
-        switch (SharedPreferenceHelper.getValue("color", "孙晋芳")) {
-            case "孙晋芳":
+        switch (SharedPreferenceHelper.getValue("color", "芳")) {
+            case "芳":
                 super.setTheme(R.style.green);
                 break;
-            case "节操红":
+            case "红":
                 super.setTheme(R.style.red);
                 break;
-            case "胖子黑":
+            case "黑":
                 super.setTheme(R.style.black);
                 break;
-            case "受兔紫":
+            case "紫":
                 super.setTheme(R.style.purple);
                 break;
-            case "玛德蓝":
+            case "蓝":
                 super.setTheme(R.style.blue);
                 break;
             default:
