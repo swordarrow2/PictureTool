@@ -19,8 +19,8 @@
         android:theme="@style/green">
 
         <activity
-			android:name=".MainActivity"
-			android:label="@string/app_name"
+            android:name=".MainActivity"
+            android:label="@string/app_name"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Holo">
             <intent-filter>
@@ -29,18 +29,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".gif.GIFSelectFrameActivity" />
         <activity
-			android:windowSoftInputMode="adjustUnspecified|stateHidden"	
-            android:configChanges="orientation|screenSize|keyboardHidden"
-			android:label="@string/app_name"
-			android:launchMode="singleTask"
             android:name=".MainActivity2"
-            android:theme="@style/green" />
-		<activity
-			android:name="com.meng.picTools.pixivPictureDownloader.LoginPixivActivity"
-			android:label="@string/app_name"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:theme="@style/green"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name="com.meng.picTools.pixivPictureDownloader.LoginPixivActivity"
+            android:label="@string/app_name"
             android:launchMode="singleTask" />
-		<activity android:name="com.browser.blue.filebrowser.FileBrowserActivity"/>
+        <activity android:name=".gif.FileBrowserActivity" />
+        <activity
+            android:name=".gif.SelectFileActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/green" />
     </application>
 </manifest>

@@ -1,7 +1,8 @@
 package com.meng.picTools.gif;
 
-import android.app.Activity;
+import android.content.*;
 import android.graphics.*;
+import android.media.*;
 import android.view.*;
 import android.widget.*;
 
@@ -9,53 +10,86 @@ import com.meng.picTools.*;
 
 import java.io.*;
 import java.util.*;
-import android.media.*;
 
 public class SelectFileAdapter extends BaseAdapter {
-    private Activity context;
-    private File[] fileList;
-	private Bitmap[] bmpList;
+    private LayoutInflater mInflater;
+    private Bitmap mIcon1;
+    private Bitmap mIcon2;
+    private Bitmap mIcon3;
+    private Bitmap mIcon4;
+    private ArrayList<String> items;
+    private ArrayList<String> paths;
+    private Bitmap[] bmpList;
 
-    public SelectFileAdapter(Activity context, File[] fileArrayList) {
-        this.context = context;
-        this.fileList = fileArrayList;
-		bmpList = new Bitmap[fileList.length];
-	  }
+    public SelectFileAdapter(Context context, ArrayList<String> items, ArrayList<String> paths) {
+        mInflater = LayoutInflater.from(context);
+        this.items = items;
+        this.paths = paths;
+        bmpList = new Bitmap[this.paths.size()];
+        mIcon1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_back);
+        mIcon2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_back02);
+        mIcon3 = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_fodler);
+        mIcon4 = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_file);
+    }
 
     public int getCount() {
-        return fileList.length;
-	  }
+        return items.size();
+    }
 
     public Object getItem(int position) {
-        return fileList[position];
-	  }
+        return items.get(position);
+    }
 
     public long getItemId(int position) {
-        return fileList[position].hashCode();
-	  }
+        return position;
+    }
 
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        final ViewHolder holder;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
         if (convertView == null) {
-            convertView = context.getLayoutInflater().inflate(R.layout.list_item_select_image, null);
+            convertView = mInflater.inflate(R.layout.file_item, null);
             holder = new ViewHolder();
-            holder.fileName = (TextView) convertView.findViewById(R.id.select_file_adapter_file_name);
-            holder.imageView = (ImageView) convertView.findViewById(R.id.select_file_adapter_imageview);
+            holder.text = (TextView) convertView.findViewById(R.id.text);
+            holder.icon = (ImageView) convertView.findViewById(R.id.icon);
             convertView.setTag(holder);
-		  } else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
-		  }
-        File qqNotReply = fileList[position];
-        holder.fileName.setText(qqNotReply.getName());
-		if (bmpList[position] == null) {
-			bmpList[position] = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(qqNotReply.getAbsolutePath()), 48, 48);
-		  }
-		holder.imageView.setImageBitmap(bmpList[position]);
+        }
+        File file = new File(paths.get(position));
+        switch (items.get(position)) {
+            case "b1":
+                holder.text.setText("返回根目录..");
+                holder.icon.setImageBitmap(mIcon1);
+                break;
+            case "b2":
+                holder.text.setText("返回上一层..");
+                holder.icon.setImageBitmap(mIcon2);
+                break;
+            default:
+                holder.text.setText(file.getName());
+                if (file.isDirectory()) {
+                    holder.icon.setImageBitmap(mIcon3);
+                } else if (isPicture(file)) {
+                    if (bmpList[position] == null) {
+                        bmpList[position] = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()), 48, 48);
+                    }
+                    holder.icon.setImageBitmap(bmpList[position]);
+                } else {
+                    holder.icon.setImageBitmap(mIcon4);
+                }
+                break;
+        }
         return convertView;
-	  }
+    }
 
-    private final class ViewHolder {
-        private ImageView imageView;
-        private TextView fileName;
-	  }
-  }
+    private class ViewHolder {
+        TextView text;
+        ImageView icon;
+    }
+
+    private boolean isPicture(File file) {
+        return file.getName().toLowerCase().endsWith(".jpg") ||
+                file.getName().toLowerCase().endsWith(".png") ||
+                file.getName().toLowerCase().endsWith(".bmp");
+    }
+}
