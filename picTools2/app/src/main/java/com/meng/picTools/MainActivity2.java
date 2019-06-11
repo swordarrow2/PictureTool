@@ -169,6 +169,7 @@ public class MainActivity2 extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             showCameraReaderFragment(true);
+							cameraReaderFragment.onResume();
                         }
                     }).show();
                     break;
@@ -569,6 +570,9 @@ public class MainActivity2 extends AppCompatActivity {
         for (Fragment f : fs) {
             if (f != null) {
                 transaction.hide(f);
+				if(f instanceof CameraQRReader){
+					f.onPause();
+				}
             }
         }
     }

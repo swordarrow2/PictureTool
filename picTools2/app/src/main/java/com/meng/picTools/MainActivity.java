@@ -6,6 +6,7 @@ import android.content.*;
 import android.content.pm.*;
 import android.os.*;
 import com.meng.picTools.helpers.*;
+import com.meng.picTools.lib.*;
 
 
 public class MainActivity extends Activity {
@@ -13,7 +14,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //    ExceptionCatcher.getInstance().init(this);
+        ExceptionCatcher.getInstance().init(this);
         SharedPreferenceHelper.Init(this, "main");
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);

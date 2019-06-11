@@ -5,18 +5,16 @@ import android.content.*;
 import android.graphics.*;
 import android.net.*;
 import android.os.*;
+import android.support.v7.app.*;
 import android.view.*;
-import android.view.animation.AnimationUtils;
 import android.widget.*;
 import android.widget.AdapterView.*;
-
-import com.meng.picTools.lib.MaterialDesign.FloatingActionButton;
+import com.browser.blue.filebrowser.*;
 import com.meng.picTools.*;
-import com.meng.picTools.helpers.FileHelper;
-import com.meng.picTools.helpers.FileType;
+import com.meng.picTools.helpers.*;
 import com.meng.picTools.lib.*;
+import com.meng.picTools.lib.MaterialDesign.*;
 import com.meng.picTools.lib.mengViews.*;
-
 import java.io.*;
 import java.util.*;
 
@@ -84,7 +82,7 @@ public class GIFCreator extends Fragment {
 				  return true;
 				}
 			});
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+     /*   listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 			  @Override
 			  public void onScrollStateChanged(AbsListView view, int scrollState) {
 				}
@@ -100,7 +98,7 @@ public class GIFCreator extends Fragment {
 					}
 				  mPreviousVisibleItem = firstVisibleItem;
 				}
-			});
+			});*/
 		fabAdd.hide(false);
 		new Handler().postDelayed(new Runnable() {
 			  @Override
@@ -124,7 +122,7 @@ public class GIFCreator extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.fab_add:
-				  Intent intent = new Intent(getActivity(), GIFSelectFrameActivity.class);
+				  Intent intent = new Intent(getActivity(), FileBrowserActivity.class);
 				  startActivityForResult(intent, 9961);
 				  break;
                 case R.id.fab_encode:
@@ -204,7 +202,6 @@ public class GIFCreator extends Fragment {
         editFrameAdapter.notifyDataSetChanged();
         super.onResume();
 	  }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

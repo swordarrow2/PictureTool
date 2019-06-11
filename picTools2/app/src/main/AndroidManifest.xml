@@ -41,5 +41,6 @@
 			android:name="com.meng.picTools.pixivPictureDownloader.LoginPixivActivity"
 			android:label="@string/app_name"
             android:launchMode="singleTask" />
+		<activity android:name="com.browser.blue.filebrowser.FileBrowserActivity"/>
     </application>
 </manifest>

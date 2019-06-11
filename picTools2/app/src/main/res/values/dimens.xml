@@ -8,4 +8,7 @@
     <dimen name="common_s3">16dp</dimen>
     <dimen name="common_s8">12dp</dimen>
 	
+	<dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+	
 </resources>
