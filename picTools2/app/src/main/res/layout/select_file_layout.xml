@@ -1,32 +1,29 @@
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-	<include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar" />
 
-	<android.support.v4.widget.DrawerLayout 
-		android:id="@+id/drawer_layout"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		tools:openDrawer="start">
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:openDrawer="start">
 
         <FrameLayout
             android:id="@+id/fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-		<android.support.design.widget.NavigationView
-			android:id="@+id/nav_view"
-			android:fitsSystemWindows="true"
-			android:layout_width="@dimen/navdrawer_width"
-			android:layout_height="match_parent"
-			android:layout_gravity="start"
-			app:headerLayout="@layout/drawer_header"
-			app:menu="@menu/menu_drawer" />
+        <ListView
+            android:fitsSystemWindows="true"
+            android:id="@+id/nav_view"
+            android:layout_width="@dimen/navdrawer_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="start" />
 
-	</android.support.v4.widget.DrawerLayout> 
+    </android.support.v4.widget.DrawerLayout>
 </LinearLayout>

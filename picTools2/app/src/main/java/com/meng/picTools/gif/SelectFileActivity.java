@@ -29,6 +29,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import android.graphics.*;
 import android.graphics.drawable.*;
 
@@ -43,7 +44,7 @@ public class SelectFileActivity extends AppCompatActivity {
     private TextView curPathTextView;
     private ArrayList<GIFFrame> selectedImages;
     private ListView listView;
-	private NavigationView navigationView;
+    private ListView leftList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,96 +54,69 @@ public class SelectFileActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
-		  this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.setDrawerListener(toggle);
         toggle.syncState();
         View mainView = getLayoutInflater().inflate(R.layout.activity_file_browser_acitivity, (FrameLayout) findViewById(R.id.fragment));
         listView = (ListView) mainView.findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			  @Override
-			  public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-				  File file = new File(pathList.get(i));
-				  if (file.isDirectory()) {
-					  getFileDir(file.getPath());
-					} else if (isPicture(file)) {
-					  GIFFrame gifFrame = new GIFFrame();
-					  gifFrame.thumb = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()), 48, 48);
-					  gifFrame.delay = MainActivity2.instence.gifCreatorFragment.mengEtFrameDelay.getInt();
-					  gifFrame.filePath = file.getAbsolutePath();
-					  selectedImages.add(gifFrame);
-					  addMenu(file);
-					  LogTool.t(file.getName() + "已选择");
-					}
-				}
-			});
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                File file = new File(pathList.get(i));
+                if (file.isDirectory()) {
+                    getFileDir(file.getPath());
+                } else if (isPicture(file)) {
+                    GIFFrame gifFrame = new GIFFrame();
+                    gifFrame.thumb = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()), 48, 48);
+                    gifFrame.delay = MainActivity2.instence.gifCreatorFragment.mengEtFrameDelay.getInt();
+                    gifFrame.filePath = file.getAbsolutePath();
+                    selectedImages.add(gifFrame);
+                    MainActivity2.instence.gifCreatorFragment.editFrameAdapter.notifyDataSetChanged();
+                    LogTool.t(file.getName() + "已选择");
+                }
+            }
+        });
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-			  @Override
-			  public boolean onItemLongClick(AdapterView<?> p1, View p2, int p3, long p4) {
-				  for (String s : pathList) {
-					  File file = new File(s);
-					  if (isPicture(file)) {
-						  GIFFrame gifFrame = new GIFFrame();
-						  gifFrame.thumb = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()), 48, 48);
-						  gifFrame.delay = MainActivity2.instence.gifCreatorFragment.mengEtFrameDelay.getInt();
-						  gifFrame.filePath = file.getAbsolutePath();
-						  selectedImages.add(gifFrame);
-						  addMenu(file);
-						}
-					  LogTool.t("已选择本目录全部图片");
-					}
-				  return true;
-				}
-			});
+            @Override
+            public boolean onItemLongClick(AdapterView<?> p1, View p2, int p3, long p4) {
+                for (String s : pathList) {
+                    File file = new File(s);
+                    if (isPicture(file)) {
+                        GIFFrame gifFrame = new GIFFrame();
+                        gifFrame.thumb = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()), 48, 48);
+                        gifFrame.delay = MainActivity2.instence.gifCreatorFragment.mengEtFrameDelay.getInt();
+                        gifFrame.filePath = file.getAbsolutePath();
+                        selectedImages.add(gifFrame);
+                    }
+                    MainActivity2.instence.gifCreatorFragment.editFrameAdapter.notifyDataSetChanged();
+                    LogTool.t("已选择本目录全部图片");
+                }
+                return true;
+            }
+        });
         curPathTextView = (TextView) findViewById(R.id.curPath);
         selectedImages = MainActivity2.instence.gifCreatorFragment.selectedImages;
         rootPath = Environment.getExternalStorageDirectory().toString();
         getFileDir(rootPath);
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.getMenu().clear();
-    //    navigationView.getMenu().add(2, 2, 2, "menu_1");//group id,item id,order id
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-			  @Override
-			  public boolean onNavigationItemSelected(MenuItem item) {
-				  mDrawerLayout.closeDrawer(GravityCompat.START);
-		//		  getFileDir(item.getTitle().toString());
-				  return true;
-				}
-			});
-        ColorStateList csl;
-        switch (theme) {
-            case R.style.green:
-			  csl = getResources().getColorStateList(R.color.navigation_menu_item_color_green);
-			  break;
-            case R.style.red:
-			  csl = getResources().getColorStateList(R.color.navigation_menu_item_color_red);
-			  break;
-            case R.style.blue:
-			  csl = getResources().getColorStateList(R.color.navigation_menu_item_color_blue);
-			  break;
-            case R.style.black:
-			  csl = getResources().getColorStateList(R.color.navigation_menu_item_color_black);
-			  break;
-            case R.style.purple:
-			  csl = getResources().getColorStateList(R.color.navigation_menu_item_color_purple);
-			  break;
-            default:
-			  csl = getResources().getColorStateList(R.color.navigation_menu_item_color_green);
-			  break;
-		  }
-        navigationView.setItemTextColor(csl);
-        navigationView.setItemIconTintList(csl);
-        navigationView.setCheckedItem(R.id.first_page);
+        leftList = (ListView) findViewById(R.id.nav_view);
+        leftList.setAdapter(MainActivity2.instence.gifCreatorFragment.editFrameAdapter);
+        //    navigationView.getMenu().add(2, 2, 2, "menu_1");//group id,item id,order id
+        leftList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
         mDrawerLayout.closeDrawer(GravityCompat.START);
-        navigationView.getHeaderView(0).setVisibility(View.GONE);
-	  }
+    }
 
     private boolean isPicture(File file) {
         return file.getName().toLowerCase().endsWith(".jpg") ||
-		  file.getName().toLowerCase().endsWith(".png") ||
-		  file.getName().toLowerCase().endsWith(".bmp");
-	  }
+                file.getName().toLowerCase().endsWith(".png") ||
+                file.getName().toLowerCase().endsWith(".bmp");
+    }
 
     private void getFileDir(String filePath) {
         curPathTextView.setText(filePath);
@@ -156,76 +130,71 @@ public class SelectFileActivity extends AppCompatActivity {
             pathList.add(rootPath);
             itemsList.add("b2");
             pathList.add(file.getParent());
-		  }
+        }
         for (File f : files) {
             // if (checkSpecificFile(f)) {
             itemsList.add(f.getName());
             pathList.add(f.getPath());
             //   }
-		  }
+        }
         listView.setAdapter(new SelectFileAdapter(this, itemsList, pathList));
-	  }
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         toggle.syncState();
-	  }
+    }
 
     @Override
     public void setTheme(int resid) {
         switch (SharedPreferenceHelper.getValue("color", "芳")) {
             case "芳":
-			  super.setTheme(theme = R.style.green);
-			  break;
+                super.setTheme(theme = R.style.green);
+                break;
             case "红":
-			  super.setTheme(theme = R.style.red);
-			  break;
+                super.setTheme(theme = R.style.red);
+                break;
             case "黑":
-			  super.setTheme(theme = R.style.black);
-			  break;
+                super.setTheme(theme = R.style.black);
+                break;
             case "紫":
-			  super.setTheme(theme = R.style.purple);
-			  break;
+                super.setTheme(theme = R.style.purple);
+                break;
             case "蓝":
-			  super.setTheme(theme = R.style.blue);
-			  break;
+                super.setTheme(theme = R.style.blue);
+                break;
             default:
-			  super.setTheme(theme = R.style.green);
-			  break;
-		  }
-	  }
+                super.setTheme(theme = R.style.green);
+                break;
+        }
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         toggle.onConfigurationChanged(newConfig);
-	  }
-
-	public void addMenu(File picFile) {
-		MenuItem m=	navigationView.getMenu().add(selectedImages.size(), selectedImages.size(), selectedImages.size(), picFile.getName());
-		m.setIcon(new BitmapDrawable(BitmapFactory.decodeFile(picFile.getAbsolutePath())));
-	  }
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                 finish();
-			  } else {
+            } else {
                 mDrawerLayout.openDrawer(GravityCompat.START);
-			  }
+            }
             return true;
-		  }
+        }
         if (keyCode == KeyEvent.KEYCODE_MENU) {
             if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-			  } else {
+            } else {
                 mDrawerLayout.openDrawer(GravityCompat.START);
-			  }
+            }
             return true;
-		  }
+        }
         return super.onKeyDown(keyCode, event);
-	  }
-  }
+    }
+}
 
