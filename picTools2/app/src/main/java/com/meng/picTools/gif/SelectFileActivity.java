@@ -1,37 +1,24 @@
 package com.meng.picTools.gif;
 
-import android.content.res.ColorStateList;
-import android.content.res.Configuration;
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
-import android.os.Bundle;
-import android.os.Environment;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.FrameLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import com.meng.picTools.LogTool;
-import com.meng.picTools.MainActivity2;
-import com.meng.picTools.R;
-import com.meng.picTools.helpers.SharedPreferenceHelper;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import android.app.*;
+import android.content.*;
+import android.content.res.*;
 import android.graphics.*;
-import android.graphics.drawable.*;
+import android.media.*;
+import android.os.*;
+import android.support.v4.view.*;
+import android.support.v4.widget.*;
+import android.support.v7.app.*;
+import android.support.v7.widget.*;
+import android.view.*;
+import android.widget.*;
+import com.meng.picTools.*;
+import com.meng.picTools.helpers.*;
+import java.io.*;
+import java.util.*;
+
+import android.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 
 public class SelectFileActivity extends AppCompatActivity {
 
@@ -45,6 +32,7 @@ public class SelectFileActivity extends AppCompatActivity {
     private ArrayList<GIFFrame> selectedImages;
     private ListView listView;
     private ListView leftList;
+	private EditFrameAdapter editFrameAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +59,7 @@ public class SelectFileActivity extends AppCompatActivity {
                     gifFrame.delay = MainActivity2.instence.gifCreatorFragment.mengEtFrameDelay.getInt();
                     gifFrame.filePath = file.getAbsolutePath();
                     selectedImages.add(gifFrame);
-                    MainActivity2.instence.gifCreatorFragment.editFrameAdapter.notifyDataSetChanged();
+                    editFrameAdapter.notifyDataSetChanged();
                     LogTool.t(file.getName() + "已选择");
                 }
             }
@@ -89,7 +77,7 @@ public class SelectFileActivity extends AppCompatActivity {
                         gifFrame.filePath = file.getAbsolutePath();
                         selectedImages.add(gifFrame);
                     }
-                    MainActivity2.instence.gifCreatorFragment.editFrameAdapter.notifyDataSetChanged();
+                    editFrameAdapter.notifyDataSetChanged();
                     LogTool.t("已选择本目录全部图片");
                 }
                 return true;
@@ -101,14 +89,30 @@ public class SelectFileActivity extends AppCompatActivity {
         getFileDir(rootPath);
 
         leftList = (ListView) findViewById(R.id.nav_view);
-        leftList.setAdapter(MainActivity2.instence.gifCreatorFragment.editFrameAdapter);
-        //    navigationView.getMenu().add(2, 2, 2, "menu_1");//group id,item id,order id
+		editFrameAdapter=new EditFrameAdapter(this, selectedImages,false);
+        leftList.setAdapter(editFrameAdapter);
         leftList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mDrawerLayout.closeDrawer(GravityCompat.START);
+           //     mDrawerLayout.closeDrawer(GravityCompat.START);
             }
         });
+		leftList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+			  @Override
+			  public boolean onItemLongClick(AdapterView<?> p1, View p2, final int p3, long p4) {
+				  new AlertDialog.Builder(SelectFileActivity.this)
+					.setTitle("确定删除吗")
+					.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface p1, int p2) {
+							selectedImages.remove(p3);
+							editFrameAdapter.notifyDataSetChanged();
+						  }
+					  }).setNegativeButton("取消", null).show();
+				  return true;
+				}
+			});
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 

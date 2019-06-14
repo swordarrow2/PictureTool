@@ -1,20 +1,21 @@
 package com.meng.picTools.gif;
 
-import android.app.Activity;
+import android.app.*;
 import android.view.*;
 import android.widget.*;
-
 import com.meng.picTools.*;
-
+import java.io.*;
 import java.util.*;
 
 public class EditFrameAdapter extends BaseAdapter {
     private Activity context;
     private ArrayList<GIFFrame> frames;
+	private boolean showAll;
 
-    public EditFrameAdapter(Activity context, ArrayList<GIFFrame> infos) {
+    public EditFrameAdapter(Activity context, ArrayList<GIFFrame> infos,boolean showFullPath) {
         this.context = context;
         this.frames = infos;
+		showAll=showFullPath;
 	  }
 
     public int getCount() {
@@ -43,7 +44,11 @@ public class EditFrameAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
 		  }
         GIFFrame gifFrame = frames.get(position);
+		if(showAll){
         holder.tvFileName.setText(gifFrame.filePath);
+		}else{
+			holder.tvFileName.setText(new File(gifFrame.filePath).getName());
+		}
         holder.tvDelay.setText("delay:" + gifFrame.delay + "ms");
         holder.imageView.setImageBitmap(gifFrame.thumb);
 

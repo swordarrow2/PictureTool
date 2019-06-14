@@ -45,7 +45,7 @@ public class GIFCreator extends Fragment {
         ListView listView = (ListView) view.findViewById(R.id.gif_creator_list);
         fabAdd.setOnClickListener(listenerBtnClick);
         fabEncode.setOnClickListener(listenerBtnClick);
-        editFrameAdapter = new EditFrameAdapter(getActivity(), selectedImages);
+        editFrameAdapter = new EditFrameAdapter(getActivity(), selectedImages,true);
         listView.setAdapter(editFrameAdapter);
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override

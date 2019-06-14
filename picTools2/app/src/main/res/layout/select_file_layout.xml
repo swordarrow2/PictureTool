@@ -18,12 +18,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <ListView
-            android:fitsSystemWindows="true"
-            android:id="@+id/nav_view"
-            android:layout_width="@dimen/navdrawer_width"
-            android:layout_height="match_parent"
-            android:layout_gravity="start" />
+		<LinearLayout
+			android:background="#fff"
+			android:orientation="vertical"
+			android:layout_width="@dimen/navdrawer_width"
+			android:layout_height="match_parent"
+			android:layout_gravity="start">
 
+			<TextView 
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:text="已选择的帧" />
+			
+			<ListView
+				android:fitsSystemWindows="true"
+				android:id="@+id/nav_view"
+				android:layout_width="@dimen/navdrawer_width"
+				android:layout_height="match_parent" />
+		</LinearLayout>
     </android.support.v4.widget.DrawerLayout>
 </LinearLayout>
