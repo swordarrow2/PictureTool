@@ -53,18 +53,18 @@ public class PixivDownloadMain extends Fragment {
     public enum Type {
         pid,
         uid
-		}
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init(view);
-	  }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.pixiv_download_main, container, false);
-	  }
+    }
 
     private void init(View view) {
 		/*       new Thread(new Runnable() {
@@ -78,7 +78,8 @@ public class PixivDownloadMain extends Fragment {
 		 @Override
 		 public void run() {
 		 if (b == null) return;
-		 */       MainActivity2.instence.pixivHead.setImageResource(R.mipmap.ic_launcher);
+		 */
+        MainActivity2.instence.pixivHead.setImageResource(R.mipmap.ic_launcher);
 		/*    }
 		 });
 		 }
@@ -108,91 +109,91 @@ public class PixivDownloadMain extends Fragment {
         downloadedList.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, filesName));
         likeList.setOnItemClickListener(new OnItemClickListener() {
 
-			  @Override
-			  public void onItemClick(final AdapterView<?> p1, View p2, final int p3, long p4) {
+            @Override
+            public void onItemClick(final AdapterView<?> p1, View p2, final int p3, long p4) {
 
-				  new AlertDialog.Builder(getActivity())
-					.setTitle("开始下载？")
-					.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface p11, int p2) {
-							createDownloadTask(p1.getItemAtPosition(p3).toString());
-							LogTool.t("正在读取信息");
-							fabStartDownload.setShowProgressBackground(true);
-							fabStartDownload.setIndeterminate(true);
-						  }
-					  }).setNegativeButton("取消", null).show();
-				}
-			});
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("开始下载？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface p11, int p2) {
+                                createDownloadTask(p1.getItemAtPosition(p3).toString());
+                                LogTool.t("正在读取信息");
+                                fabStartDownload.setShowProgressBackground(true);
+                                fabStartDownload.setIndeterminate(true);
+                            }
+                        }).setNegativeButton("取消", null).show();
+            }
+        });
         fabStartDownload.setOnClickListener(onClickListener);
         likeList.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-			  @Override
-			  public boolean onItemLongClick(AdapterView<?> p1, View p2, final int p3, long p4) {
-				  new AlertDialog.Builder(getActivity())
-					.setTitle("确定删除吗")
-					.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface p1, int p2) {
-							likeJavaBean.info.remove(p3);
-							FileHelper.writeStringToFile(gson.toJson(likeJavaBean));
-							likeList.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, likeJavaBean.info));
-						  }
-					  }).setNegativeButton("取消", null).show();
+            @Override
+            public boolean onItemLongClick(AdapterView<?> p1, View p2, final int p3, long p4) {
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("确定删除吗")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface p1, int p2) {
+                                likeJavaBean.info.remove(p3);
+                                FileHelper.writeStringToFile(gson.toJson(likeJavaBean));
+                                likeList.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, likeJavaBean.info));
+                            }
+                        }).setNegativeButton("取消", null).show();
 
-				  return true;
-				}
-			});
-		//   editTextURL.addTextChangedListener(textWatcher);
+                return true;
+            }
+        });
+        //   editTextURL.addTextChangedListener(textWatcher);
         menuStar.setAnimated(true);
         menuStar.hideMenuButton(false);
         menuStar.setClosedOnTouchOutside(true);
         menuStar.setIconAnimated(false);
         fabStartDownload.hide(false);
         new Handler().postDelayed(new Runnable() {
-			  @Override
-			  public void run() {
-				  fabStartDownload.show(true);
-				}
-			}, 150);
+            @Override
+            public void run() {
+                fabStartDownload.show(true);
+            }
+        }, 150);
         new Handler().postDelayed(new Runnable() {
-			  @Override
-			  public void run() {
-				  menuStar.showMenuButton(true);
-				}
-			}, 300);
+            @Override
+            public void run() {
+                menuStar.showMenuButton(true);
+            }
+        }, 300);
         File preDownloadJson = new File(FileHelper.getPreDownloadJsonPath());
         if (preDownloadJson.exists()) {
             likeJavaBean = gson.fromJson(FileHelper.readStringFromFile(preDownloadJson), LikeJavaBean.class);
             likeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, likeJavaBean.info);
             likeList.setAdapter(likeAdapter);
-		  }
+        }
         threadPool = Executors.newFixedThreadPool(Integer.parseInt(SharedPreferenceHelper.getValue("threads", "3")));
-	  }
+    }
 
     OnClickListener onClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.fab_add_mine:
-				  File jsonFile = new File(FileHelper.getPreDownloadJsonPath());
-				  if (jsonFile.exists()) {
-					  likeJavaBean = gson.fromJson(FileHelper.readStringFromFile(jsonFile), LikeJavaBean.class);
+                    File jsonFile = new File(FileHelper.getPreDownloadJsonPath());
+                    if (jsonFile.exists()) {
+                        likeJavaBean = gson.fromJson(FileHelper.readStringFromFile(jsonFile), LikeJavaBean.class);
                     } else {
-					  likeJavaBean = new LikeJavaBean();
-					  likeJavaBean.info = new ArrayList<>();
+                        likeJavaBean = new LikeJavaBean();
+                        likeJavaBean.info = new ArrayList<>();
                     }
-				  likeJavaBean.info.add(editTextURL.getText().toString());
-				  FileHelper.writeStringToFile(gson.toJson(likeJavaBean));
-				  //  likeAdapter.notifyDataSetChanged();
-				  //	  editTextURL.setText("");
-				  LogTool.t("添加成功");
-				  likeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, likeJavaBean.info);
-				  likeList.setAdapter(likeAdapter);
-				  menuStar.close(true);
-				  break;
+                    likeJavaBean.info.add(editTextURL.getText().toString());
+                    FileHelper.writeStringToFile(gson.toJson(likeJavaBean));
+                    //  likeAdapter.notifyDataSetChanged();
+                    //	  editTextURL.setText("");
+                    LogTool.t("添加成功");
+                    likeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, likeJavaBean.info);
+                    likeList.setAdapter(likeAdapter);
+                    menuStar.close(true);
+                    break;
                 case R.id.fab_add_pixiv:
-				  LogTool.t("有待填坑");
+                    LogTool.t("有待填坑");
 				  /*  new Thread(new Runnable() {
 
 				   @Override
@@ -200,28 +201,31 @@ public class PixivDownloadMain extends Fragment {
 				   addFa(getPixivId(editTextURL.getText().toString()));
 				   }
 				   }).start();*/
-				  menuStar.close(true);
-				  break;
+                    menuStar.close(true);
+                    break;
                 case R.id.fab_start_download:
-				  final String text = editTextURL.getText().toString();
-				  //	  editTextURL.setText("");
-				  if (text.equals("")) {
-					  LogTool.e("ID不能为空");
-					  return;
-                    }
-				  LogTool.t("正在读取信息");
-				  fabStartDownload.setShowProgressBackground(true);
-				  fabStartDownload.setIndeterminate(true);
-				  if (checkBoxIsUID.isChecked()) {
-					  createDownloadAllPictureTask(text);
-                    } else {
-					  createDownloadTask(text);
-                    }
-				  break;
-			  }
-		  }
-	  };
+                    startDownload();
+                    break;
+            }
+        }
+    };
 
+    public void startDownload() {
+        String text = editTextURL.getText().toString();
+        //	  editTextURL.setText("");
+        if (text.equals("")) {
+            LogTool.e("ID不能为空");
+            return;
+        }
+        LogTool.t("正在读取信息");
+        fabStartDownload.setShowProgressBackground(true);
+        fabStartDownload.setIndeterminate(true);
+        if (checkBoxIsUID.isChecked()) {
+            createDownloadAllPictureTask(text);
+        } else {
+            createDownloadTask(text);
+        }
+    }
 //    TextWatcher textWatcher = new TextWatcher() {
 //        @Override
 //        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -257,80 +261,81 @@ public class PixivDownloadMain extends Fragment {
     private void createDownloadTask(final String url) {
         new Thread(new Runnable() {
 
-			  @Override
-			  public void run() {
-				  final PictureInfoJavaBean pictureInfoJavaBean = getPicInfo(getPixivId(url));
-				  getActivity().runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+                final PictureInfoJavaBean pictureInfoJavaBean = getPicInfo(getPixivId(url));
+                getActivity().runOnUiThread(new Runnable() {
 
-						@Override
-						public void run() {					 				 
-							fabStartDownload.hideProgress();
-						  }
-					  });
-				  if (pictureInfoJavaBean == null) {
-					  LogTool.e("未获取到有效的图片信息");
-					  return;
-					}
-				  getActivity().runOnUiThread(
-					new Runnable() {
+                    @Override
+                    public void run() {
+                        fabStartDownload.hideProgress();
+                    }
+                });
+                if (pictureInfoJavaBean == null) {
+                    LogTool.e("未获取到有效的图片信息");
+                    return;
+                }
+                getActivity().runOnUiThread(
+                        new Runnable() {
 
-						@Override
-						public void run() {
-							if (pictureInfoJavaBean.isAnimPicture) {
-								if (pictureInfoJavaBean.animPicJavaBean.error.equals("true")) {
-									LogTool.e("动态图信息读取错误");
-									return;
-								  }
-								taskLinearLayout.addView(new MengProgressBar(getActivity(), downloadedList, pictureInfoJavaBean,
-																			 SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigGif) ?
-																			 pictureInfoJavaBean.animPicJavaBean.body.originalSrc :
-																			 pictureInfoJavaBean.animPicJavaBean.body.src));
-							  } else {
-								if (pictureInfoJavaBean.staticPicJavaBean.error.equals("true")) {
-									LogTool.e("图片信息读取错误");
-									return;
-								  }
-								for (int i = 0; i < pictureInfoJavaBean.staticPicJavaBean.body.size(); ++i) {
-									taskLinearLayout.addView(new MengProgressBar(getActivity(), downloadedList, pictureInfoJavaBean,
-																				 SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigPicture) ?
-																				 pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.original :
-																				 pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.regular));
+                            @Override
+                            public void run() {
+                                if (pictureInfoJavaBean.isAnimPicture) {
+                                    if (pictureInfoJavaBean.animPicJavaBean.error.equals("true")) {
+                                        LogTool.e("动态图信息读取错误");
+                                        return;
+                                    }
+                                    taskLinearLayout.addView(new MengProgressBar(getActivity(), downloadedList, pictureInfoJavaBean,
+                                            SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigGif) ?
+                                                    pictureInfoJavaBean.animPicJavaBean.body.originalSrc :
+                                                    pictureInfoJavaBean.animPicJavaBean.body.src));
+                                } else {
+                                    if (pictureInfoJavaBean.staticPicJavaBean.error.equals("true")) {
+                                        LogTool.e("图片信息读取错误");
+                                        return;
+                                    }
+                                    for (int i = 0; i < pictureInfoJavaBean.staticPicJavaBean.body.size(); ++i) {
+                                        taskLinearLayout.addView(new MengProgressBar(getActivity(), downloadedList, pictureInfoJavaBean,
+                                                SharedPreferenceHelper.getBoolean(Data.preferenceKeys.downloadBigPicture) ?
+                                                        pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.original :
+                                                        pictureInfoJavaBean.staticPicJavaBean.body.get(i).urls.regular));
 
-								  }
-							  }
-						  }
-					  }
-				  );
-				}
-			}).start();
-	  }
+                                    }
+                                }
+                            }
+                        }
+                );
+            }
+        }).start();
+    }
 
     private void createDownloadAllPictureTask(final String text) {
         new Thread(
-		  new Runnable() {
-			  @Override
-			  public void run() {
-				  try {
-					  LinkedTreeMap linkedTreeMap = (LinkedTreeMap) getAllPaint(getPixivId(text)).body.illusts;
-					  for (Object o : linkedTreeMap.keySet()) {
-						  String key = (String) o;
-						  //    String value = (String) linkedTreeMap.get(key);
-						  createDownloadTask(key);
-						  LogTool.i("添加任务:" + key);
-						  Thread.sleep(Integer.parseInt(SharedPreferenceHelper.getValue("sleep", "2000")));
-						}
-					} catch (InterruptedException e) {
-					  e.printStackTrace();
-					  if (getAllPaint(text).body.illusts instanceof ArrayList) {
-						  for (Object o : (ArrayList) (getAllPaint(text).body.illusts)) {
-							  LogTool.i(String.valueOf(o));
-							}
-						}
-					}
-				}
-			}
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            LinkedTreeMap linkedTreeMap = (LinkedTreeMap) getAllPaint(getPixivId(text)).body.illusts;
+                            for (Object o : linkedTreeMap.keySet()) {
+                                String key = (String) o;
+                                //    String value = (String) linkedTreeMap.get(key);
+                                createDownloadTask(key);
+                                LogTool.i("添加任务:" + key);
+                                Thread.sleep(Integer.parseInt(SharedPreferenceHelper.getValue("sleep", "2000")));
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            if (getAllPaint(text).body.illusts instanceof ArrayList) {
+                                for (Object o : (ArrayList) (getAllPaint(text).body.illusts)) {
+                                    LogTool.i(String.valueOf(o));
+                                }
+                            }
+                        }
+                    }
+                }
         ).start();
-	  }
+    }
+
     private Bitmap getThumb(String picId) {
         String main = readStringFromNetwork("https://www.pixiv.net/member_illust.php?mode=medium&illust_id=" + picId);
         if (main == null) return null;
@@ -340,12 +345,12 @@ public class PixivDownloadMain extends Fragment {
         String picUrl = main.substring(index1, index2);
         try {
             return getBitmapFromNetwork(picUrl);
-		  } catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             //       LogTool.e(e.toString());
             return null;
-		  }
-	  }
+        }
+    }
 
     public void getToken() {
         String main = readStringFromNetwork("https://www.pixiv.net/member_illust.php?mode=medium&illust_id=74780259");
@@ -353,7 +358,7 @@ public class PixivDownloadMain extends Fragment {
         int index1 = main.indexOf(flag) + flag.length();
         int index2 = main.indexOf("\"", index1);
         token = main.substring(index1, index2);
-	  }
+    }
 
 	/*  public Bitmap getPixivHead() {
 	 String main = readStringFromNetwork("https://www.pixiv.net/member_illust.php?mode=medium&illust_id=74780259");
@@ -415,22 +420,22 @@ public class PixivDownloadMain extends Fragment {
                 StringBuilder resultData = new StringBuilder();
                 while ((inputLine = bufferReader.readLine()) != null) {
                     resultData.append(inputLine).append("\n");
-				  }
+                }
 
                 LogTool.e(resultData.toString());
                 //      backcontent= URLDecoder.decode(backcontent,"UTF-8");
                 //     Log.i("PostGetUtil",backcontent);
                 in.close();
-			  } else {
+            } else {
                 LogTool.i("post请求失败" + conn.getResponseCode());
-			  }
+            }
 
-		  } catch (Exception e) {
+        } catch (Exception e) {
             LogTool.e(e.toString());
             e.printStackTrace();
-		  } finally {
+        } finally {
             conn.disconnect();
-		  }
+        }
 
 
 		/* 
@@ -465,7 +470,7 @@ public class PixivDownloadMain extends Fragment {
 		 LogTool.e(e.toString());
 		 e.printStackTrace();
 		 }*/
-	  }
+    }
 
     private Bitmap getBitmapFromNetwork(String picUrl) throws IOException {
         URL url = new URL(picUrl);
@@ -475,9 +480,9 @@ public class PixivDownloadMain extends Fragment {
         conn.setRequestMethod("GET");
         if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
             return BitmapFactory.decodeStream(conn.getInputStream());
-		  }
+        }
         return null;
-	  }
+    }
 
     private PictureInfoJavaBean getPicInfo(String picId) {
         String main = readStringFromNetwork("https://www.pixiv.net/member_illust.php?mode=medium&illust_id=" + picId);
@@ -491,32 +496,32 @@ public class PixivDownloadMain extends Fragment {
             switch (type) {
                 case 0:
                 case 1:
-				  pijb.isAnimPicture = false;
-				  String picJsonAddress1 = "https://www.pixiv.net/ajax/illust/" + picId + "/pages";
-				  pijb.staticPicJavaBean = new Gson().fromJson(readStringFromNetwork(picJsonAddress1), StaticPicJavaBean.class);
-				  break;
+                    pijb.isAnimPicture = false;
+                    String picJsonAddress1 = "https://www.pixiv.net/ajax/illust/" + picId + "/pages";
+                    pijb.staticPicJavaBean = new Gson().fromJson(readStringFromNetwork(picJsonAddress1), StaticPicJavaBean.class);
+                    break;
                 case 2:
-				  pijb.isAnimPicture = true;
-				  String picJsonAddress2 = "https://www.pixiv.net/ajax/illust/" + picId + "/ugoira_meta";
-				  pijb.animPicJavaBean = new Gson().fromJson(readStringFromNetwork(picJsonAddress2), AnimPicJavaBean.class);
-				  break;
-			  }
-		  } catch (Exception e) {
+                    pijb.isAnimPicture = true;
+                    String picJsonAddress2 = "https://www.pixiv.net/ajax/illust/" + picId + "/ugoira_meta";
+                    pijb.animPicJavaBean = new Gson().fromJson(readStringFromNetwork(picJsonAddress2), AnimPicJavaBean.class);
+                    break;
+            }
+        } catch (Exception e) {
             LogTool.t(getActivity().getString(R.string.maybe_need_login));
             LogTool.e(e.toString());
             getActivity().startActivity(new Intent(getActivity(), LoginPixivActivity.class));
-		  }
+        }
         return pijb;
-	  }
+    }
 
     public PaitenerAllPictures getAllPaint(String uid) {
         String picJsonAddress = "https://www.pixiv.net/ajax/user/" + uid + "/profile/all";
         try {
             return new Gson().fromJson(readStringFromNetwork(picJsonAddress), PaitenerAllPictures.class);
-		  } catch (Exception e) {
+        } catch (Exception e) {
             return new PaitenerAllPictures();
-		  }
-	  }
+        }
+    }
 
     public String readStringFromNetwork(String url) {
         Connection.Response response = null;
@@ -530,40 +535,40 @@ public class PixivDownloadMain extends Fragment {
             //		showToast(String.valueOf(response.statusCode()));
             //		Thread.sleep(2900);
             //       LogTool.i(response.body());
-		  } catch (Exception e) {
+        } catch (Exception e) {
             LogTool.i(e.toString());
             return null;
-		  }
+        }
         return response.body();
-	  }
+    }
 
     public Map<String, String> cookieToMap(String value) {
         if (value == null) {
             LogTool.t("请先登录");
             getActivity().startActivity(new Intent(getActivity(), LoginPixivActivity.class));
             return null;
-		  }
+        }
         Map<String, String> map = new HashMap<>();
         String values[] = value.split("; ");
         for (String val : values) {
             String vals[] = val.split("=");
             if (vals.length == 2) {
                 map.put(vals[0], vals[1]);
-			  } else if (vals.length == 1) {
+            } else if (vals.length == 1) {
                 map.put(vals[0], "");
-			  }
-		  }
+            }
+        }
         return map;
-	  }
+    }
 
     public String getPixivId(String str) {
         int pageIndex = str.indexOf("&page");
         if (pageIndex > 1) {
             str = str.substring(0, pageIndex);
-		  }
+        }
         String regEx = "[^0-9]";
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(str);
         return m.replaceAll("").trim();
-	  }
-  }
+    }
+}

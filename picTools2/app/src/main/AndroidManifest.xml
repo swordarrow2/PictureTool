@@ -45,5 +45,15 @@
             android:name=".gif.SelectFileActivity"
             android:launchMode="singleTask"
             android:theme="@style/green" />
+        <activity
+            android:name=".pixivPictureDownloader.MashMellow"
+            android:label="P图下载"
+            android:theme="@android:style/Theme.Translucent">
+            <intent-filter>
+                <action android:name="android.intent.action.PROCESS_TEXT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>
