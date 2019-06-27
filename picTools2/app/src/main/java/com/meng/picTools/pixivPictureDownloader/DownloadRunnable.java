@@ -70,6 +70,7 @@ public class DownloadRunnable implements Runnable {
         }).start();
         File file = new File(absolutePath);
         taskState = TaskState.connecting;
+        DataBaseHelper.insertData(picUrl);
         try {
             URL u = new URL(picUrl);
             HttpURLConnection connection = (HttpURLConnection) u.openConnection();
@@ -115,7 +116,6 @@ public class DownloadRunnable implements Runnable {
             connection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
-            DataBaseHelper.insertData(picUrl);
             LogTool.i("下载异常" + e.toString());
             downloadEnd();
             return;
@@ -155,7 +155,6 @@ public class DownloadRunnable implements Runnable {
                 registImage(path);
             } catch (Exception e) {
                 LogTool.t("生成gif出错");
-                DataBaseHelper.insertData(picUrl);
                 LogTool.e(e.getClass().getSimpleName());
                 e.printStackTrace();
                 downloadEnd();
@@ -170,6 +169,7 @@ public class DownloadRunnable implements Runnable {
 		  registImage(file.getAbsolutePath());
 		}
         taskState = TaskState.end;
+        DataBaseHelper.deleteData(picUrl);
         downloadEnd();
     }
 

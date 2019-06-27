@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.meng.picTools.LogTool;
 
+import java.util.ArrayList;
+
 public class DataBaseHelper {
     //表名
     private static final String TABLE_NAME = "record";//"failedPic";
@@ -36,16 +38,16 @@ public class DataBaseHelper {
         };
     }
 
-    public static void searchDataBase() {
+    public static ArrayList<String> searchFailedPic() {
+        ArrayList<String> arrayList = new ArrayList<>();
         SQLiteDatabase db = sqLiteOpenHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from " + TABLE_NAME, null);
-        StringBuilder stringBuilder = new StringBuilder();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            stringBuilder.append("word:").append(cursor.getString(0)).append(" ").append("detail").append(cursor.getString(1)).append("\n");
+            arrayList.add(cursor.getString(1));
         }
         cursor.close();
         db.close();
-        LogTool.i(stringBuilder.toString());
+        return arrayList;
     }
 
     //插入一条数据

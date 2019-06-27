@@ -3,7 +3,6 @@ package com.meng.picTools.pixivPictureDownloader;
 import android.app.*;
 import android.content.*;
 import android.graphics.*;
-import android.net.Uri;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
@@ -145,7 +144,7 @@ public class PixivDownloadMain extends Fragment {
                 return true;
             }
         });
-        DataBaseHelper.searchDataBase();
+        DataBaseHelper.searchFailedPic();
         //   editTextURL.addTextChangedListener(textWatcher);
         menuStar.setAnimated(true);
         menuStar.hideMenuButton(false);
@@ -175,19 +174,25 @@ public class PixivDownloadMain extends Fragment {
     }
 
     private void checkFailed() {
+        final ArrayList<String> failedURLs = DataBaseHelper.searchFailedPic();
         new android.app.AlertDialog.Builder(getActivity())
                 .setTitle("Boom")
                 .setMessage("发现了上次的出错任务")
                 .setPositiveButton("现在重新下载", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface p1, int p2) {
-
+                        for (String url : failedURLs) {
+                            createDownloadTask(url);
+                            DataBaseHelper.deleteData(url);
+                        }
                     }
                 }).setNeutralButton("下次提醒我", null)
                 .setNegativeButton("放弃这些任务", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        for (String url : failedURLs) {
+                            DataBaseHelper.deleteData(url);
+                        }
                     }
                 }).show();
     }
