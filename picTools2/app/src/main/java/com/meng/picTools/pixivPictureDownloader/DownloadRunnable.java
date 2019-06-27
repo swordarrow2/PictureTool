@@ -6,13 +6,13 @@ import android.net.*;
 import android.widget.*;
 
 import com.meng.picTools.*;
-import com.meng.picTools.helpers.DataBaseHelper;
-import com.meng.picTools.helpers.FileHelper;
-import com.meng.picTools.helpers.FileType;
-import com.meng.picTools.helpers.SharedPreferenceHelper;
-import com.meng.picTools.lib.*;
-import com.meng.picTools.lib.javaBean.*;
-import com.meng.picTools.lib.mengViews.*;
+import com.meng.picTools.libAndHelper.DataBaseHelper;
+import com.meng.picTools.libAndHelper.FileHelper;
+import com.meng.picTools.libAndHelper.FileType;
+import com.meng.picTools.libAndHelper.SharedPreferenceHelper;
+import com.meng.picTools.libAndHelper.*;
+import com.meng.picTools.libAndHelper.javaBean.*;
+import com.meng.picTools.libAndHelper.mengViews.*;
 
 import java.io.*;
 import java.net.*;
@@ -68,7 +68,6 @@ public class DownloadRunnable implements Runnable {
                 }
             }
         }).start();
-        DataBaseHelper.insertData(picUrl);
         File file = new File(absolutePath);
         taskState = TaskState.connecting;
         try {
@@ -116,6 +115,7 @@ public class DownloadRunnable implements Runnable {
             connection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
+            DataBaseHelper.insertData(picUrl);
             LogTool.i("下载异常" + e.toString());
             downloadEnd();
             return;
@@ -155,6 +155,7 @@ public class DownloadRunnable implements Runnable {
                 registImage(path);
             } catch (Exception e) {
                 LogTool.t("生成gif出错");
+                DataBaseHelper.insertData(picUrl);
                 LogTool.e(e.getClass().getSimpleName());
                 e.printStackTrace();
                 downloadEnd();
@@ -170,7 +171,6 @@ public class DownloadRunnable implements Runnable {
 		}
         taskState = TaskState.end;
         downloadEnd();
-        DataBaseHelper.deleteData(picUrl);
     }
 
     private void setProgressBarFileName(final String gifPath) {
@@ -224,7 +224,7 @@ public class DownloadRunnable implements Runnable {
         return filesCount;
     }
 
-    public void setDownloadProgress(final float downloadedSize, final float fileSize) {
+    private void setDownloadProgress(final float downloadedSize, final float fileSize) {
         mengProgressBar.context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -240,7 +240,7 @@ public class DownloadRunnable implements Runnable {
         });
     }
 
-    public void setCreateGifProgress(final float gifedCount, final float fileCount) {
+    private void setCreateGifProgress(final float gifedCount, final float fileCount) {
         mengProgressBar.context.runOnUiThread(new Runnable() {
             @Override
             public void run() {

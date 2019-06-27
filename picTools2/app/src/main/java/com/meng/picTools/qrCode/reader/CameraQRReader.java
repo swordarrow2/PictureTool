@@ -12,8 +12,6 @@ import android.content.*;
 import android.content.pm.*;
 import android.graphics.*;
 import android.os.*;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.*;
 import android.view.*;
 import android.view.SurfaceHolder.*;
@@ -21,9 +19,9 @@ import android.widget.*;
 
 import com.google.zxing.*;
 import com.meng.picTools.*;
-import com.meng.picTools.lib.zxing.camera.*;
-import com.meng.picTools.lib.zxing.decoding.*;
-import com.meng.picTools.lib.zxing.view.*;
+import com.meng.picTools.libAndHelper.zxing.camera.*;
+import com.meng.picTools.libAndHelper.zxing.decoding.*;
+import com.meng.picTools.libAndHelper.zxing.view.*;
 
 import java.util.*;
 

@@ -14,9 +14,9 @@ import android.view.animation.*;
 import android.widget.*;
 
 import com.meng.picTools.*;
-import com.meng.picTools.helpers.ContentHelper;
-import com.meng.picTools.helpers.SharedPreferenceHelper;
-import com.meng.picTools.lib.MaterialDesign.*;
+import com.meng.picTools.libAndHelper.ContentHelper;
+import com.meng.picTools.libAndHelper.SharedPreferenceHelper;
+import com.meng.picTools.libAndHelper.MaterialDesign.*;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -211,7 +211,7 @@ public class SauceNaoMain extends Fragment {
             mFabSelect.hideProgress();
             mFabSelect.setImageResource(R.drawable.ic_progress);
             running = false;
-            Toast.makeText(getActivity().getApplicationContext(), "取消选择图片", Toast.LENGTH_SHORT).show();
+            LogTool.t("取消选择图片");
         } else {
             MainActivity2.instence.selectImage(this);
         }

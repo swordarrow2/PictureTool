@@ -8,7 +8,22 @@
 		<item name="colorPrimary">@color/sjf</item>
         <item name="colorPrimaryDark">@color/sjf_dark</item>
     </style>
-
+    <style name="red" parent="BaseTheme">
+        <item name="colorPrimary">@color/color_c2</item>
+        <item name="colorPrimaryDark">@color/color_c2</item>
+    </style>
+    <style name="black" parent="BaseTheme">
+        <item name="colorPrimary">@color/viewfinder_frame</item>
+        <item name="colorPrimaryDark">@color/viewfinder_frame</item>
+    </style>
+    <style name="purple" parent="BaseTheme">
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryDark">@color/purple</item>
+    </style>
+    <style name="blue" parent="BaseTheme">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue</item>
+    </style>
     <style name="ActionBarStyle" parent="Widget.AppCompat.ActionBar.Solid">
         <item name="elevation">0dp</item>
     </style>

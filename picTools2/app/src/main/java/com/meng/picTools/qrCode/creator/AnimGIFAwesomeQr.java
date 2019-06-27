@@ -10,11 +10,11 @@ import android.view.View.*;
 import android.widget.*;
 
 import com.meng.picTools.*;
-import com.meng.picTools.helpers.ContentHelper;
-import com.meng.picTools.helpers.FileHelper;
-import com.meng.picTools.helpers.FileType;
-import com.meng.picTools.lib.*;
-import com.meng.picTools.lib.mengViews.*;
+import com.meng.picTools.libAndHelper.ContentHelper;
+import com.meng.picTools.libAndHelper.FileHelper;
+import com.meng.picTools.libAndHelper.FileType;
+import com.meng.picTools.libAndHelper.*;
+import com.meng.picTools.libAndHelper.mengViews.*;
 
 import java.io.*;
 
@@ -180,7 +180,7 @@ public class AnimGIFAwesomeQr extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MainActivity2.instence.SELECT_FILE_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data.getData() != null) {
+        if (requestCode == MainActivity2.instence.SELECT_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data.getData() != null) {
             try {
                 if (coding) {
                     LogTool.t("正在执行操作");
@@ -191,8 +191,8 @@ public class AnimGIFAwesomeQr extends Fragment {
             } catch (Exception e) {
                 LogTool.e(e);
             }
-        } else if (resultCode == getActivity().RESULT_CANCELED) {
-            Toast.makeText(getActivity().getApplicationContext(), "用户取消了操作", Toast.LENGTH_SHORT).show();
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            LogTool.t("用户取消了操作");
         } else {
             MainActivity2.instence.selectImage(this);
         }

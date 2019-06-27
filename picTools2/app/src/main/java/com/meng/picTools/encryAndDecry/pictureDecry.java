@@ -12,11 +12,12 @@ import android.view.*;
 import android.view.View.*;
 import android.widget.*;
 
+import com.meng.picTools.LogTool;
 import com.meng.picTools.MainActivity2;
-import com.meng.picTools.helpers.ContentHelper;
-import com.meng.picTools.helpers.FileHelper;
-import com.meng.picTools.helpers.FileType;
-import com.meng.picTools.lib.QrUtils;
+import com.meng.picTools.libAndHelper.ContentHelper;
+import com.meng.picTools.libAndHelper.FileHelper;
+import com.meng.picTools.libAndHelper.FileType;
+import com.meng.picTools.libAndHelper.QrUtils;
 
 import java.io.*;
 
@@ -72,7 +73,7 @@ public class pictureDecry extends Fragment {
             if (!TextUtils.isEmpty(path)) {     
 				createBitmap(path);
 			  } else {
-                Toast.makeText(getActivity().getApplicationContext(), "图片路径未找到", Toast.LENGTH_SHORT).show();
+				LogTool.t("图片路径未找到");
 			  }
 		  }
 	  }

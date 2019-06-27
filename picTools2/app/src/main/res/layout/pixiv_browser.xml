@@ -34,7 +34,7 @@
 
         </LinearLayout>
 
-        <com.meng.picTools.lib.MaterialDesign.FloatingActionMenu
+        <com.meng.picTools.libAndHelper.MaterialDesign.FloatingActionMenu
             android:id="@+id/menu_star"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -47,7 +47,7 @@
             fab:menu_fab_size="normal"
             fab:menu_icon="@drawable/ic_star">
 
-            <com.meng.picTools.lib.MaterialDesign.FloatingActionButton
+            <com.meng.picTools.libAndHelper.MaterialDesign.FloatingActionButton
                 android:id="@+id/fab_add_mine"
                 style="@style/MenuButtonsSmall"
                 android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_star" />
 
-            <com.meng.picTools.lib.MaterialDesign.FloatingActionButton
+            <com.meng.picTools.libAndHelper.MaterialDesign.FloatingActionButton
                 android:id="@+id/fab_add_pixiv"
                 style="@style/MenuButtonsSmall"
                 android:layout_width="wrap_content"
@@ -63,9 +63,9 @@
 				fab:fab_label="pixiv"
                 android:src="@drawable/ic_star" />
 
-        </com.meng.picTools.lib.MaterialDesign.FloatingActionMenu>
+        </com.meng.picTools.libAndHelper.MaterialDesign.FloatingActionMenu>
 
-        <com.meng.picTools.lib.MaterialDesign.FloatingActionButton
+        <com.meng.picTools.libAndHelper.MaterialDesign.FloatingActionButton
             android:id="@+id/fab_start_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

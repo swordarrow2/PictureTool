@@ -12,10 +12,10 @@ import android.widget.*;
 
 import com.google.zxing.*;
 import com.meng.picTools.*;
-import com.meng.picTools.helpers.FileHelper;
-import com.meng.picTools.helpers.FileType;
-import com.meng.picTools.lib.QrUtils;
-import com.meng.picTools.lib.mengViews.*;
+import com.meng.picTools.libAndHelper.FileHelper;
+import com.meng.picTools.libAndHelper.FileType;
+import com.meng.picTools.libAndHelper.QrUtils;
+import com.meng.picTools.libAndHelper.mengViews.*;
 
 import java.io.*;
 
@@ -55,7 +55,11 @@ public class BusCodeCreator extends Fragment {
                     break;
                 case R.id.qr_ButtonSave:
                     String s = FileHelper.saveBitmap(bmpQRcode, FileType.bus);
-                    Toast.makeText(getActivity().getApplicationContext(), "已保存至" + s, Toast.LENGTH_LONG).show();
+                    if (s == null) {
+                        LogTool.e("保存出错");
+                        break;
+                    }
+                    LogTool.t("已保存至" + s);
                     getActivity().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(s))));//更新图库
                     break;
             }

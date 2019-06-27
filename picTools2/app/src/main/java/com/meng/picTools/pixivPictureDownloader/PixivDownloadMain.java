@@ -3,22 +3,23 @@ package com.meng.picTools.pixivPictureDownloader;
 import android.app.*;
 import android.content.*;
 import android.graphics.*;
+import android.net.Uri;
 import android.os.*;
-import android.support.v7.app.*;
-import android.text.*;
 import android.view.*;
-import android.view.View.*;
 import android.widget.*;
 import android.widget.AdapterView.*;
 
 import com.google.gson.*;
 import com.google.gson.internal.*;
 import com.meng.picTools.*;
-import com.meng.picTools.helpers.*;
-import com.meng.picTools.lib.MaterialDesign.*;
-import com.meng.picTools.lib.javaBean.*;
-import com.meng.picTools.lib.javaBean.allPics.*;
-import com.meng.picTools.lib.mengViews.*;
+import com.meng.picTools.libAndHelper.DataBaseHelper;
+import com.meng.picTools.libAndHelper.FileHelper;
+import com.meng.picTools.libAndHelper.FileType;
+import com.meng.picTools.libAndHelper.MaterialDesign.*;
+import com.meng.picTools.libAndHelper.SharedPreferenceHelper;
+import com.meng.picTools.libAndHelper.javaBean.*;
+import com.meng.picTools.libAndHelper.javaBean.allPics.*;
+import com.meng.picTools.libAndHelper.mengViews.*;
 
 import java.io.*;
 import java.net.*;
@@ -144,6 +145,7 @@ public class PixivDownloadMain extends Fragment {
                 return true;
             }
         });
+        DataBaseHelper.searchDataBase();
         //   editTextURL.addTextChangedListener(textWatcher);
         menuStar.setAnimated(true);
         menuStar.hideMenuButton(false);
@@ -169,6 +171,25 @@ public class PixivDownloadMain extends Fragment {
             likeList.setAdapter(likeAdapter);
         }
         threadPool = Executors.newFixedThreadPool(Integer.parseInt(SharedPreferenceHelper.getValue("threads", "3")));
+        checkFailed();
+    }
+
+    private void checkFailed() {
+        new android.app.AlertDialog.Builder(getActivity())
+                .setTitle("Boom")
+                .setMessage("发现了上次的出错任务")
+                .setPositiveButton("现在重新下载", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface p1, int p2) {
+
+                    }
+                }).setNeutralButton("下次提醒我", null)
+                .setNegativeButton("放弃这些任务", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
     }
 
     OnClickListener onClickListener = new OnClickListener() {

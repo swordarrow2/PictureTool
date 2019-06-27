@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.meng.picTools.lib.mengViews.MengEditText
+            <com.meng.picTools.libAndHelper.mengViews.MengEditText
                 android:id="@+id/gif_creator_delay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
 
-        <com.meng.picTools.lib.MaterialDesign.FloatingActionButton
+        <com.meng.picTools.libAndHelper.MaterialDesign.FloatingActionButton
             android:id="@+id/fab_add"
             fab:fab_hideAnimation="@anim/hide_to_bottom"
             fab:fab_showAnimation="@anim/show_from_bottom" 
@@ -39,7 +39,7 @@
             android:src="@drawable/fab_add"
             />
 
-        <com.meng.picTools.lib.MaterialDesign.FloatingActionButton
+        <com.meng.picTools.libAndHelper.MaterialDesign.FloatingActionButton
             android:id="@+id/fab_encode"
             fab:fab_hideAnimation="@anim/hide_to_bottom"
             fab:fab_showAnimation="@anim/show_from_bottom" 

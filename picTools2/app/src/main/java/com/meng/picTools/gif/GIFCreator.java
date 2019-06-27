@@ -10,10 +10,9 @@ import android.widget.*;
 import android.widget.AdapterView.*;
 
 import com.meng.picTools.*;
-import com.meng.picTools.helpers.*;
-import com.meng.picTools.lib.*;
-import com.meng.picTools.lib.MaterialDesign.*;
-import com.meng.picTools.lib.mengViews.*;
+import com.meng.picTools.libAndHelper.*;
+import com.meng.picTools.libAndHelper.MaterialDesign.*;
+import com.meng.picTools.libAndHelper.mengViews.*;
 
 import java.io.*;
 import java.util.*;

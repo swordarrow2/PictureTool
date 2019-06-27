@@ -9,12 +9,13 @@ import android.os.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
+
 import com.meng.picTools.*;
-import com.meng.picTools.helpers.ContentHelper;
-import com.meng.picTools.helpers.FileHelper;
-import com.meng.picTools.helpers.FileType;
-import com.meng.picTools.lib.*;
-import com.meng.picTools.lib.mengViews.*;
+import com.meng.picTools.libAndHelper.ContentHelper;
+import com.meng.picTools.libAndHelper.FileHelper;
+import com.meng.picTools.libAndHelper.FileType;
+import com.meng.picTools.libAndHelper.*;
+import com.meng.picTools.libAndHelper.mengViews.*;
 
 import java.io.*;
 
@@ -109,8 +110,7 @@ public class AnimGIFArbAwesome extends Fragment {
                     AnimatedGifDecoder gifDecoder = new AnimatedGifDecoder();
                     File gifFile = new File(oldGifPath);
                     FileInputStream fis = new FileInputStream(gifFile);
-                    int statusCode = 0;
-                    statusCode = gifDecoder.read(fis, fis.available());
+                    int statusCode = gifDecoder.read(fis, fis.available());
                     if (statusCode != 0) {
                         LogTool.e("read error " + oldGifPath);
                         return;
@@ -254,8 +254,8 @@ public class AnimGIFArbAwesome extends Fragment {
             } catch (Exception e) {
                 LogTool.e(e);
             }
-        } else if (resultCode == getActivity().RESULT_CANCELED) {
-            Toast.makeText(getActivity().getApplicationContext(), "用户取消了操作", Toast.LENGTH_SHORT).show();
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            LogTool.t("用户取消了操作");
         } else {
             MainActivity2.instence.selectImage(this);
         }
@@ -264,7 +264,7 @@ public class AnimGIFArbAwesome extends Fragment {
 
     public void onKeyDown(int keyCode, KeyEvent event) {
 
-        if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
             mengScrollView.post(new Runnable() {
                 public void run() {
                     mengScrollView.scrollBy(0, 0xffffff9c);//(0xffffff9c)16=(-100)10

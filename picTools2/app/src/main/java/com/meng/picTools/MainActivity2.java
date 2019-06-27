@@ -15,8 +15,10 @@ import android.widget.*;
 import com.meng.picTools.encryAndDecry.*;
 import com.meng.picTools.fragment.*;
 import com.meng.picTools.gif.*;
-import com.meng.picTools.helpers.*;
-import com.meng.picTools.lib.*;
+import com.meng.picTools.libAndHelper.DataBaseHelper;
+import com.meng.picTools.libAndHelper.FileHelper;
+import com.meng.picTools.libAndHelper.GithubUpdateManager;
+import com.meng.picTools.libAndHelper.SharedPreferenceHelper;
 import com.meng.picTools.ocr.*;
 import com.meng.picTools.pixivPictureDownloader.*;
 import com.meng.picTools.qrCode.creator.*;
@@ -31,7 +33,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     public static MainActivity2 instence;
     private DrawerLayout mDrawerLayout;
-    public CoordinatorLayout coordinatorLayout;
+    public LinearLayout mainLinearLayout;
 
     public boolean onWifi = false;
 
@@ -76,7 +78,7 @@ public class MainActivity2 extends AppCompatActivity {
         FileHelper.init(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
+        mainLinearLayout = (LinearLayout) findViewById(R.id.main_linear_layout);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -136,12 +138,27 @@ public class MainActivity2 extends AppCompatActivity {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         }
         navigationView.getHeaderView(0).setVisibility(SharedPreferenceHelper.getBoolean("showSJF", true) ? View.VISIBLE : View.GONE);
-        String pixivUrl = getIntent().getStringExtra("pixivUrl");
+        final String pixivUrl = getIntent().getStringExtra("pixivUrl");
         if (pixivUrl != null) {
             showPixivDownloadFragment(true);
-            pixivDownloadMainFragment.editTextURL.setText(pixivUrl);
-            pixivDownloadMainFragment.startDownload();
-            pixivDownloadMainFragment.editTextURL.setText("");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        LogTool.e(e);
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pixivDownloadMainFragment.editTextURL.setText(pixivUrl);
+                            pixivDownloadMainFragment.startDownload();
+                            pixivDownloadMainFragment.editTextURL.setText("");
+                        }
+                    });
+                }
+            }).start();
         }
     }
 

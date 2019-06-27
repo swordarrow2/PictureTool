@@ -1,11 +1,8 @@
 package com.meng.picTools;
 
 import android.graphics.Color;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.*;
 
 import java.text.*;
@@ -20,10 +17,15 @@ public class LogTool {
 
             @Override
             public void run() {
-                Snackbar snackbar = Snackbar.make(MainActivity2.instence.coordinatorLayout, "发生错误:" + o.toString(), Snackbar.LENGTH_LONG).setAction("Action", null);
+                Snackbar snackbar = Snackbar.make(MainActivity2.instence.mainLinearLayout, "发生错误:" + o.toString(), Snackbar.LENGTH_LONG).setAction("Action", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
                 //   snackbar.setText("动态文本");//动态设置文本显示内容
                 //    snackbar.setActionTextColor(Color.RED);//动态设置Action文本的颜色
-                snackbar.setDuration(5000);//动态设置显示时间
+                snackbar.setDuration(2000);//动态设置显示时间
 
                 View snackbarView = snackbar.getView();//获取Snackbar显示的View对象
                 //获取显示文本View,并设置其显示颜色
@@ -42,6 +44,7 @@ public class LogTool {
                         snackbarView.setBackgroundColor(Color.BLUE);
                         break;
                     case R.style.black:
+                        ((TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text)).setTextColor(Color.WHITE);
                         snackbarView.setBackgroundColor(Color.BLACK);
                         break;
                     case R.style.purple:
@@ -81,7 +84,7 @@ public class LogTool {
 
             @Override
             public void run() {
-                Snackbar snackbar = Snackbar.make(MainActivity2.instence.coordinatorLayout, o.toString(), Snackbar.LENGTH_LONG).setAction("Action", null);
+                Snackbar snackbar = Snackbar.make(MainActivity2.instence.mainLinearLayout, o.toString(), Snackbar.LENGTH_LONG).setAction("Action", null);
                 snackbar.setDuration(5000);
                 View snackbarView = snackbar.getView();
                 ((TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text)).setTextColor(Color.BLACK);
@@ -97,6 +100,7 @@ public class LogTool {
                         snackbarView.setBackgroundColor(Color.BLUE);
                         break;
                     case R.style.black:
+                        ((TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text)).setTextColor(Color.WHITE);
                         snackbarView.setBackgroundColor(Color.BLACK);
                         break;
                     case R.style.purple:

@@ -7,11 +7,10 @@ import android.support.annotation.*;
 import android.support.v4.content.*;
 import android.view.*;
 import android.view.animation.*;
-import android.widget.*;
 
 import com.meng.picTools.*;
-import com.meng.picTools.lib.MaterialDesign.FloatingActionButton;
-import com.meng.picTools.lib.MaterialDesign.FloatingActionMenu;
+import com.meng.picTools.libAndHelper.MaterialDesign.FloatingActionButton;
+import com.meng.picTools.libAndHelper.MaterialDesign.FloatingActionMenu;
 
 import java.util.*;
 
@@ -111,7 +110,7 @@ public class MenusFragment extends Fragment {
                 } else {
                     text = "Menu closed";
                 }
-                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+                LogTool.t(text);
             }
         });
 
@@ -141,7 +140,7 @@ public class MenusFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (menuRed.isOpened()) {
-                    Toast.makeText(getActivity(), menuRed.getMenuButtonLabelText(), Toast.LENGTH_SHORT).show();
+                    LogTool.t(menuRed.getMenuButtonLabelText());
                 }
 
                 menuRed.toggle(true);

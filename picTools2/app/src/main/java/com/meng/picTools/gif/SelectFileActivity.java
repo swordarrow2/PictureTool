@@ -1,6 +1,5 @@
 package com.meng.picTools.gif;
 
-import android.app.*;
 import android.content.*;
 import android.content.res.*;
 import android.graphics.*;
@@ -9,11 +8,11 @@ import android.os.*;
 import android.support.v4.view.*;
 import android.support.v4.widget.*;
 import android.support.v7.app.*;
-import android.support.v7.widget.*;
 import android.view.*;
 import android.widget.*;
 import com.meng.picTools.*;
-import com.meng.picTools.helpers.*;
+import com.meng.picTools.libAndHelper.SharedPreferenceHelper;
+
 import java.io.*;
 import java.util.*;
 
