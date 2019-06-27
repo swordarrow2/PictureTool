@@ -17,12 +17,12 @@ public class LogTool {
 
             @Override
             public void run() {
-                Snackbar snackbar = Snackbar.make(MainActivity2.instence.mainLinearLayout, "发生错误:" + o.toString(), Snackbar.LENGTH_LONG).setAction("Action", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                    }
-                });
+                Snackbar snackbar = Snackbar.make(MainActivity2.instence.mainLinearLayout, "发生错误:" + o.toString(), Snackbar.LENGTH_LONG).setAction("Action", null);
+                //new View.OnClickListener() {
+                //     @Override
+                //     public void onClick(View view) {
+                //      }
+                //   });
                 //   snackbar.setText("动态文本");//动态设置文本显示内容
                 //    snackbar.setActionTextColor(Color.RED);//动态设置Action文本的颜色
                 snackbar.setDuration(2000);//动态设置显示时间
