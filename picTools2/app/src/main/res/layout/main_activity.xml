@@ -1,55 +1,55 @@
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-	<include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar" />
 
-	<android.support.v4.widget.DrawerLayout 
-		android:id="@+id/drawer_layout"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		tools:openDrawer="start">
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:openDrawer="start">
 
         <FrameLayout
             android:id="@+id/fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-		<android.support.design.widget.NavigationView
-			android:id="@+id/nav_view"
-			android:fitsSystemWindows="true"
-			android:layout_width="@dimen/navdrawer_width"
-			android:layout_height="match_parent"
-			android:layout_gravity="start"
-			app:headerLayout="@layout/drawer_header"
-			app:menu="@menu/menu_drawer" />
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="@dimen/navdrawer_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/drawer_header"
+            app:menu="@menu/menu_drawer" />
 
-		<RelativeLayout
-			android:id="@+id/right_drawer"
-			android:layout_width="220dp"
-			android:layout_height="match_parent"
-			android:layout_gravity="end"
-			android:background="#eeeeee"
-			android:gravity="center_horizontal">
+        <RelativeLayout
+            android:id="@+id/right_drawer"
+            android:layout_width="220dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="#eeeeee"
+            android:gravity="center_horizontal">
 
-			<ScrollView
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent">
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
-				<TextView
-					android:id="@+id/main_activityTextViewRight"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:enabled="true"
-					android:focusable="true"
-					android:longClickable="true"
-					android:padding="5dp"
-					android:textIsSelectable="true" />
-			</ScrollView>
-		</RelativeLayout>
-	</android.support.v4.widget.DrawerLayout> 
-</LinearLayout>
+                <TextView
+                    android:id="@+id/main_activityTextViewRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="true"
+                    android:focusable="true"
+                    android:longClickable="true"
+                    android:padding="5dp"
+                    android:textIsSelectable="true" />
+            </ScrollView>
+        </RelativeLayout>
+    </android.support.v4.widget.DrawerLayout>
+</android.support.design.widget.CoordinatorLayout>

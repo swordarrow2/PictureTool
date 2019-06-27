@@ -31,6 +31,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     public static MainActivity2 instence;
     private DrawerLayout mDrawerLayout;
+    public CoordinatorLayout coordinatorLayout;
 
     public boolean onWifi = false;
 
@@ -64,7 +65,7 @@ public class MainActivity2 extends AppCompatActivity {
     public ImageView pixivHead;
 
     private ActionBarDrawerToggle toggle;
-    private int theme = 0;
+    public int theme = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class MainActivity2 extends AppCompatActivity {
         FileHelper.init(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -86,31 +88,29 @@ public class MainActivity2 extends AppCompatActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
-					  ColorStateList csl;
-				  switch (theme) {
-					  case R.style.green:
-						csl = getResources().getColorStateList(R.color.navigation_menu_item_color_green);
-						break;
-					  case R.style.red:
-						csl = getResources().getColorStateList(R.color.navigation_menu_item_color_red);
-						break;
-					  case R.style.blue:
-						csl = getResources().getColorStateList(R.color.navigation_menu_item_color_blue);
-						break;
-					  case R.style.black:
-						csl = getResources().getColorStateList(R.color.navigation_menu_item_color_black);
-						break;
-					  case R.style.purple:
-						csl = getResources().getColorStateList(R.color.navigation_menu_item_color_purple);
-						break;
-					  default:
-						csl = getResources().getColorStateList(R.color.navigation_menu_item_color_green);
-						break;
-					}
-				  navigationView.setItemTextColor(csl);
-				  navigationView.setItemIconTintList(csl);		
-				
-        
+        ColorStateList csl;
+        switch (theme) {
+            case R.style.green:
+                csl = getResources().getColorStateList(R.color.navigation_menu_item_color_green);
+                break;
+            case R.style.red:
+                csl = getResources().getColorStateList(R.color.navigation_menu_item_color_red);
+                break;
+            case R.style.blue:
+                csl = getResources().getColorStateList(R.color.navigation_menu_item_color_blue);
+                break;
+            case R.style.black:
+                csl = getResources().getColorStateList(R.color.navigation_menu_item_color_black);
+                break;
+            case R.style.purple:
+                csl = getResources().getColorStateList(R.color.navigation_menu_item_color_purple);
+                break;
+            default:
+                csl = getResources().getColorStateList(R.color.navigation_menu_item_color_green);
+                break;
+        }
+        navigationView.setItemTextColor(csl);
+        navigationView.setItemIconTintList(csl);
 
 
         pixivHead = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.header);
@@ -136,6 +136,13 @@ public class MainActivity2 extends AppCompatActivity {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         }
         navigationView.getHeaderView(0).setVisibility(SharedPreferenceHelper.getBoolean("showSJF", true) ? View.VISIBLE : View.GONE);
+        String pixivUrl = getIntent().getStringExtra("pixivUrl");
+        if (pixivUrl != null) {
+            showPixivDownloadFragment(true);
+            pixivDownloadMainFragment.editTextURL.setText(pixivUrl);
+            pixivDownloadMainFragment.startDownload();
+            pixivDownloadMainFragment.editTextURL.setText("");
+        }
     }
 
 
@@ -169,7 +176,7 @@ public class MainActivity2 extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             showCameraReaderFragment(true);
-							cameraReaderFragment.onResume();
+                            cameraReaderFragment.onResume();
                         }
                     }).show();
                     break;
@@ -570,9 +577,9 @@ public class MainActivity2 extends AppCompatActivity {
         for (Fragment f : fs) {
             if (f != null) {
                 transaction.hide(f);
-				if(f instanceof CameraQRReader){
-					f.onPause();
-				}
+                if (f instanceof CameraQRReader) {
+                    f.onPause();
+                }
             }
         }
     }
@@ -584,25 +591,25 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     @Override
-    public void setTheme(int resid) {    
+    public void setTheme(int resid) {
         switch (SharedPreferenceHelper.getValue("color", "芳")) {
             case "芳":
-			  super.setTheme(theme =R.style.green);
+                super.setTheme(theme = R.style.green);
                 break;
             case "红":
-			  super.setTheme(theme =R.style.red);
+                super.setTheme(theme = R.style.red);
                 break;
             case "黑":
-			  super.setTheme(theme =R.style.black);
+                super.setTheme(theme = R.style.black);
                 break;
             case "紫":
-			  super.setTheme(theme =R.style.purple);
+                super.setTheme(theme = R.style.purple);
                 break;
             case "蓝":
-			  super.setTheme(theme =R.style.blue);
+                super.setTheme(theme = R.style.blue);
                 break;
             default:
-			  super.setTheme(theme =R.style.green);
+                super.setTheme(theme = R.style.green);
                 break;
         }
     }
