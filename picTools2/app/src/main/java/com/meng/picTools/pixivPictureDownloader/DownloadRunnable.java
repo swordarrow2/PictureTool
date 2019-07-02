@@ -70,7 +70,6 @@ public class DownloadRunnable implements Runnable {
         }).start();
         File file = new File(absolutePath);
         taskState = TaskState.connecting;
-        DataBaseHelper.insertData(picUrl);
         try {
             URL u = new URL(picUrl);
             HttpURLConnection connection = (HttpURLConnection) u.openConnection();

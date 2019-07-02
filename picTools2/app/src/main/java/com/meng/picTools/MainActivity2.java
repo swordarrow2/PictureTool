@@ -81,7 +81,7 @@ public class MainActivity2 extends AppCompatActivity {
         mainLinearLayout = (LinearLayout) findViewById(R.id.main_linear_layout);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+		  this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         new GithubUpdateManager(this, "swordarrow2", "PictureTool");
         manager = getFragmentManager();
         rightText = (TextView) findViewById(R.id.main_activityTextViewRight);
@@ -93,24 +93,24 @@ public class MainActivity2 extends AppCompatActivity {
         ColorStateList csl;
         switch (theme) {
             case R.style.green:
-                csl = getResources().getColorStateList(R.color.navigation_menu_item_color_green);
-                break;
+			  csl = getResources().getColorStateList(R.color.navigation_menu_item_color_green);
+			  break;
             case R.style.red:
-                csl = getResources().getColorStateList(R.color.navigation_menu_item_color_red);
-                break;
+			  csl = getResources().getColorStateList(R.color.navigation_menu_item_color_red);
+			  break;
             case R.style.blue:
-                csl = getResources().getColorStateList(R.color.navigation_menu_item_color_blue);
-                break;
+			  csl = getResources().getColorStateList(R.color.navigation_menu_item_color_blue);
+			  break;
             case R.style.black:
-                csl = getResources().getColorStateList(R.color.navigation_menu_item_color_black);
-                break;
+			  csl = getResources().getColorStateList(R.color.navigation_menu_item_color_black);
+			  break;
             case R.style.purple:
-                csl = getResources().getColorStateList(R.color.navigation_menu_item_color_purple);
-                break;
+			  csl = getResources().getColorStateList(R.color.navigation_menu_item_color_purple);
+			  break;
             default:
-                csl = getResources().getColorStateList(R.color.navigation_menu_item_color_green);
-                break;
-        }
+			  csl = getResources().getColorStateList(R.color.navigation_menu_item_color_green);
+			  break;
+		  }
         navigationView.setItemTextColor(csl);
         navigationView.setItemIconTintList(csl);
 
@@ -134,33 +134,34 @@ public class MainActivity2 extends AppCompatActivity {
 
         if (SharedPreferenceHelper.getBoolean("opendraw", true)) {
             mDrawerLayout.openDrawer(GravityCompat.START);
-        } else {
+		  } else {
             mDrawerLayout.closeDrawer(GravityCompat.START);
-        }
+		  }
         navigationView.getHeaderView(0).setVisibility(SharedPreferenceHelper.getBoolean("showSJF", true) ? View.VISIBLE : View.GONE);
         final String pixivUrl = getIntent().getStringExtra("pixivUrl");
         if (pixivUrl != null) {
+			mDrawerLayout.closeDrawer(GravityCompat.START);
             showPixivDownloadFragment(true);
             new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        LogTool.e(e);
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pixivDownloadMainFragment.editTextURL.setText(pixivUrl);
-                            pixivDownloadMainFragment.startDownload();
-                            pixivDownloadMainFragment.editTextURL.setText("");
-                        }
-                    });
-                }
-            }).start();
-        }
-    }
+				  @Override
+				  public void run() {
+					  try {
+						  Thread.sleep(100);
+						} catch (InterruptedException e) {
+						  LogTool.e(e);
+						}
+					  runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								pixivDownloadMainFragment.editTextURL.setText(pixivUrl);
+								pixivDownloadMainFragment.startDownload();
+								pixivDownloadMainFragment.editTextURL.setText("");
+							  }
+						  });
+					}
+				}).start();
+		  }
+	  }
 
 
     NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
@@ -179,170 +180,170 @@ public class MainActivity2 extends AppCompatActivity {
 				   showProgressFragment(true);
 				   break;*/
                 case R.id.first_page:
-                    showWelcome(true);
-                    break;
+				  showWelcome(true);
+				  break;
                 case R.id.read_barcode:
-                    new AlertDialog.Builder(MainActivity2.this)
-                            .setTitle("读取方式")
-                            .setPositiveButton("从相册", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface p1, int p2) {
-                                    showGalleryReaderFragment(true);
-                                }
-                            }).setNegativeButton("从相机", new DialogInterface.OnClickListener() {
+				  new AlertDialog.Builder(MainActivity2.this)
+					.setTitle("读取方式")
+					.setPositiveButton("从相册", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface p1, int p2) {
+							showGalleryReaderFragment(true);
+						  }
+					  }).setNegativeButton("从相机", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             showCameraReaderFragment(true);
                             cameraReaderFragment.onResume();
-                        }
-                    }).show();
-                    break;
+						  }
+					  }).show();
+				  break;
                 case R.id.create_barcode:
-                    final View view1 = getLayoutInflater().inflate(R.layout.select_qr_function, null);
-                    RadioGroup r1 = (RadioGroup) view1.findViewById(R.id.select_qr_function_g1);
-                    final RadioGroup r2 = (RadioGroup) view1.findViewById(R.id.select_qr_function_g2);
-                    final RadioGroup r3 = (RadioGroup) view1.findViewById(R.id.select_qr_function_g3);
-                    r2.setEnabled(false);
-                    r3.setEnabled(false);
-                    r1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+				  final View view1 = getLayoutInflater().inflate(R.layout.select_qr_function, null);
+				  RadioGroup r1 = (RadioGroup) view1.findViewById(R.id.select_qr_function_g1);
+				  final RadioGroup r2 = (RadioGroup) view1.findViewById(R.id.select_qr_function_g2);
+				  final RadioGroup r3 = (RadioGroup) view1.findViewById(R.id.select_qr_function_g3);
+				  r2.setEnabled(false);
+				  r3.setEnabled(false);
+				  r1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(RadioGroup group, int checkedId) {
                             if (group.getCheckedRadioButtonId() == R.id.select_qr_function_normal_qr) {
                                 r2.setVisibility(View.GONE);
                                 r3.setVisibility(View.GONE);
-                            } else {
+							  } else {
                                 r2.setVisibility(View.VISIBLE);
                                 r3.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    });
-                    final RadioButton rbNormal = (RadioButton) view1.findViewById(R.id.select_qr_function_normal_qr);
-                    final RadioButton rbAnim = (RadioButton) view1.findViewById(R.id.select_qr_function_anim);
-                    final RadioButton rbArb = (RadioButton) view1.findViewById(R.id.select_qr_function_arb);
-                    new AlertDialog.Builder(MainActivity2.this)
-                            .setTitle("选择二维码类型")
-                            .setView(view1)
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface p1, int p2) {
-                                    if (rbNormal.isChecked()) {
-                                        showLogoCreatorFragment(true);
-                                    } else {
-                                        if (rbArb.isChecked()) {
-                                            if (rbAnim.isChecked()) {
-                                                showGifArbAwesomeFragment(true);
-                                            } else {
-                                                showArbFragmentFragment(true);
-                                            }
-                                        } else {
-                                            if (rbAnim.isChecked()) {
-                                                showGifAwesomeFragment(true);
-                                            } else {
-                                                showAwesomeFragment(true);
-                                            }
-                                        }
-                                    }
-                                }
-                            }).setNegativeButton("返回", null).show();
-                    break;
+							  }
+						  }
+					  });
+				  final RadioButton rbNormal = (RadioButton) view1.findViewById(R.id.select_qr_function_normal_qr);
+				  final RadioButton rbAnim = (RadioButton) view1.findViewById(R.id.select_qr_function_anim);
+				  final RadioButton rbArb = (RadioButton) view1.findViewById(R.id.select_qr_function_arb);
+				  new AlertDialog.Builder(MainActivity2.this)
+					.setTitle("选择二维码类型")
+					.setView(view1)
+					.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface p1, int p2) {
+							if (rbNormal.isChecked()) {
+								showLogoCreatorFragment(true);
+							  } else {
+								if (rbArb.isChecked()) {
+									if (rbAnim.isChecked()) {
+										showGifArbAwesomeFragment(true);
+									  } else {
+										showArbFragmentFragment(true);
+									  }
+								  } else {
+									if (rbAnim.isChecked()) {
+										showGifAwesomeFragment(true);
+									  } else {
+										showAwesomeFragment(true);
+									  }
+								  }
+							  }
+						  }
+					  }).setNegativeButton("返回", null).show();
+				  break;
                 case R.id.bus:
-                    new AlertDialog.Builder(MainActivity2.this)
-                            .setTitle("选择功能")
-                            .setPositiveButton("生成", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface p1, int p2) {
-                                    showBusFragment(true);
-                                }
-                            }).setNegativeButton("读取", new DialogInterface.OnClickListener() {
+				  new AlertDialog.Builder(MainActivity2.this)
+					.setTitle("选择功能")
+					.setPositiveButton("生成", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface p1, int p2) {
+							showBusFragment(true);
+						  }
+					  }).setNegativeButton("读取", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             showBusRFragment(true);
-                        }
-                    }).show();
-                    break;
+						  }
+					  }).show();
+				  break;
                 case R.id.encry_and_decry:
-                    new AlertDialog.Builder(MainActivity2.this)
-                            .setTitle("图片加密解密")
-                            .setPositiveButton("加密", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface p1, int p2) {
-                                    showPicEncryFragment(true);
-                                }
-                            }).setNegativeButton("解密", new DialogInterface.OnClickListener() {
+				  new AlertDialog.Builder(MainActivity2.this)
+					.setTitle("图片加密解密")
+					.setPositiveButton("加密", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface p1, int p2) {
+							showPicEncryFragment(true);
+						  }
+					  }).setNegativeButton("解密", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             showPicDecryFragment(true);
-                        }
-                    }).show();
-                    break;
+						  }
+					  }).show();
+				  break;
                 case R.id.encode_gif:
-                    showGifFragment(true);
-                    break;
+				  showGifFragment(true);
+				  break;
                 case R.id.sauce_nao:
-                    showSauceNaoMainFragment(true);
-                    break;
+				  showSauceNaoMainFragment(true);
+				  break;
                 case R.id.ocr:
-                    showOCRMainFragment(true);
-                    break;
+				  showOCRMainFragment(true);
+				  break;
                 case R.id.settings:
-                    showSettingsFragment(true);
-                    break;
+				  showSettingsFragment(true);
+				  break;
                 case R.id.pixiv_download:
-                    showPixivDownloadFragment(true);
-                    break;
+				  showPixivDownloadFragment(true);
+				  break;
                 case R.id.exit:
-                    exit();
-                    break;
-            }
+				  exit();
+				  break;
+			  }
             return true;
-        }
-    };
+		  }
+	  };
 
     public void selectImage(Fragment f) {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
         f.startActivityForResult(intent, SELECT_FILE_REQUEST_CODE);
-    }
+	  }
 
     public void showHomeFragment(boolean showNow) {
         FragmentTransaction transactionWelcome = manager.beginTransaction();
         if (homeFragment == null) {
             homeFragment = new HomeFragment();
             transactionWelcome.add(R.id.fragment, homeFragment);
-        }
+		  }
         hideFragment(transactionWelcome);
         if (showNow) {
             transactionWelcome.show(homeFragment);
-        }
+		  }
         transactionWelcome.commit();
-    }
+	  }
 
     public void showMenuFragment(boolean showNow) {
         FragmentTransaction transactionWelcome = manager.beginTransaction();
         if (menusFragment == null) {
             menusFragment = new MenusFragment();
             transactionWelcome.add(R.id.fragment, menusFragment);
-        }
+		  }
         hideFragment(transactionWelcome);
         if (showNow) {
             transactionWelcome.show(menusFragment);
-        }
+		  }
         transactionWelcome.commit();
-    }
+	  }
 
     public void showProgressFragment(boolean showNow) {
         FragmentTransaction transactionWelcome = manager.beginTransaction();
         if (progressFragment == null) {
             progressFragment = new ProgressFragment();
             transactionWelcome.add(R.id.fragment, progressFragment);
-        }
+		  }
         hideFragment(transactionWelcome);
         if (showNow) {
             transactionWelcome.show(progressFragment);
-        }
+		  }
         transactionWelcome.commit();
-    }
+	  }
 
 
     private void showWelcome(boolean showNow) {
@@ -350,130 +351,130 @@ public class MainActivity2 extends AppCompatActivity {
         if (welcomeFragment == null) {
             welcomeFragment = new Welcome();
             transactionWelcome.add(R.id.fragment, welcomeFragment);
-        }
+		  }
         hideFragment(transactionWelcome);
         if (showNow) {
             transactionWelcome.show(welcomeFragment);
-        }
+		  }
         transactionWelcome.commit();
-    }
+	  }
 
     private void showGalleryReaderFragment(boolean showNow) {
         FragmentTransaction transactionGalleryReaderFragment = manager.beginTransaction();
         if (galleryReaderFragment == null) {
             galleryReaderFragment = new GalleryQRReader();
             transactionGalleryReaderFragment.add(R.id.fragment, galleryReaderFragment);
-        }
+		  }
         hideFragment(transactionGalleryReaderFragment);
         if (showNow) {
             transactionGalleryReaderFragment.show(galleryReaderFragment);
-        }
+		  }
         transactionGalleryReaderFragment.commit();
-    }
+	  }
 
     private void showCameraReaderFragment(boolean showNow) {
         FragmentTransaction transactionCameraReaderFragment = manager.beginTransaction();
         if (cameraReaderFragment == null) {
             cameraReaderFragment = new CameraQRReader();
             transactionCameraReaderFragment.add(R.id.fragment, cameraReaderFragment);
-        }
+		  }
         hideFragment(transactionCameraReaderFragment);
         if (showNow) {
             transactionCameraReaderFragment.show(cameraReaderFragment);
-        }
+		  }
         transactionCameraReaderFragment.commit();
-    }
+	  }
 
     private void showLogoCreatorFragment(boolean showNow) {
         FragmentTransaction transactionLogoCreatorFragment = manager.beginTransaction();
         if (logoCreatorFragment == null) {
             logoCreatorFragment = new LogoQRCreator();
             transactionLogoCreatorFragment.add(R.id.fragment, logoCreatorFragment);
-        }
+		  }
         hideFragment(transactionLogoCreatorFragment);
         if (showNow) {
             transactionLogoCreatorFragment.show(logoCreatorFragment);
-        }
+		  }
         transactionLogoCreatorFragment.commit();
-    }
+	  }
 
     public void showAwesomeFragment(boolean showNow) {
         FragmentTransaction transactionAwesomeCreatorFragment = manager.beginTransaction();
         if (awesomeCreatorFragment == null) {
             awesomeCreatorFragment = new AwesomeCreator();
             transactionAwesomeCreatorFragment.add(R.id.fragment, awesomeCreatorFragment);
-        }
+		  }
         hideFragment(transactionAwesomeCreatorFragment);
         if (showNow) {
             transactionAwesomeCreatorFragment.show(awesomeCreatorFragment);
-        }
+		  }
         transactionAwesomeCreatorFragment.commit();
-    }
+	  }
 
     private void showGifAwesomeFragment(boolean showNow) {
         FragmentTransaction transactionGifAwesomeCreatorFragment = manager.beginTransaction();
         if (gifAwesomeFragment == null) {
             gifAwesomeFragment = new AnimGIFAwesomeQr();
             transactionGifAwesomeCreatorFragment.add(R.id.fragment, gifAwesomeFragment);
-        }
+		  }
         hideFragment(transactionGifAwesomeCreatorFragment);
         if (showNow) {
             transactionGifAwesomeCreatorFragment.show(gifAwesomeFragment);
-        }
+		  }
         transactionGifAwesomeCreatorFragment.commit();
-    }
+	  }
 
     private void showArbFragmentFragment(boolean showNow) {
         FragmentTransaction transactionTestFragment = manager.beginTransaction();
         if (arbAwesomeFragment == null) {
             arbAwesomeFragment = new ArbAwesomeCreator();
             transactionTestFragment.add(R.id.fragment, arbAwesomeFragment);
-        }
+		  }
         hideFragment(transactionTestFragment);
         if (showNow) {
             transactionTestFragment.show(arbAwesomeFragment);
-        }
+		  }
         transactionTestFragment.commit();
-    }
+	  }
 
     private void showGifArbAwesomeFragment(boolean showNow) {
         FragmentTransaction transactionGifArbAwesomeFragment = manager.beginTransaction();
         if (gifArbAwesomeFragment == null) {
             gifArbAwesomeFragment = new AnimGIFArbAwesome();
             transactionGifArbAwesomeFragment.add(R.id.fragment, gifArbAwesomeFragment);
-        }
+		  }
         hideFragment(transactionGifArbAwesomeFragment);
         if (showNow) {
             transactionGifArbAwesomeFragment.show(gifArbAwesomeFragment);
-        }
+		  }
         transactionGifArbAwesomeFragment.commit();
-    }
+	  }
 
     private void showGifFragment(boolean showNow) {
         FragmentTransaction transactionGifFragment = manager.beginTransaction();
         if (gifCreatorFragment == null) {
             gifCreatorFragment = new GIFCreator();
             transactionGifFragment.add(R.id.fragment, gifCreatorFragment);
-        }
+		  }
         hideFragment(transactionGifFragment);
         if (showNow) {
             transactionGifFragment.show(gifCreatorFragment);
-        }
+		  }
         transactionGifFragment.commit();
-    }
+	  }
 
     private void showSettingsFragment(boolean showNow) {
         FragmentTransaction transactionsettings = manager.beginTransaction();
         if (settingsFragment == null) {
             settingsFragment = new SettingsPreference();
             transactionsettings.add(R.id.fragment, settingsFragment);
-        }
+		  }
         hideFragment(transactionsettings);
         if (showNow) {
             transactionsettings.show(settingsFragment);
-        }
+		  }
         transactionsettings.commit();
-    }
+	  }
 
 
     private void showBusFragment(boolean showNow) {
@@ -481,202 +482,202 @@ public class MainActivity2 extends AppCompatActivity {
         if (busCodeCreatorFragment == null) {
             busCodeCreatorFragment = new BusCodeCreator();
             transactionBus.add(R.id.fragment, busCodeCreatorFragment);
-        }
+		  }
         hideFragment(transactionBus);
         if (showNow) {
             transactionBus.show(busCodeCreatorFragment);
-        }
+		  }
         transactionBus.commit();
-    }
+	  }
 
     private void showBusRFragment(boolean showNow) {
         FragmentTransaction transactionBusR = manager.beginTransaction();
         if (busCodeReaderFragment == null) {
             busCodeReaderFragment = new BusCodeReader();
             transactionBusR.add(R.id.fragment, busCodeReaderFragment);
-        }
+		  }
         hideFragment(transactionBusR);
         if (showNow) {
             transactionBusR.show(busCodeReaderFragment);
-        }
+		  }
         transactionBusR.commit();
-    }
+	  }
 
     private void showPicEncryFragment(boolean showNow) {
         FragmentTransaction transactionBus = manager.beginTransaction();
         if (pictureEncryFragment == null) {
             pictureEncryFragment = new pictureEncry();
             transactionBus.add(R.id.fragment, pictureEncryFragment);
-        }
+		  }
         hideFragment(transactionBus);
         if (showNow) {
             transactionBus.show(pictureEncryFragment);
-        }
+		  }
         transactionBus.commit();
-    }
+	  }
 
     public void showPixivDownloadFragment(boolean showNow) {
         FragmentTransaction transactionBusR = manager.beginTransaction();
         if (pixivDownloadMainFragment == null) {
             pixivDownloadMainFragment = new PixivDownloadMain();
             transactionBusR.add(R.id.fragment, pixivDownloadMainFragment);
-        }
+		  }
         hideFragment(transactionBusR);
         if (showNow) {
             transactionBusR.show(pixivDownloadMainFragment);
-        }
+		  }
         transactionBusR.commit();
-    }
+	  }
 
     private void showPicDecryFragment(boolean showNow) {
         FragmentTransaction transactionBusR = manager.beginTransaction();
         if (pictureDecryFragment == null) {
             pictureDecryFragment = new pictureDecry();
             transactionBusR.add(R.id.fragment, pictureDecryFragment);
-        }
+		  }
         hideFragment(transactionBusR);
         if (showNow) {
             transactionBusR.show(pictureDecryFragment);
-        }
+		  }
         transactionBusR.commit();
-    }
+	  }
 
     private void showSauceNaoMainFragment(boolean showNow) {
         FragmentTransaction transactionBusR = manager.beginTransaction();
         if (sauceNaoMain == null) {
             sauceNaoMain = new SauceNaoMain();
             transactionBusR.add(R.id.fragment, sauceNaoMain);
-        }
+		  }
         hideFragment(transactionBusR);
         if (showNow) {
             transactionBusR.show(sauceNaoMain);
-        }
+		  }
         transactionBusR.commit();
-    }
+	  }
 
     private void showOCRMainFragment(boolean showNow) {
         FragmentTransaction transactionBusR = manager.beginTransaction();
         if (ocrMain == null) {
             ocrMain = new OcrMain();
             transactionBusR.add(R.id.fragment, ocrMain);
-        }
+		  }
         hideFragment(transactionBusR);
         if (showNow) {
             transactionBusR.show(ocrMain);
-        }
+		  }
         transactionBusR.commit();
-    }
+	  }
 
 
     public void hideFragment(FragmentTransaction transaction) {
         Fragment fs[] = {
-                welcomeFragment,
-                logoCreatorFragment,
-                awesomeCreatorFragment,
-                gifAwesomeFragment,
-                cameraReaderFragment,
-                galleryReaderFragment,
-                arbAwesomeFragment,
-                gifCreatorFragment,
-                gifArbAwesomeFragment,
-                settingsFragment,
-                busCodeCreatorFragment,
-                busCodeReaderFragment,
-                pictureEncryFragment,
-                pictureDecryFragment,
-                pixivDownloadMainFragment,
-                homeFragment,
-                menusFragment,
-                sauceNaoMain,
-                progressFragment,
-                ocrMain
-        };
+			welcomeFragment,
+			logoCreatorFragment,
+			awesomeCreatorFragment,
+			gifAwesomeFragment,
+			cameraReaderFragment,
+			galleryReaderFragment,
+			arbAwesomeFragment,
+			gifCreatorFragment,
+			gifArbAwesomeFragment,
+			settingsFragment,
+			busCodeCreatorFragment,
+			busCodeReaderFragment,
+			pictureEncryFragment,
+			pictureDecryFragment,
+			pixivDownloadMainFragment,
+			homeFragment,
+			menusFragment,
+			sauceNaoMain,
+			progressFragment,
+			ocrMain
+		  };
         for (Fragment f : fs) {
             if (f != null) {
                 transaction.hide(f);
                 if (f instanceof CameraQRReader) {
                     f.onPause();
-                }
-            }
-        }
-    }
+				  }
+			  }
+		  }
+	  }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         toggle.syncState();
-    }
+	  }
 
     @Override
     public void setTheme(int resid) {
         switch (SharedPreferenceHelper.getValue("color", "芳")) {
             case "芳":
-                super.setTheme(theme = R.style.green);
-                break;
+			  super.setTheme(theme = R.style.green);
+			  break;
             case "红":
-                super.setTheme(theme = R.style.red);
-                break;
+			  super.setTheme(theme = R.style.red);
+			  break;
             case "黑":
-                super.setTheme(theme = R.style.black);
-                break;
+			  super.setTheme(theme = R.style.black);
+			  break;
             case "紫":
-                super.setTheme(theme = R.style.purple);
-                break;
+			  super.setTheme(theme = R.style.purple);
+			  break;
             case "蓝":
-                super.setTheme(theme = R.style.blue);
-                break;
+			  super.setTheme(theme = R.style.blue);
+			  break;
             default:
-                super.setTheme(theme = R.style.green);
-                break;
-        }
-    }
+			  super.setTheme(theme = R.style.green);
+			  break;
+		  }
+	  }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         toggle.onConfigurationChanged(newConfig);
-    }
+	  }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                 exit();
-            } else {
+			  } else {
                 mDrawerLayout.openDrawer(GravityCompat.START);
-            }
+			  }
             return true;
-        }
+		  }
         if (keyCode == KeyEvent.KEYCODE_MENU) {
             if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-            } else {
+			  } else {
                 mDrawerLayout.openDrawer(GravityCompat.START);
-            }
+			  }
             return true;
-        }
+		  }
         if (arbAwesomeFragment != null && arbAwesomeFragment.isVisible()) {
             arbAwesomeFragment.onKeyDown(keyCode, event);
             return true;
-        }
+		  }
         if (gifArbAwesomeFragment != null && gifArbAwesomeFragment.isVisible()) {
             gifArbAwesomeFragment.onKeyDown(keyCode, event);
             return true;
-        }
+		  }
         return super.onKeyDown(keyCode, event);
-    }
+	  }
 
     public void doVibrate(long time) {
         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vibrator.vibrate(time);
-    }
+	  }
 
     public void exit() {
         if (SharedPreferenceHelper.getBoolean("exitsettings")) {
             System.exit(0);
-        } else {
+		  } else {
             finish();
-        }
-    }
-}
+		  }
+	  }
+  }
 
